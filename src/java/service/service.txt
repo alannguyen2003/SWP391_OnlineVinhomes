@@ -1,0 +1,7 @@
+Package này dùng để xử lí logic code, các thuật toán liên quan đến dữ liệu khi controller gửi yêu cầu và dữ liệu đến.
+Lớp service sẽ được dùng chủ yếu để tính toán.
+
+* QUY ĐỊNH:     
+    - Tên class được đặt dưới dạng:
+        Tên class + tên package
+        VD: UserService, OrderService,...

@@ -1,0 +1,7 @@
+Package này dùng để truy xuất vào cơ sở dữ liệu, khi một lớp service yêu cầu
+Cơ sở dữ liệu sẽ được dùng để truy xuất bằng PreparedStatement và Connection, ResultSet hoặc JPA(Hibernate)
+
+* QUY ĐỊNH:     
+    - Tên class được đặt dưới dạng:
+        Tên class + tên package
+        VD: UserRepository, OrderRepository,...

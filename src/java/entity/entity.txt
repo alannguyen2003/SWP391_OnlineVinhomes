@@ -1,0 +1,7 @@
+Package này dùng để cấu hình các đối tượng trong project
+Các đối tượng đã được thiết kê trong database.
+
+* QUY ĐỊNH:     
+    - Tên class được đặt dưới dạng:
+        Tên class + tên package
+        VD: UserEntity, OrderEntity,...

@@ -1,0 +1,12 @@
+Package này dùng để quy định các tiêu chuẩn đầu ra dành cho dữ liệu.
+Giồng DTO (Data Transfer Object)
+
+* LƯU Ý:
+    - Các entity không được phép trả về cho controller, phải thông qua payload request mà trả về cho controller
+    - Các entity liên quan đến mật khẩu BẮT BUỘC không được trả ra password, để bảo vệ thông tin.
+    - Nếu phải trả ra mật khẩu, mật khẩu phải được mã hóa
+
+* QUY ĐỊNH:     
+    - Tên class được đặt dưới dạng:
+        Tên class + tên package
+        VD: UserResponse, OrderResponse,...

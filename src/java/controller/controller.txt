@@ -1,0 +1,7 @@
+Package này dùng để điều khiển các file và link trong project
+KHÔNG ĐƯỢC xử lí logic tại đây, có thể dùng setter, getter của request.
+
+* QUY ĐỊNH:     
+    - Tên class được đặt dưới dạng:
+        Tên class + tên package
+        VD: LoginController, CartController,...

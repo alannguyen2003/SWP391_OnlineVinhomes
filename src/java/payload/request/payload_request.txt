@@ -1,0 +1,9 @@
+Package này dùng để quy định tiêu chuẩn đầu vào cho dữ liệu
+
+* LƯU Ý:
+    - Trên controller, các thực thể được lưu về dưới dạng request.
+    
+* QUY ĐỊNH:     
+    - Tên class được đặt dưới dạng:
+        Tên class + tên package
+        VD: UserRequest, OrderRequest,...

@@ -1,0 +1,7 @@
+Package này dùng để cấu hình các dữ liệu, các liên kết sẽ dùng trong dự án
+Bao gồm database, thư viện, API,...
+
+* QUY ĐỊNH:     
+    - Tên class được đặt dưới dạng:
+        Tên class + tên package
+        VD: DatabaseConfig, UtilConfig,...
