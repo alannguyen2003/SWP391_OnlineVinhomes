@@ -1,0 +1,234 @@
+:root {
+  --brote-gray: #b1c2f5;
+  --brote-gray-rgb: 177, 194, 245;
+}
+
+.feature-one__icon,
+.feature-two__icon,
+.feature-one__btn,
+.blog-one__content,
+.services-two__content,
+.why-choose-two__progress .bar,
+.services-three__content,
+.we-cleaning__icon:before,
+.feature-three__single,
+.faq-one-accrodion .accrodion,
+.testimonial-one__single,
+.main-header__top-details {
+  background-color: #1239ac;
+}
+
+.feature-three__single,
+.faq-one-accrodion .accrodion {
+  border-color: #1239ac;
+}
+
+body,
+body.boxed-wrapper .page-wrapper,
+.preloader,
+.main-menu__wrapper-inner,
+.feature-three__single:hover .feature-three__icon,
+.home-showcase__inner,
+.main-menu .main-menu__list>li>ul,
+.main-menu .main-menu__list>li>ul>li>ul,
+.stricky-header .main-menu__list>li>ul,
+.stricky-header .main-menu__list>li>ul>li>ul,
+.stricky-header .main-menu__wrapper,
+.services-three__btn,
+.services-two__btn,
+.stricky-header.main-menu,
+.services-two__single:hover .services-two__icon,
+.feature-one__icon:before,
+.feature-two__icon::before,
+.blog-one,
+.blog-one__tag,
+.process-icon-shape,
+.information__inner:before,
+.main-header__top-social-box {
+  background-color: #06278a;
+}
+
+.blog-one__tag:before {
+  border-right-color: #06278a;
+}
+
+.main-header__top-social-box {
+  border-color: #06278a;
+}
+
+.main-slider__title,
+.section-title__title,
+.welcome-one__points li .text p,
+.welcome-one__call-number,
+.welcome-one__call-number a,
+.process__icon span,
+.why-choose-two__progress-title,
+.process__title,
+.process__title a,
+.services-one__title,
+.services-one__title a,
+.blog-one__title,
+.blog-one__title a,
+.feature-one__title,
+.services-three__title,
+.services-three__title a,
+.feature-one__title a,
+.feature-three__content-box,
+.feature-three__points li .text p,
+.faq-one-accrodion .accrodion-title h4,
+.faq-one-accrodion .accrodion.active .accrodion-title h4,
+.main-header__top-details-list li .text p a,
+.testimonial-one__client-name,
+.information__number,
+.services-two__title,
+.services-two__title a,
+.home-showcase__title,
+.services-three__btn,
+.information__number a,
+.we-cleaning__title,
+.main-menu-two .main-menu__list>li.current>a,
+.main-menu-two .main-menu__list>li:hover>a,
+.stricky-header.main-menu-two .main-menu__list>li.current>a,
+.stricky-header.main-menu-two .main-menu__list>li:hover>a,
+.main-menu-two__search,
+.counter-two__count-box-inner h3,
+.feature-two__title,
+.feature-two__title a,
+.main-menu-two__call-number a,
+.why-choose-one__points li .text h4,
+.main-menu-three .main-menu__list>li.current>a,
+.main-menu-three .main-menu__list>li:hover>a,
+.stricky-header.main-menu-three .main-menu__list>li.current>a,
+.stricky-header.main-menu-three .main-menu__list>li:hover>a,
+.main-menu-three__search,
+.main-header__top-details-list li .text p {
+  color: #fff;
+}
+
+.welcome-one__btn {
+  color: #1239ac;
+}
+
+.main-slider .swiper-slide {
+  background-color: #0a2e99;
+}
+
+.main-slider .image-layer:before {
+  background-image: -webkit-gradient(linear, left top, right top, from(#0a2e99), to(rgba(10, 46, 153, 0)));
+  background-image: linear-gradient(90deg, #0a2e99 0%, rgba(10, 46, 153, 0) 100%);
+}
+
+.main-slider-bubble-bg {
+  background-image: url(../images/dark/slider-bubble-dark-1.png) !important;
+}
+
+.feature-one__icon:before {
+  -webkit-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.welcome-one__btn,
+.information__border-2,
+.main-menu-two__search-box:before,
+.faq-one-accrodion .accrodion-title h4::before,
+.feature-one__single:hover .feature-one__icon:before {
+  background-color: #fff;
+}
+
+.main-menu-two__search-box:before {
+  opacity: 0.1;
+}
+
+.services-one__single-inner {
+  background-color: #07298c;
+}
+
+.services-one__single-top-bubble {
+  background-image: url(../images/dark/service-bubble-1-1.png) !important;
+}
+
+.services-two:before,
+.faq-one,
+.blog-two:before,
+.services-three,
+.team-one {
+  background-color: #0a2e99;
+}
+
+.team-one__shape-bg {
+  background-image: url(../images/dark/team-one-bg-1.png) !important;
+  opacity: 1;
+}
+
+.team-one__bubbles {
+  background-image: url(../images/dark/team-one-bg-bubble.png) !important;
+}
+
+.testimonial-shape {
+  background-image: url(../images/dark/testi-map-1-1.png) !important;
+  opacity: 1;
+}
+
+.blog-one__btn-box,
+.main-menu .main-menu__list>li>ul>li+li,
+.main-menu .main-menu__list>li>ul>li>ul>li+li,
+.stricky-header .main-menu__list>li>ul>li+li,
+.stricky-header .main-menu__list>li>ul>li>ul>li+li,
+.feature-two__single:before,
+.counter-two__inner,
+.why-choose-one__points li,
+.brand-one__inner {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.brand-one__main-content .swiper-slide img {
+  -webkit-filter: hue-rotate(180deg) brightness(200%) grayscale(100%);
+  filter: hue-rotate(180deg) brightness(200%) grayscale(100%);
+}
+
+.blog-one-shape {
+  background-image: url(../images/dark/blog-1-bg-1.png) !important;
+  opacity: 1;
+}
+
+.information__icon span {
+  color: var(--brote-primary);
+}
+
+.services-two-dot-1,
+.services-two-dot-2,
+.blog-two-shape-2,
+.process-line,
+.why-choose-two-bubble,
+.services-three-dot-1,
+.services-three-dot-2,
+.services-three-bg,
+.services-two-bubble {
+  opacity: 0.1;
+}
+
+.faq-one-bg {
+  mix-blend-mode: multiply;
+}
+
+.blog-two-shape-1,
+.faq-one-shape-1 {
+  opacity: 0.05;
+}
+
+.faq-one-accrodion .accrodion-title h4::before {
+  color: var(--brote-primary);
+}
+
+.project-one__carousel.owl-carousel .owl-dots .owl-dot {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.project-one__carousel.owl-carousel .owl-dots .owl-dot.active {
+  background-color: var(--brote-primary);
+}
+
+.process-icon-shape {
+  background-blend-mode: multiply;
+  border-radius: 50%;
+}

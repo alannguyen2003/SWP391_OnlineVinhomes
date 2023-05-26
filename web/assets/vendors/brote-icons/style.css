@@ -1,0 +1,117 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoona1fe.eot?vwucc1');
+  src:  url('fonts/icomoona1fe.eot?vwucc1#iefix') format('embedded-opentype'),
+    url('fonts/icomoona1fe.ttf?vwucc1') format('truetype'),
+    url('fonts/icomoona1fe.woff?vwucc1') format('woff'),
+    url('fonts/icomoona1fe.svg?vwucc1#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-message:before {
+  content: "\e900";
+}
+.icon-time:before {
+  content: "\e901";
+}
+.icon-phone-call:before {
+  content: "\e902";
+}
+.icon-magnifying-glass:before {
+  content: "\e903";
+}
+.icon-location:before {
+  content: "\e904";
+}
+.icon-tick:before {
+  content: "\e905";
+}
+.icon-plumbing:before {
+  content: "\e906";
+}
+.icon-worker:before {
+  content: "\e907";
+}
+.icon-laundry:before {
+  content: "\e908";
+}
+.icon-washing-plate:before {
+  content: "\e909";
+}
+.icon-window-cleaner:before {
+  content: "\e90a";
+}
+.icon-sanitary:before {
+  content: "\e90b";
+}
+.icon-laundry-1:before {
+  content: "\e90c";
+}
+.icon-wipe:before {
+  content: "\e90d";
+}
+.icon-teamwork:before {
+  content: "\e90e";
+}
+.icon-trophy:before {
+  content: "\e90f";
+}
+.icon-quote:before {
+  content: "\e910";
+}
+.icon-phone:before {
+  content: "\e911";
+}
+.icon-envelope:before {
+  content: "\e912";
+}
+.icon-location-1:before {
+  content: "\e913";
+}
+.icon-house-cleaning:before {
+  content: "\e914";
+}
+.icon-find-my-friend:before {
+  content: "\e915";
+}
+.icon-buildings:before {
+  content: "\e916";
+}
+.icon-choose:before {
+  content: "\e917";
+}
+.icon-tick-mark:before {
+  content: "\e918";
+}
+.icon-household:before {
+  content: "\e919";
+}
+.icon-broom:before {
+  content: "\e91a";
+}
+.icon-checked:before {
+  content: "\e91b";
+}
+.icon-check:before {
+  content: "\e91c";
+}
+.icon-plus-symbol:before {
+  content: "\e91d";
+}
