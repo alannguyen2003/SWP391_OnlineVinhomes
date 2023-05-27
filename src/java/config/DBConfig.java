@@ -25,4 +25,8 @@ public class DBConfig {
         }
         return con;
     }
+    public static void main(String[] args) throws SQLException {
+        Connection cn = getConnection();
+        
+    }
 }
