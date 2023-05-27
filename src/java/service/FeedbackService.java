@@ -10,7 +10,7 @@ import repository.FeedbackRepository;
  *
  * @author admin
  */
-public class Service {
+public class FeedbackService {
     private FeedbackRepository feedbackRepository = new FeedbackRepository();
     
     public void addFeedback(int UID, int DID, String message, String name, String contact, String email) throws SQLException{  
