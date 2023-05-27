@@ -19,12 +19,12 @@ import java.sql.ResultSet;
  */
 public class FeedbackRepository {
     
-    public List<FeedbackEntity> getFeedbackOfService(int id) throws SQLException{
+    public List<FeedbackEntity> getFeedbackOfService(int serviceID) throws SQLException{
         List<FeedbackEntity> result = new ArrayList<>();
         String query = "select * from Feedback where DID = ?";
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
-        stm.setInt(1, id);
+        stm.setInt(1, serviceID);
         ResultSet rs = stm.executeQuery();
         while(rs.next()){
             FeedbackEntity fb = new FeedbackEntity();
@@ -41,37 +41,37 @@ public class FeedbackRepository {
         return result;
     }
     
-    public void addFeedbackEntity(FeedbackEntity c) throws SQLException {
-        String query = "insert into Feedback values(?, ?, ?, ?, ?, ?)";
+    public void addFeedback(FeedbackEntity f) throws SQLException{
+        String query = "insert into Feedback values (?,?,?,?,?,?)";
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
-        stm.setInt(1, c.getUID());
-        stm.setInt(2, c.getDID());
-        stm.setString(3, c.getMessage());
-        stm.setString(4, c.getEmail());
-        stm.setString(5, c.getName());
-        stm.setString(6, c.getContactNumber());
+        stm.setInt(1, f.getUID());
+        stm.setInt(2, f.getDID());
+        stm.setString(3, f.getMessage());
+        stm.setString(4, f.getName());
+        stm.setString(5, f.getContactNumber());
+        stm.setString(6, f.getEmail());
         stm.executeUpdate();
         con.close();
     }
     
-    public void deleteFeedbackEntity(int id) throws SQLException {
+    public void deleteComment(int fid) throws SQLException {
         String query = "delete from Feedback where fid = ?";
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
-        stm.setInt(1, id);
+        stm.setInt(1, fid);
         stm.executeUpdate();
         con.close();
     }
     
-    public int getTotalFeedbackEntitys() throws SQLException {
+    public int getTotalComments() throws SQLException {
         int result = 0;
         Connection con = DBConfig.getConnection();
-        String query = "select count(fid) as totalFB from Feedback";
-        PreparedStatement stm1 = con.prepareStatement(query);
-        ResultSet rs = stm1.executeQuery();
+        String query = "select count(fid) as totalC from Feedback";
+        PreparedStatement stm = con.prepareStatement(query);
+        ResultSet rs = stm.executeQuery();
         if(rs.next()) {
-            result += rs.getInt("totalFB");
+            result += rs.getInt("totalC");
         }
         return result;
     }
