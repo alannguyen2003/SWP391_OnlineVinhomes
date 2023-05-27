@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import repository.FeedbackRepository;
+import service.Service;
 
 /**
  *
@@ -114,15 +115,8 @@ public class ServiceServlet extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String contact = request.getParameter("contact");
-            FeedbackRepository fp = new FeedbackRepository();
-            FeedbackEntity fe = new FeedbackEntity();
-            fe.setDID(serviceID);
-            fe.setUID(UID);
-            fe.setMessage(message);
-            fe.setName(name);
-            fe.setEmail(email);
-            fe.setContactNumber(contact);
-            fp.addFeedback(fe);
+            Service sv = new Service();
+            sv.addFeedback(UID, serviceID, message, name, contact, email);
             response.sendRedirect(request.getContextPath() + "/service/service-detail.do?id=" + serviceID);
         }
     }

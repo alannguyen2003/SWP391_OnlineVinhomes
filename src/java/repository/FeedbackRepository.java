@@ -41,16 +41,16 @@ public class FeedbackRepository {
         return result;
     }
     
-    public void addFeedback(FeedbackEntity f) throws SQLException{
+    public void addFeedback(int UID, int DID, String message, String name, String contact, String email) throws SQLException{
         String query = "insert into Feedback values (?,?,?,?,?,?)";
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
-        stm.setInt(1, f.getUID());
-        stm.setInt(2, f.getDID());
-        stm.setString(3, f.getMessage());
-        stm.setString(4, f.getName());
-        stm.setString(5, f.getContactNumber());
-        stm.setString(6, f.getEmail());
+        stm.setInt(1, UID);
+        stm.setInt(2, DID);
+        stm.setString(3, message);
+        stm.setString(4, name);
+        stm.setString(5, contact);
+        stm.setString(6, email);
         stm.executeUpdate();
         con.close();
     }
