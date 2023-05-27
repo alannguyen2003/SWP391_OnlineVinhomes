@@ -142,7 +142,7 @@
                                             <li>
                                                 <a href="<c:url value="/home/contact.do" />">Contact </a>
                                             </li>
-                                            <li style="margin-left: 30rem">
+                                            <li style="margin-left: 27rem">
                                                 <a>Sign In</a>
                                             </li>
                                             <li>
@@ -154,6 +154,8 @@
                                 <div class="main-menu__right">
                                     <div class="main-menu__search-box">
                                         <a href="#" class="main-menu__search search-toggler icon-magnifying-glass"></a>
+                                        <a href="#  " style="margin-left: 25px"><img src="${pageContext.request.contextPath}/assets/images/icon/hiclipart.com.png" alt=""/></a>
+                                        ${size}
                                     </div>
                                 </div>
                             </div>
