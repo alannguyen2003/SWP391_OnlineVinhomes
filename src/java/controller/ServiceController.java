@@ -4,8 +4,10 @@
  */
 package controller;
 
+import entity.CategoryEntity;
 import entity.FeedbackEntity;
 import entity.ResidentEntity;
+import entity.ServiceEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,16 +17,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import repository.FeedbackRepository;
-import service.Service;
+import service.*;
 
 /**
  *
  * @author admin
  */
 @WebServlet(name = "ServiceServlet", urlPatterns = {"/service"})
-public class ServiceServlet extends HttpServlet {
+public class ServiceController extends HttpServlet {
 
+    private CategoryService categoryService = new CategoryService();
+    private ServiceService serviceService = new ServiceService();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,9 +49,14 @@ public class ServiceServlet extends HttpServlet {
         try{
             switch(action){
                 case "service":
+                    ArrayList<CategoryEntity> categoryList = categoryService.getAllCategor();
+                    request.setAttribute("list", categoryList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "service-list":
+                    int categoryId = Integer.parseInt(request.getParameter("id"));
+                    ArrayList<ServiceEntity> serviceList = serviceService.getServiceByCategory(categoryId);
+                    request.setAttribute("list", serviceList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "service-detail":
@@ -60,6 +72,8 @@ public class ServiceServlet extends HttpServlet {
             request.setAttribute("controller", "error");
             request.setAttribute("action", "error");
             request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServiceController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -115,7 +129,7 @@ public class ServiceServlet extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String contact = request.getParameter("contact");
-            Service sv = new Service();
+            FeedbackService sv = new FeedbackService();
             sv.addFeedback(UID, serviceID, message, name, contact, email);
             response.sendRedirect(request.getContextPath() + "/service/service-detail.do?id=" + serviceID);
         }
