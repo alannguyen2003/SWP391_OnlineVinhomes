@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import repository.FeedbackRepository;
@@ -60,7 +61,7 @@ public class ServiceController extends HttpServlet {
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "service-detail":
-                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    detail(request, response);
                     break;
                 case "addFeedback":
                     addFeedback(request, response);
@@ -119,6 +120,7 @@ public class ServiceController extends HttpServlet {
     private void addFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         ResidentEntity resident = (ResidentEntity) session.getAttribute("resident");
+        ServiceEntity service = (ServiceEntity) session.getAttribute("service");
         int serviceID = Integer.parseInt(request.getParameter("serviceID"));
         if(resident == null){
             request.setAttribute("message", "Log in to comment");
@@ -129,10 +131,19 @@ public class ServiceController extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String contact = request.getParameter("contact");
-            FeedbackService sv = new FeedbackService();
-            sv.addFeedback(UID, serviceID, message, name, contact, email);
+            FeedbackService fs = new FeedbackService();
+            fs.addFeedback(UID, serviceID, message, name, contact, email);
             response.sendRedirect(request.getContextPath() + "/service/service-detail.do?id=" + serviceID);
         }
+    }
+
+    private void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        FeedbackService fs = new FeedbackService();
+        List<FeedbackEntity> listFeedback = fs.getFeedbackOfService(id);
+        request.setAttribute("noFeedbacks", listFeedback.size());
+        request.setAttribute("feedbacks", listFeedback);
+        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
 
 }

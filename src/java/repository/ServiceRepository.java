@@ -64,6 +64,45 @@ public class ServiceRepository {
         }
         return list;
     }
+    
+    public ServiceEntity getServiceById (int id) throws SQLException{
+        String query = "select * from service where service_id = ?";
+        ServiceEntity service = new ServiceEntity();
+        Connection con = null;
+        PreparedStatement pre = null;
+        ResultSet rs = null;
+        try {
+            con = DBConfig.getConnection();
+            pre = con.prepareStatement(query);
+            // code go la phai nam duoi pre = con.pre
+            pre.setInt(1, id);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                // output tu database
+                service.setServiceID(rs.getInt("id"));
+                service.setName(rs.getString("name"));
+                service.setDescription(rs.getString("description"));
+                service.setLowerPrice(rs.getDouble("lower_price"));
+                service.setUpperPrice(rs.getDouble("upper_price"));
+                service.setSupplierID(rs.getInt("supplier_id"));
+                service.setCategoryID(rs.getInt("category_id"));
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+
+            if (pre != null) {
+                pre.close();
+            }
+
+            if (rs != null) {
+                rs.close();
+            }
+
+        }
+        return service;
+    }
 
     public static void main(String[] args) throws Exception {
         ServiceRepository repository = new ServiceRepository();

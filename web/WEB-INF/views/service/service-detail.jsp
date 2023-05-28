@@ -108,39 +108,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="service-details__benefits">
-                                <div class="row">
-                                    <hr>
-                                    <c:forEach var= "cmt" items="${comments}">
-                                        <div class="card mb-3">
-                                            <div class="card-body">
-                                                <div class="d-flex flex-start">
-                                                    <img class="rounded-circle shadow-1-strong me-3"
-                                                         src="<c:url value="/img/user.png"/>" alt="avatar" width="40"
-                                                         height="40" />
-                                                    <div class="w-100">
-                                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                                            <h6 class="text-primary fw-bold mb-0">
-                                                                ${cmt.username}
-                                                                <span class="text-dark ms-2">${cmt.content}</span>
-                                                            </h6>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <p class="small mb-0" style="color: #aaa;">
-                                                                <a href="#!" class="link-grey">${cmt.date}</a>
-                                                            </p>
-                                                            <div class="d-flex flex-row">
-                                                                <i class="fas fa-star text-warning me-2"></i>
-                                                                <i class="far fa-check-circle" style="color: greenyellow;"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                    </c:forEach>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -148,5 +115,69 @@
         </section>
         <!--Service Details End-->
         <!-- Feedback -->
+        <section style="background-color: #f7f6f6;margin-bottom: 20%">
+            <div class="container my-5 py-5 text-dark">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-12 col-lg-10 col-xl-8">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="text-dark mb-0">Feedbacks (<span>${noFeedbacks}</span>)</h4>                   
+                        </div>
+                        <form action="<c:url value="/service/addComment.do"/>" id = "cmtForm">
+                            <input type="number" hidden name="UID" value="${resident.UID}">
+                            <input type="text" hidden name="name" value="${resident.name}">
+                            <input type="number" hidden name="serviceID" value="${service.serviceID}">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex flex-start">
+                                        <div class="w-100">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">                                    
+                                                <textarea rows="4" class="w-100" name="content" form="cmtForm" placeholder="  Share your thoughts about the service"></textarea>
+                                            </div>
+                                                ${message}
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p class="small mb-0" style="color: #1D38A5;">
+                                                    <button type="submit" class="btn btn-outline-primary">Post</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+
+                        </form>
+
+                        <hr>
+                        <c:forEach var= "fb" items="${feedbacks}">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex flex-start">
+                                        <img class="rounded-circle shadow-1-strong me-3"
+                                             src="<c:url value="/img/user.png"/>" alt="avatar" width="40"
+                                             height="40" />
+                                        <div class="w-100">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h6 class="text-primary fw-bold mb-0">
+                                                    ${fb.name}
+                                                    <span class="text-dark ms-2">${fb.message}</span>
+                                                </h6>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p class="small mb-0" style="color: #aaa;">
+                                                    <a href="#!" class="link-grey">${fb.email}</a>
+                                                </p>
+                                                <div class="d-flex flex-row">
+                                                    <i class="fas fa-star text-warning me-2"></i>
+                                                    <i class="far fa-check-circle" style="color: greenyellow;"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </c:forEach>                                
+                    </div>
+                </div>
+            </div>
+        </section>               
     </body>
 </html>

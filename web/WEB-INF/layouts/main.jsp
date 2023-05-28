@@ -154,8 +154,9 @@
                                 <div class="main-menu__right">
                                     <div class="main-menu__search-box">
                                         <a href="#" class="main-menu__search search-toggler icon-magnifying-glass"></a>
-                                        <a href="#  " style="margin-left: 25px"><img src="${pageContext.request.contextPath}/assets/images/icon/hiclipart.com.png" alt=""/></a>
-                                        ${size}
+                                        <a href="/vsos/cart/cart.do" style="margin-left: 25px"><img src="${pageContext.request.contextPath}/assets/images/icon/hiclipart.com.png" alt=""/>
+                                        <span>${size}</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
