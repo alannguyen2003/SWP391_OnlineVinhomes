@@ -4,7 +4,11 @@
  */
 package controller;
 
+
 import entity.CategoryEntity;
+
+import repository.ServiceRepository;
+
 import entity.FeedbackEntity;
 import entity.ResidentEntity;
 import entity.ServiceEntity;
@@ -16,11 +20,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import repository.FeedbackRepository;
 import service.*;
 
@@ -61,6 +73,11 @@ public class ServiceController extends HttpServlet {
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "service-detail":
+                    detail(request, response);
+                case "service_list":
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    break;
+                case "service_detail":
                     detail(request, response);
                     break;
                 case "addFeedback":
@@ -116,7 +133,9 @@ public class ServiceController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    
+    
     private void addFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         ResidentEntity resident = (ResidentEntity) session.getAttribute("resident");
@@ -136,6 +155,8 @@ public class ServiceController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/service/service-detail.do?id=" + serviceID);
         }
     }
+    
+    
 
     private void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int serviceID = Integer.parseInt(request.getParameter("id"));
