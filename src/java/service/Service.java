@@ -5,6 +5,7 @@
 package service;
 import entity.FeedbackEntity;
 import java.sql.SQLException;
+import java.util.List;
 import repository.FeedbackRepository;
 /**
  *
@@ -15,5 +16,9 @@ public class Service {
     
     public void addFeedback(int UID, int DID, String message, String name, String contact, String email) throws SQLException{  
         feedbackRepository.addFeedback(UID, DID, message, name, contact, email);
+    }
+    
+    public List<FeedbackEntity> getFeedbackOfService(int DID) throws SQLException{
+        return feedbackRepository.getFeedbackOfService(DID);
     }
 }
