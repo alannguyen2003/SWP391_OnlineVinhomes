@@ -142,12 +142,25 @@
                                             <li>
                                                 <a href="<c:url value="/home/contact.do" />">Contact </a>
                                             </li>
-                                            <li style="margin-left: 27rem">
-                                                <a>Sign In</a>
-                                            </li>
-                                            <li>
-                                                <a>Register</a>
-                                            </li>
+                                            <c:if test="${user == null}">
+                                                <!-- Neu user chua login -->
+                                                <li style="margin-left: 35rem">
+                                                    <a href="<c:url value="/user/login.do" />">Sign In</a>
+                                                </li>
+                                            </c:if>
+                                            
+                                            <c:if test="${user != null}">
+                                                <!-- Neu user da login -->
+                                                <li style="margin-left: 30rem">
+                                                    <a href="<c:url value="/user/profile.do" />">${user.email}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="<c:url value="/user/logout.do" />">Log Out</a>
+                                                </li>
+                                                
+                                            </c:if>    
+                                            
+                                            
                                         </ul>
                                     </div>
                                 </div>
