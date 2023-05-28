@@ -44,8 +44,8 @@ public class CartController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-        try{
-            switch(action){
+        try {
+            switch (action) {
                 case "cart":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
@@ -58,13 +58,13 @@ public class CartController extends HttpServlet {
                 case "checkOut":
                     break;
             }
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
             request.setAttribute("message", ex.getMessage());
             request.setAttribute("controller", "error");
             request.setAttribute("action", "error");
             request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ServiceController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -109,18 +109,18 @@ public class CartController extends HttpServlet {
     }// </editor-fold>
 
     private void addToCart(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         CartEntity cart = null;
         Object o = session.getAttribute("cart");
-        if(o != null){
+        if (o != null) {
             cart = (CartEntity) o;
-        } else{
+        } else {
             cart = new CartEntity();
         }
-        int DID = Integer.parseInt(request.getParameter("DID"));
+        String serviceID = request.getParameter("id");
         CartService cs = new CartService();
         ServiceService ss = new ServiceService();
-        ServiceEntity se = cs.getServiceById(DID);
+        ServiceEntity se = cs.getServiceById(Integer.parseInt(serviceID));
         ItemEntity item = new ItemEntity(se, se.getLowerPrice());
         cart.addItem(item);
         List<ItemEntity> list = cart.getItems();
@@ -130,8 +130,47 @@ public class CartController extends HttpServlet {
         request.getRequestDispatcher("/service/service-list.do").forward(request, response);
     }
 
-    private void removeFromCart(HttpServletRequest request, HttpServletResponse response) {
-        
+//    private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+//        HttpSession session2 = request.getSession(true);
+//        CartEntity cart2 = null;
+//        Object o2 = session2.getAttribute("cart");
+//        if (o2 != null) {
+//            cart2 = (CartEntity) o2;
+//        } else {
+//            cart2 = new CartEntity();
+//        }
+//        String id2 = request.getParameter("id");
+//
+//        ServiceService ss = new ServiceService();
+//        ServiceEntity se = ss.getServiceById(Integer.parseInt(id2));
+//        ItemEntity i2 = new ItemEntity(se, se.getLowerPrice());
+//        cart2.addItem(i2);
+//
+//        List<ItemEntity> list3 = cart2.getItems();
+//        session2.setAttribute("cart", cart2);
+//        session2.setAttribute("size", list3.size());
+//        request.setAttribute("controller", "cart");
+//        request.setAttribute("action", "cart");
+//        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+//    }
+    protected void removeFromCart(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session3 = request.getSession(true);
+        CartEntity cart3 = null;
+        Object o3 = session3.getAttribute("cart");
+        if (o3 != null) {
+            cart3 = (CartEntity) o3;
+        } else {
+            cart3 = new CartEntity();
+        }
+        String id3 = request.getParameter("id");
+        cart3.removeItem(Integer.parseInt(id3));
+        List<ItemEntity> list4 = cart3.getItems();
+        request.setAttribute("controller", "cart");
+        request.setAttribute("action", "cart");
+        session3.setAttribute("cart", cart3);
+        session3.setAttribute("size", list4.size());
+        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
 
 }

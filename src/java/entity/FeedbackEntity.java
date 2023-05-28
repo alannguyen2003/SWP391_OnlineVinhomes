@@ -85,6 +85,10 @@ public class FeedbackEntity {
     public void setFID(int FID) {
         this.FID = FID;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "FeedbackEntity{" + "UID=" + UID + ", DID=" + DID + ", message=" + message + ", name=" + name + ", contactNumber=" + contactNumber + ", email=" + email + ", FID=" + FID + '}';
+    }
+
 }

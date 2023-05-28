@@ -138,11 +138,14 @@ public class ServiceController extends HttpServlet {
     }
 
     private void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int serviceID = Integer.parseInt(request.getParameter("id"));
         FeedbackService fs = new FeedbackService();
-        List<FeedbackEntity> listFeedback = fs.getFeedbackOfService(id);
+        ServiceService ss = new ServiceService();
+        ServiceEntity service = ss.getServiceById(serviceID);
+        List<FeedbackEntity> listFeedback = fs.getFeedbackOfService(serviceID);
         request.setAttribute("noFeedbacks", listFeedback.size());
         request.setAttribute("feedbacks", listFeedback);
+        request.setAttribute("service", service);
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
 

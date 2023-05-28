@@ -6,6 +6,7 @@ package service;
 
 import entity.ServiceEntity;
 import config.DBConfig;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import repository.ServiceRepository;
 /**
@@ -21,6 +22,10 @@ public class ServiceService {
     
     public ArrayList<ServiceEntity> getServiceByCategory(int categoryId) throws Exception {
         return serviceRepository.getServiceByCategory(categoryId);
+    }
+    
+    public ServiceEntity getServiceById(int DID) throws SQLException{
+        return serviceRepository.getServiceById(DID);
     }
     
     public static void main(String[] args) throws Exception {
