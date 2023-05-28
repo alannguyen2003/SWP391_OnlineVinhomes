@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class DBConfig {
     public static Connection getConnection() throws SQLException{
-        String url = "jdbc:sqlserver://localhost;databaseName=Vinhomes;user=sa;password=12345";
+        String url = "jdbc:sqlserver://localhost;databaseName=Vinhomes2;user=sa;password=12345";
         Connection con = null;
         try {
             //Loading a driver
