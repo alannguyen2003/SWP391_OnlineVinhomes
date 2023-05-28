@@ -4,8 +4,11 @@
  */
 package controller;
 
+import repository.ServiceRepository;
+import config.DBConfig;
 import entity.FeedbackEntity;
 import entity.ResidentEntity;
+import entity.ServiceEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,7 +17,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import repository.FeedbackRepository;
 
 /**
@@ -43,10 +52,10 @@ public class ServiceServlet extends HttpServlet {
                 case "service":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
-                case "service-list":
+                case "service_list":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
-                case "service-detail":
+                case "service_detail":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "addFeedback":
@@ -100,7 +109,19 @@ public class ServiceServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    
+    protected void service_detail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
 
+        int id = Integer.parseInt(request.getParameter("id"));
+        ServiceRepository sr = new ServiceRepository();
+        ServiceEntity service = sr.getOne(id);
+        request.setAttribute("service", service);
+        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+
+    }
+    
     private void addFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         ResidentEntity resident = (ResidentEntity) session.getAttribute("resident");
@@ -126,5 +147,7 @@ public class ServiceServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/service/service-detail.do?id=" + serviceID);
         }
     }
+    
+    
 
 }
