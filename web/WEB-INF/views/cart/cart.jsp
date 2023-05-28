@@ -71,7 +71,7 @@
 
             <div class="d-flex justify-content-end">
                 <!--<button type="button" class="btn btn-light btn-lg me-2">Continue shopping</button>-->
-                <a href="<c:url value="/service/service-list.do"/>" class="btn btn-light btn-lg me-2" role="button">Continue shopping</a>
+                <a href="<c:url value="/service/service.do"/>" class="btn btn-light btn-lg me-2" role="button">Continue shopping</a>
                 <button class="btn btn-primary" type='button' data-toggle="modal" data-target="#checkOutModal">Check Out</button>
             </div>
             <p style="color:red">${noItem}</p>
