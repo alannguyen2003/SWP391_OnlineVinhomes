@@ -64,8 +64,8 @@ public class ServiceRepository {
         }
         return list;
     }
-    
-    public ServiceEntity getServiceById (int id) throws SQLException{
+
+    public ServiceEntity getServiceById(int id) throws SQLException {
         String query = "select * from service where service_id = ?";
         ServiceEntity service = new ServiceEntity();
         Connection con = null;
@@ -79,7 +79,7 @@ public class ServiceRepository {
             rs = pre.executeQuery();
             while (rs.next()) {
                 // output tu database
-                service.setServiceID(rs.getInt("id"));
+                service.setServiceID(rs.getInt("service_id"));
                 service.setName(rs.getString("name"));
                 service.setDescription(rs.getString("description"));
                 service.setLowerPrice(rs.getDouble("lower_price"));
@@ -103,12 +103,10 @@ public class ServiceRepository {
         }
         return service;
     }
-
+    
     public static void main(String[] args) throws Exception {
         ServiceRepository repository = new ServiceRepository();
-        for (ServiceEntity entity : repository.getServiceByCategory(2)) {
-            System.out.println(entity);
-        }
+        System.out.println(repository.getServiceById(1));
     }
 
 }

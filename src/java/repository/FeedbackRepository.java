@@ -33,7 +33,7 @@ public class FeedbackRepository {
             fb.setUID(rs.getInt("uid"));
             fb.setMessage(rs.getString("message"));
             fb.setName(rs.getString("name"));
-            fb.setContactNumber(rs.getString("contactNumber"));
+            fb.setContactNumber(rs.getString("contact_number"));
             fb.setEmail(rs.getString("email"));
             result.add(fb);
         }
@@ -74,5 +74,13 @@ public class FeedbackRepository {
             result += rs.getInt("totalC");
         }
         return result;
+    }
+    public static void main(String[] args) throws SQLException {
+        FeedbackRepository repo = new FeedbackRepository();
+        repo.deleteComment(1);
+        for(FeedbackEntity entity : repo.getFeedbackOfService(1)){
+            System.out.println(entity);
+        }
+        
     }
 }

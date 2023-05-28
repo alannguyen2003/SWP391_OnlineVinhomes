@@ -28,9 +28,9 @@
                             <div class="col-md-2 d-flex justify-content-center">
                                 <div style="padding-top: 10px">
                                     <p class="lead fw-normal mb-0">
-                                        <a href="<c:url value="/cart/subtractFromCart.do?id=${item.service.DID}"/>">-</a>
+                                        <a href="<c:url value="/cart/subtractFromCart.do?id=${item.service.serviceID}"/>">-</a>
                                         |
-                                        <a href="<c:url value="/cart/addFromCart.do?id=${item.service.DID}"/>"> +</a>
+                                        <a href="<c:url value="/cart/addFromCart.do?id=${item.service.serviceID}"/>"> +</a>
                                     </p>
                                 </div>
                             </div>
@@ -43,12 +43,12 @@
                             <div class="col-md-2 d-flex justify-content-center">
                                 <div>
                                     <p class="small text-muted mb-4 pb-2">Total</p>
-                                    <p class="lead fw-normal mb-0">$<fmt:formatNumber value="${item.product.getLowerPrice()}" pattern="##.#"/></p>
+                                    <p class="lead fw-normal mb-0">$<fmt:formatNumber value="${item.service.getLowerPrice()}" pattern="##.#"/></p>
                                 </div>
                             </div>
                             <div class="col-md-2 d-flex justify-content-center">
                                 <div>
-                                    <a class="text-body" href="<c:url value="/cart/removeFromCart.do?id=${item.service.DID}"/>">Remove</a>
+                                    <a class="text-body" href="<c:url value="/cart/removeFromCart.do?id=${item.service.serviceID}"/>">Remove</a>
                                 </div>
                             </div>
                         </div>
