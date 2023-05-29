@@ -287,7 +287,7 @@
                             <img src="${pageContext.request.contextPath}/assets/images/resources/we-cleaning-small-img.jpg" alt="">
                         </div>
                         <div class="we-cleaning__video-link">
-                            <a href="https://www.youtube.com/watch?v=Get7rqXYrbQ" class="video-popup">
+                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="video-popup">
                                 <div class="we-cleaning__video-icon">
                                     <span class="fa fa-play"></span>
                                     <i class="ripple"></i>

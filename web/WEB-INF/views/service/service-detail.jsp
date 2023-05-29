@@ -69,22 +69,11 @@
                             <div class="service-details__img">
                                 <img src="<c:url value="/assets/images/services/services-details-img-4.jpg" />" alt="">
                             </div>
+                            
                             <div class="service-details__content">
-                                <h3 class="service-details__content-title">Kitchen Cleaning</h3>
-                                <p class="service-details__text-1">Lorem ipsum is simply free text used by copytyping
-                                    refreshing. Neque porro est qui dolorem ipsum quia quaed inventore veritatis et
-                                    quasi architecto beatae vitae dicta sunt explicabo. Aelltes port lacus quis enim var
-                                    sed efficitur turpis gilla sed sit amet finibus eros. Lorem Ipsum is simply dummy
-                                    text of the printing and typesetting industry. Lorem Ipsum has been the ndustry
-                                    standard dummy text ever since the 1500s, when an unknown printer took a galley of
-                                    type and scrambled it to make a type specimen book.</p>
-                                <p class="service-details__text-2">When an unknown printer took a simply free galley of
-                                    type and scrambled it to make a type specimen book.</p>
-                                <p class="service-details__text-3">It has survived not only five centuries. Lorem Ipsum
-                                    is simply dummy text of the new design printng and type setting Ipsum take a look at
-                                    our round. When an unknown printer took a galley of type and scrambled it to make a
-                                    type specimen book. It has survived not only five centuries, but also the leap into
-                                    electronic typesetting.</p>
+                                <h3 class="service-details__content-title">${service.name}</h3>
+                                <p class="service-details__text-2">${service.lowerPrice} - ${service.upperPrice} $</p>
+                                <p class="service-details__text-3">${service.description}</p>
                             </div>
                             <div class="service-details__points-box">
                                 <ul class="list-unstyled service-details__points">
@@ -93,8 +82,7 @@
                                             <span class="icon-household"></span>
                                         </div>
                                         <div class="service-details__points-content">
-                                            <p>Duis aute irure dolor in <br> reprehenderit in voluptate <br> velit esse
-                                                cillum.</p>
+                                            <p>Mang đến cho bạn dịch vụ tốt nhất</p>
                                         </div>
                                     </li>
                                     <li>
@@ -102,8 +90,7 @@
                                             <span class="icon-broom"></span>
                                         </div>
                                         <div class="service-details__points-content">
-                                            <p>Duis aute irure dolor in <br> reprehenderit in voluptate <br> velit esse
-                                                cillum.</p>
+                                            <p>Tận tâm <br> Tận tụy<br> Tận phòng.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -143,7 +130,6 @@
                                     </div>
                                 </div>
                             </div> 
-
                         </form>
 
                         <hr>
