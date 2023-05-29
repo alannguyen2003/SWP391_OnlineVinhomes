@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import entity.UserEntity;
 import repository.UserRepository;
+import entity.ResidentEntity;
 
 /**
  *
@@ -51,6 +52,9 @@ public class UserController extends HttpServlet {
                     break;
                 case "logout":
                     logout_handler(request, response);
+                    break;
+                case "profile":
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
             }
         } catch (SQLException ex) {
@@ -87,7 +91,7 @@ public class UserController extends HttpServlet {
                 response.addCookie(cp);
                 response.addCookie(cr);
                 UserRepository uf = new UserRepository();
-                UserEntity user = uf.Login(email, password);
+                ResidentEntity user = uf.Login2(email, password);
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
@@ -101,7 +105,7 @@ public class UserController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/home/index.do");
         }
     }
-    
+
     protected void logout_handler(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //xoa session

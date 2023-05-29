@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.transform.Source;
 import entity.UserEntity;
+import entity.ResidentEntity;
 
 /**
  *
@@ -23,6 +24,10 @@ public class UserRepository {
     Connection connect = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
+    
+    String queryResident = "select Account.AID, Resident.name,Account.email, Account.password, "
+            + "Account.phone ,Resident.room, Resident.UID, Resident.BID, Account.roleId "
+            + "from Account join Resident on Resident.AID = Account.AID where email =? and password =?";
     
     public UserEntity Login(String email, String password) throws SQLException {
         //select * from tbl User where email = ? and password=?
@@ -41,29 +46,38 @@ public class UserRepository {
                         rs.getInt(5)  );
             }
         } catch (SQLException ex) {
-            System.err.println("Error at Login UserFacade");
+            System.err.println("Error at Login");
         }
         return null;
     }
     
-    public UserEntity Signup(String username, String address, String phone, String email, String password) throws SQLException {
-        //String query = "insert into account values(?,?,?,?,?,?,?)";
-        String query = "insert into Account values (?, ?, ?, ?, ?, 'ROLE_CUSTOMER')";
-
+    public ResidentEntity Login2(String email, String password) throws SQLException {
+        //select * from tbl User where email = ? and password=?
         try {
             connect = new DBConfig().getConnection();
-            ps = connect.prepareStatement(query);
-            ps.setString(1, username);
-            ps.setString(2, address);
-            ps.setString(3, phone);
-            ps.setString(4, email);
-            ps.setString(5, password);
-            ps.executeUpdate();
+            ps = connect.prepareStatement(queryResident);
+            ps.setString(1, email);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new ResidentEntity(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getInt(9)
+                        );
+            }
         } catch (SQLException ex) {
-            System.out.println("Error at Signup UserFacade");
+            System.err.println("Error at Login Resident");
         }
         return null;
     }
+    
+    
     
     public UserEntity Check(String email) throws SQLException {
         //select * from tbl User where email = ? and password=?
@@ -81,7 +95,7 @@ public class UserRepository {
                         rs.getInt(5)  );
             }
         } catch (SQLException ex) {
-            System.err.println("Error at Check User Facade");
+            System.err.println("Error at Check User");
         }
         return null;
     }
