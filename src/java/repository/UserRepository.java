@@ -86,4 +86,17 @@ public class UserRepository {
         return null;
     }
     
+    public void changePass(String email, String password) throws SQLException {
+        String query = "update Account set password = ? where email = ?";
+        connect = DBConfig.getConnection();
+        ps = connect.prepareStatement(query);
+        ps.setString(2, email);
+        ps.setString(1, password);
+        ps.executeUpdate();
+        
+    }
+    public static void main(String[] args) throws SQLException {
+        new UserRepository().changePass("johnnypewds123@gmail.com", "123456");
+    }
+    
 }

@@ -8,7 +8,7 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:set var="cookie" value="${pageContext.request.cookies}"/>
-<div class="container-fluid" style="margin-top:10px; margin-bottom: 10px">
+<div class="container" style="margin-top:10px; margin-bottom: 10px">
             <div class="" style="margin-top:10px; margin-bottom: 10px">
                 <div class="rounded d-flex justify-content-center">
                     <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
@@ -39,6 +39,9 @@
                                 </button>
                                 <p class="text-center mt-5">Don't have an account?
                                     <a href="<c:url value="/user/signup.do"/>" style="text-decoration: none">Sign Up</a>
+                                </p>
+                                <p class="text-center mb-5">Forgot Password?
+                                    <a href="<c:url value="/reset-pass/reset-pass.do"/>" style="text-decoration: none">Reset Password</a>
                                 </p>
                                 
                             </div>
