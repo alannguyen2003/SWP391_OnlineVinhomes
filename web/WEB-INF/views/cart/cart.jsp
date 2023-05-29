@@ -17,7 +17,7 @@
                     <c:forEach var="item" items="${sessionScope.cart.items}" varStatus="loop">
                         <div class="row align-items-center">
                             <div  style="animation-delay: 0.5s"class="col-md-2">
-                                <img src="" class="img-fluid " alt="Generic placeholder image">
+                                <img src="" class="img-fluid " alt="">
                             </div>
                             <div class="col-md-2 d-flex justify-content-center">
                                 <div>
@@ -25,7 +25,7 @@
                                     <p class="lead fw-normal mb-0">${item.service.name}</p>
                                 </div>
                             </div>
-                            <div class="col-md-2 d-flex justify-content-center">
+<!--                            <div class="col-md-2 d-flex justify-content-center">
                                 <div style="padding-top: 10px">
                                     <p class="lead fw-normal mb-0">
                                         <a href="<c:url value="/cart/subtractFromCart.do?id=${item.service.serviceID}"/>">-</a>
@@ -33,7 +33,7 @@
                                         <a href="<c:url value="/cart/addFromCart.do?id=${item.service.serviceID}"/>"> +</a>
                                     </p>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="col-md-2 d-flex justify-content-center">
                                 <div >
                                     <p class="small text-muted mb-4 pb-2">Price</p>
@@ -52,6 +52,7 @@
                                 </div>
                             </div>
                         </div>
+                                <hr/>
                     </c:forEach>
                 </div>
             </div>
