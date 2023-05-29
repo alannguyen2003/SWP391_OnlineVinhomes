@@ -84,7 +84,7 @@
                         <div class="container">
                             <div class="main-header__top-details-inner">
                                 <div class="main-header__logo">
-                                    <a href="index.html"><img src="assets/images/resources/logo-1.png" alt=""></a>
+                                    <a href="<c:url value="/home/index.do" />"><img src="assets/images/resources/logo-1.png" alt=""></a>
                                 </div>
                                 <ul class="list-unstyled main-header__top-details-list">
                                     <li>
@@ -165,7 +165,7 @@
                                                     <a href="#"><i class="bi bi-person-fill"></i></a>
                                                     <ul>
                                                         <li><a href="<c:url value="/home/index.do"/>">View profile</a></li>
-                                                        <li><a href="<c:url value="/order/myorder.do"/>">My Orders</a></li>
+                                                        <li><a href="<c:url value="/order/myorder.do?aid=${user.UID}"/>">My Orders</a></li>
                                                         <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
                                                     </ul>
                                                 </li>
