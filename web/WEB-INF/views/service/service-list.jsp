@@ -31,10 +31,9 @@
                                 <div class="services-two__content">
                                     <h3 class="services-two__title"><a href="<c:url value="/service/service-detail.do?id=${o.serviceID}" />">${o.name}</a>
                                     </h3>
-                                    <p class="services-two__text">Vinhomes Service.</p>
+                                    <p class="services-two__text">Vinhomes Service</p>
                                     <a href="<c:url value="/service/service-detail.do?id=${o.serviceID}" />" class="services-two__btn mb-2">Read more</a>
                                     <a href="<c:url value="/cart/addToCart.do?id=${o.serviceID}" />" class="services-two__btn">Add to cart</a>
-                                    
                                 </div>
                             </div>
                         </div>

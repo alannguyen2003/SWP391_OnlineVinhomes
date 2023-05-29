@@ -51,7 +51,7 @@ public class CartController extends HttpServlet {
                 case "cart":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
-                case "addToCart":
+                case "addToCart":      
                     addToCart(request, response);
                     break;
                 case "removeFromCart":
@@ -128,7 +128,7 @@ public class CartController extends HttpServlet {
         session.setAttribute("cart", cart);
         session.setAttribute("size", list.size());
         // lỗi khúc này vì ServiceID nếu get thì sẽ trùng với CategoryID ở service.jsp -> bug
-        request.getRequestDispatcher("/service/service-list.do").forward(request, response);
+        request.getRequestDispatcher("/service/service.do").forward(request, response);
     }
 
     protected void removeFromCart(HttpServletRequest request, HttpServletResponse response)

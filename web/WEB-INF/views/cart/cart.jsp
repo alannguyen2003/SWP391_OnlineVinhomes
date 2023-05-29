@@ -15,11 +15,6 @@
             <p class="" style="margin-bottom: 10px"><span class="h2">Shopping Cart </span><span class="h4">(${size} item in your cart)</span></p>
             <div class="card mb-4">
                 <div class="card-body p-4 ">
-                    <c:if test="${size == null}">
-                        <div style="display: flex; justify-content: center">
-                            <p class="lead fw-normal mb-0"> There is no item in your cart :( </p>
-                        </div>
-                    </c:if>
                     <c:forEach var="item" items="${sessionScope.cart.items}" varStatus="loop">
                         <div class="row align-items-center">
                             <div  style="animation-delay: 0.5s"class="col-md-2">
@@ -60,6 +55,11 @@
                         </div>
                         <hr/>
                     </c:forEach>
+                    <c:if test="${sessionScope.size == null}">
+                        <div style="display: flex; justify-content: center">
+                            <p class="lead fw-normal mb-0"> There is no item in your cart :( </p>
+                        </div>
+                    </c:if>
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
             <div class="d-flex justify-content-end">
                 <!--<button type="button" class="btn btn-light btn-lg me-2">Continue shopping</button>-->
                 <a href="<c:url value="/service/service.do"/>" class="btn btn-light btn-lg me-2" role="button">Continue shopping</a>
-                <button class="btn btn-primary" type='button' data-toggle="modal" data-target="#checkOutModal">Check Out</button>
+                <c:if test="${cart.items != null}"><button class="btn btn-primary" type='button' data-toggle="modal" data-target="#checkOutModal">Check Out</button></c:if>
             </div>
             <p style="color:red">${noItem}</p>
             <p style="color:green">${msg}</p>   
