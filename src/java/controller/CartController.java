@@ -30,6 +30,8 @@ import service.ServiceService;
 @WebServlet(name = "CartController", urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {
 
+    private CartService cs = new CartService();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -119,40 +121,16 @@ public class CartController extends HttpServlet {
         }
         String serviceID = request.getParameter("id");
         CartService cs = new CartService();
-        ServiceService ss = new ServiceService();
         ServiceEntity se = cs.getServiceById(Integer.parseInt(serviceID));
         ItemEntity item = new ItemEntity(se, se.getLowerPrice());
         cart.addItem(item);
         List<ItemEntity> list = cart.getItems();
         session.setAttribute("cart", cart);
         session.setAttribute("size", list.size());
-        ArrayList<ServiceEntity> list1 = ss.getAllService();
+        // lỗi khúc này vì ServiceID nếu get thì sẽ trùng với CategoryID ở service.jsp -> bug
         request.getRequestDispatcher("/service/service-list.do").forward(request, response);
     }
 
-//    private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-//        HttpSession session2 = request.getSession(true);
-//        CartEntity cart2 = null;
-//        Object o2 = session2.getAttribute("cart");
-//        if (o2 != null) {
-//            cart2 = (CartEntity) o2;
-//        } else {
-//            cart2 = new CartEntity();
-//        }
-//        String id2 = request.getParameter("id");
-//
-//        ServiceService ss = new ServiceService();
-//        ServiceEntity se = ss.getServiceById(Integer.parseInt(id2));
-//        ItemEntity i2 = new ItemEntity(se, se.getLowerPrice());
-//        cart2.addItem(i2);
-//
-//        List<ItemEntity> list3 = cart2.getItems();
-//        session2.setAttribute("cart", cart2);
-//        session2.setAttribute("size", list3.size());
-//        request.setAttribute("controller", "cart");
-//        request.setAttribute("action", "cart");
-//        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-//    }
     protected void removeFromCart(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session3 = request.getSession(true);
@@ -165,11 +143,11 @@ public class CartController extends HttpServlet {
         }
         String id3 = request.getParameter("id");
         cart3.removeItem(Integer.parseInt(id3));
-        List<ItemEntity> list4 = cart3.getItems();
+        List<ItemEntity> list2 = cart3.getItems();
         request.setAttribute("controller", "cart");
         request.setAttribute("action", "cart");
         session3.setAttribute("cart", cart3);
-        session3.setAttribute("size", list4.size());
+        session3.setAttribute("size", list2.size());
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
 

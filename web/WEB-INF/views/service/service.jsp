@@ -41,10 +41,10 @@
                             </div>
                         </div>
                         <div class="services-two__content">
-                            <h3 class="services-two__title"><a href="<c:url value="/service/service-list.do" />?id=${o.id}">${o.name}</a>
+                            <h3 class="services-two__title"><a href="<c:url value="/service/service-list.do?id=${o.id}" />">${o.name}</a>
                             </h3>
                             <p class="services-two__text">Vinhome services.</p>
-                            <a href="<c:url value="/service/service-list.do" />?id=${o.id}" class="services-two__btn">read more</a>
+                            <a href="<c:url value="/service/service-list.do?id=${o.id}" />" class="services-two__btn">read more</a>
                         </div>
                     </div>
                 </div>

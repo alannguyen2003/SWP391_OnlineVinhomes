@@ -6,6 +6,7 @@ package service;
 
 import entity.ServiceEntity;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import repository.ServiceRepository;
 
 /**
@@ -17,5 +18,13 @@ public class CartService {
     
     public ServiceEntity getServiceById(int id) throws SQLException{
         return serviceRepository.getServiceById(id);
+    }
+    
+    public ArrayList<ServiceEntity> getAllService() throws Exception {
+        return serviceRepository.getAllService();
+    }
+    
+    public ArrayList<ServiceEntity> getServiceByCategory(int categoryId) throws Exception {
+        return serviceRepository.getServiceByCategory(categoryId);
     }
 }

@@ -8,51 +8,57 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <c:set var= "size" value ="${sessionScope.size}"/>
+
 <div class="container h-100" style="margin-bottom: 20%">
     <div class="row d-flex justify-content-center align-items-center h-100 ">
         <div class="col">
             <p class="" style="margin-bottom: 10px"><span class="h2">Shopping Cart </span><span class="h4">(${size} item in your cart)</span></p>
             <div class="card mb-4">
                 <div class="card-body p-4 ">
+                    <c:if test="${size == null}">
+                        <div style="display: flex; justify-content: center">
+                            <p class="lead fw-normal mb-0"> There is no item in your cart :( </p>
+                        </div>
+                    </c:if>
                     <c:forEach var="item" items="${sessionScope.cart.items}" varStatus="loop">
                         <div class="row align-items-center">
                             <div  style="animation-delay: 0.5s"class="col-md-2">
                                 <img src="" class="img-fluid " alt="">
                             </div>
-                            <div class="col-md-2 d-flex justify-content-center">
+                            <div class="col-md-2" style="display: flex; justify-content: flex-start">
                                 <div>
                                     <p class="small text-muted mb-4 pb-2">Name</p>
                                     <p class="lead fw-normal mb-0">${item.service.name}</p>
                                 </div>
                             </div>
-<!--                            <div class="col-md-2 d-flex justify-content-center">
-                                <div style="padding-top: 10px">
-                                    <p class="lead fw-normal mb-0">
-                                        <a href="<c:url value="/cart/subtractFromCart.do?id=${item.service.serviceID}"/>">-</a>
-                                        |
-                                        <a href="<c:url value="/cart/addFromCart.do?id=${item.service.serviceID}"/>"> +</a>
-                                    </p>
-                                </div>
-                            </div>-->
-                            <div class="col-md-2 d-flex justify-content-center">
+                            <!--                            <div class="col-md-2 d-flex justify-content-center">
+                                                            <div style="padding-top: 10px">
+                                                                <p class="lead fw-normal mb-0">
+                                                                    <a href="<c:url value="/cart/subtractFromCart.do?id=${item.service.serviceID}"/>">-</a>
+                                                                    |
+                                                                    <a href="<c:url value="/cart/addFromCart.do?id=${item.service.serviceID}"/>"> +</a>
+                                                                </p>
+                                                            </div>
+                                                        </div>-->
+                            <div class="col-md-2" style="display: flex; justify-content: flex-end">
                                 <div >
-                                    <p class="small text-muted mb-4 pb-2">Price</p>
+                                    <p class="small text-muted mb-4 pb-2 d-flex justify-content-end">Price</p>
                                     <p class="lead fw-normal mb-0">${item.service.getLowerPrice()}</p>
                                 </div>
                             </div>
-                            <div class="col-md-2 d-flex justify-content-center">
+                            <div class="col-md-2" style="display: flex; justify-content: flex-end">
                                 <div>
-                                    <p class="small text-muted mb-4 pb-2">Total</p>
+                                    <p class="small text-muted mb-4 pb-2 d-flex justify-content-end">Total</p>
                                     <p class="lead fw-normal mb-0">$<fmt:formatNumber value="${item.service.getLowerPrice()}" pattern="##.#"/></p>
                                 </div>
                             </div>
-                            <div class="col-md-2 d-flex justify-content-center">
+                            <div class="col-md-2" style="display: flex; justify-content: flex-end">
                                 <div>
                                     <a class="text-body" href="<c:url value="/cart/removeFromCart.do?id=${item.service.serviceID}"/>">Remove</a>
                                 </div>
                             </div>
                         </div>
-                                <hr/>
+                        <hr/>
                     </c:forEach>
                 </div>
             </div>
