@@ -9,22 +9,33 @@ package entity;
  * @author vsngh
  */
 public class UserEntity {
+
     private int AID;
+    private String phone;
     private String email;
     private String password;
-    private String phone;
+    private String name;
+    private int BID;
     private int roleID;
+    private String room;
+    private String managerId;
 
     public UserEntity() {
     }
 
-    public UserEntity(int AID, String email, String password, String phone, int roleID) {
+    public UserEntity(int AID, String phone, String email, String password, String name, int BID, int roleID, String room, String managerId) {
         this.AID = AID;
+        this.phone = phone;
         this.email = email;
         this.password = password;
-        this.phone = phone;
+        this.name = name;
+        this.BID = BID;
         this.roleID = roleID;
+        this.room = room;
+        this.managerId = managerId;
     }
+
+    
 
     public int getAID() {
         return AID;
@@ -32,6 +43,14 @@ public class UserEntity {
 
     public void setAID(int AID) {
         this.AID = AID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -50,12 +69,28 @@ public class UserEntity {
         this.password = password;
     }
 
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getBID() {
+        return BID;
+    }
+
+    public void setBID(int BID) {
+        this.BID = BID;
     }
 
     public int getRoleID() {
@@ -65,6 +100,13 @@ public class UserEntity {
     public void setRoleID(int roleID) {
         this.roleID = roleID;
     }
-    
-    
+
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
+
 }

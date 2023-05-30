@@ -91,7 +91,7 @@ public class UserController extends HttpServlet {
                 response.addCookie(cp);
                 response.addCookie(cr);
                 UserRepository uf = new UserRepository();
-                ResidentEntity user = uf.Login2(email, password);
+                UserEntity user = uf.Login(email, password);
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
