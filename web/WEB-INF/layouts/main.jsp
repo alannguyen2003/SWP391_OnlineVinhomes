@@ -1,11 +1,6 @@
-<%-- 
-    Document   : main
-    Created on : May 25, 2023, 7:02:19 PM
-    Author     : admin
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,6 +46,8 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/vegas/vegas.min.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/jquery-ui/jquery-ui.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/timepicker/timePicker.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/order.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
         <!-- template styles -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/brote.css" />
@@ -155,7 +152,7 @@
                                     <div class="main-menu__search-box">
                                         <a href="#" class="main-menu__search search-toggler icon-magnifying-glass"></a>
                                         <a href="/vsos/cart/cart.do" style="margin-left: 25px"><img src="${pageContext.request.contextPath}/assets/images/icon/hiclipart.com.png" alt=""/>
-                                        <span>${size}</span>
+                                            <span>${size}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -414,7 +411,7 @@
         <script src="${pageContext.request.contextPath}/assets/vendors/timepicker/timePicker.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/circleType/jquery.circleType.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/circleType/jquery.lettering.min.js"></script>
-
+        <script src="${pageContext.request.contextPath}/assets/vendors/order/order.js"></script>
         <!-- template js -->
         <script src="${pageContext.request.contextPath}/assets/js/brote.js"></script>
     </body>

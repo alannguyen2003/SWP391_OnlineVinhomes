@@ -1,6 +1,8 @@
 ﻿/*Chạy hai lệnh này trước để tạo database*/
-create database Vinhomes ;
-use Vinhomes;
+create database Vinhomes2 ;
+Go
+use Vinhomes2;
+Go
 /*Chạy hết tất cả đoạn sau này*/
 create table BlockVin (
 	BID int identity(1,1),
@@ -8,19 +10,34 @@ create table BlockVin (
 	primary key (BID)
 )
 
+create table [Role] (
+	RID int identity(1,1),
+	name nvarchar(50),
+	primary key(RID)
+)
+
+create table Account (
+	AID int identity(1,1),
+	phone nvarchar(15),
+	email nvarchar(100),
+	password nvarchar(50),
+	roleId int,
+	primary key (AID),
+	foreign key (roleId) references Role(RID)
+)
+
+
+
 create table Employee (
 	EID int identity(1,1),
 	name nvarchar(100),
-	password nvarchar(40),
-	phone nvarchar(15),
-	role bit,
-	email nvarchar(100),
 	manager_id int,
 	BID int,
-	primary key (EID)
-	/*  foreign key manager_id -> Employee(EID)
-		foreign key BID -> BlockVin(BID)
-	*/
+	AID int,
+	primary key (EID),
+	foreign key (AID) references Account(AID),
+	foreign key (manager_id) references Employee(EID),
+	foreign key (BID) references BlockVin(BID)
 )
 
 create table Resource (
@@ -39,11 +56,11 @@ create table BlockResource (
 create table Resident (
 	UID int identity(1,1),
 	name nvarchar(255),
-	password nvarchar(40),
 	room nvarchar(10),
-	phone nvarchar(15),
+	BID int,
+	AID int,
 	primary key (UID),
-	BID int
+	foreign key (AID) REFERENCES Account(AID)
 )
 
 create table Supplier (
@@ -89,23 +106,38 @@ create table Feedback (
 	email nvarchar(50)
 )
 
+--create table Orders(
+--	OID int identity(1,1),
+--	time datetime, 
+--	note nvarchar(255),
+--	UID int, 
+--	EID int, 
+--	DID int
+--	/*
+--		foreign key UID references Resident(UID),
+--		foreign key EID references Employee(EID),
+--		foreign key DID references Service(DID)
+--	*/
+--)
 create table Orders(
-	OID int identity(1,1),
+	OID int identity(1,1) PRIMARY KEY NOT NULL,
 	time datetime, 
-	note nvarchar(255),
-	UID int, 
-	EID int, 
-	DID int
-	/*
-		foreign key UID references Resident(UID),
-		foreign key EID references Employee(EID),
-		foreign key DID references Service(DID)
-	*/
+	[status] [varchar](30) NOT NULL default('Pending'),
+	UID INT REFERENCES dbo.Resident(UID), 
+	EID INT REFERENCES dbo.Employee(EID), 
+	note nvarchar(255)
+
+)
+CREATE TABLE [dbo].[OrderDetail](
+	[id] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[orderHeaderId] [int] references Orders(OID) NOT NULL,
+	[serviceId] [int] references dbo.Service(service_id) NOT NULL,
+	[categoryId] [INT] NOT NULL,
+	[min_price] [int] NOT NULL,
+	[max_price] [int] NOT NULL
 )
 
-alter table Employee 
-	add foreign key (manager_id) references Employee(EID),
-		foreign key (BID) references BlockVin(BID)
+
 alter table BlockResource 
 	add foreign key (BID) references BlockVin(BID),
 		foreign key (RID) references Resource(RID)
@@ -117,10 +149,6 @@ alter table Service
 alter table Feedback 
 	add FID int identity(1,1) primary key,
 		foreign key (UID) references Resident(UID),
-		foreign key (DID) references Service(service_id)
-alter table Orders 
-	add foreign key (UID) references Resident(UID), 
-		foreign key (EID) references Employee(EID),
 		foreign key (DID) references Service(service_id)
 
 
@@ -212,47 +240,141 @@ insert into Service(name, lower_price, upper_price, description, category_id, su
 ('Electrical Repair', 70, 140, 'We repair wiring, outlets, switches, and other electrical problems.', 2, 3),
 ('Security Guard', 100, 200, 'We provied trained security guards for your building.', 3, 6)
 
-insert into Employee(name, email, phone, role, password, manager_id, BID) values 
-(N'John Doe', 'johndoe@email.com', '0912345151',1 ,'123456', null, 2),
-(N'Jane Smith', 'janesmith@email.com', '0987654321',1 ,'123456', null, 1), 
-(N'Bob Lee', 'boblee@email.com', '0934567890', 1,'123456', null, 3), 
-(N'Đỗ Quang Huy', 'doquanghuy@email.com', '0978912345', 1,  '123456' , null, 7),
-(N'Vũ Thị Mai', 'vumai@email.com', '0923456789', 1, '123456', null, 6),
-(N'Kelly Lee', 'kellylee@email.com', '0923456789', 1, '123456', null, 5),
-(N'Hoàng Văn Nam', 'hoangnam@email.com', '0912345678',1 , '123456', null, 4),
-(N'Emma Lin', 'emmalin@email.com', '0912345678', 0, '123456', 2, 1),
-(N'Sara Chen', 'sarachen@email.com', '0956789012', 0, '123456', 3, 3),
-(N'Tom Chen', 'tomchen@email.com', '0912345678', 0, '123456', 1, 2),
-(N'Nguyễn Văn An', 'nguyenvanan@email.com', '0912345678', 0, '123456', 4, 7),
-(N'Bùi Thị Hương', 'buihuong@email.com', '0987654321', 0, '123456', 5, 6)
 
-insert into Resident(name, phone, password, room, BID) values 
-(N'Nguyễn Thị Thu', '0987654321', '123456', 'MA03B0156', 3),
-(N'Trần Thanh Tùng', '0912345678', '123456', 'OR11B0332', 2), 
-(N'Vũ Anh Tuấn', '0934567890', '123456', 'GP14B2073', 3),
-(N'Lê Thị Hồng Nhung', '0975123456','123456', 'MA10B1147', 1),
-(N'Hoàng Thục Anh', '0909876543', '123456', 'GP20B4615', 5),
-(N'Đỗ Thành Nam', '0943215678', '123456', 'MA12B0312', 6),
-(N'Nguyễn Thị Ngọc Ánh', '0965432198', '123456', 'OR16B1033', 3),
-(N'Phan Đình Quân', '0998765432', '123456', 'GP01B2479', 2),
-(N'Trần Thị Trang', '0967890123', '123456', 'MA07B0821', 2),
-(N'Nguyễn Văn Toàn', '0943567128', '123456', 'OR18B1296', 4),
-(N'Võ Thị Kim Thư', '0912876543', '123456', 'GP09B3191', 1),
-(N'Lê Minh Hiếu', '0987654321', '123456', 'MA15B2278', 7),
-(N'Ngô Đình Thiên Long', '0934567890', '123456', 'OR03B0045', 2),
-(N'Trần Thị Hoài Phương', '0956789012', '123456', 'GP08B4321', 1),
-(N'Vũ Thị Bích Hồng', '0987654321', '123456', 'MA17B1654', 1),
-(N'Lê Văn Khánh Duy', '0912345678', '123456', 'OR13B0903', 9),
-(N'Nguyễn Thị Anh Thư', '0975123456', '123456', 'GP06B3102', 10),
-(N'Phạm Minh Tâm', '0912345678', '123456', 'MA04B2019', 2),
-(N'Hoàng Thị Hồng Nhung', '0909876543', '123456', 'OR02B0074', 3),
-(N'Đỗ Ngọc Ánh', '0923456789', '123456', 'GP11B1287', 5),
-(N'Nguyễn Văn Tuấn', '0965432198', '123456', 'MA09B1111', 8),
-(N'Trần Thị Thu', '0998765432', '123456', 'OR19B1156', 9),
-(N'Võ Thành Tâm', '0912876543', '123456', 'GP15B3654', 2),
-(N'Lê Thị Hoàng Yến', '0943215678', '123456', 'MA05B2468', 1),
-(N'Ngô Đức Thắng', '0967890123', '123456', 'OR12B0678', 3),
-(N'Trần Thị Ngọc Ánh', '0987654321', '123456', 'GP03B4921', 4),
-(N'Vũ Minh Hiếu', '0934567890', '123456', 'MA20B1974', 5),
-(N'Phạm Thị Trang', '0975123456', '123456', 'OR08B1589', 2),
-(N'Hoàng Văn Quân', '0912345678', '123456', 'GP17B3612', 1)
+insert into Role(name) values
+(N'Resident'),
+(N'Employee'),
+(N'Block Manager'),
+(N'Admin')
+
+insert into Account(email, phone, password, roleId) values 
+('johndoe@email.com', '0912345151','123456', 4),
+('janesmith@email.com', '0987654321','123456', 4),
+('boblee@email.com', '0934567890', '123456', 4),
+('doquanghuy@email.com', '0978912345', '123456', 4),
+('vumai@email.com', '0923456789', '123456', 4),
+('kellylee@email.com', '0923456789', '123456', 4),
+('hoangnam@email.com', '0912345678', '123456', 4),
+('emmalin@email.com', '0912345678', '123456', 3),
+('sarachen@email.com', '0956789012', '123456', 3),
+('tomchen@email.com', '0912345678', '123456', 3),
+('nguyenvanan@email.com', '0912345678', '123456', 3),
+('buihuong@email.com', '0987654321', '123456', 3),
+('thu1@gmail.com', '0987654321', '123456',1),
+('tung@gmail.com', '0912345678', '123456', 1),
+('tuan@gmail.com','0934567890', '123456', 1),
+('anh@gmail.com', '0909876543', '123456', 1),
+('nam@gmail.com', '0943215678', '123456', 1),
+('anh1@gmail.com', '0965432198', '123456', 1),
+('quan@gmail.com', '0998765432', '123456', 1),
+('trang@gmail.com', '0967890123', '123456', 1),
+('toan@gmail.com', '0943567128', '123456', 1),
+('thu2@gmail.com', '0912876543', '123456', 1),
+('hieu@gmail.com', '0987654321', '123456', 1),
+('long@gmail.com', '0934567890', '123456', 1),
+('phuong@gmail.com', '0956789012', '123456', 1),
+('hong@gmail.com', '0987654321', '123456', 1),
+('duy@gmail.com', '0912345678', '123456', 1),
+('thu@gmail.com', '0975123456', '123456', 1),
+('ta23m@gmail.com', '0912345678', '123456', 1),
+('nhung2@gmail.com', '0909876543', '123456', 1),
+('anh4@gmail.com', '0923456789', '123456', 1),
+('tuan23@gmail.com', '0965432198', '123456', 1),
+('thu123@gmail.com', '0998765432', '123456', 1),
+('tam123123@gmail.com', '0912876543', '123456', 1),
+('yen123123@gmail.com', '0943215678', '123456', 1),
+('thang1234@gmail.com', '0967890123', '123456', 1),
+('anh123@gmail.com', '0987654321', '123456', 1),
+('hieu12312@gmail.com', '0934567890', '123456', 1),
+('trang1231223@gmail.com', '0975123456', '123456', 1),
+('anh1231232@gmail.com', '0912345678', '123456', 1),
+('quan12312@gmail.com', '0355412154', '123456', 1)
+
+
+insert into Employee(name, manager_id, BID, AID) values
+(N'John Doe', null, 2, 1),
+(N'Jane Smith', null, 1, 2), 
+(N'Bob Lee', null, 3, 3), 
+(N'Đỗ Quang Huy', null, 7, 4),
+(N'Vũ Thị Mai', null, 6, 5),
+(N'Kelly Lee', null, 5, 6),
+(N'Hoàng Văn Nam',  null, 4, 7),
+(N'Emma Lin', null, 1, 8),
+(N'Sara Chen', null, 3,9),
+(N'Tom Chen', null, 2, 10),
+(N'Nguyễn Văn An', null, 7, 11),
+(N'Bùi Thị Hương', null, 6, 12)
+
+
+insert into Resident(name, room, BID, AID) values 
+(N'Nguyễn Thị Thu', 'MA03B0156', 3, 13),
+(N'Trần Thanh Tùng', 'OR11B0332', 2, 14), 
+(N'Vũ Anh Tuấn', 'GP14B2073', 3, 15),
+(N'Lê Thị Hồng Nhung', 'MA10B1147', 1, 16),
+(N'Hoàng Thục Anh', 'GP20B4615', 5, 17),
+(N'Đỗ Thành Nam', 'MA12B0312', 6, 18),
+(N'Nguyễn Thị Ngọc Ánh', 'OR16B1033', 3, 19),
+(N'Phan Đình Quân', 'GP01B2479', 2, 20),
+(N'Trần Thị Trang', 'MA07B0821', 2, 21),
+(N'Nguyễn Văn Toàn', 'OR18B1296', 4, 22),
+(N'Võ Thị Kim Thư', 'GP09B3191', 1, 23),
+(N'Lê Minh Hiếu', 'MA15B2278', 7, 24),
+(N'Ngô Đình Thiên Long', 'OR03B0045', 2, 25),
+(N'Trần Thị Hoài Phương', 'GP08B4321', 1, 26),
+(N'Vũ Thị Bích Hồng', 'MA17B1654', 1, 27),
+(N'Lê Văn Khánh Duy', 'OR13B0903', 9, 28),
+(N'Nguyễn Thị Anh Thư', 'GP06B3102', 10, 29),
+(N'Phạm Minh Tâm', 'MA04B2019', 2, 30),
+(N'Hoàng Thị Hồng Nhung', 'OR02B0074', 3, 31),
+(N'Đỗ Ngọc Ánh', 'GP11B1287', 5, 32),
+(N'Nguyễn Văn Tuấn', 'MA09B1111', 8, 33),
+(N'Trần Thị Thu', 'OR19B1156', 9, 34),
+(N'Võ Thành Tâm', 'GP15B3654', 2, 35),
+(N'Lê Thị Hoàng Yến', 'MA05B2468', 1, 36),
+(N'Ngô Đức Thắng', 'OR12B0678', 3, 37),
+(N'Trần Thị Ngọc Ánh', 'GP03B4921', 4, 38),
+(N'Vũ Minh Hiếu', 'MA20B1974', 5, 39),
+(N'Phạm Thị Trang', 'OR08B1589', 2, 40),
+(N'Hoàng Văn Quân', 'GP17B3612', 1, 41)
+
+INSERT INTO dbo.Orders(time, status, UID, EID, note)
+VALUES
+	('2019-01-29', 'Failed', 5, 1, NULL),
+	('2019-02-17', 'Pending', 6, 3, NULL),
+	('2019-04-01', 'Completed', 8, 2, NULL)
+    GO
+
+INSERT INTO dbo.OrderDetail (orderHeaderId, serviceId, categoryId, min_price, max_price)
+	VALUES
+	    (4, 3, 2, 60, 120),
+		(4, 5, 3, 100, 200),
+		(4, 2, 1, 40, 80),
+
+		(2, 4, 2, 70, 140),
+		(2, 8, 4, 50, 100),
+		(2, 6, 3, 150, 300),
+
+		(3, 1, 1, 50, 100),
+		(3, 7, 4, 30, 60),
+		(3, 9, 4, 200, 400),
+
+		(3, 1, 1, 50, 100),
+		(3, 7, 4, 30, 60),
+		(3, 9, 4, 200, 400)
+
+INSERT INTO dbo.OrderDetail (orderHeaderId, serviceId, categoryId, min_price, max_price)
+	VALUES
+		(1, 2, 1, 40, 80),
+		(1, 7, 4, 30, 60),
+		(1, 8, 4, 50, 100),
+
+		(7, 4, 2, 70, 140),
+		(7, 8, 4, 50, 100),
+		(7, 6, 3, 150, 300)
+
+INSERT INTO dbo.OrderDetail (orderHeaderId, serviceId, categoryId, min_price, max_price)
+	VALUES
+		(8, 3, 2, 60, 120),
+		(8, 5, 3, 100, 200),
+		(8, 2, 1, 40, 80)
+	GO
