@@ -47,6 +47,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/jquery-ui/jquery-ui.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/timepicker/timePicker.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/order.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/home.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
         <!-- template styles -->
@@ -55,6 +56,14 @@
 
     </head>
     <body>
+
+        <div class="custom-cursor__cursor"></div>
+        <div class="custom-cursor__cursor-two"></div>
+        <div class="preloader">
+            <div class="preloader__image"></div>
+        </div>
+        <!-- /.preloader -->
+
         <div class="page-wrapper">
             <header class="main-header clearfix">
                 <div class="main-header__top">
@@ -75,7 +84,7 @@
                         <div class="container">
                             <div class="main-header__top-details-inner">
                                 <div class="main-header__logo">
-                                    <a href="<c:url value="/home/index.do"/>"><img src="${pageContext.request.contextPath}/assets/images/resources/logo-1.png" alt=""></a>
+                                    <a href="<c:url value="/home/index.do" />"><img src="assets/images/resources/logo-1.png" alt=""></a>
                                 </div>
                                 <ul class="list-unstyled main-header__top-details-list">
                                     <li>
@@ -127,7 +136,7 @@
                                     <div class="main-menu__main-menu-box">
                                         <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
                                         <ul class="main-menu__list">
-                                            <li class="dropdown current megamenu">
+                                            <li>
                                                 <a href="<c:url value="/home/index.do" />">Home </a>
                                             </li>
                                             <li>
@@ -139,21 +148,36 @@
                                             <li>
                                                 <a href="<c:url value="/home/contact.do" />">Contact </a>
                                             </li>
-                                            <li style="margin-left: 27rem">
-                                                <a>Sign In</a>
-                                            </li>
+                                            <c:if test="${user == null}">
+                                                <!-- Neu user chua login -->
+                                                <li style="margin-left: 30rem">
+                                                    <a href="<c:url value="/user/login.do" />">Sign In</a>
+                                                </li>
+                                            </c:if>
+
+                                            <c:if test="${user != null}">
+                                                <!-- Neu user da login -->
+                                                <li style="margin-left: 18rem">
+                                                    <a href="<c:url value="/user/profile.do" />">Hello, ${user.email}</a>
+                                                </li>
+
+                                                <li class="dropdown">
+                                                    <a href="#"><i class="bi bi-person-fill"></i></a>
+                                                    <ul>
+                                                        <li><a href="<c:url value="/home/index.do"/>">View profile</a></li>
+                                                        <li><a href="<c:url value="/order/myorder.do?aid=${user.UID}"/>">My Orders</a></li>
+                                                        <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
+                                                    </ul>
+                                                </li>
+                                            </c:if>  
                                             <li>
-                                                <a>Register</a>
+                                                <a href="#"><i style="color: #b1c2f5;" class="bi bi-cart"></i></a>
+                                            </li>
+
+                                            <li>
+                                                <a href="/vsos/cart/cart.do"><i style="color: #b1c2f5;" class="bi bi-search"></i></a>
                                             </li>
                                         </ul>
-                                    </div>
-                                </div>
-                                <div class="main-menu__right">
-                                    <div class="main-menu__search-box">
-                                        <a href="#" class="main-menu__search search-toggler icon-magnifying-glass"></a>
-                                        <a href="/vsos/cart/cart.do" style="margin-left: 25px"><img src="${pageContext.request.contextPath}/assets/images/icon/hiclipart.com.png" alt=""/>
-                                            <span>${size}</span>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -162,17 +186,14 @@
                 </nav>
             </header>
 
+
             <div class="stricky-header stricked-menu main-menu">
                 <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
             </div><!-- /.stricky-header -->
 
             <!-- View -->
 
-            <div class="row">
-                <div class="col">
-                    <jsp:include page="/WEB-INF/views/${controller}/${action}.jsp" />
-                </div>
-            </div>
+            <jsp:include page="/WEB-INF/views/${controller}/${action}.jsp" />
 
             <!-- End View -->
 
@@ -412,6 +433,7 @@
         <script src="${pageContext.request.contextPath}/assets/vendors/circleType/jquery.circleType.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/circleType/jquery.lettering.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/order/order.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/vendors/home/home.js"></script>
         <!-- template js -->
         <script src="${pageContext.request.contextPath}/assets/js/brote.js"></script>
     </body>

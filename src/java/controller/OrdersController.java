@@ -5,6 +5,7 @@
 package controller;
 
 import entity.MyOrderEntity;
+import entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -27,13 +28,13 @@ public class OrdersController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
         HttpSession session = request.getSession();
-//        Account acc = (Account) session.getAttribute("acc");
+//        UserEntity user = (UserEntity) session.getAttribute("acc");
         try {
             switch (action) {
                 case "myorder":
                     //Processing code here
-//                    int uId = Integer.parseInt(request.getParameter("uId"));
-                    List<MyOrderEntity> myOrderList = orderService.selectMyOrders(5);
+                    int uId = Integer.parseInt(request.getParameter("uid"));
+                    List<MyOrderEntity> myOrderList = orderService.selectMyOrders(uId);
                     request.setAttribute("myOrderlist", myOrderList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;

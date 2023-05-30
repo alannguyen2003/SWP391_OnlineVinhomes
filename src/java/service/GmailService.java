@@ -47,7 +47,7 @@ import javax.mail.internet.MimeMessage;
 public class GmailService {
 
     Gmail service;
-    private final String FROM_EMAIL = "johnnypewds123@gmail.com";
+    private final String FROM_EMAIL = "autoemail62@gmail.com";
     public GmailService() throws Exception {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
@@ -77,7 +77,7 @@ public class GmailService {
 
     }
 
-    public void sendEmail(String subject, String message) throws GeneralSecurityException, IOException, AddressException, MessagingException {
+    public void sendEmail(String subject, String message, String toEmail) throws GeneralSecurityException, IOException, AddressException, MessagingException {
 
         // Encode as MIME message
         Properties props = new Properties();
@@ -85,7 +85,7 @@ public class GmailService {
         MimeMessage email = new MimeMessage(session);
         email.setFrom(new InternetAddress(FROM_EMAIL));
         email.addRecipient(TO,
-                new InternetAddress("boyvotantai@gmail.com"));
+                new InternetAddress(toEmail));
         email.setSubject(subject);
         email.setText(message);
 
@@ -114,7 +114,7 @@ public class GmailService {
     }
 
     public static void main(String[] args) throws Exception {
-        new GmailService().sendEmail("Automated Email", "ANH NGHI DEP TRAI");
+        new GmailService().sendEmail("Automated Email", "ANH NGHI DEP TRAI", "johnnypewds123@gmail.com");
     }
 }
 

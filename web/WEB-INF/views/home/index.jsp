@@ -69,7 +69,7 @@
                                 <p class="main-slider-two__text">Lorem ipsum is simply free text dolor sit am
                                     adipi we help <br> simply free text in the you ensure everyone. </p>
                                 <div class="main-slider-two__btn-box">
-                                    <a href="${pageContext.request.contextPath}/home/aboutus.do"" class="thm-btn main-slider-two__btn">Discover more <i
+                                    <a href="<c:url value="/home/index.do"/>" class="thm-btn main-slider-two__btn">Discover more <i
                                             class="fa fa-angle-right"></i></a>
                                 </div>
                             </div>
@@ -81,11 +81,65 @@
             <div class="swiper-slide">
                 <div class="main-slider-two-bg-box">
                     <div class="main-slider-two-image-layer"
-                         style="background-image: url(${pageContext.request.contextPath}/assets/images/backgrounds/main-slider-2-2.jpg);"></div>
+                         style="background-image: url(assets/images/backgrounds/main-slider-2-2.jpg);"></div>
 
                     <div class="main-slider-two-shape-box">
                         <div class="main-slider-two-shape-1"
-                             style="background-image: url(${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-shape-1.png);">
+                             style="background-image: url(assets/images/shapes/main-slider-two-shape-1.png);">
+                        </div>
+                        <div class="main-slider-two-shape-2 float-bob-x">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-shape-2.png" alt="">
+                        </div>
+                        <div class="main-slider-two-bubble-1 float-bob-x">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-1.png" alt="">
+                        </div>
+                        <div class="main-slider-two-bubble-2 float-bob-y">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-2.png" alt="">
+                        </div>
+                        <div class="main-slider-two-bubble-3 zoominout">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-3.png" alt="">
+                        </div>
+                        <div class="main-slider-two-bubble-4 zoom-fade">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-4.png" alt="">
+                        </div>
+                        <div class="main-slider-two-bubble-5 zoominout-2">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-5.png" alt="">
+                        </div>
+                        <div class="main-slider-two-bubble-6 float-bob-y">
+                            <img src${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-6.png" alt="">
+                        </div>
+                        <div class="main-slider-two-bubble-7 float-bob-x">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-7.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="main-slider-two__content">
+                                <p class="main-slider-two__sub-title">We’re Best Cleaning Company</p>
+                                <h2 class="main-slider-two__title">Providing Best <br> Cleaning Services</h2>
+                                <p class="main-slider-two__text">Lorem ipsum is simply free text dolor sit am
+                                    adipi we help <br> simply free text in the you ensure everyone. </p>
+                                <div class="main-slider-two__btn-box">
+                                    <a href="<c:url value="/home/index.do"/>" class="thm-btn main-slider-two__btn">Discover more <i
+                                            class="fa fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="main-slider-two-bg-box">
+                    <div class="main-slider-two-image-layer"
+                         style="background-image: url(assets/images/backgrounds/main-slider-2-3.jpg);"></div>
+
+                    <div class="main-slider-two-shape-box">
+                        <div class="main-slider-two-shape-1"
+                             style="background-image: url(assets/images/shapes/main-slider-two-shape-1.png);">
                         </div>
                         <div class="main-slider-two-shape-2 float-bob-x">
                             <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-shape-2.png" alt="">
@@ -123,61 +177,7 @@
                                 <p class="main-slider-two__text">Lorem ipsum is simply free text dolor sit am
                                     adipi we help <br> simply free text in the you ensure everyone. </p>
                                 <div class="main-slider-two__btn-box">
-                                    <a href="about.html" class="thm-btn main-slider-two__btn">Discover more <i
-                                            class="fa fa-angle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="swiper-slide">
-                <div class="main-slider-two-bg-box">
-                    <div class="main-slider-two-image-layer"
-                         style="background-image: url(${pageContext.request.contextPath}/assets/images/backgrounds/main-slider-2-3.jpg);"></div>
-
-                    <div class="main-slider-two-shape-box">
-                        <div class="main-slider-two-shape-1"
-                             style="background-image: url(${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-shape-1.png);">
-                        </div>
-                        <div class="main-slider-two-shape-2 float-bob-x">
-                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-shape-2.png" alt="">
-                        </div>
-                        <div class="main-slider-two-bubble-1 float-bob-x">
-                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-1.png" alt="">
-                        </div>
-                        <div class="main-slider-two-bubble-2 float-bob-y">
-                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-2.png" alt="">
-                        </div>
-                        <div class="main-slider-two-bubble-3 zoominout">
-                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-3.png" alt="">
-                        </div>
-                        <div class="main-slider-two-bubble-4 zoom-fade">
-                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-4.png" alt="">
-                        </div>
-                        <div class="main-slider-two-bubble-5 zoominout-2">
-                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-5.png" alt="">
-                        </div>
-                        <div class="main-slider-two-bubble-6 float-bob-y">
-                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-6.png" alt="">
-                        </div>
-                        <div class="main-slider-two-bubble-7 float-bob-x">
-                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-7.png" alt="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="main-slider-two__content">
-                                <p class="main-slider-two__sub-title">We’re Best Cleaning Company</p>
-                                <h2 class="main-slider-two__title">Providing Best <br> Cleaning Services</h2>
-                                <p class="main-slider-two__text">Lorem ipsum is simply free text dolor sit am
-                                    adipi we help <br> simply free text in the you ensure everyone. </p>
-                                <div class="main-slider-two__btn-box">
-                                    <a href="${pageContext.request.contextPath}/home/aboutus.do" class="thm-btn main-slider-two__btn">Discover more <i
+                                    <a href="<c:url value="/home/index.do"/>" class="thm-btn main-slider-two__btn">Discover more <i
                                             class="fa fa-angle-right"></i></a>
                                 </div>
                             </div>
@@ -287,7 +287,7 @@
                             <img src="${pageContext.request.contextPath}/assets/images/resources/we-cleaning-small-img.jpg" alt="">
                         </div>
                         <div class="we-cleaning__video-link">
-                            <a href="https://www.youtube.com/watch?v=Get7rqXYrbQ" class="video-popup">
+                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="video-popup">
                                 <div class="we-cleaning__video-icon">
                                     <span class="fa fa-play"></span>
                                     <i class="ripple"></i>
