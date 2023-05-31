@@ -165,7 +165,7 @@
                                                     <a href="#"><i class="bi bi-person-fill"></i></a>
                                                     <ul>
                                                         <li><a href="<c:url value="/home/index.do"/>">View profile</a></li>
-                                                        <li><a href="<c:url value="/order/myorder.do?aid=${user.UID}"/>">My Orders</a></li>
+                                                        <li><a href="<c:url value="/order/myorder.do?aid=${user.AID}"/>">My Orders</a></li>
                                                         <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
                                                     </ul>
                                                 </li>

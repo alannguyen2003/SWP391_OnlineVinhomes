@@ -4,14 +4,15 @@
  */
 package service;
 
+
+/**
+ *
+ * @author vsngh
+ */
 import entity.UserEntity;
 import java.sql.SQLException;
 import repository.UserRepository;
 
-/**
- *
- * @author ASUS
- */
 public class UserService {
     
     UserRepository userRepo = new UserRepository();
@@ -24,3 +25,4 @@ public class UserService {
     }
 
 }
+
