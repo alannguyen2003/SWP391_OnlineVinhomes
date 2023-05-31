@@ -62,7 +62,7 @@ public class ServiceController extends HttpServlet {
         try{
             switch(action){
                 case "service":
-                    ArrayList<CategoryEntity> categoryList = categoryService.getAllCategor();
+                    ArrayList<CategoryEntity> categoryList = categoryService.getAllCategory();
                     request.setAttribute("list", categoryList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;

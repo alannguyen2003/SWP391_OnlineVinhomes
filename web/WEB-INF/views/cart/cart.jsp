@@ -7,14 +7,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
 <c:set var= "size" value ="${sessionScope.size}"/>
 
-<div class="container h-100" style="margin-bottom: 20%">
+<div class="container h-100" style="margin-bottom: 10%; margin-top: 5%">
     <div class="row d-flex justify-content-center align-items-center h-100 ">
         <div class="col">
-            <p class="" style="margin-bottom: 10px"><span class="h2">Shopping Cart </span><span class="h4">(${size} item in your cart)</span></p>
+            <p class="" style="margin-bottom: 10px"><h2 class="section-title__title">Service Cart </h2><h4 class="text mb-2 mt-1">(${size} item in your cart)</h4></p>
             <div class="card mb-4">
-                <div class="card-body p-4 ">
+                <div class="card-body">
                     <c:forEach var="item" items="${sessionScope.cart.items}" varStatus="loop">
                         <div class="row align-items-center">
                             <div  style="animation-delay: 0.5s"class="col-md-2">
@@ -26,15 +27,6 @@
                                     <p class="lead fw-normal mb-0">${item.service.name}</p>
                                 </div>
                             </div>
-                            <!--                            <div class="col-md-2 d-flex justify-content-center">
-                                                            <div style="padding-top: 10px">
-                                                                <p class="lead fw-normal mb-0">
-                                                                    <a href="<c:url value="/cart/subtractFromCart.do?id=${item.service.serviceID}"/>">-</a>
-                                                                    |
-                                                                    <a href="<c:url value="/cart/addFromCart.do?id=${item.service.serviceID}"/>"> +</a>
-                                                                </p>
-                                                            </div>
-                                                        </div>-->
                             <div class="col-md-2" style="display: flex; justify-content: flex-end">
                                 <div >
                                     <p class="small text-muted mb-4 pb-2 d-flex justify-content-end">Price</p>

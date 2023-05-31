@@ -360,68 +360,69 @@
         </div>
         <div class="row">
             <!--Services Two single Start-->
-            <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="100ms">
-                <div class="services-two__single">
-                    <div class="services-two__img-box">
-                        <div class="services-two__img">
-                            <img src="${pageContext.request.contextPath}/assets/images/services/services-2-1.jpg" alt="">
+            <c:forEach var="o" items="${requestScope.list}">
+                <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="100ms">
+                    <div class="services-two__single">
+                        <div class="services-two__img-box">
+                            <div class="services-two__img">
+                                <img src="${pageContext.request.contextPath}/assets/images/services/services-2-1.jpg" alt="">
+                            </div>
+                            <div class="services-two__icon">
+                                <span class="icon-plumbing"></span>
+                            </div>
                         </div>
-                        <div class="services-two__icon">
-                            <span class="icon-plumbing"></span>
+                        <div class="services-two__content">
+                            <h3 class="services-two__title"><a href="<c:url value="/service/service-list.do?id=${o.id}" />">${o.name}</a>
+                            </h3>
+                            <p class="services-two__text"> Vinhomes Servive</p>
+                            <a href="<c:url value="/service/service-list.do?id=${o.id}"/>" class="services-two__btn">read more</a>
                         </div>
-                    </div>
-                    <div class="services-two__content">
-                        <h3 class="services-two__title"><a href="${pageContext.request.contextPath}/plumbing-services.html">Plumbing Services</a>
-                        </h3>
-                        <p class="services-two__text">Lorem ipsum is simply free text dolor sit am adipi we help
-                            you ensure everyone.</p>
-                        <a href="${pageContext.request.contextPath}/plumbing-services.html" class="services-two__btn">read more</a>
                     </div>
                 </div>
-            </div>
+            </c:forEach>
             <!--Services Two single End-->
-            <!--Services Two single Start-->
-            <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="200ms">
-                <div class="services-two__single">
-                    <div class="services-two__img-box">
-                        <div class="services-two__img">
-                            <img src="${pageContext.request.contextPath}/assets/images/services/services-2-2.jpg" alt="">
+            <!--            Services Two single Start
+                        <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="200ms">
+                            <div class="services-two__single">
+                                <div class="services-two__img-box">
+                                    <div class="services-two__img">
+                                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-2.jpg" alt="">
+                                    </div>
+                                    <div class="services-two__icon">
+                                        <span class="icon-laundry"></span>
+                                    </div>
+                                </div>
+                                <div class="services-two__content">
+                                    <h3 class="services-two__title"><a href="${pageContext.request.contextPath}/laundry-services.html">Laundry Services</a>
+                                    </h3>
+                                    <p class="services-two__text">Lorem ipsum is simply free text dolor sit am adipi we help
+                                        you ensure everyone.</p>
+                                    <a href="${pageContext.request.contextPath}/laundry-services.html" class="services-two__btn">read more</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="services-two__icon">
-                            <span class="icon-laundry"></span>
+                        Services Two single End
+                        Services Two single Start
+                        <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="300ms">
+                            <div class="services-two__single">
+                                <div class="services-two__img-box">
+                                    <div class="services-two__img">
+                                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-3.jpg" alt="">
+                                    </div>
+                                    <div class="services-two__icon">
+                                        <span class="icon-washing-plate"></span>
+                                    </div>
+                                </div>
+                                <div class="services-two__content">
+                                    <h3 class="services-two__title"><a href="${pageContext.request.contextPath}/kitchen-cleaning.html">Kitchen Cleaning</a>
+                                    </h3>
+                                    <p class="services-two__text">Lorem ipsum is simply free text dolor sit am adipi we help
+                                        you ensure everyone.</p>
+                                    <a href="${pageContext.request.contextPath}/kitchen-cleaning.html" class="services-two__btn">read more</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="services-two__content">
-                        <h3 class="services-two__title"><a href="${pageContext.request.contextPath}/laundry-services.html">Laundry Services</a>
-                        </h3>
-                        <p class="services-two__text">Lorem ipsum is simply free text dolor sit am adipi we help
-                            you ensure everyone.</p>
-                        <a href="${pageContext.request.contextPath}/laundry-services.html" class="services-two__btn">read more</a>
-                    </div>
-                </div>
-            </div>
-            <!--Services Two single End-->
-            <!--Services Two single Start-->
-            <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="300ms">
-                <div class="services-two__single">
-                    <div class="services-two__img-box">
-                        <div class="services-two__img">
-                            <img src="${pageContext.request.contextPath}/assets/images/services/services-2-3.jpg" alt="">
-                        </div>
-                        <div class="services-two__icon">
-                            <span class="icon-washing-plate"></span>
-                        </div>
-                    </div>
-                    <div class="services-two__content">
-                        <h3 class="services-two__title"><a href="${pageContext.request.contextPath}/kitchen-cleaning.html">Kitchen Cleaning</a>
-                        </h3>
-                        <p class="services-two__text">Lorem ipsum is simply free text dolor sit am adipi we help
-                            you ensure everyone.</p>
-                        <a href="${pageContext.request.contextPath}/kitchen-cleaning.html" class="services-two__btn">read more</a>
-                    </div>
-                </div>
-            </div>
-            <!--Services Two single End-->
+                        Services Two single End-->
         </div>
     </div>
 </section>

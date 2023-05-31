@@ -15,13 +15,13 @@ import repository.CategoryRepository;
 public class CategoryService {
     private CategoryRepository categoryRepository = new CategoryRepository();
     
-    public ArrayList<CategoryEntity> getAllCategor() throws Exception {
+    public ArrayList<CategoryEntity> getAllCategory() throws Exception {
         return categoryRepository.getAllCategory();
     }
     
     public static void main(String[] args) throws Exception {
         CategoryService categoryService = new CategoryService();
-        for (CategoryEntity categoryEntity : categoryService.getAllCategor()) {
+        for (CategoryEntity categoryEntity : categoryService.getAllCategory()) {
             System.out.println(categoryEntity);
         }
             

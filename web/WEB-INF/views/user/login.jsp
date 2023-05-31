@@ -25,7 +25,7 @@
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-primary"><i
                                             class="bi bi-key-fill text-white"></i></span>
-                                    <input type="password" class="form-control" name="password" placeholder="password" value="${cookie.cPass.value}">
+                                    <input type="password" class="form-control" name="password" placeholder="Password" value="${cookie.cPass.value}">
                                 </div>
                                 <p style="color:red">${message}</p>
                                 <div class="form-check">
