@@ -84,7 +84,7 @@
                         <div class="container">
                             <div class="main-header__top-details-inner">
                                 <div class="main-header__logo">
-                                    <a href="<c:url value="/home/index.do" />"><img src="assets/images/resources/logo-1.png" alt=""></a>
+                                    <a href="<c:url value="/home/index.do" />"><img src="${pageContext.request.contextPath}/assets/images/resources/logo-1.png" alt=""></a>
                                 </div>
                                 <ul class="list-unstyled main-header__top-details-list">
                                     <li>
