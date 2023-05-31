@@ -7,6 +7,23 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url(${pageContext.request.contextPath}/assets/images/backgrounds/page-header-bg.jpg)">
+    </div>
+    <div class="page-header-bubble"><img src="${pageContext.request.contextPath}/assets/images/shapes/page-header-bubble.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="<c:url value="/home/index.do"/>">Home</a></li>
+                <li><span>/</span></li>
+                <li>Cart</li>
+            </ul>
+            <h2>Service Cart</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
 
 <c:set var= "size" value ="${sessionScope.size}"/>
 

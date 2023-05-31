@@ -109,16 +109,18 @@
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="text-dark mb-0">Feedbacks (<span>${noFeedbacks}</span>)</h4>                   
                         </div>
-                        <form action="<c:url value="/service/addComment.do"/>" id = "cmtForm">
-                            <input type="number" hidden name="UID" value="${resident.UID}">
-                            <input type="text" hidden name="name" value="${resident.name}">
+                        <form action="<c:url value="/service/addFeedback.do"/>" id = "cmtForm">
+                            <input type="number" hidden name="UID" value="${user.AID}">
+                            <input type="text" hidden name="name" value="${user.name}">
+                            <input type="text" hidden name="contact" value="${user.phone}">
+                            <input type="text" hidden name="email" value="${user.email}">
                             <input type="number" hidden name="serviceID" value="${service.serviceID}">
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="d-flex flex-start">
                                         <div class="w-100">
                                             <div class="d-flex justify-content-between align-items-center mb-3">                                    
-                                                <textarea rows="4" class="w-100" name="content" form="cmtForm" placeholder="  Share your thoughts about the service"></textarea>
+                                                <textarea rows="4" class="w-100" name="message" form="cmtForm" placeholder="  Share your thoughts about the service"></textarea>
                                             </div>
                                                 ${message}
                                             <div class="d-flex justify-content-between align-items-center">
