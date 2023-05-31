@@ -96,7 +96,7 @@ public class UserRepository {
         
     }
     public static void main(String[] args) throws SQLException {
-        new UserRepository().changePass("johnnypewds123@gmail.com", "123456");
+        System.out.println(new UserRepository().Login("thu1@gmail.com", "123456"));
     }
     
 }

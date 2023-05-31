@@ -33,7 +33,7 @@ public class OrdersController extends HttpServlet {
             switch (action) {
                 case "myorder":
                     //Processing code here
-                    int uId = Integer.parseInt(request.getParameter("uid"));
+                    int uId = Integer.parseInt(request.getParameter("aid"));
                     List<MyOrderEntity> myOrderList = orderService.selectMyOrders(uId);
                     request.setAttribute("myOrderlist", myOrderList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);

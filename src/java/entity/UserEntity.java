@@ -109,4 +109,11 @@ public class UserEntity {
         this.managerId = managerId;
     }
 
+    @Override
+    public String toString() {
+        return "UserEntity{" + "AID=" + AID + ", phone=" + phone + ", email=" + email + ", password=" + password + ", name=" + name + ", BID=" + BID + ", roleID=" + roleID + ", room=" + room + ", managerId=" + managerId + '}';
+    }
+    
+    
+
 }
