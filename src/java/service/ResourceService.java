@@ -15,16 +15,19 @@ import repository.ResourceRepository;
  */
 public class ResourceService {
     private final ResourceRepository resourceRepo = new ResourceRepository();
-    public List<BlockResourceEntity> getAll(int page, int entries) throws SQLException {
-        return resourceRepo.getPaginatedBlockResourceList(page, entries);
+    public List<BlockResourceEntity> getAll(int page, int entries, int blockId) throws SQLException {
+        return resourceRepo.getPaginatedBlockResourceList(page, entries, blockId);
     }
-    public List<BlockResourceEntity> getResourceByBlockName(int page, int entries, String blockName, boolean isRunOutOfResource) throws SQLException {
-        return resourceRepo.getPaginatedBlockResourceListByBlockName(page, entries, blockName, isRunOutOfResource);
+    public List<BlockResourceEntity> getResourceBySearched(int page, int entries, String searched, int blockId) throws SQLException {
+        return resourceRepo.getPaginatedBlockResourceListByResourceName(page, entries, searched, blockId);
     }
-    public List<BlockResourceEntity> getResourceBySearched(int page, int entries, String searched, boolean isRunOutOfResource) throws SQLException {
+    public List<BlockResourceEntity> getResourceByBlockName(int page, int entries, String searched, boolean isRunOutOfResource) throws SQLException {
         return resourceRepo.getPaginatedBlockResourceListBySearchedBlockName(page, entries, searched, isRunOutOfResource);
     }
     public boolean updateResource(BlockResourceEntity entity) throws SQLException {
         return resourceRepo.updateResource(entity);
+    }
+    public static void main(String[] args) throws SQLException {
+        System.out.println(new ResourceService().getResourceBySearched(0, 10, "sw", 6).size());
     }
 }

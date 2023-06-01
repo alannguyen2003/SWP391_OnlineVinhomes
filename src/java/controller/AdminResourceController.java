@@ -4,6 +4,7 @@
  */
 package controller;
 
+import entity.BlockResourceEntity;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,7 +12,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import service.ResourceService;
 
 /**
  *
@@ -34,7 +39,56 @@ public class AdminResourceController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
+
+        try {
+            switch (action) {
+                case "table-resource":
+                    tableResource(request, response);
+                    break;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    protected void tableResource(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+
+        ResourceService rService = new ResourceService();
+        String op = (String) request.getParameter("op");
+        String indexPage = request.getParameter("page");
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+        int page = Integer.parseInt(indexPage);
+        List<BlockResourceEntity> list = new ArrayList<>();
         
+        switch(op) {
+            case "getAll":
+                list = rService.getAll(page, 10, 6);
+                break;
+            case "search":
+                String searchValue = (String) request.getParameter("txtSearch");
+                list = rService.getResourceBySearched(page, 10, searchValue, 6);
+                request.setAttribute("searchValue", searchValue);
+                break;
+            case "filter" :
+                String optionQuantity = (String) request.getParameter("optionQuantity");
+                
+                break;
+        }
+        int endPage = list.size() / 8;
+        //Lay tong so luong san pham trong db
+        if (list.size() % 8 != 0) {
+            endPage++;
+        }
+        
+        request.setAttribute("op", op);
+        request.setAttribute("page", page - 1);
+        request.setAttribute("list", list);
+        request.setAttribute("endP", endPage);
+        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

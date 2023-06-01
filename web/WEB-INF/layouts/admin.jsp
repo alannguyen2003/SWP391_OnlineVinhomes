@@ -402,8 +402,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="tables-data.html">
-                                <i class="bi bi-circle"></i><span>Data Tables</span>
+                            <a href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>">
+                                <i class="bi bi-circle"></i><span>Resource Tables</span>
                             </a>
                         </li>
                     </ul>
@@ -542,7 +542,7 @@
         <script src="${pageContext.request.contextPath}/assets/vendor/php-email-form/validate.js"></script>
 
         <!-- Template Main JS File -->
-        <script src="assets/js/main.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
 
     </body>
 
