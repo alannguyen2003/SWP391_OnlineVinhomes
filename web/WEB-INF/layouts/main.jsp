@@ -49,13 +49,15 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/order.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/home.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/contact/style_1.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/contact/helper.css" />
 
         <!-- template styles -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/brote.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/brote-responsive.css" />
 
     </head>
-    <body>
+    <body class="custom-cursor">
 
         <div class="custom-cursor__cursor"></div>
         <div class="custom-cursor__cursor-two"></div>
@@ -411,6 +413,7 @@
 
         <!-- Js Plugins -->
         <script src="${pageContext.request.contextPath}/assets/vendors/jquery/jquery-3.6.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/vendors/jquery/jquery-migrate-3.3.2.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/jarallax/jarallax.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/jquery-ajaxchimp/jquery.ajaxchimp.min.js"></script>
@@ -436,6 +439,7 @@
         <script src="${pageContext.request.contextPath}/assets/vendors/circleType/jquery.lettering.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/order/order.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/home/home.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/vendors/contact/modernizr-3.11.2.min.js"></script>
         <!-- template js -->
         <script src="${pageContext.request.contextPath}/assets/js/brote.js"></script>
     </body>
