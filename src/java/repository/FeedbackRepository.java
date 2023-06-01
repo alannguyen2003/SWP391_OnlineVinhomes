@@ -77,7 +77,7 @@ public class FeedbackRepository {
     }
     public static void main(String[] args) throws SQLException {
         FeedbackRepository repo = new FeedbackRepository();
-        repo.deleteComment(1);
+        repo.addFeedback(1, 1, "Test", "test", "0898980731", "a@gmail.com");
         for(FeedbackEntity entity : repo.getFeedbackOfService(1)){
             System.out.println(entity);
         }

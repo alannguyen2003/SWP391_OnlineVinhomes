@@ -12,6 +12,7 @@ import repository.ServiceRepository;
 import entity.FeedbackEntity;
 import entity.ResidentEntity;
 import entity.ServiceEntity;
+import entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -62,7 +63,7 @@ public class ServiceController extends HttpServlet {
         try{
             switch(action){
                 case "service":
-                    ArrayList<CategoryEntity> categoryList = categoryService.getAllCategor();
+                    ArrayList<CategoryEntity> categoryList = categoryService.getAllCategory();
                     request.setAttribute("list", categoryList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
@@ -138,10 +139,10 @@ public class ServiceController extends HttpServlet {
     
     private void addFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
-        ResidentEntity resident = (ResidentEntity) session.getAttribute("resident");
+        UserEntity user = (UserEntity) session.getAttribute("user");
         ServiceEntity service = (ServiceEntity) session.getAttribute("service");
         int serviceID = Integer.parseInt(request.getParameter("serviceID"));
-        if(resident == null){
+        if(user == null){
             request.setAttribute("message", "Log in to comment");
             request.getRequestDispatcher("/service/service-detail.do?id=" + serviceID).forward(request, response);
         }else{

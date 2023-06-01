@@ -11,7 +11,7 @@
 <div class="container" style="margin-top:10px; margin-bottom: 10px">
             <div class="" style="margin-top:10px; margin-bottom: 10px">
                 <div class="rounded d-flex justify-content-center">
-                    <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+                    <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light" style="margin-bottom: 15%; margin-top: 5%">
                         <div class="text-center">
                             <h3 class="text-primary">Log In</h3>
                         </div>
@@ -25,7 +25,7 @@
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-primary"><i
                                             class="bi bi-key-fill text-white"></i></span>
-                                    <input type="password" class="form-control" name="password" placeholder="password" value="${cookie.cPass.value}">
+                                    <input type="password" class="form-control" name="password" placeholder="Password" value="${cookie.cPass.value}">
                                 </div>
                                 <p style="color:red">${message}</p>
                                 <div class="form-check">

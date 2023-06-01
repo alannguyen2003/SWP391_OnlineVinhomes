@@ -57,7 +57,8 @@ public class CartController extends HttpServlet {
                 case "removeFromCart":
                     removeFromCart(request, response);
                     break;
-                case "checkOut":
+                case "cart-contact":
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
             }
         } catch (SQLException ex) {
