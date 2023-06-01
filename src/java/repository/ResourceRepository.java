@@ -18,6 +18,34 @@ import java.util.List;
  * @author ASUS
  */
 public class ResourceRepository {
+    
+    public List<BlockResourceEntity> getBlockResourceList(int blockId) throws SQLException {
+        List<BlockResourceEntity> list = new ArrayList<>();
+        Connection con = DBConfig.getConnection();
+        String query = """
+                       select br.BID, b.name as blockName, r.RID, r.name as resourceName, br.quantity 
+                       from BlockResource as br join BlockVin as b on br.BID = b.BID 
+                       join Resource as r on br.RID = r.RID
+                       where br.BID = (select BID from Account where roleId = 3 and BID = ?)""";
+
+        PreparedStatement stm = con.prepareStatement(query);
+//        stm.setInt(2, ((page - 1) * entries));
+//        stm.setInt(3, entries);
+        stm.setInt(1, blockId);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            BlockResourceEntity br = new BlockResourceEntity();
+            br.setbId(rs.getInt("bid"));
+            br.setrId(rs.getInt("rid"));
+            br.setBlockName(rs.getString("blockName"));
+            br.setResourceName(rs.getString("resourceName"));
+            br.setQuantity(rs.getInt("quantity"));
+            list.add(br);
+        }
+        con.close();
+        return list;
+    }
+    
 
     public List<BlockResourceEntity> getPaginatedBlockResourceList(int page, int entries, int blockId) throws SQLException {
         List<BlockResourceEntity> list = new ArrayList<>();
@@ -43,24 +71,23 @@ public class ResourceRepository {
             br.setQuantity(rs.getInt("quantity"));
             list.add(br);
         }
+        con.close();
         return list;
     }
+    
 
-    public List<BlockResourceEntity> getPaginatedBlockResourceListByResourceName(int page, int entries, String resourceName, int blockId) throws SQLException {
+    public List<BlockResourceEntity> getBlockResourceListByResourceName(String resourceName, int blockId) throws SQLException {
         List<BlockResourceEntity> list = new ArrayList<>();
         Connection con = DBConfig.getConnection();
         String query = """
                        select br.BID, b.name as blockName, r.RID , r.name as resourceName, br.quantity 
                        from BlockResource as br join BlockVin as b on br.BID = b.BID 
                        join Resource as r on br.RID = r.RID
-                       where br.BID = (select BID from Account where roleId = 3 and BID = ?) and r.name like ?
-                       order by br.BID offset ? rows fetch next ? rows only""";
+                       where br.BID = (select BID from Account where roleId = 3 and BID = ?) and r.name like ?""";
   
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, blockId);
-        stm.setInt(3,  ((page - 1) * entries) );
         stm.setString(2, "%" + resourceName + "%");
-        stm.setInt(4, entries);
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
             BlockResourceEntity br = new BlockResourceEntity();
@@ -71,6 +98,7 @@ public class ResourceRepository {
             br.setQuantity(rs.getInt("quantity"));
             list.add(br);
         }
+        con.close();
         return list;
     }
 
@@ -109,13 +137,7 @@ public class ResourceRepository {
             br.setQuantity(rs.getInt("quantity"));
             list.add(br);
         }
-        return list;
-    }
-    
-    public List<BlockResourceEntity> getResourceListByQuantity() throws SQLException {
-        List<BlockResourceEntity> list = new ArrayList<>();
-        Connection con = DBConfig.getConnection();
-        String query;
+        con.close();
         return list;
     }
 
@@ -134,6 +156,7 @@ public class ResourceRepository {
         if (count != 0) {
             check = true;
         }
+        con.close();
         return check;
     }
 

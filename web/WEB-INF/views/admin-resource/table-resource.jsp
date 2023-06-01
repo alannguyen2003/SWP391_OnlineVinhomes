@@ -23,7 +23,6 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                <a href="<c:url value="/admin/table_create.do"/>">Create</a>
             </div>
             <div class="card-header py-3 col-md-12">
                 <form>
@@ -31,17 +30,21 @@
                         <label  class="p-1" for="exampleInputEmail1">Search</label>
                         <input type="text" class="form-control" id="exampleInputEmail1" name = "txtSearch" value="${searchValue}" aria-describedby="emailHelp" placeholder="Enter resource name">
                     </div>
+                    <br/>
+                    <select class="form-select" aria-label="Default select example" name="searchOption">
+                        <option ${searchOption=="quantityAsc"?"selected":""} value="quantityAsc">Order by quantity ascending</option>
+                        <option ${searchOption=="quantityDesc"?"selected":""} value="quantityDesc">Order by quantity descending</option>
+                    </select>
+                    <br/>
                     <button type="submit" class="btn btn-primary" name = "op" value="search">Search</button>
                 </form>
+
+            </div>
+            <div class="card-header py-3 col-md-6">
                 <form class="pt-3">
-<!--                    <select class="mb-2" name="optionResource">
-                        <option value="resourceDesc">Resource - A-Z</option>
-                        <option value="resourceAsc">Resource - Z-A</option>
-                    </select>
-                    <br/>-->
-                    <select class="mb-2" name="optionQuantity">
-                        <option value="quantityAsc">Order by quantity ascending</option>
-                        <option value="quantityDesc">Order by quantity descending</option>
+                    <select class="form-select" aria-label="Default select example" name="optionQuantity">
+                        <option ${optionQuantity=="quantityAsc"?"selected":""} value="quantityAsc">Order by quantity ascending</option>
+                        <option ${optionQuantity=="quantityDesc"?"selected":""} value="quantityDesc">Order by quantity descending</option>
                     </select>
                     <br/>
                     <button type="submit" class="btn btn-primary" name = "op" value="filter">Filter</button>
@@ -57,6 +60,7 @@
                                 <th scope="col">Block Name</th>
                                 <th scope="col">Resource Name</th>
                                 <th scope="col">quantity</th>
+                                <th scope="col">Operation</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,6 +70,7 @@
                                     <td>${resource.blockName}</td>
                                     <td>${resource.resourceName}</td>
                                     <td>${resource.quantity}</td>
+                                    <td><a class="btn btn-outline-primary" href="<c:url value="/admin-resource/update-resource.do"/>">Update <i class="bi bi-gear"></i></a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -79,7 +84,7 @@
 <nav aria-label="Page navigation example" class="col-lg-12" style="display: flex; justify-content: center">
     <ul class="pagination">
         <c:forEach var="i" begin="1" end="${endP}">
-            <li class="page-item"><a class="page-link" href="<c:url value="/admin-resource/table-resource.do?page=${i}&op=${op}&txtSearch=${searchValue}" />">${i}</a></li>
+            <li class="page-item"><a class="page-link" href="<c:url value="/admin-resource/table-resource.do?endP=${endP}&page=${i}&op=${op}&txtSearch=${searchValue}&optionQuantity=${optionQuantity}&searchOption=${searchOption}" />">${i}</a></li>
             </c:forEach>
     </ul>
 </nav>
