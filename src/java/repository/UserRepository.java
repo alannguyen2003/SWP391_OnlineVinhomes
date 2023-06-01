@@ -95,6 +95,7 @@ public class UserRepository {
         ps.setString(2, email);
         ps.setString(1, password);
         ps.executeUpdate();
+        connect.close();
         
     }
     public static void main(String[] args) throws SQLException {
