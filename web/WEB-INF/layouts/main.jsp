@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title> Cleaning Service </title>
         <!-- favicons Icons -->
-        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/assets/images/favicons/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/assets/images/favicons/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/assets/images/favicons/favicon-16x16.png" />
         <link rel="manifest" href="assets/images/favicons/site.html" />
@@ -84,7 +84,7 @@
                         <div class="container">
                             <div class="main-header__top-details-inner">
                                 <div class="main-header__logo">
-                                    <a href="<c:url value="/home/index.do" />"><img src="assets/images/resources/logo-1.png" alt=""></a>
+                                    <a href="<c:url value="/home/index.do" />"><img src="${pageContext.request.contextPath}/assets/images/resources/logo-1.png" alt=""></a>
                                 </div>
                                 <ul class="list-unstyled main-header__top-details-list">
                                     <li>
@@ -92,7 +92,7 @@
                                             <span class="icon-message"></span>
                                         </div>
                                         <div class="text">
-                                            <h5><a href="mailto:brote@company.com">brote@company.com</a></h5>
+                                            <h5><a href="mailto:brote@company.com">ondemand@company.com</a></h5>
                                             <p>Send mail</p>
                                         </div>
                                     </li>
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="text">
                                             <h5>Call Anytime</h5>
-                                            <p><a href="tel:+2300068603">+23 (000) 68 603</a></p>
+                                            <p><a href="tel:+2300068603">+89 012 345 6789</a></p>
                                         </div>
                                     </li>
                                     <li>
@@ -119,8 +119,8 @@
                                             <span class="icon-location"></span>
                                         </div>
                                         <div class="text">
-                                            <h5>88 Kilda Broklyn Road</h5>
-                                            <p>New York, USA</p>
+                                            <h5>Road D1 Hi-Tech Park, District 9</h5>
+                                            <p>HCM, Vietnam</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -165,17 +165,19 @@
                                                     <a href="#"><i class="bi bi-person-fill"></i></a>
                                                     <ul>
                                                         <li><a href="<c:url value="/home/index.do"/>">View profile</a></li>
-                                                        <li><a href="<c:url value="/order/myorder.do?aid=${user.UID}"/>">My Orders</a></li>
+                                                        <li><a href="<c:url value="/order/myorder.do?aid=${user.AID}"/>">My Orders</a></li>
                                                         <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
                                                     </ul>
                                                 </li>
                                             </c:if>  
                                             <li>
-                                                <a href="#"><i style="color: #b1c2f5;" class="bi bi-cart"></i></a>
-                                            </li>
-
-                                            <li>
                                                 <a href="/vsos/cart/cart.do"><i style="color: #b1c2f5;" class="bi bi-search"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="/cart/cart.do" />">
+                                                    <i style="color: #b1c2f5;margin-right:5px" class="bi bi-cart"></i>
+                                                    <span>${size}</span>
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -215,7 +217,7 @@
                                 <div class="information__content">
                                     <p class="information__sub-title">Call anytime</p>
                                     <h5 class="information__number">
-                                        <a href="tel:2300068603">+23 (000) 68 603</a>
+                                        <a href="tel:2300068603">+89 012 345 6789</a>
                                     </h5>
                                 </div>
                             </li>
@@ -226,7 +228,7 @@
                                 <div class="information__content">
                                     <p class="information__sub-title">Send email</p>
                                     <h5 class="information__number">
-                                        <a href="mailto:brote@company.com">brote@company.com</a>
+                                        <a href="mailto:brote@company.com">ondemand@company.com</a>
                                     </h5>
                                 </div>
                             </li>
@@ -236,7 +238,7 @@
                                 </div>
                                 <div class="information__content">
                                     <p class="information__sub-title">Visit office</p>
-                                    <h5 class="information__number">88 Kilda Broklyn Road</h5>
+                                    <h5 class="information__number">Road D1 Hi-Tech Park</h5>
                                 </div>
                             </li>
                         </ul>
@@ -335,7 +337,7 @@
                         <div class="row">
                             <div class="col-xl-12">
                                 <div class="site-footer__bottom-inner">
-                                    <p class="site-footer__bottom-text">© Copyright 2022 by <a href="#">brote.com</a>
+                                    <p class="site-footer__bottom-text">© Copyright 2022 by <a href="#">ondemand.com</a>
                                     </p>
                                 </div>
                             </div>
@@ -366,11 +368,11 @@
                 <ul class="mobile-nav__contact list-unstyled">
                     <li>
                         <i class="fa fa-envelope"></i>
-                        <a href="mailto:needhelp@packageName__.com">needhelp@brote.com</a>
+                        <a href="mailto:needhelp@packageName__.com">needhelp@ondemand.com</a>
                     </li>
                     <li>
                         <i class="fa fa-phone-alt"></i>
-                        <a href="tel:666-888-0000">666 888 0000</a>
+                        <a href="tel:666-888-0000">012 345 6789</a>
                     </li>
                 </ul><!-- /.mobile-nav__contact -->
                 <div class="mobile-nav__top">

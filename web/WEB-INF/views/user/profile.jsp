@@ -9,13 +9,13 @@
 
 <!--Page Header Start-->
 <section class="page-header">
-    <div class="page-header-bg" style="background-image: url(assets/images/backgrounds/page-header-bg.jpg)">
+    <div class="page-header-bg" style="background-image: url(${pageContext.request.contextPath}/assets/images/backgrounds/page-header-bg.jpg)">
     </div>
-    <div class="page-header-bubble"><img src="assets/images/shapes/page-header-bubble.png" alt=""></div>
+    <div class="page-header-bubble"><img src="${pageContext.request.contextPath}/assets/images/shapes/page-header-bubble.png" alt=""></div>
     <div class="container">
         <div class="page-header__inner">
             <ul class="thm-breadcrumb list-unstyled">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="<c:url value="/home/index.do"/>">Home</a></li>
                 <li><span>/</span></li>
                 <li>Portfolio</li>
             </ul>
