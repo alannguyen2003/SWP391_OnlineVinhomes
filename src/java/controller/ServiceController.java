@@ -74,11 +74,6 @@ public class ServiceController extends HttpServlet {
                     break;
                 case "service-detail":
                     detail(request, response);
-                case "service_list":
-                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                    break;
-                case "service_detail":
-                    detail(request, response);
                     break;
                 case "addFeedback":
                     addFeedback(request, response);
@@ -158,14 +153,16 @@ public class ServiceController extends HttpServlet {
     
     
 
-    private void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         int serviceID = Integer.parseInt(request.getParameter("id"));
+        ArrayList<CategoryEntity> categoryList = categoryService.getAllCategor();
         FeedbackService fs = new FeedbackService();
         ServiceService ss = new ServiceService();
         ServiceEntity service = ss.getServiceById(serviceID);
         List<FeedbackEntity> listFeedback = fs.getFeedbackOfService(serviceID);
         request.setAttribute("noFeedbacks", listFeedback.size());
         request.setAttribute("feedbacks", listFeedback);
+        request.setAttribute("list", categoryList);
         request.setAttribute("service", service);
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }

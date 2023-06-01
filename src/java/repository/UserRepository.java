@@ -63,7 +63,9 @@ public class UserRepository {
     
     public UserEntity Check(String email) throws SQLException {
         //select * from tbl User where email = ? and password=?
-        String query = "select * from Account where email=?";
+        String query = """
+                       select Account.AID, Account.phone, Account.email, Account.password, Account.name, Account.BID, Account.roleId, Resident.room, Employee.manager_id 
+                         from Account left join Resident on Account.AID = Resident.AID left join Employee on Account.AID = Employee.AID where email=? """;
         try {
             connect = new DBConfig().getConnection();
             ps = connect.prepareStatement(query);
