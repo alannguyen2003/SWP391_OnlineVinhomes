@@ -23,10 +23,10 @@ public class ResourceRepository {
         List<BlockResourceEntity> list = new ArrayList<>();
         Connection con = DBConfig.getConnection();
         String query = """
-                       select br.BID, b.name as blockName, r.RID, r.name as resourceName, br.quantity 
+                       select br.BID, b.name as blockName, r.RID , r.name as resourceName, br.quantity 
                        from BlockResource as br join BlockVin as b on br.BID = b.BID 
                        join Resource as r on br.RID = r.RID
-                       where br.BID = (select BID from Account where roleId = 3 and BID = ?)""";
+                       where br.BID = (select a.BID from Account as a join Employee as e on a.AID = e.AID where a.roleId = 3 and a.BID = ?)""";
 
         PreparedStatement stm = con.prepareStatement(query);
 //        stm.setInt(2, ((page - 1) * entries));
@@ -56,7 +56,7 @@ public class ResourceRepository {
                        select br.BID, b.name as blockName, r.RID , r.name as resourceName, br.quantity 
                        from BlockResource as br join BlockVin as b on br.BID = b.BID 
                        join Resource as r on br.RID = r.RID
-                       where br.BID = (select BID from Account where roleId = 3 and BID = ?) and r.name like ?""";
+                       where br.BID = (select a.BID from Account as a join Employee as e on a.AID = e.AID where a.roleId = 3 and a.BID = ?) and r.name like ?""";
   
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, blockId);
@@ -76,6 +76,29 @@ public class ResourceRepository {
     }
 
 
+    public BlockResourceEntity getBlockResourceEntity(int bId, int rId) throws SQLException {
+        BlockResourceEntity e = new BlockResourceEntity();
+        Connection con = DBConfig.getConnection();
+        String query = """
+                       select br.BID, b.name as blockName, r.RID , r.name as resourceName, br.quantity 
+                       from BlockResource as br join BlockVin as b on br.BID = b.BID 
+                       join Resource as r on br.RID = r.RID
+                       where r.RID = ? and b.BID = ?""";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, rId);
+        stm.setInt(2, bId);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            e.setbId(rs.getInt("bid"));
+            e.setrId(rs.getInt("rid"));
+            e.setBlockName(rs.getString("blockName"));
+            e.setResourceName(rs.getString("resourceName"));
+            e.setQuantity(rs.getInt("quantity"));
+        }
+        
+        return e;
+    }
+    
     public boolean updateResource(BlockResourceEntity br) throws SQLException {
         boolean check = false;
         Connection con = DBConfig.getConnection();
@@ -97,6 +120,6 @@ public class ResourceRepository {
 
     public static void main(String[] args) throws SQLException {
         BlockResourceEntity br = new BlockResourceEntity(1, "Toa cc", 17, "cc", 20);
-//        System.out.println(new ResourceRepository().getPaginatedBlockResourceListBySearchedBlockName(0, 10, "S102", true).size());
+        System.out.println(new ResourceRepository().getBlockResourceEntity(7,1).getResourceName());
     }
 }
