@@ -171,7 +171,7 @@
                                                 <li class="dropdown">
                                                     <a href="#"><i class="bi bi-person-fill"></i></a>
                                                     <ul>
-                                                        <li><a href="<c:url value="/home/index.do"/>">View profile</a></li>
+                                                        <li><a href="<c:url value="/user/profile.do"/>">View profile</a></li>
                                                         <li><a href="<c:url value="/order/myorder.do?aid=${user.AID}"/>">My Orders</a></li>
                                                         <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
                                                     </ul>
@@ -214,7 +214,7 @@
                         <div class="information__logo-box">
                             <div class="information__border-1"></div>
                             <div class="information__border-2"></div>
-                            <a href="index.html"><img src="${pageContext.request.contextPath}/assets/images/resources/information-logo.png" alt=""></a>
+                            <a href="<c:url value="/home/index.do"/>"><img src="${pageContext.request.contextPath}/assets/images/resources/information-logo.png" alt=""></a>
                         </div>
                         <ul class="list-unstyled information__list">
                             <li>
@@ -365,7 +365,7 @@
                 <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
 
                 <div class="logo-box">
-                    <a href="index.html" aria-label="logo image"><img src="${pageContext.request.contextPath}/assets/images/resources/logo-1.png" width="89"
+                    <a href="<c:url value="/home/index.do"/>" aria-label="logo image"><img src="${pageContext.request.contextPath}/assets/images/resources/logo-1.png" width="89"
                                                                       alt="" /></a>
                 </div>
                 <!-- /.logo-box -->
