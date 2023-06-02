@@ -51,6 +51,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/contact/style_1.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/contact/helper.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/login/login.css" />
 
         <!-- template styles -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/brote.css" />
@@ -152,8 +153,12 @@
                                             </li>
                                             <c:if test="${user == null}">
                                                 <!-- Neu user chua login -->
-                                                <li style="margin-left: 30rem">
-                                                    <a href="<c:url value="/user/login.do" />">Sign In</a>
+                                                <li style="margin-left: 27rem">
+                                                    <a href="<c:url value="/user/login.do" />">Sign In </a>
+                                                </li>
+                                                <li style="margin-left: 4px"><div style="color: #b1c2f5;">/</div></li>
+                                                <li style="margin-left: 4px">
+                                                    <a href="<c:url value="/user/signup.do" />"> Register</a>
                                                 </li>
                                             </c:if>
 
