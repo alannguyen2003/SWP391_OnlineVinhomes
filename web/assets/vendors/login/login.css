@@ -29,7 +29,7 @@
 }
 
 .label{
-    display: inline-block;
+    display: block;
     width: auto;
     font-size: 12px;
     text-transform: uppercase;
@@ -117,4 +117,77 @@
 
 .text-white{
     margin: 15px;
+}
+
+.card-subtitle {
+    flex: 1 1 auto;
+    min-width: 0;
+    vertical-align: middle;
+    display: inline-block;
+    border-radius: 50px;
+    width: 100%;
+    border: 1px solid transparent;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 400;
+    height: 50px;
+    margin-top: 10px;
+
+}
+
+.mt-0{
+    margin-top: 0!important;
+}
+
+.mb-5{
+    margin-bottom: 3rem!important;
+}
+
+.sub-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+.sub-nav .sub-nav__item a.active {
+    color: #1239ac;
+    border-bottom: 2px solid #1239ac;
+}
+
+.sub-nav .sub-nav__item a {
+    padding: 30px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #aaa;
+    cursor: pointer;
+    transition: background .1s ease-in-out;
+}
+
+.sub-nav .sub-nav__item a:hover{
+    background-color: #9fa9dd;
+    color: #fff;
+}
+
+.text-end{
+    box-shadow: none !important;
+    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    float: right;
+}
+
+.card .card-title {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: 500;
+    letter-spacing: 0.0125em;
+    margin-bottom: 0;
 }
