@@ -43,6 +43,7 @@
                                 <span class="input-group-text bg-primary"><i class="bi bi-telephone-fill text-white"></i></span>
                                 <a style="display: flex; justify-content: flex-start; margin: auto 10px 10px ">${user.phone}</a>
                             </div>
+                                
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-primary"><i class="bi bi-geo-alt-fill text-white"></i></span>
                                 <a style="display: flex; justify-content: flex-start; margin: auto 10px 10px">${user.room}</a>

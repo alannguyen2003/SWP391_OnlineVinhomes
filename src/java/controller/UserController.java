@@ -95,7 +95,11 @@ public class UserController extends HttpServlet {
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    response.sendRedirect(request.getContextPath() + "/home/index.do");
+                    if (user.getRoleID()==4){
+                        response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/home/index.do");
+                    }
                 } else {
                     request.setAttribute("message", "Incorrect email or password");
                     request.getRequestDispatcher("/user/login.do").forward(request, response);

@@ -4,6 +4,7 @@
  */
 package controller;
 
+import entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -33,6 +35,9 @@ public class AdminController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
+        HttpSession adminSession = request.getSession(true);
+        UserEntity user = (UserEntity) adminSession.getAttribute("user");
+        if (user != null && user.getRoleID() == 4) {
         try {
             switch(action) {
                 case "admin-dashboard":
@@ -42,6 +47,8 @@ public class AdminController extends HttpServlet {
         }catch(Exception ex) {
             ex.printStackTrace();
         }
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
