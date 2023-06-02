@@ -5,11 +5,13 @@
 package controller;
 
 import entity.BlockResourceEntity;
+import entity.UserEntity;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -39,27 +41,34 @@ public class AdminResourceController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-
-        try {
-            switch (action) {
-                case "table-resource":
-                    tableResource(request, response);
-                    break;
-                case "update-resource":
-                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                    break;
+        HttpSession session = request.getSession();
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        if (user.getRoleID() == 3) {
+            try {
+                switch (action) {
+                    case "table-resource":
+                        tableResource(request, response, user);
+                        break;
+                    case "update-resource":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        }else {
+            response.sendRedirect(request.getContextPath() + "/home/index.do");
         }
 
     }
 
-    protected void tableResource(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    protected void tableResource(HttpServletRequest request, HttpServletResponse response, UserEntity user) throws ServletException, IOException, SQLException {
 
         ResourceService rService = new ResourceService();
         String op = (String) request.getParameter("op");
         String indexPage = request.getParameter("page");
+        HttpSession session = request.getSession();
+        int userBlockId = user.getBID();
         if (indexPage == null) {
             indexPage = "1";
         }
@@ -70,7 +79,7 @@ public class AdminResourceController extends HttpServlet {
         int numberOfEntitiesInLastPage;
         switch (op) {
             case "getAll":
-                list1 = rService.getAllResource(6);
+                list1 = rService.getAllResource(userBlockId);
                 endPage = list1.size() / 10;
                 if (list1.size() % 10 != 0) {
                     endPage++;
@@ -88,7 +97,7 @@ public class AdminResourceController extends HttpServlet {
                 break;
             case "search":
                 String searchValue = (String) request.getParameter("txtSearch");
-                list1 = rService.getResourceBySearched(searchValue, 6);
+                list1 = rService.getResourceBySearched(searchValue, userBlockId);
                 String searchOption = (String) request.getParameter("searchOption");
                 if (!list1.isEmpty()) {
                     if (searchOption.equals("quantityAsc")) {
@@ -121,7 +130,7 @@ public class AdminResourceController extends HttpServlet {
                 break;
             case "filter":
                 String filterOption = (String) request.getParameter("optionQuantity");
-                list1 = rService.getAllResource(6);
+                list1 = rService.getAllResource(userBlockId);
 
                 if (filterOption.equals("quantityAsc")) {
                     Collections.sort(list1, (e1, e2) -> {

@@ -37,18 +37,20 @@ public class AdminController extends HttpServlet {
         String action = (String) request.getAttribute("action");
         HttpSession adminSession = request.getSession(true);
         UserEntity user = (UserEntity) adminSession.getAttribute("user");
-        if (user != null && user.getRoleID() == 4) {
-        try {
-            switch(action) {
-                case "admin-dashboard":
-                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                    break;
+        if (user != null && (user.getRoleID() == 4 || user.getRoleID() == 3)) {
+            try {
+                switch (action) {
+                    case "admin-dashboard":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        }catch(Exception ex) {
-            ex.printStackTrace();
+        } else {
+            response.sendRedirect(request.getContextPath() + "/user/login.do");
         }
-        }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
