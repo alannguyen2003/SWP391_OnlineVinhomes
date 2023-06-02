@@ -15,15 +15,15 @@ import repository.ResourceRepository;
  */
 public class ResourceService {
     private final ResourceRepository resourceRepo = new ResourceRepository();
-    public List<BlockResourceEntity> getAll(int page, int entries, int blockId) throws SQLException {
-        return resourceRepo.getPaginatedBlockResourceList(page, entries, blockId);
-    }
+//    public List<BlockResourceEntity> getAll(int page, int entries, int blockId) throws SQLException {
+//        return resourceRepo.getPaginatedBlockResourceList(page, entries, blockId);
+//    }
     public List<BlockResourceEntity> getResourceBySearched( String searched, int blockId) throws SQLException {
         return resourceRepo.getBlockResourceListByResourceName( searched, blockId);
     }
-    public List<BlockResourceEntity> getResourceByBlockName(int page, int entries, String searched, boolean isRunOutOfResource) throws SQLException {
-        return resourceRepo.getPaginatedBlockResourceListBySearchedBlockName(page, entries, searched, isRunOutOfResource);
-    }
+//    public List<BlockResourceEntity> getResourceByBlockName(int page, int entries, String searched, boolean isRunOutOfResource) throws SQLException {
+//        return resourceRepo.getPaginatedBlockResourceListBySearchedBlockName(page, entries, searched, isRunOutOfResource);
+//    }
     public boolean updateResource(BlockResourceEntity entity) throws SQLException {
         return resourceRepo.updateResource(entity);
     }

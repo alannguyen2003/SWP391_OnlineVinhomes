@@ -51,6 +51,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/contact/style_1.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/contact/helper.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/login/login.css" />
 
         <!-- template styles -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/brote.css" />
@@ -152,8 +153,12 @@
                                             </li>
                                             <c:if test="${user == null}">
                                                 <!-- Neu user chua login -->
-                                                <li style="margin-left: 30rem">
-                                                    <a href="<c:url value="/user/login.do" />">Sign In</a>
+                                                <li style="margin-left: 27rem">
+                                                    <a href="<c:url value="/user/login.do" />">Sign In </a>
+                                                </li>
+                                                <li style="margin-left: 4px"><div style="color: #b1c2f5;">/</div></li>
+                                                <li style="margin-left: 4px">
+                                                    <a href="<c:url value="/user/signup.do" />"> Register</a>
                                                 </li>
                                             </c:if>
 
@@ -166,7 +171,7 @@
                                                 <li class="dropdown">
                                                     <a href="#"><i class="bi bi-person-fill"></i></a>
                                                     <ul>
-                                                        <li><a href="<c:url value="/home/index.do"/>">View profile</a></li>
+                                                        <li><a href="<c:url value="/user/profile.do"/>">View profile</a></li>
                                                         <li><a href="<c:url value="/order/myorder.do?aid=${user.AID}"/>">My Orders</a></li>
                                                         <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
                                                     </ul>
@@ -209,7 +214,7 @@
                         <div class="information__logo-box">
                             <div class="information__border-1"></div>
                             <div class="information__border-2"></div>
-                            <a href="index.html"><img src="${pageContext.request.contextPath}/assets/images/resources/information-logo.png" alt=""></a>
+                            <a href="<c:url value="/home/index.do"/>"><img src="${pageContext.request.contextPath}/assets/images/resources/information-logo.png" alt=""></a>
                         </div>
                         <ul class="list-unstyled information__list">
                             <li>
@@ -360,7 +365,7 @@
                 <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
 
                 <div class="logo-box">
-                    <a href="index.html" aria-label="logo image"><img src="${pageContext.request.contextPath}/assets/images/resources/logo-1.png" width="89"
+                    <a href="<c:url value="/home/index.do"/>" aria-label="logo image"><img src="${pageContext.request.contextPath}/assets/images/resources/logo-1.png" width="89"
                                                                       alt="" /></a>
                 </div>
                 <!-- /.logo-box -->
