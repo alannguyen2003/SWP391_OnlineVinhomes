@@ -45,6 +45,9 @@ public class AdminResourceController extends HttpServlet {
                 case "table-resource":
                     tableResource(request, response);
                     break;
+                case "update-resource":
+                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                    break;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -62,27 +65,96 @@ public class AdminResourceController extends HttpServlet {
         }
         int page = Integer.parseInt(indexPage);
         List<BlockResourceEntity> list = new ArrayList<>();
-        
-        switch(op) {
+        List<BlockResourceEntity> list1 = new ArrayList<>();
+        int endPage;
+        int numberOfEntitiesInLastPage;
+        switch (op) {
             case "getAll":
-                list = rService.getAll(page, 10, 6);
+                list1 = rService.getAllResource(6);
+                endPage = list1.size() / 10;
+                if (list1.size() % 10 != 0) {
+                    endPage++;
+                }
+                numberOfEntitiesInLastPage = list1.size() % 10;
+                if (page == endPage) {
+                    for (int i = 0 + 10 * (page - 1); i < (10 * page) - (10 - numberOfEntitiesInLastPage); i++) {
+                        list.add(list1.get(i));
+                    }
+                } else {
+                    for (int i = 0 + 10 * (page - 1); i < 10 * page; i++) {
+                        list.add(list1.get(i));
+                    }
+                }
                 break;
             case "search":
                 String searchValue = (String) request.getParameter("txtSearch");
-                list = rService.getResourceBySearched(page, 10, searchValue, 6);
+                list1 = rService.getResourceBySearched(searchValue, 6);
+                String searchOption = (String) request.getParameter("searchOption");
+                if (!list1.isEmpty()) {
+                    if (searchOption.equals("quantityAsc")) {
+                        Collections.sort(list1, (e1, e2) -> {
+                            return e1.getQuantity() - e2.getQuantity();
+                        });
+                    } else {
+                        Collections.sort(list1, (e1, e2) -> {
+                            return e2.getQuantity() - e1.getQuantity();
+                        });
+                    }
+                    endPage = list1.size() / 10;
+                    if (list1.size() % 10 != 0) {
+                        endPage++;
+                    }
+                    numberOfEntitiesInLastPage = list1.size() % 10;
+                    if (page == endPage) {
+                        for (int i = 0 + 10 * (page - 1); i < (10 * page) - (10 - numberOfEntitiesInLastPage); i++) {
+                            list.add(list1.get(i));
+                        }
+                    } else {
+                        for (int i = 0 + 10 * (page - 1); i < 10 * page; i++) {
+                            list.add(list1.get(i));
+                        }
+                    }
+                }
+
                 request.setAttribute("searchValue", searchValue);
+                request.setAttribute("searchOption", searchOption);
                 break;
-            case "filter" :
-                String optionQuantity = (String) request.getParameter("optionQuantity");
-                
+            case "filter":
+                String filterOption = (String) request.getParameter("optionQuantity");
+                list1 = rService.getAllResource(6);
+
+                if (filterOption.equals("quantityAsc")) {
+                    Collections.sort(list1, (e1, e2) -> {
+                        return e1.getQuantity() - e2.getQuantity();
+                    });
+                } else {
+                    Collections.sort(list1, (e1, e2) -> {
+                        return e2.getQuantity() - e1.getQuantity();
+                    });
+                }
+                endPage = list1.size() / 10;
+                if (list1.size() % 10 != 0) {
+                    endPage++;
+                }
+                numberOfEntitiesInLastPage = list1.size() % 10;
+                if (page == endPage) {
+                    for (int i = 0 + 10 * (page - 1); i < (10 * page) - (10 - numberOfEntitiesInLastPage); i++) {
+                        list.add(list1.get(i));
+                    }
+                } else {
+                    for (int i = 0 + 10 * (page - 1); i < 10 * page; i++) {
+                        list.add(list1.get(i));
+                    }
+                }
+                request.setAttribute("optionQuantity", filterOption);
                 break;
         }
-        int endPage = list.size() / 8;
+        endPage = list1.size() / 10;
         //Lay tong so luong san pham trong db
-        if (list.size() % 8 != 0) {
+        if (list1.size() % 10 != 0) {
             endPage++;
         }
-        
+
         request.setAttribute("op", op);
         request.setAttribute("page", page - 1);
         request.setAttribute("list", list);
