@@ -27,6 +27,7 @@ create table Account (
 create table Employee (
 	AID int,
 	manager_id int,
+	salary INT,
 	primary key (AID),
 	foreign key (AID) references Account(AID),
 	foreign key (manager_id) references Employee(AID),
@@ -117,6 +118,7 @@ create table Orders(
 	EID INT REFERENCES dbo.Employee(AID), 
 	note nvarchar(255)
 )
+
 CREATE TABLE [dbo].[OrderDetail](
 	[id] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[orderHeaderId] [int] references Orders(OID) NOT NULL,
@@ -271,22 +273,22 @@ insert into Account(email, phone, password, name, BID, roleId) values
 ('quan12312@gmail.com', '0355412154', '123456',N'Hoàng Văn Quân',1, 1),
 ('aduvip@gmail.com', '0355412154', '123456',N'Hoàng Văn Nghĩa',3, 1)
 
-insert into Employee(manager_id, AID) values
-( null, 1),
-( null, 2), 
-( null, 3), 
-( null, 4),
-( null, 5),
-( null, 6),
-( null, 7),
-( null, 8),
-( null,9),
-( null, 10),
-( null, 11),
-( null, 12)
+insert into Employee(manager_id, AID, salary) values
+( null, 1, 20000000),
+( null, 2, 20000000), 
+( null, 3, 20000000), 
+( null, 4, 20000000),
+( null, 5, 20000000),
+( null, 6, 20000000),
+( null, 7, 20000000),
+( null, 8, 18000000),
+( null,9, 18000000),
+( null, 10, 15000000),
+( null, 11, 15000000),
+( null, 12, 15000000)
 
 
-insert into Resident( room, AID) values 
+insert into Resident(room, AID) values 
 ( 'MA03B0156', 13),
 ( 'OR11B0332', 14), 
 ( 'GP14B2073',15),
@@ -350,24 +352,24 @@ INSERT INTO dbo.OrderDetail (orderHeaderId, serviceId, categoryId, min_price, ma
 		(3, 7, 4, 30, 60),
 		(3, 9, 4, 200, 400),
 
-		-- After need fix
-		(1, 10, 1, 50, 100),
-		(1, 12, 4, 30, 60),
-		(1, 15, 4, 200, 400),
+		---- After need fix
+		--(1, 10, 1, 50, 100),
+		--(1, 12, 4, 30, 60),
+		--(1, 15, 4, 200, 400),
 
-		(2, 13, 1, 50, 100),
-		(2, 16, 4, 30, 60),
-		(2, 18, 4, 200, 400),
+		--(2, 13, 1, 50, 100),
+		--(2, 16, 4, 30, 60),
+		--(2, 18, 4, 200, 400),
 
-		(5, 19, 1, 50, 100),
-		(5, 17, 4, 30, 60),
-		(5, 20, 4, 200, 400),
+		--(5, 19, 1, 50, 100),
+		--(5, 17, 4, 30, 60),
+		--(5, 20, 4, 200, 400),
 
-		(5, 19, 1, 50, 100),
-		(5, 17, 4, 30, 60),
-		(5, 20, 4, 200, 400),
+		--(5, 19, 1, 50, 100),
+		--(5, 17, 4, 30, 60),
+		--(5, 20, 4, 200, 400),
 
-		(6, 19, 1, 50, 100),
-		(6, 17, 4, 30, 60),
-		(6, 20, 4, 200, 400),
+		--(6, 19, 1, 50, 100),
+		--(6, 17, 4, 30, 60),
+		--(6, 20, 4, 200, 400),
 	GO

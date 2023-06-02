@@ -98,6 +98,7 @@ public class UserRepository {
         connect.close();
         
     }
+    
     public static void main(String[] args) throws SQLException {
         System.out.println(new UserRepository().Login("thu1@gmail.com", "123456"));
     }

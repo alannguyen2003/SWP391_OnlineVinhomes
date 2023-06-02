@@ -26,7 +26,7 @@
                         <form action="<c:url value="/user/login_handler.do" />" class="signin-form" method ="post">
                             <div class="p-4">
                                 <div class="form-group mb-3">
-                                    <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>
+                                    <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
                                     <label class="label" style="color: #7b7d83;" for="email">EMAIL</label>
                                     <input type="email" class="form-control" name="email" placeholder="Email" value="${cookie.cEmail.value}" required>
                                 </div>
