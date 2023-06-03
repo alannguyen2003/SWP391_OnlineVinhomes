@@ -156,15 +156,16 @@ public class ServiceController extends HttpServlet {
 
     private void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         int serviceID = Integer.parseInt(request.getParameter("id"));
-        ArrayList<CategoryEntity> categoryList = categoryService.getAllCategor();
         FeedbackService fs = new FeedbackService();
         ServiceService ss = new ServiceService();
+        CategoryService cs = new CategoryService();
+        CategoryEntity cate = cs.getServiceByCategoryId(serviceID);
         ServiceEntity service = ss.getServiceById(serviceID);
         List<FeedbackEntity> listFeedback = fs.getFeedbackOfService(serviceID);
         request.setAttribute("noFeedbacks", listFeedback.size());
-        request.setAttribute("feedbacks", listFeedback);
-        request.setAttribute("list", categoryList);
+        request.setAttribute("feedbacks", listFeedback);     
         request.setAttribute("service", service);
+        request.setAttribute("cate", cate);
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
 
