@@ -1,4 +1,3 @@
-
 package repository;
 
 import config.DBConfig;
@@ -6,14 +5,19 @@ import entity.MyOrderEntity;
 import entity.OrderDetailEntity;
 import entity.OrderHeaderEntity;
 import entity.RevenueEntity;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class OrderRepository {
-    
+
     public List<RevenueEntity> getRevenue(String datePart, String[] timeSelect) throws SQLException {
         List<RevenueEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -44,7 +48,7 @@ public class OrderRepository {
         }
         return list;
     }
-    
+
     public List<OrderHeaderEntity> selectAll() throws SQLException {
         List<OrderHeaderEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -65,7 +69,7 @@ public class OrderRepository {
         con.close();
         return list;
     }
-    
+
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         List<MyOrderEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -82,16 +86,16 @@ public class OrderRepository {
             oh.setEmployeeId(rs.getInt("EID"));
             oh.setStatus(rs.getString("status"));
             oh.setNote(rs.getString("note"));
-            
+
             HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithName(rs.getInt("OID"));
-            
+
             MyOrderEntity fo = new MyOrderEntity(oh, map);
             list.add(fo);
         }
         con.close();
         return list;
     }
-    
+
     public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
         List<OrderDetailEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -113,8 +117,8 @@ public class OrderRepository {
         con.close();
         return list;
     }
-    
-      public HashMap<OrderDetailEntity, String> selectOrderDetailWithName(int orderHeaderId) throws SQLException {
+
+    public HashMap<OrderDetailEntity, String> selectOrderDetailWithName(int orderHeaderId) throws SQLException {
         HashMap<OrderDetailEntity, String> list = null;
         Connection con = DBConfig.getConnection();
 
@@ -138,8 +142,8 @@ public class OrderRepository {
         con.close();
         return list;
     }
-      
-      public void updateStatus(int oId, int eId, String status) throws SQLException {
+
+    public void updateStatus(int oId, int eId, String status) throws SQLException {
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("update Orders set EID = ?, status = ? where OID = ?");
         pstm.setInt(1, eId);
@@ -149,14 +153,31 @@ public class OrderRepository {
 
         con.close();
     }
-      
-       public static void main(String[] args) {
-        OrderRepository od = new OrderRepository();
-        String[] array = {"2013", "2023"};
-        try {
-            od.updateStatus(3, 4, "Failed");
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+    /**
+     *
+     * @param date
+     * @param status
+     * @param UID
+     * @param EID
+     * @param note
+     * @throws SQLException
+     */
+//    public void addOrder(Date date, String status, int UID, int EID, String note) throws SQLException {
+//
+//        Connection con = DBConfig.getConnection();
+//        String sql = "insert into Orders values(?,?,?,?,?)";
+//        PreparedStatement stm = con.prepareStatement(sql);
+//        stm.setDate(1, date);
+//        stm.setString(2, status);
+//        stm.setInt(3, UID);
+//        stm.setInt(4, EID);
+//        stm.setString(5, note);
+//        stm.executeUpdate();
+//        con.close();
+//    }
+
+    public static void main(String[] args) {
+        
     }
 }

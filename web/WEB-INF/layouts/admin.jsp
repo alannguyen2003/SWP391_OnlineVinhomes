@@ -405,6 +405,16 @@
                                 <i class="bi bi-circle"></i><span>Resource Tables</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="<c:url value="/admin/resident-tables.do" />">
+                                <i class="bi bi-circle"></i><span>Resident Tables</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="bi bi-circle"></i><span>Service Tables</span>
+                            </a>
+                        </li>
                     </ul>
                 </li><!-- End Tables Nav -->
 

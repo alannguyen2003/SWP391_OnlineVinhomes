@@ -20,6 +20,10 @@ import jakarta.servlet.http.HttpSession;
 import entity.UserEntity;
 import repository.UserRepository;
 import entity.ResidentEntity;
+import entity.EmployeeEntity;
+import service.ResidentService;
+import service.EmployeeService;
+import org.apache.tomcat.jni.SSLContext;
 
 /**
  *
@@ -28,21 +32,17 @@ import entity.ResidentEntity;
 @WebServlet(name = "UserController", urlPatterns = {"/user"})
 public class UserController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private ResidentService residentService = new ResidentService();
+    private EmployeeService employeeService = new EmployeeService();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
             String controller = (String) request.getAttribute("controller");
             String action = (String) request.getAttribute("action");
+            HttpSession session = request.getSession();
+            UserEntity user = (UserEntity) session.getAttribute("user");
             switch (action) {
                 case "login":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
@@ -53,9 +53,29 @@ public class UserController extends HttpServlet {
                 case "logout":
                     logout_handler(request, response);
                     break;
-                case "profile":
+                case "signup":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
+                case "change-password":
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    break;
+                case "profile":
+                    try {
+                    String aid = Integer.toString(user.getAID());
+                    if (user.getRoleID() == 1) {
+                        ResidentEntity res;
+                        res = residentService.read(aid);
+                        request.setAttribute("res", res);
+                    } else {
+                        EmployeeEntity emp = employeeService.read(aid);
+                        request.setAttribute("emp", emp);
+                    }
+
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -95,7 +115,7 @@ public class UserController extends HttpServlet {
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    if (user.getRoleID()==4){
+                    if (user.getRoleID() == 4 || user.getRoleID() == 3) {
                         response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/home/index.do");

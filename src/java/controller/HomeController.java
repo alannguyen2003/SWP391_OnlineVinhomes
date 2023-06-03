@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import service.HomeService;
+import entity.UserEntity;
 
 @WebServlet(name = "HomeController", urlPatterns = {"/home"})
 public class HomeController extends HttpServlet {
@@ -32,6 +33,8 @@ public class HomeController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
         HttpSession session = request.getSession();
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        if (user == null || user.getRoleID() != 4) {
         try {
             switch (action) {
                 case "index":
@@ -57,6 +60,9 @@ public class HomeController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ServiceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
         }
 
 //            default:

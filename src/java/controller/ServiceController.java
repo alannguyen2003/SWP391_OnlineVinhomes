@@ -156,6 +156,10 @@ public class ServiceController extends HttpServlet {
 
     private void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         int serviceID = Integer.parseInt(request.getParameter("id"));
+<<<<<<< HEAD
+=======
+        ArrayList<CategoryEntity> categoryList = categoryService.getAllCategory();
+>>>>>>> 7ecca9591c16c6e4b2c791c1fd7e4bedcbb9cab7
         FeedbackService fs = new FeedbackService();
         ServiceService ss = new ServiceService();
         CategoryService cs = new CategoryService();

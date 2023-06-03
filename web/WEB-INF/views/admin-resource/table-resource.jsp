@@ -50,9 +50,11 @@
                     <button type="submit" class="btn btn-primary" name = "op" value="filter">Filter</button>
                 </form>
             </div>
-
+            
             <div class="card-body">
+                
                 <div class="table-responsive">
+                    ${message}
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -70,7 +72,7 @@
                                     <td>${resource.blockName}</td>
                                     <td>${resource.resourceName}</td>
                                     <td>${resource.quantity}</td>
-                                    <td><a class="btn btn-outline-primary" href="<c:url value="/admin-resource/update-resource.do"/>">Update <i class="bi bi-gear"></i></a></td>
+                                    <td><a class="btn btn-outline-primary" href="<c:url value="/admin-resource/update-resource.do?blockId=${resource.bId}&resourceId=${resource.rId}"/>">Update <i class="bi bi-gear"></i></a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

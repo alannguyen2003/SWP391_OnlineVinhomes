@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import service.ResidentService;
 
 /**
  *
@@ -20,7 +22,9 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet(name = "AdminController", urlPatterns = {"/admin"})
 public class AdminController extends HttpServlet {
-
+    
+    private ResidentService rs = new ResidentService();
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,18 +41,25 @@ public class AdminController extends HttpServlet {
         String action = (String) request.getAttribute("action");
         HttpSession adminSession = request.getSession(true);
         UserEntity user = (UserEntity) adminSession.getAttribute("user");
-        if (user != null && user.getRoleID() == 4) {
-        try {
-            switch(action) {
-                case "admin-dashboard":
-                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                    break;
+        if (user != null && (user.getRoleID() == 4 || user.getRoleID() == 3)) {
+            try {
+                switch (action) {
+                    case "admin-dashboard":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "resident-tables":
+                        ArrayList<UserEntity> entity = rs.getAllResident();
+                        request.setAttribute("list", entity);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);  
+                        break;
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        }catch(Exception ex) {
-            ex.printStackTrace();
+        } else {
+            response.sendRedirect(request.getContextPath() + "/user/login.do");
         }
-        }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

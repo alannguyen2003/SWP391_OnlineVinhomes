@@ -7,6 +7,7 @@ package controller;
 import entity.CartEntity;
 import entity.ItemEntity;
 import entity.ServiceEntity;
+import entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -58,6 +59,7 @@ public class CartController extends HttpServlet {
                     removeFromCart(request, response);
                     break;
                 case "cart-contact":
+                    
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
             }
@@ -111,7 +113,7 @@ public class CartController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void addToCart(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
+    protected void addToCart(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         HttpSession session = request.getSession(true);
         CartEntity cart = null;
         Object o = session.getAttribute("cart");
@@ -151,5 +153,38 @@ public class CartController extends HttpServlet {
         session3.setAttribute("size", list2.size());
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
+    
+//    protected void contact(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        try {
+//            HttpSession session = request.getSession(true);
+//            CartEntity cart = null;
+//            Object o = session.getAttribute("cart");
+//            if (o != null) {
+//                cart = (CartEntity) o;
+//            } else {
+//                cart = new CartEntity();
+//            }
+//            UserEntity user = null;
+//            Object o1 = session.getAttribute("user");
+//            int size = (Integer) session.getAttribute("size");
+//            if (o1 != null && size != 0) {
+//                user = (UserEntity) o1;
+//                OrderFacade of = new OrderFacade();
+//                of.addOrder(user, cart);
+//                session.removeAttribute("cart");
+//                session.setAttribute("size", 0);
+//                request.getRequestDispatcher("/cart/cart.do").forward(request, response);
+//
+//            } else if (o1 != null && size == 0) {
+//                request.setAttribute("noItem", "No product in your cart!");
+//                request.getRequestDispatcher("/cart/cart.do").forward(request, response);
+//            } else {
+//                request.setAttribute("message", "You need to log in to check out!");
+//                request.getRequestDispatcher("/auth/login.do").forward(request, response);
+//            }
+//        } catch (Exception ex) {
+//        }
+//    }
 
 }
