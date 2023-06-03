@@ -21,4 +21,8 @@ public class ResidentService {
     public ArrayList<UserEntity> getAllResident() throws Exception{
         return residentRepo.getAllResident();
     }
+    
+    public ArrayList<UserEntity> getAllResidentByName(String residentName) throws Exception{
+        return residentRepo.getAllResidentByName(residentName);
+    }
 }

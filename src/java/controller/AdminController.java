@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import service.ResidentService;
 
 /**
@@ -22,9 +24,9 @@ import service.ResidentService;
  */
 @WebServlet(name = "AdminController", urlPatterns = {"/admin"})
 public class AdminController extends HttpServlet {
-    
+
     private ResidentService rs = new ResidentService();
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,9 +50,7 @@ public class AdminController extends HttpServlet {
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "resident-tables":
-                        ArrayList<UserEntity> entity = rs.getAllResident();
-                        request.setAttribute("list", entity);
-                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);  
+                        residentTables(request, response);
                         break;
                 }
             } catch (Exception ex) {
@@ -100,5 +100,67 @@ public class AdminController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    protected void residentTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String op = (String) request.getParameter("op");
+        String indexPage = request.getParameter("page");
+        HttpSession session = request.getSession();
+        int currentPage = 1;
+        if (indexPage != null) {
+            currentPage = Integer.parseInt(indexPage);
+        }
+        List<UserEntity> list = new ArrayList<>();
+        int totalItems = 0;
+        int totalPages = 0;
+        int pageSize = 10;
+        switch (op) {
+            case "getAll":
+                list = rs.getAllResident();
+
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+                break;
+            case "filter":
+                String filterOption = (String) request.getParameter("optionBlock");
+                list = rs.getAllResident();
+
+                if (filterOption.equals("blockAsc")) {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e1.getBID() - e2.getBID();
+                    });
+                } else {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e2.getBID() - e1.getBID();
+                    });
+                }
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+                request.setAttribute("optionBlock", filterOption);
+                break;
+            case "search":
+                String searchValue = (String) request.getParameter("txtSearch");
+                list = rs.getAllResidentByName(searchValue);
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                request.setAttribute("searchValue", searchValue);
+                break;
+        }
+
+        // Get the subset of items to be displayed on the current page
+        int startIndex = (currentPage - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, totalItems);
+        List<UserEntity> sublist = list.subList(startIndex, endIndex);
+
+        request.setAttribute("op", op);
+        request.setAttribute("list", sublist);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+    }
 
 }

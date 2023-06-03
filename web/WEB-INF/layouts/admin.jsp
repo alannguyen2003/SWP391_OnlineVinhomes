@@ -407,7 +407,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<c:url value="/admin/resident-tables.do" />">
+                            <a href="<c:url value="/admin/resident-tables.do?op=getAll" />">
                                 <i class="bi bi-circle"></i><span>Resident Tables</span>
                             </a>
                         </li>
