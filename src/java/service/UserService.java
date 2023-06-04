@@ -34,5 +34,11 @@ public class UserService {
     public ArrayList<UserEntity> getAllUserByName(String name) throws Exception{
         return userRepo.getAllUserByName(name);
     }
+    public String getUserForChart() throws SQLException {
+        return userRepo.getTopUserJsArray();
+    }
+    public String getUserMoneyForChart() throws SQLException {
+        return userRepo.getTopUserTotalMoneyJsArray();
+    }
 }
 
