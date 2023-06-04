@@ -36,4 +36,11 @@ public class OrderService {
     public void updateStatus(int oId, int eId, String status) throws SQLException {
         orderRepository.updateStatus(oId, eId, status);
     }
+    public String getTotalMoneyInMonth() {
+        return orderRepository.getJsTotalMoneyArray(orderRepository.getTotalMoneyInMonth());
+    }
+    
+    public String getMonth() {
+        return orderRepository.getJsMonthArray(orderRepository.getValidatedMonth());
+    }
 }

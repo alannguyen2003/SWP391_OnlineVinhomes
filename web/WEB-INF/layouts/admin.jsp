@@ -426,6 +426,11 @@
                                 <i class="bi bi-circle"></i><span>ECharts</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="<c:url value="/admin-sales/dashboard.do"/>">
+                                <i class="bi bi-circle"></i><span>Sales Dashboard</span>
+                            </a>
+                        </li>
                     </ul>
                 </li><!-- End Charts Nav -->
 
