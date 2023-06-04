@@ -40,8 +40,7 @@
             <div class="card card-raised mb-5">
                 <div class="card-body p-5">
                     <div class="card-title">Change Password</div>
-                    <div class="card-subtitle mb-4">A password should be more than 8 characters, including capital letters and numbers.</div>
-                    <form action="<c:url value="/user/updatePass.do" />" method="post">
+                    <form action="<c:url value="/user/change-password.do" />" method="post">
                         <div class="mb-4 form-group">
                             <label class="label">Current password</label>
                             <input type="password" name="password" class="w-100 form-control">
@@ -54,7 +53,7 @@
                             <label class="label">Confirmation</label>
                             <input type="password" name="confirmPassword" class="w-100 form-control">
                         </div>
-
+                        <p class ="text-danger"> ${message} </p>
                         <!-- Save changes button-->
                         <div class="text-end"><button class="btn btn-primary" type="submit">Reset password</button></div>
                     </form>
