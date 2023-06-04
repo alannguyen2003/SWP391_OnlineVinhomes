@@ -4,11 +4,15 @@
  */
 package controller;
 
+import entity.CategoryEntity;
+import entity.OrderHeaderEntity;
+import entity.SaleEntity;
 import entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,8 +21,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import service.OrderService;
 import service.ResidentService;
 import service.UserService;
+import service.OrderService;
+import entity.OrderHeaderEntity;
+import entity.SaleEntity;
+import java.util.List;
+import service.UserService;
+
 
 /**
  *
@@ -28,7 +39,12 @@ import service.UserService;
 public class AdminController extends HttpServlet {
 
     private ResidentService rs = new ResidentService();
+
+    private OrderService os = new OrderService();
+    
+
     private UserService us = new UserService();
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,9 +66,11 @@ public class AdminController extends HttpServlet {
             try {
                 switch (action) {
                     case "admin-dashboard":
-                        request.setAttribute("activeTab", "dashboard");
+
+                        load_Admindashboard(request, response);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
+                    
                     case "resident-tables":
                         residentTables(request, response);
                         break;
@@ -69,6 +87,7 @@ public class AdminController extends HttpServlet {
                         break;
                     case "accountCreate":
                         create(request, response);
+
                         break;
                 }
             } catch (Exception ex) {
@@ -77,6 +96,24 @@ public class AdminController extends HttpServlet {
         } else {
             response.sendRedirect(request.getContextPath() + "/user/login.do");
         }
+
+    }
+
+    protected void load_Admindashboard(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+
+        List<OrderHeaderEntity> orderList = os.recentOrder();
+        int count = os.completeOrder();
+        int revenue = os.Revenue();
+        int countacc = os.countAcc();
+        List<SaleEntity> listSale = os.recentSale();
+        List<SaleEntity> cateTra = os.cateTraffic();
+        request.setAttribute("list", orderList);
+        request.setAttribute("count", count);
+        request.setAttribute("income", revenue);
+        request.setAttribute("countacc", countacc);
+        request.setAttribute("listSale", listSale);
+        request.setAttribute("cateTra", cateTra);
 
     }
 

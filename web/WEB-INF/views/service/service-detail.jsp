@@ -23,24 +23,40 @@
                             <div class="service-details__category">
                                 <h4 class="service-details__category-title">Services</h4>
                                 <ul class="service-details__category-list list-unstyled">
+                                    <c:if test="${requestScope.service.categoryID == 1}">
+                                        <li class="active"><a href="<c:url value="/service/service-list.do?id=1" />">Cleaning<span
+                                                    class="fa fa-angle-right"></span></a></li>
+                                            </c:if>
+                                            <c:if test="${requestScope.service.categoryID != 1}">
+                                        <li><a href="<c:url value="/service/service-list.do?id=1" />">Cleaning<span
+                                                    class="fa fa-angle-right"></span></a></li>
+                                    </c:if>
+                                    <c:if test="${requestScope.service.categoryID == 2}">
+                                        <li class="active"><a href="<c:url value="/service/service-list.do?id=2" />">Maintenance<span
+                                                    class="fa fa-angle-right"></span></a></li>
+                                            </c:if>
+                                            <c:if test="${requestScope.service.categoryID != 2}">
+                                        <li><a href="<c:url value="/service/service-list.do?id=2" />">Maintenance<span
+                                                    class="fa fa-angle-right"></span></a></li>
+                                    </c:if>
 
-                                    <li><a href="plumbing-services.html">Plumbing Service <span
-                                                class="fa fa-angle-right"></span></a></li>
+                                    <c:if test="${requestScope.service.categoryID == 3}">
+                                        <li class="active"><a href="<c:url value="/service/service-list.do?id=3" />">Security<span
+                                                    class="fa fa-angle-right"></span></a></li>
+                                            </c:if>
+                                            <c:if test="${requestScope.service.categoryID != 3}">
+                                        <li><a href="<c:url value="/service/service-list.do?id=3" />">Security<span
+                                                    class="fa fa-angle-right"></span></a></li>
+                                    </c:if>
 
-                                    <li><a href="office-cleaning.html">Office Cleaning <span
-                                                class="fa fa-angle-right"></span></a></li>
-
-                                    <li><a href="laundry-services.html">Laundry Service <span
-                                                class="fa fa-angle-right"></span></a></li>
-
-                                    <li class="active"><a href="kitchen-cleaning.html">Kitchen Cleaning <span
-                                                class="fa fa-angle-right"></span></a></li>
-
-                                    <li><a href="window-cleaning.html">Window Cleaning <span
-                                                class="fa fa-angle-right"></span></a></li>
-
-                                    <li><a href="toilet-cleaning.html">Toilet Cleaning <span
-                                                class="fa fa-angle-right"></span></a></li>
+                                    <c:if test="${requestScope.service.categoryID == 4}">
+                                        <li class="active"><a href="<c:url value="/service/service-list.do?id=4" />">Pest Control<span
+                                                    class="fa fa-angle-right"></span></a></li>
+                                            </c:if>
+                                            <c:if test="${requestScope.service.categoryID != 4}">
+                                        <li><a href="<c:url value="/service/service-list.do?id=4" />">Pest Control<span
+                                                    class="fa fa-angle-right"></span></a></li>
+                                    </c:if>
 
                                 </ul>
                             </div>
@@ -59,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="service-details__download">
-                                <a href="contact-page-1.html" class="thm-btn service-details__btn">Book an appointment
+                                <a href="<c:url value="/cart/addToCart.do?id=${service.serviceID}" />" class="thm-btn service-details__btn">Book a service
                                     <i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
@@ -69,11 +85,12 @@
                             <div class="service-details__img">
                                 <img src="<c:url value="/assets/images/services/services-details-img-4.jpg" />" alt="">
                             </div>
-                            
+
                             <div class="service-details__content">
                                 <h3 class="service-details__content-title">${service.name}</h3>
                                 <p class="service-details__text-2">${service.lowerPrice} - ${service.upperPrice} $</p>
                                 <p class="service-details__text-3">${service.description}</p>
+                                
                             </div>
                             <div class="service-details__points-box">
                                 <ul class="list-unstyled service-details__points">
@@ -122,7 +139,7 @@
                                             <div class="d-flex justify-content-between align-items-center mb-3">                                    
                                                 <textarea rows="4" class="w-100" name="message" form="cmtForm" placeholder="  Share your thoughts about the service"></textarea>
                                             </div>
-                                                ${message}
+                                            ${message}
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <p class="small mb-0" style="color: #1D38A5;">
                                                     <button type="submit" class="btn btn-outline-primary">Post</button>

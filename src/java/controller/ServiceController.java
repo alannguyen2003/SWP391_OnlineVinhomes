@@ -159,12 +159,14 @@ public class ServiceController extends HttpServlet {
         ArrayList<CategoryEntity> categoryList = categoryService.getAllCategory();
         FeedbackService fs = new FeedbackService();
         ServiceService ss = new ServiceService();
+        CategoryService cs = new CategoryService();
+        CategoryEntity cate = cs.getServiceByCategoryId(serviceID);
         ServiceEntity service = ss.getServiceById(serviceID);
         List<FeedbackEntity> listFeedback = fs.getFeedbackOfService(serviceID);
         request.setAttribute("noFeedbacks", listFeedback.size());
-        request.setAttribute("feedbacks", listFeedback);
-        request.setAttribute("list", categoryList);
+        request.setAttribute("feedbacks", listFeedback);     
         request.setAttribute("service", service);
+        request.setAttribute("cate", cate);
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
 

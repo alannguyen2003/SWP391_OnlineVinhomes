@@ -5,6 +5,7 @@ import entity.MyOrderEntity;
 import entity.OrderDetailEntity;
 import entity.OrderHeaderEntity;
 import entity.RevenueEntity;
+import entity.SaleEntity;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,7 +16,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class OrderRepository {
 
@@ -75,7 +77,7 @@ public class OrderRepository {
         List<MyOrderEntity> list = null;
         Connection con = DBConfig.getConnection();
 
-        PreparedStatement stm = con.prepareStatement("select * from Orders where UID = ? order by OID desc");
+        PreparedStatement stm = con.prepareStatement("select * from Orders where AID = ? order by OID desc");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         list = new ArrayList<>();
@@ -155,6 +157,112 @@ public class OrderRepository {
         con.close();
     }
 
+    public List<OrderHeaderEntity> recentOrder() throws SQLException {
+        List<OrderHeaderEntity> list = null;
+        Connection con = DBConfig.getConnection();
+
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select top 5 * from Orders where status = 'Pending' Order by time desc");
+        list = new ArrayList<>();
+        while (rs.next()) {
+            OrderHeaderEntity oh = new OrderHeaderEntity();
+            oh.setId(rs.getInt("OID"));
+            oh.setDate(rs.getDate("time"));
+            oh.setResidentId(rs.getInt("UID"));
+            oh.setEmployeeId(rs.getInt("EID"));
+            oh.setStatus(rs.getString("status"));
+            oh.setNote(rs.getString("note"));
+            list.add(oh);
+        }
+        con.close();
+        return list;
+    }
+
+    public int completeOrder() throws SQLException {
+        int count = 0;
+        Connection con = DBConfig.getConnection();
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select count (orders.OID) as CountOrders from Orders where orders.status = 'Completed'");
+
+        while (rs.next()) {
+            count = rs.getInt(1);
+        }
+        con.close();
+        return count;
+    }
+
+    public int Revenue() throws SQLException {
+        int rev = 0;
+        Connection con = DBConfig.getConnection();
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select sum(OrderDetail.max_price) "
+                + "as Revenue from OrderDetail left join Orders on OrderDetail.orderHeaderId = Orders.OID where Orders.status='Completed'");
+
+        while (rs.next()) {
+            rev = rs.getInt(1);
+        }
+        con.close();
+        return rev;
+    }
+
+    public int countAcc() throws SQLException {
+        int count = 0;
+        Connection con = DBConfig.getConnection();
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select count (Account.AID) as accCount from Account where roleId = '1'");
+
+        while (rs.next()) {
+            count = rs.getInt(1);
+        }
+        con.close();
+        return count;
+    }
+
+    public List<SaleEntity> recentSale() throws SQLException {
+        List list = null;
+        Connection con = DBConfig.getConnection();
+
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select Orders.OID, Account.name, Service.name, OrderDetail.max_price, Orders.status \n"
+                + "	from Orders left join Account on Orders.UID = Account.AID  \n"
+                + "	left join OrderDetail on Orders.OID = OrderDetail.orderHeaderId\n"
+                + "	left join Service on OrderDetail.serviceId = Service.service_id");
+        list = new ArrayList<>();
+        while (rs.next()) {
+            SaleEntity sa = new SaleEntity();
+            sa.setId(rs.getInt(1));
+            sa.setName(rs.getString(2));
+            sa.setServicename(rs.getString(3));
+            sa.setPrice(rs.getDouble(4));
+            sa.setStatus(rs.getString(5));
+            
+            list.add(sa);
+        }
+        con.close();
+        return list;
+    }
+    
+    public List<SaleEntity> cateTraffic() throws SQLException {
+        List list = null;
+        Connection con = DBConfig.getConnection();
+
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select Category.name, COUNT(OrderDetail.categoryId) "
+                + "as CountService from OrderDetail "
+                + "left join Category on OrderDetail.categoryId = Category.CID "
+                + "group by Category.name");
+        list = new ArrayList<>();
+        while (rs.next()) {
+            SaleEntity sa = new SaleEntity();
+            sa.setCatename(rs.getString(1));
+            sa.setCountcate(rs.getInt(2));
+            
+            list.add(sa);
+        }
+        con.close();
+        return list;
+    }
+
     /**
      *
      * @param date
@@ -177,6 +285,8 @@ public class OrderRepository {
 //        stm.executeUpdate();
 //        con.close();
 //    }
+
+
     public List<Integer> getValidatedMonth() {
         List<Boolean> m = new ArrayList<Boolean>();
         for (int i = 0; i < 12; i++) {
@@ -283,7 +393,6 @@ public class OrderRepository {
         return result;
     }
 
-    public static void main(String[] args) {
-        
-    }
+
+    
 }

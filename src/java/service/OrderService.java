@@ -4,6 +4,7 @@ import entity.MyOrderEntity;
 import entity.OrderDetailEntity;
 import entity.OrderHeaderEntity;
 import entity.RevenueEntity;
+import entity.SaleEntity;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -36,11 +37,37 @@ public class OrderService {
     public void updateStatus(int oId, int eId, String status) throws SQLException {
         orderRepository.updateStatus(oId, eId, status);
     }
+
+    
+    public List<OrderHeaderEntity> recentOrder() throws SQLException {
+        return orderRepository.recentOrder();
+    }
+    
+    public int completeOrder() throws SQLException {
+        return orderRepository.completeOrder();
+    }
+    
+    public int Revenue() throws SQLException {
+        return orderRepository.Revenue();
+    }
+    
+    public int countAcc() throws SQLException {
+        return orderRepository.countAcc();
+    }
+    
+    public List<SaleEntity> recentSale() throws SQLException {
+        return orderRepository.recentSale();
+    }
+    
+    public List<SaleEntity> cateTraffic() throws SQLException {
+        return orderRepository.cateTraffic();
+    }
     public String getTotalMoneyInMonth() {
         return orderRepository.getJsTotalMoneyArray(orderRepository.getTotalMoneyInMonth());
     }
     
     public String getMonth() {
         return orderRepository.getJsMonthArray(orderRepository.getValidatedMonth());
+
     }
 }
