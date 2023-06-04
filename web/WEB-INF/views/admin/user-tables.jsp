@@ -1,19 +1,18 @@
 <%-- 
-    Document   : resident-tables
-    Created on : Jun 2, 2023, 9:53:26 PM
+    Document   : user-tables
+    Created on : Jun 4, 2023, 5:41:28 PM
     Author     : admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
-<%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <div class="pagetitle">
     <h1>Resident Tables</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/admin/admin-dashboard.do" />">Home</a></li>
             <li class="breadcrumb-item">Tables</li>
-            <li class="breadcrumb-item active">Resident Tables</li>
+            <li class="breadcrumb-item active">User Tables</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -21,14 +20,14 @@
     <div class="row">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Resident Tables</h6>
+                <h6 class="m-0 font-weight-bold text-primary">User Tables</h6>
             </div>
             <div class="row">
                 <div class="card-header py-3 col-md-6">
                     <form>
                         <div class="form-group pb-2">
                             <label  class="p-1" for="exampleInputEmail1">Search</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name = "txtSearch" value="${searchValue}" aria-describedby="emailHelp" placeholder="Enter resident name">
+                            <input type="text" class="form-control" id="exampleInputEmail1" name = "txtSearch" value="${searchValue}" aria-describedby="emailHelp" placeholder="Enter user name">
                         </div>
                         <br/>
                         <button type="submit" class="btn btn-primary" name = "op" value="search">Search</button>
@@ -39,9 +38,11 @@
                     <form>
                         <div class="form-group pb-2">
                             <label  class="p-1" for="exampleInputEmail1">Filter</label>
-                            <select class="form-select" aria-label="Default select example" name="optionBlock">
-                                <option ${optionBlock=="blockAsc"?"selected":""} value="blockAsc">Order by block ascending</option>
-                                <option ${optionBlock=="blockDesc"?"selected":""} value="blockDesc">Order by block descending</option>
+                            <select class="form-select" aria-label="Default select example" name="option">
+                                <option ${option=="blockAsc"?"selected":""} value="blockAsc">Order by block ascending</option>
+                                <option ${option=="blockDesc"?"selected":""} value="blockDesc">Order by block descending</option>
+                                <option ${option=="roleAsc"?"selected":""} value="roleAsc">Order by role ascending</option>
+                                <option ${option=="rolekDesc"?"selected":""} value="roleDesc">Order by role descending</option>
                             </select>
                         </div>
                         <br/>
@@ -61,6 +62,7 @@
                                     <th>Phone</th>
                                     <th>Room</th>
                                     <th>Block</th>
+                                    <th>Role</th>
                                     <th>Status</th>
                                     <th>Operation</th>
                                 </tr>
@@ -74,8 +76,10 @@
                                         <td>${r.phone}</td>
                                         <td>${r.room}</td>
                                         <td>${r.BID}</td>
-                                        <td></td>
-                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/resident-detail.do?AID=${r.AID}"/>">View <i class="bi bi-gear"></i></a></td>
+                                        <td>${r.roleID}</td>
+                                        <td>
+
+                                        </td>
                                     </tr>
                                 </tbody>
                             </c:forEach>
@@ -91,7 +95,7 @@
     <ul class="pagination">
 
         <c:if test="${currentPage > 1}">
-            <li class="page-item"><a class="page-link" href="<c:url value="/admin/resident-tables.do?&page=${currentPage - 1}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}" />">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="<c:url value="/admin/user-tables.do?&page=${currentPage - 1}&op=${op}&txtSearch=${searchValue}&option=${option}" />">Previous</a></li>
             </c:if>
 
         <c:forEach var="i" begin="1" end="${totalPages}">
@@ -101,7 +105,7 @@
                     </c:when>
                     <c:otherwise>
                         <c:if test="${i <= 3 || i >= totalPages - 2 || (i >= currentPage - 1 && i <= currentPage + 1)}">
-                        <li class="page-item"><a class="page-link" href="<c:url value='/admin/resident-tables.do?page=${i}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}' />"><c:out value="${i}" /></a></li>
+                        <li class="page-item"><a class="page-link" href="<c:url value='/admin/user-tables.do?page=${i}&op=${op}&txtSearch=${searchValue}&option=${option}' />"><c:out value="${i}" /></a></li>
                         </c:if>
                         <c:if test="${i == 4 && currentPage > 5}">
                         <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
@@ -113,9 +117,7 @@
                 </c:choose>
             </c:forEach>
             <c:if test="${currentPage < totalPages}">
-            <li class="page-item"><a class="page-link" href="<c:url value="/admin/resident-tables.do?page=${currentPage + 1}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}" />">Next</a></li>
+            <li class="page-item"><a class="page-link" href="<c:url value="/admin/user-tables.do?page=${currentPage + 1}&op=${op}&txtSearch=${searchValue}&option=${option}" />">Next</a></li>
             </c:if>
     </ul>
 </nav>
-                            
-                            

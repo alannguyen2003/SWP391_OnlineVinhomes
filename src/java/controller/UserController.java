@@ -21,9 +21,11 @@ import entity.UserEntity;
 import repository.UserRepository;
 import entity.ResidentEntity;
 import entity.EmployeeEntity;
+import entity.ToastEntity;
 import service.ResidentService;
 import service.EmployeeService;
 import org.apache.tomcat.jni.SSLContext;
+import service.UserService;
 
 /**
  *
@@ -34,6 +36,7 @@ public class UserController extends HttpServlet {
 
     private ResidentService residentService = new ResidentService();
     private EmployeeService employeeService = new EmployeeService();
+    private UserService userService = new UserService();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -57,8 +60,37 @@ public class UserController extends HttpServlet {
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "change-password":
+                    try {
+                    ToastEntity toast = null;
+                    String message = null;
+                    String password = request.getParameter("password");
+                    String newPassword = request.getParameter("newPassword");
+                    String confirmPassword = request.getParameter("confirmPassword");
+
+                    if (!user.getPassword().equals(password)) {
+                        if (newPassword != null) {
+                            message = "Current password does not correct!";
+                            toast = new ToastEntity("Current password does not correct!", "failed");
+                        }
+                    } else if (!newPassword.equals(confirmPassword)) {
+                        message = "Confirmation is differ from new password";
+                        toast = new ToastEntity("Confirmation is differ from new password", "failed");
+                    } else {
+                        String aid = Integer.toString(user.getAID());
+                        userService.changePass(aid, newPassword);
+                        user.setPassword(newPassword);
+                        session.setAttribute("user", user);
+                        message = "Changed password successfully";
+                        toast = new ToastEntity("Changed password successfully", "success");
+                    }
+                    if (message != null) {
+                        request.setAttribute("message", message);
+                    }
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                    break;
+                } catch (SQLException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
                 case "profile":
                     try {
                     String aid = Integer.toString(user.getAID());
@@ -76,6 +108,9 @@ public class UserController extends HttpServlet {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
+                case "updateRoom":
+                    update(request, response);
+                    break;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -177,5 +212,12 @@ public class UserController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String room = request.getParameter("room");
+        int AID = Integer.parseInt(request.getParameter("AID"));
+        residentService.updateRoom(room, AID);
+        response.sendRedirect(request.getContextPath() + "/user/profile.do");
+    }
 
 }

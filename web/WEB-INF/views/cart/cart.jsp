@@ -47,7 +47,7 @@
                             <div class="col-md-2" style="display: flex; justify-content: flex-end">
                                 <div >
                                     <p class="small text-muted mb-4 pb-2 d-flex justify-content-end">Price</p>
-                                    <p class="lead fw-normal mb-0">${item.service.getLowerPrice()}</p>
+                                    <p class="lead fw-normal mb-0">$<fmt:formatNumber value="${item.service.getLowerPrice()}" pattern="##.#"/></p>
                                 </div>
                             </div>
                             <div class="col-md-2" style="display: flex; justify-content: flex-end">
@@ -90,7 +90,7 @@
                 <div class="col-6 mb-40 d-flex justify-content-end  ">
                 <a href="<c:url value="/service/service.do"/>" class="btn btn-primary btn-lg me-2" role="button">Continue shopping</a>
                 
-                <c:if test="${cart.items == null || user == null}"><a class="btn btn-light btn-lg me-2">Check Out</a></c:if>
+                <c:if test="${cart.items == null || user == null}"><a class="btn btn-primary btn-lg me-2">Check Out</a></c:if>
                 <c:if test="${cart.items != null && user != null}"><a href="<c:url value="/cart/cart-contact.do"/>" class="btn btn-primary btn-lg me-2" style="">Check Out</a></c:if>
                 </div>
             </div>

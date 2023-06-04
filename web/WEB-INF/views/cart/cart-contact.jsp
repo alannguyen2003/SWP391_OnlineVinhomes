@@ -116,10 +116,10 @@
                             <div class="checkout-cart-total">
                                 <h4>Product <span>Total</span></h4>
                                 <ul>
-                                    <li>${item.service.name}<span>$${item.service.getLowerPrice()}</span></li>
+                                    <li>${item.service.name}<span>$<fmt:formatNumber value="${item.service.getLowerPrice()}" pattern="##.#"/></span></li>
                                 </ul>
                                 <p>Sub Total <span>$<fmt:formatNumber value="${cart.getTotalMoney()}" pattern="##.#"/></span></p>
-                                <p>Shipping Fee <span>$00.0</span></p>
+                                <p>Shipping Fee <span>$0</span></p>
                                 <h4>Grand Total <span>$<fmt:formatNumber value="${cart.getTotalMoney()}" pattern="##.#"/></span></h4>
                             </div>
                         </div>

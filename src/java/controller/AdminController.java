@@ -5,6 +5,8 @@
 package controller;
 
 import entity.CategoryEntity;
+import entity.OrderHeaderEntity;
+import entity.SaleEntity;
 import entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,11 +19,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import service.OrderService;
 import service.ResidentService;
+import service.UserService;
 import service.OrderService;
 import entity.OrderHeaderEntity;
 import entity.SaleEntity;
 import java.util.List;
+import service.UserService;
+
 
 /**
  *
@@ -31,8 +39,13 @@ import java.util.List;
 public class AdminController extends HttpServlet {
 
     private ResidentService rs = new ResidentService();
+
     private OrderService os = new OrderService();
     
+
+    private UserService us = new UserService();
+
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -53,13 +66,28 @@ public class AdminController extends HttpServlet {
             try {
                 switch (action) {
                     case "admin-dashboard":
+
                         load_Admindashboard(request, response);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
+                    
                     case "resident-tables":
-                        ArrayList<UserEntity> entity = rs.getAllResident();
-                        request.setAttribute("list", entity);
+                        residentTables(request, response);
+                        break;
+                    case "resident-detail":
+                        int AID = Integer.parseInt(request.getParameter("AID"));
+                        UserEntity u = rs.getOne(AID);
+                        request.setAttribute("u", u);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "user-tables":
+                        userTables(request, response);
+                    case "account-create":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "accountCreate":
+                        create(request, response);
+
                         break;
                 }
             } catch (Exception ex) {
@@ -127,5 +155,152 @@ public class AdminController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    protected void residentTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String op = (String) request.getParameter("op");
+        String indexPage = request.getParameter("page");
+        HttpSession session = request.getSession();
+        int currentPage = 1;
+        if (indexPage != null) {
+            currentPage = Integer.parseInt(indexPage);
+        }
+        List<UserEntity> list = new ArrayList<>();
+        int totalItems = 0;
+        int totalPages = 0;
+        int pageSize = 10;
+        switch (op) {
+            case "getAll":
+                list = rs.getAllResident();
+                request.setAttribute("activeTab", "resident");
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+                break;
+            case "filter":
+                String filterOption = (String) request.getParameter("optionBlock");
+                list = rs.getAllResident();
+
+                if (filterOption.equals("blockAsc")) {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e1.getBID() - e2.getBID();
+                    });
+                } else {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e2.getBID() - e1.getBID();
+                    });
+                }
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+                request.setAttribute("optionBlock", filterOption);
+                break;
+            case "search":
+                String searchValue = (String) request.getParameter("txtSearch");
+                list = rs.getAllResidentByName(searchValue);
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                request.setAttribute("searchValue", searchValue);
+                break;
+        }
+
+        // Get the subset of items to be displayed on the current page
+        int startIndex = (currentPage - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, totalItems);
+        List<UserEntity> sublist = list.subList(startIndex, endIndex);
+
+        request.setAttribute("op", op);
+        request.setAttribute("list", sublist);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+    }
+
+    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String phone = request.getParameter("phone");
+        int blockId = Integer.parseInt(request.getParameter("blockId"));
+        int roleId = Integer.parseInt(request.getParameter("roleId"));
+        us.createAccount(phone, email, password, name, blockId, roleId);
+        request.setAttribute("message", "Account has been added!");
+        response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+    }
+
+    private void userTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String op = (String) request.getParameter("op");
+        String indexPage = request.getParameter("page");
+        HttpSession session = request.getSession();
+        int currentPage = 1;
+        if (indexPage != null) {
+            currentPage = Integer.parseInt(indexPage);
+        }
+        List<UserEntity> list = new ArrayList<>();
+        int totalItems = 0;
+        int totalPages = 0;
+        int pageSize = 10;
+        switch (op) {
+            case "getAll":
+                list = us.getAllUser();
+
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+                break;
+            case "filter":
+                String filterOption = (String) request.getParameter("option");
+                list = us.getAllUser();
+
+                if (filterOption.equals("blockAsc")) {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e1.getBID() - e2.getBID();
+                    });
+                } else {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e2.getBID() - e1.getBID();
+                    });
+                }
+                
+                if (filterOption.equals("roleAsc")) {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e1.getRoleID()- e2.getRoleID();
+                    });
+                } else {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e2.getRoleID()- e1.getRoleID();
+                    });
+                }
+                
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+                request.setAttribute("option", filterOption);
+                break;
+            case "search":
+                String searchValue = (String) request.getParameter("txtSearch");
+                list = us.getAllUserByName(searchValue);
+                // Calculate the total number of pages
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                request.setAttribute("searchValue", searchValue);
+                break;
+        }
+
+        // Get the subset of items to be displayed on the current page
+        int startIndex = (currentPage - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, totalItems);
+        List<UserEntity> sublist = list.subList(startIndex, endIndex);
+
+        request.setAttribute("op", op);
+        request.setAttribute("list", sublist);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+    }
 
 }

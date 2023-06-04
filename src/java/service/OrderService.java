@@ -37,6 +37,7 @@ public class OrderService {
     public void updateStatus(int oId, int eId, String status) throws SQLException {
         orderRepository.updateStatus(oId, eId, status);
     }
+
     
     public List<OrderHeaderEntity> recentOrder() throws SQLException {
         return orderRepository.recentOrder();
@@ -60,5 +61,13 @@ public class OrderService {
     
     public List<SaleEntity> cateTraffic() throws SQLException {
         return orderRepository.cateTraffic();
+    }
+    public String getTotalMoneyInMonth() {
+        return orderRepository.getJsTotalMoneyArray(orderRepository.getTotalMoneyInMonth());
+    }
+    
+    public String getMonth() {
+        return orderRepository.getJsMonthArray(orderRepository.getValidatedMonth());
+
     }
 }
