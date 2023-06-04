@@ -11,6 +11,7 @@ package service;
  */
 import entity.UserEntity;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import repository.UserRepository;
 
 public class UserService {
@@ -20,9 +21,24 @@ public class UserService {
     public UserEntity checkEmailExist(String email) throws SQLException {
         return userRepo.Check(email);
     }
-    public void changePass(String email, String password) throws SQLException {
-         userRepo.changePass(email, password);
+    public void changePass(String aid, String password) throws SQLException {
+         userRepo.changePass(aid, password);
+    }
+    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException{
+        userRepo.createAccount(phone, email, password, name, blockId, roleId);
+    }
+    public ArrayList<UserEntity> getAllUser() throws Exception{
+        return userRepo.getAllUser();
     }
     
+    public ArrayList<UserEntity> getAllUserByName(String name) throws Exception{
+        return userRepo.getAllUserByName(name);
+    }
+    public String getUserForChart() throws SQLException {
+        return userRepo.getTopUserJsArray();
+    }
+    public String getUserMoneyForChart() throws SQLException {
+        return userRepo.getTopUserTotalMoneyJsArray();
+    }
 }
 

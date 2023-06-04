@@ -4,15 +4,15 @@
  */
 package repository;
 
-
 import entity.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import config.DBConfig;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ResidentRepository {
-    
+
     public ResidentEntity read(String aid) throws SQLException {
         ResidentEntity resident = new ResidentEntity();
 
@@ -27,5 +27,94 @@ public class ResidentRepository {
         con.close();
         return resident;
     }
-    
+
+    public ArrayList<UserEntity> getAllResident() throws Exception {
+        ArrayList<UserEntity> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select Account.AID, Account.phone, Account.email, Account.password, Account.name, Account.BID, Account.roleId, Resident.room \n" +
+"                         from Account left join Resident on Account.AID = Resident.AID where Account.roleId=1";
+            pst = cn.prepareStatement(query);
+            rs = pst.executeQuery();
+        }
+        while (rs.next()) {
+            UserEntity entity = new UserEntity();
+            entity.setAID(rs.getInt(1));
+            entity.setPhone(rs.getString(2));
+            entity.setEmail(rs.getString(3));
+            entity.setPassword(rs.getString(4));
+            entity.setName(rs.getString(5));
+            entity.setBID(rs.getInt(6));
+            entity.setRoleID(rs.getInt(7));
+            entity.setRoom(rs.getString(8));
+            list.add(entity);
+        }
+        return list;
+    }
+        public ArrayList<UserEntity> getAllResidentByName(String residentName) throws Exception {
+        ArrayList<UserEntity> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select Account.AID, Account.phone, Account.email, Account.password, Account.name as fullName, Account.BID, Account.roleId, Resident.room \n" +
+                            "from Account left join Resident on Account.AID = Resident.AID where Account.roleId = 1 AND Account.name like ? ";
+            pst = cn.prepareStatement(query);
+            pst.setString(1, "%" + residentName + "%");
+            rs = pst.executeQuery();
+        }
+        while (rs.next()) {
+            UserEntity entity = new UserEntity();
+            entity.setAID(rs.getInt(1));
+            entity.setPhone(rs.getString(2));
+            entity.setEmail(rs.getString(3));
+            entity.setPassword(rs.getString(4));
+            entity.setName(rs.getString(5));
+            entity.setBID(rs.getInt(6));
+            entity.setRoleID(rs.getInt(7));
+            entity.setRoom(rs.getString(8));
+            list.add(entity);
+        }
+        return list;
+    }
+        
+    public UserEntity getOne(int aid) throws SQLException {
+        UserEntity user = new UserEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("select * from account a left join resident r on a.AID = r.AID where a.AID = ?");
+        pstm.setInt(1, aid);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            user.setAID(rs.getInt("AID"));
+            user.setPhone(rs.getString("phone"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setName(rs.getString("name"));
+            user.setBID(rs.getInt("BID"));
+            user.setRoleID(rs.getInt("roleID"));
+            user.setRoom(rs.getString("room"));
+//            user.setManagerId(rs.getString("managerId"));
+        }
+        con.close();
+        return user;
+    } 
+        
+    public void updateRoom(String room, int AID) throws SQLException{
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Resident set room = ? where AID = ?");
+        pstm.setString(1, room);
+        pstm.setInt(2, AID);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+
+    public static void main(String[] args) throws Exception {
+        ResidentRepository repo = new ResidentRepository();
+        System.out.println(repo.getOne(13));
+    }
+
 }

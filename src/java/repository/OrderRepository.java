@@ -1,4 +1,3 @@
-
 package repository;
 
 import config.DBConfig;
@@ -6,14 +5,20 @@ import entity.MyOrderEntity;
 import entity.OrderDetailEntity;
 import entity.OrderHeaderEntity;
 import entity.RevenueEntity;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class OrderRepository {
-    
+
     public List<RevenueEntity> getRevenue(String datePart, String[] timeSelect) throws SQLException {
         List<RevenueEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -44,7 +49,7 @@ public class OrderRepository {
         }
         return list;
     }
-    
+
     public List<OrderHeaderEntity> selectAll() throws SQLException {
         List<OrderHeaderEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -65,7 +70,7 @@ public class OrderRepository {
         con.close();
         return list;
     }
-    
+
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         List<MyOrderEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -82,16 +87,16 @@ public class OrderRepository {
             oh.setEmployeeId(rs.getInt("EID"));
             oh.setStatus(rs.getString("status"));
             oh.setNote(rs.getString("note"));
-            
+
             HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithName(rs.getInt("OID"));
-            
+
             MyOrderEntity fo = new MyOrderEntity(oh, map);
             list.add(fo);
         }
         con.close();
         return list;
     }
-    
+
     public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
         List<OrderDetailEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -113,8 +118,8 @@ public class OrderRepository {
         con.close();
         return list;
     }
-    
-      public HashMap<OrderDetailEntity, String> selectOrderDetailWithName(int orderHeaderId) throws SQLException {
+
+    public HashMap<OrderDetailEntity, String> selectOrderDetailWithName(int orderHeaderId) throws SQLException {
         HashMap<OrderDetailEntity, String> list = null;
         Connection con = DBConfig.getConnection();
 
@@ -138,8 +143,8 @@ public class OrderRepository {
         con.close();
         return list;
     }
-      
-      public void updateStatus(int oId, int eId, String status) throws SQLException {
+
+    public void updateStatus(int oId, int eId, String status) throws SQLException {
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("update Orders set EID = ?, status = ? where OID = ?");
         pstm.setInt(1, eId);
@@ -149,14 +154,136 @@ public class OrderRepository {
 
         con.close();
     }
-      
-       public static void main(String[] args) {
-        OrderRepository od = new OrderRepository();
-        String[] array = {"2013", "2023"};
-        try {
-            od.updateStatus(3, 4, "Failed");
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderRepository.class.getName()).log(Level.SEVERE, null, ex);
+
+    /**
+     *
+     * @param date
+     * @param status
+     * @param UID
+     * @param EID
+     * @param note
+     * @throws SQLException
+     */
+//    public void addOrder(Date date, String status, int UID, int EID, String note) throws SQLException {
+//
+//        Connection con = DBConfig.getConnection();
+//        String sql = "insert into Orders values(?,?,?,?,?)";
+//        PreparedStatement stm = con.prepareStatement(sql);
+//        stm.setDate(1, date);
+//        stm.setString(2, status);
+//        stm.setInt(3, UID);
+//        stm.setInt(4, EID);
+//        stm.setString(5, note);
+//        stm.executeUpdate();
+//        con.close();
+//    }
+    public List<Integer> getValidatedMonth() {
+        List<Boolean> m = new ArrayList<Boolean>();
+        for (int i = 0; i < 12; i++) {
+            m.add(false);
         }
+        try {
+            Connection con = DBConfig.getConnection();
+            String sql = "select * from Orders";
+            PreparedStatement stm1 = con.prepareStatement(sql);
+            ResultSet rs = stm1.executeQuery();
+            while (rs.next()) {
+                java.util.Date date = rs.getDate("time");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                int month = cal.get(Calendar.MONTH);
+                m.set(month, true);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        List<Integer> result = new ArrayList<Integer>();
+        for (int i = 0; i < 12; i++) {
+            if (m.get(i) == true) {
+                result.add(i + 1);
+            }
+        }
+        return result;
+    }
+
+    public String getJsMonthArray(List<Integer> l) {
+        String result = "";
+
+        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+        for (int i = 0; i < l.size(); i++) {
+            if (i == 0) {
+                result += "['" + months[l.get(i) - 1] + "',";
+            } else if (i == l.size() - 1) {
+                result += "'" + months[l.get(i) - 1] + "']";
+            } else {
+                result += "'" + months[l.get(i) - 1] + "',";
+            }
+        }
+        return result;
+    }
+
+    public List<Double> getTotalMoneyInMonth() {
+        List<Double> l = new ArrayList<Double>();
+        for (int i = 0; i < 12; i++) {
+            l.add(0.0);
+        }
+        try {
+            Connection con = DBConfig.getConnection();
+            String sql = "select * from Orders";
+            PreparedStatement stm1 = con.prepareStatement(sql);
+            ResultSet rs = stm1.executeQuery();
+            while (rs.next()) {
+                java.util.Date date = rs.getDate("time");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                int month = cal.get(Calendar.MONTH);
+                l.set(month, l.get(month) + getTotalMoneyOfOrder(rs.getInt("oid")));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        List<Double> result = new ArrayList<Double>();
+        for(Double d : l) {
+            if(d != 0.0) {
+                result.add(d);
+            }
+        }
+        return result;
+    }
+
+    public String getJsTotalMoneyArray(List<Double> l) {
+        String result = "";
+
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i) != 0.0) {
+                if (i == 0) {
+                    result += "[" + l.get(i) + ",";
+                } else if (i == l.size() - 1) {
+                    result += l.get(i) + "]";
+                } else {
+                    result += l.get(i) + ",";
+                }
+            }
+        }
+        return result;
+    }
+    
+    public int getTotalMoneyOfOrder(int oId) throws SQLException {
+        String query = "select SUM(od.min_price) as totalMoney from Orders as o join OrderDetail as od on o.OID = od.orderHeaderId where o.OID = ? and o.status = 'Completed'";
+        int result = 0;
+        Connection con = DBConfig.getConnection();
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, oId);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            result += rs.getInt("totalMoney");
+        }
+        
+        return result;
+    }
+
+    public static void main(String[] args) {
+        
     }
 }

@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,13 +49,16 @@ public class AdminResourceController extends HttpServlet {
                         tableResource(request, response, user);
                         break;
                     case "update-resource":
-                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        updateResource(request, response);
+                        break;
+                    case "update-resource-handler":
+                        updateResourceHandler(request, response);
                         break;
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        }else {
+        } else {
             response.sendRedirect(request.getContextPath() + "/home/index.do");
         }
 
@@ -170,6 +172,43 @@ public class AdminResourceController extends HttpServlet {
         request.setAttribute("endP", endPage);
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
 
+    }
+
+    protected void updateResource(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+        String bId = (String) request.getParameter("blockId");
+        String rId = (String) request.getParameter("resourceId");
+        if (bId.isBlank() || rId.isBlank()) {
+            response.sendRedirect("/admin-resource/table-resource.do?op=getAll");
+        } else {
+            ResourceService rService = new ResourceService();
+            BlockResourceEntity br = rService.getBlockResource(Integer.parseInt(bId), Integer.parseInt(rId));
+            request.setAttribute("blockResourceEntity", br);
+            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+        }
+
+    }
+
+    protected void updateResourceHandler(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+        String bId = (String) request.getParameter("blockId");
+        String bName = (String) request.getParameter("blockName");
+        String rId = (String) request.getParameter("resourceId");
+        String rName = (String) request.getParameter("resourceName");
+        String quantity = (String) request.getParameter("quantity");
+        String message;
+        if (bId.isBlank() || bName.isBlank() || rId.isBlank() || rName.isBlank() || quantity.isBlank()) {
+            message = "You need to select UPDATE operation before going to update page";
+        } else {
+            BlockResourceEntity br = new BlockResourceEntity(Integer.parseInt(bId), bName, Integer.parseInt(rId), rName, Integer.parseInt(quantity));
+            ResourceService rService = new ResourceService();
+            rService.updateResource(br);
+            message = "Updated Successfully";
+        }
+        response.sendRedirect(request.getContextPath() + String.format("/admin-resource/table-resource.do?op=getAll&message=%s", message));
+//        request.setAttribute("action", "table-resource");
+//        request.setAttribute("op", "getAll");
+//        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+
+     
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
