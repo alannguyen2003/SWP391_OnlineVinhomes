@@ -75,10 +75,7 @@
                                         <td>${r.room}</td>
                                         <td>${r.BID}</td>
                                         <td>
-            <!--                                <a href="<c:url value="/admin/table_update.do?id=${product.id}" />">Update</a> |
-                                            <a href="<c:url value="/admin//table_delete.do?id=${product.id}"/>" id="delete" data-toggle="modal" data-target="#deleteModal">
-                                                Delete
-                                            </a>                         -->
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -96,20 +93,30 @@
 
         <c:if test="${currentPage > 1}">
             <li class="page-item"><a class="page-link" href="<c:url value="/admin/resident-tables.do?&page=${currentPage - 1}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}" />">Previous</a></li>
-        </c:if>
+            </c:if>
 
         <c:forEach var="i" begin="1" end="${totalPages}">
             <c:choose>
                 <c:when test="${i == currentPage}">
-                    <li class="page-item"><a class="page-link" href="<c:url value="/admin/resident-tables.do?page=${i}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}" />">${i}</a></li>
+                    <li class="page-item active"><a class="page-link" href="#"><c:out value="${i}" /></a></li>
                     </c:when>
                     <c:otherwise>
-                    <li class="page-item"><a class="page-link" href="<c:url value="/admin/resident-tables.do?page=${i}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}" />">${i}</a></li>
+                        <c:if test="${i <= 3 || i >= totalPages - 2 || (i >= currentPage - 1 && i <= currentPage + 1)}">
+                        <li class="page-item"><a class="page-link" href="<c:url value='/admin/resident-tables.do?page=${i}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}' />"><c:out value="${i}" /></a></li>
+                        </c:if>
+                        <c:if test="${i == 4 && currentPage > 5}">
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                        </c:if>
+                        <c:if test="${i == totalPages - 3 && currentPage < totalPages - 4}">
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                        </c:if>
                     </c:otherwise>
                 </c:choose>
-        </c:forEach>
-        <c:if test="${currentPage < totalPages}">
+            </c:forEach>
+            <c:if test="${currentPage < totalPages}">
             <li class="page-item"><a class="page-link" href="<c:url value="/admin/resident-tables.do?page=${currentPage + 1}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}" />">Next</a></li>
-        </c:if>
+            </c:if>
     </ul>
 </nav>
+                            
+                            

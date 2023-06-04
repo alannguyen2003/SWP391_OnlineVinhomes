@@ -99,8 +99,24 @@ public class UserRepository {
         
     }
     
+    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException{
+        String query = "insert into Account values(?,?,?,?,?,?)";
+        Connection con = DBConfig.getConnection();
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, phone);
+        stm.setString(2, email);
+        stm.setString(3, password);
+        stm.setString(4, name);
+        stm.setInt(5, blockId);
+        stm.setInt(6, roleId);
+        stm.executeUpdate();
+        con.close();
+    }
+    
+    
     public static void main(String[] args) throws SQLException {
-        System.out.println(new UserRepository().Login("thu1@gmail.com", "123456"));
+       UserRepository rep = new UserRepository();
+       rep.createAccount("1234567890", "a@gmail.com", "123456", "Manager", 3, 3);
     }
     
 }

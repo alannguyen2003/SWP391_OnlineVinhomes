@@ -13,10 +13,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import service.ResidentService;
+import service.UserService;
 
 /**
  *
@@ -26,6 +28,7 @@ import service.ResidentService;
 public class AdminController extends HttpServlet {
 
     private ResidentService rs = new ResidentService();
+    private UserService us = new UserService();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,6 +54,12 @@ public class AdminController extends HttpServlet {
                         break;
                     case "resident-tables":
                         residentTables(request, response);
+                        break;
+                    case "account-create":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "accountCreate":
+                        create(request, response);
                         break;
                 }
             } catch (Exception ex) {
@@ -161,6 +170,18 @@ public class AdminController extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+    }
+
+    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String phone = request.getParameter("phone");
+        int blockId = Integer.parseInt(request.getParameter("blockId"));
+        int roleId = Integer.parseInt(request.getParameter("roleId"));
+        us.createAccount(phone, email, password, name, blockId, roleId);
+        request.setAttribute("message", "Account has been added!");
+        response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
     }
 
 }

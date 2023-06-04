@@ -23,6 +23,8 @@ public class UserService {
     public void changePass(String email, String password) throws SQLException {
          userRepo.changePass(email, password);
     }
-    
+    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException{
+        userRepo.createAccount(phone, email, password, name, blockId, roleId);
+    }
 }
 

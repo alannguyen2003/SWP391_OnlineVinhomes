@@ -72,10 +72,13 @@ public class UserController extends HttpServlet {
                     }
 
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                break;
+                    } catch (SQLException ex) {
+                        Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case "updateRoom":
+                    update(request, response);
+                    break;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -177,5 +180,12 @@ public class UserController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String room = request.getParameter("room");
+        int AID = Integer.parseInt(request.getParameter("AID"));
+        residentService.updateRoom(room, AID);
+        response.sendRedirect(request.getContextPath() + "/user/profile.do");
+    }
 
 }

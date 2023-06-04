@@ -79,12 +79,20 @@ public class ResidentRepository {
         }
         return list;
     }
+        
+    public void updateRoom(String room, int AID) throws SQLException{
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Resident set room = ? where AID = ?");
+        pstm.setString(1, room);
+        pstm.setInt(2, AID);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
 
     public static void main(String[] args) throws Exception {
         ResidentRepository repo = new ResidentRepository();
-        for (UserEntity entity : repo.getAllResidentByName("t")) {
-            System.out.println(entity);
-        }
+        repo.updateRoom("", 0);
     }
 
 }
