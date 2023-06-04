@@ -319,3 +319,16 @@
   }
 
 })();
+
+document.addEventListener('DOMContentLoaded', function() {
+    var navLinks = document.querySelectorAll('.nav-link1');
+    for (var i = 0; i < navLinks.length; i++) {
+        navLinks[i].addEventListener('click', function(event) {
+            var currentActive = document.querySelector('.nav-item.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+            }
+            this.parentNode.classList.add('active');
+        });
+    }
+});

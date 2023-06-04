@@ -50,6 +50,7 @@ public class AdminController extends HttpServlet {
             try {
                 switch (action) {
                     case "admin-dashboard":
+                        request.setAttribute("activeTab", "dashboard");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "resident-tables":
@@ -133,7 +134,7 @@ public class AdminController extends HttpServlet {
         switch (op) {
             case "getAll":
                 list = rs.getAllResident();
-
+                request.setAttribute("activeTab", "resident");
                 // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
