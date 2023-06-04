@@ -384,8 +384,8 @@
                     </a>
                     <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <a href="tables-general.html">
-                                <i class="bi bi-circle"></i><span>General Tables</span>
+                            <a href="<c:url value="/admin/user-tables.do?op=getAll" />">
+                                <i class="bi bi-circle"></i><span>User Tables</span>
                             </a>
                         </li>
                         <li>

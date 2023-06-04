@@ -92,7 +92,7 @@ public class ResidentRepository {
 
     public static void main(String[] args) throws Exception {
         ResidentRepository repo = new ResidentRepository();
-        repo.updateRoom("", 0);
+        System.out.println(repo.getAllResident());
     }
 
 }

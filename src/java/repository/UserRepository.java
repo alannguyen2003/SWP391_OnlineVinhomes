@@ -113,10 +113,61 @@ public class UserRepository {
         con.close();
     }
     
+    public ArrayList<UserEntity> getAllUser() throws Exception {
+        ArrayList<UserEntity> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select Account.AID, Account.phone, Account.email, Account.password, Account.name, Account.BID, Account.roleId, Resident.room \n" +
+"                         from Account left join Resident on Account.AID = Resident.AID";
+            pst = cn.prepareStatement(query);
+            rs = pst.executeQuery();
+        }
+        while (rs.next()) {
+            UserEntity entity = new UserEntity();
+            entity.setAID(rs.getInt(1));
+            entity.setPhone(rs.getString(2));
+            entity.setEmail(rs.getString(3));
+            entity.setPassword(rs.getString(4));
+            entity.setName(rs.getString(5));
+            entity.setBID(rs.getInt(6));
+            entity.setRoleID(rs.getInt(7));
+            entity.setRoom(rs.getString(8));
+            list.add(entity);
+        }
+        return list;
+    }
+        public ArrayList<UserEntity> getAllUserByName(String name) throws Exception {
+        ArrayList<UserEntity> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select Account.AID, Account.phone, Account.email, Account.password, Account.name as fullName, Account.BID, Account.roleId, Resident.room \n" +
+                            "from Account left join Resident on Account.AID = Resident.AID where Account.name like ? ";
+            pst = cn.prepareStatement(query);
+            pst.setString(1, "%" + name + "%");
+            rs = pst.executeQuery();
+        }
+        while (rs.next()) {
+            UserEntity entity = new UserEntity();
+            entity.setAID(rs.getInt(1));
+            entity.setPhone(rs.getString(2));
+            entity.setEmail(rs.getString(3));
+            entity.setPassword(rs.getString(4));
+            entity.setName(rs.getString(5));
+            entity.setBID(rs.getInt(6));
+            entity.setRoleID(rs.getInt(7));
+            entity.setRoom(rs.getString(8));
+            list.add(entity);
+        }
+        return list;
+    }
     
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, Exception {
        UserRepository rep = new UserRepository();
-       rep.createAccount("1234567890", "a@gmail.com", "123456", "Manager", 3, 3);
+        System.out.println(rep.getAllUser());
     }
     
 }
