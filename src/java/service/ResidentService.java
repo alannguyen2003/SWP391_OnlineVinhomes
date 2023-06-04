@@ -26,6 +26,10 @@ public class ResidentService {
         return residentRepo.getAllResidentByName(residentName);
     }
     
+    public UserEntity getOne(int AID) throws SQLException{
+        return residentRepo.getOne(AID);
+    }
+    
     public void updateRoom(String room, int AID) throws SQLException{
         residentRepo.updateRoom(room, AID);
     }

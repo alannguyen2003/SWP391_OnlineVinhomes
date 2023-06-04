@@ -74,9 +74,8 @@
                                         <td>${r.phone}</td>
                                         <td>${r.room}</td>
                                         <td>${r.BID}</td>
-                                        <td>
-
-                                        </td>
+                                        <td></td>
+                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/resident-detail.do?AID=${r.AID}"/>">View <i class="bi bi-gear"></i></a></td>
                                     </tr>
                                 </tbody>
                             </c:forEach>

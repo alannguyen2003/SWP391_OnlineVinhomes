@@ -80,6 +80,28 @@ public class ResidentRepository {
         return list;
     }
         
+    public UserEntity getOne(int aid) throws SQLException {
+        UserEntity user = new UserEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("select * from account a left join resident r on a.AID = r.AID where a.AID = ?");
+        pstm.setInt(1, aid);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            user.setAID(rs.getInt("AID"));
+            user.setPhone(rs.getString("phone"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setName(rs.getString("name"));
+            user.setBID(rs.getInt("BID"));
+            user.setRoleID(rs.getInt("roleID"));
+            user.setRoom(rs.getString("room"));
+//            user.setManagerId(rs.getString("managerId"));
+        }
+        con.close();
+        return user;
+    } 
+        
     public void updateRoom(String room, int AID) throws SQLException{
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("update Resident set room = ? where AID = ?");
@@ -92,7 +114,7 @@ public class ResidentRepository {
 
     public static void main(String[] args) throws Exception {
         ResidentRepository repo = new ResidentRepository();
-        System.out.println(repo.getAllResident());
+        System.out.println(repo.getOne(13));
     }
 
 }

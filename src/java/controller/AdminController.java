@@ -55,6 +55,12 @@ public class AdminController extends HttpServlet {
                     case "resident-tables":
                         residentTables(request, response);
                         break;
+                    case "resident-detail":
+                        int AID = Integer.parseInt(request.getParameter("AID"));
+                        UserEntity u = rs.getOne(AID);
+                        request.setAttribute("u", u);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
                     case "user-tables":
                         userTables(request, response);
                     case "account-create":
