@@ -294,6 +294,12 @@
                         <span>Manage Resident</span>
                     </a>
                 </li><!-- End Resident Nav -->
+                <li class="nav-item ${activeTab == "resident" ? "active" : ""}">
+                    <a class="nav-link1" href="<c:url value="/admin/user-tables.do?op=getAll" />">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Manage User</span>
+                    </a>
+                </li><!-- End User Nav -->
                 <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
                     <a class="nav-link1" href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>">
                         <i class="bi bi-box-fill"></i>

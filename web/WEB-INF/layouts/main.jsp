@@ -445,6 +445,7 @@
         <script src="${pageContext.request.contextPath}/assets/vendors/order/order.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/home/home.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/contact/modernizr-3.11.2.min.js"></script>
+        
         <!-- template js -->
         <script src="${pageContext.request.contextPath}/assets/js/brote.js"></script>
     </body>
