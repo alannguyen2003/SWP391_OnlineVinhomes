@@ -21,6 +21,9 @@ public class UserService {
     public UserEntity checkEmailExist(String email) throws SQLException {
         return userRepo.Check(email);
     }
+    public void resetPass(String email, String password) throws SQLException {
+        userRepo.resetPass(email, password);
+    }
     public void changePass(String aid, String password) throws SQLException {
          userRepo.changePass(aid, password);
     }

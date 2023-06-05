@@ -4,12 +4,14 @@
  */
 package controller;
 
+import entity.ResetPassCodeEntity;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import repository.UserRepository;
 import service.GmailService;
@@ -45,29 +47,7 @@ public class ResetPasswordController extends HttpServlet {
                     resetPassHandler(request, response);
                     break;
                 case "reset-pass-handler-commit":
-                    String email = (String) request.getParameter("email");
-                    String op = (String) request.getParameter("op");
-                        switch (op) {
-                        case "newCommit":
-                            request.setAttribute("email", (String) request.getParameter("email"));
-                            request.setAttribute("action", "reset-pass-handler");
-                            request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                            break;
-                        case "changeCommit":
-                            String newPassword = (String) request.getParameter("newPassword");
-                            String reEnter = (String) request.getParameter("reEnter");
-
-                            if (newPassword.equals(reEnter)) {
-                                UserService userService = new UserService();
-                                userService.changePass(email, newPassword);
-                                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                            } else {
-                                request.setAttribute("action", "reset-pass-handler");
-                                request.setAttribute("message", "You need to correctly re-enter the new password");
-                                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                            }
-                            break;
-                    }
+                    resetPassCommit(request, response);
 
                     break;
             }
@@ -83,11 +63,16 @@ public class ResetPasswordController extends HttpServlet {
         String email = (String) request.getParameter("email");
         if (userService.checkEmailExist(email) != null) {
             int index = email.indexOf("@");
+            GmailService gmailer = new GmailService();
+            String code = gmailer.getRandomCode();
+            ResetPassCodeEntity rsCode = new ResetPassCodeEntity();
+            rsCode.setCode(code);
             String emailName = email.substring(0, index);
-            String link = "http://localhost:8080/vsos/reset-pass/reset-pass-handler-commit.do?email=" + emailName + "%40gmail.com&op=newCommit";
+            HttpSession session = request.getSession();
+            session.setAttribute("validator", rsCode);
+            String link = "http://localhost:8080/vsos/reset-pass/reset-pass-handler-commit.do?email=" + emailName + "%40gmail.com&op=newCommit&code=" + code;
             String subject = "This is automated email. Do not response.";
             String body = "Click this link to reset your account password: " + link;
-            GmailService gmailer = new GmailService();
             gmailer.sendEmail(subject, body, email);
             String message = "We have sent you a link in your email account. Please check your Email.";
             request.setAttribute("message", message);
@@ -95,6 +80,43 @@ public class ResetPasswordController extends HttpServlet {
         } else {
             String message = "Email does not exist.";
             request.setAttribute("message", message);
+            request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+        }
+    }
+
+    protected void resetPassCommit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String email = (String) request.getParameter("email");
+        String code = request.getParameter("code");
+        HttpSession session = request.getSession();
+        ResetPassCodeEntity rsCode = (ResetPassCodeEntity) session.getAttribute("validator");
+        if (rsCode.getCode().equals(code)) {
+            String op = (String) request.getParameter("op");
+            switch (op) {
+                case "newCommit":
+                    request.setAttribute("email", (String) request.getParameter("email"));
+                    request.setAttribute("action", "reset-pass-handler");
+                    request.setAttribute("code", rsCode.getCode());
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    break;
+                case "changeCommit":
+                    String newPassword = (String) request.getParameter("newPassword");
+                    String reEnter = (String) request.getParameter("reEnter");
+
+                    if (newPassword.equals(reEnter)) {
+                        UserService userService = new UserService();
+                        userService.resetPass(email, newPassword);
+                        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("action", "reset-pass-handler");
+                        request.setAttribute("code", (String) request.getParameter("code"));
+                        request.setAttribute("message", "You need to correctly re-enter the new password");
+                        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    }
+                    break;
+            }
+        } else {
+            request.setAttribute("message", "Unauthorized accessing detected!");
+            request.setAttribute("action", "reset-pass");
             request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
         }
     }

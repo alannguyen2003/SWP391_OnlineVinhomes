@@ -85,6 +85,17 @@ public class UserRepository {
         return null;
     }
 
+    public void resetPass(String email, String password) throws SQLException {
+        String query = "update Account set password = ? where email = ?";
+        connect = DBConfig.getConnection();
+        ps = connect.prepareStatement(query);
+        ps.setString(2, email);
+        ps.setString(1, password);
+        ps.executeUpdate();
+        connect.close();
+
+    }
+    
     public void changePass(String aid, String password) throws SQLException {
         String query = "update Account set password = ? where aid = ?";
         connect = DBConfig.getConnection();
