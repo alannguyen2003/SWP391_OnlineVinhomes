@@ -11,7 +11,7 @@
                 <div class="wrap d-md-flex">
                     <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
                         <div class ="text w-100" >
-                            <h2 class="text-primary">Welcome to signup</h2>
+                            <h2 class="text-primary">Welcome to Brote Cleaning Service</h2>
                             <p class="text-white">Already have an account?</p>
                             <a href="<c:url value="/user/login.do"/>" class="btn btn-white btn-outline-white">Sign In</a>
                         </div>
