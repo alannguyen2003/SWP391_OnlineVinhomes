@@ -58,28 +58,27 @@
 
             <div class="card card-raised mb-5">
                 <div style="margin: 0px!important;" class="card-body p-5">
-                    <c:choose>
-                        <c:when test="${res.room == null}">
-                            <div class="caption text-center">Enter your room number
-                                <form action="<c:url value="/user/updateRoom.do" />">
-                                    <input type="hidden" name="AID" value="${res.AID}" />
-                                    <input class="form-control" type="text" name="room" placeholder="Room Number"/>
+
+                    <c:if test="${res.room == null && user.roleID == 1}">
+                        <div class="caption text-center">Enter your room number
+                            <form action="<c:url value="/user/updateRoom.do" />">
+                                <input type="hidden" name="AID" value="${res.AID}" />
+                                <input class="form-control" type="text" name="room" placeholder="Room Number"/>
                                 <button class="btn btn-primary mt-10" type="submit">Save</button>
-                                </form>
-                            </div>
-                            </c:when>
-                        <c:otherwise>
+                            </form>
+                        </div>
+                    </c:if>
+                    <c:if test="${res.room != null && user.roleID == 1}">
                         <div class="card-title">Your Room:</div>
                         <div class="card-subtitle mb-4">${res.room}</div>
-                        </c:otherwise>
-                    </c:choose>
+                    </c:if>
                     <c:if test="${user.roleID != 1}">
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-cash"></i></div>
                             <label class="label">Your salary</label>
                             <div class="card-subtitle mb-4"><fmt:formatNumber value="${emp.salary}" type="currency"/></div>
                         </div>
-                        
+
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-command"></i></div>
                             <label class="label">Your Manager_ID</label>
@@ -142,16 +141,16 @@
     </div>
 </div>
 
-                                
-                                
+
+
 <script>
     document.querySelector("#avatar").addEventListener("change", (e) => {
         document.querySelector("#avatar-preview").src = URL.createObjectURL(e.target.files[0]);
         document.querySelector("input[name=isAvaChange]").value = true;
     })
-    
+
     document.querySelector("#avatar-preview").addEventListener("error", (e) => {
         e.target.src = "<c:url value="/assets/img/user-avatar.png" />";
     })
-    
+
 </script>
