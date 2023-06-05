@@ -73,7 +73,7 @@
                     <div class="main-header__top-social-box">
                         <div class="container">
                             <div class="main-header__top-social-box-inner">
-                                <p class="main-header__top-social-text">Welcome to our Brote Cleaning Services!</p>
+                                <p class="main-header__top-social-text">Welcome to Vinhomes Services!</p>
                                 <div class="main-header__top-social">
                                     <a href="#"><i class="fab fa-twitter"></i></a>
                                     <a href="#"><i class="fab fa-facebook"></i></a>
@@ -95,7 +95,7 @@
                                             <span class="icon-message"></span>
                                         </div>
                                         <div class="text">
-                                            <h5><a href="mailto:brote@company.com">ondemand@company.com</a></h5>
+                                            <h5><a href="mailto:vsnghi01@gmail.com">vinhomes@company.com</a></h5>
                                             <p>Send mail</p>
                                         </div>
                                     </li>

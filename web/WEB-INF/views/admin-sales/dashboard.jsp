@@ -61,7 +61,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Bar CHart</h5>
+                    <h5 class="card-title">Top 5 users</h5>
 
                     <!-- Bar Chart -->
                     <canvas id="barChart" style="max-height: 400px;"></canvas>
@@ -72,7 +72,7 @@
                                 data: {
                                     labels: ${userData},
                                     datasets: [{
-                                            label: 'Bar Chart',
+                                            label: 'Total Bill',
                                             data: ${userMoneyData},
                                             backgroundColor: [
                                                 'rgba(255, 99, 132, 0.2)',

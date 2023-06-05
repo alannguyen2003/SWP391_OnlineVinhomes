@@ -51,6 +51,42 @@ public class CategoryRepository {
         return list;
     }
     
+    public CategoryEntity getServiceByCategoryId(int id) throws SQLException {
+        String query = "select * from Category where CID = ?";
+        CategoryEntity cate = new CategoryEntity();
+        Connection con = null;
+        PreparedStatement pre = null;
+        ResultSet rs = null;
+        try {
+            con = DBConfig.getConnection();
+            pre = con.prepareStatement(query);
+            // code go la phai nam duoi pre = con.pre
+            pre.setInt(1, id);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                // output tu database
+                cate.setId(rs.getInt("CID"));
+                cate.setName(rs.getString("name"));
+                
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+
+            if (pre != null) {
+                pre.close();
+            }
+
+            if (rs != null) {
+                rs.close();
+            }
+
+        }
+        return cate;
+    }
+    
+    
     public static void main(String[] args) throws Exception {
         CategoryRepository categoryRepository = new CategoryRepository();
         for (CategoryEntity item : categoryRepository.getTopCategory()) {

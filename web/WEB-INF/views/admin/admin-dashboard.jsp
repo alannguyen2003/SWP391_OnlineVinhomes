@@ -4,6 +4,7 @@
     Author     : ASUS
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="pagetitle">
@@ -48,16 +49,17 @@
                                     <i class="bi bi-cart"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>145</h6>
-                                    <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                        class="text-muted small pt-2 ps-1">increase</span>
+                                    <h6>${count}</h6>
+<!--                                    <span class="text-success small pt-1 fw-bold">12%</span> <span
+                                        class="text-muted small pt-2 ps-1">increase</span>-->
 
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                </div><!-- End Sales Card -->
+                </div>
+                <!-- End Sales Card -->
 
                 <!-- Revenue Card -->
                 <div class="col-xxl-4 col-md-6">
@@ -77,16 +79,16 @@
                         </div>
 
                         <div class="card-body">
-                            <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                            <h5 class="card-title">Income <span>| This Month</span></h5>
 
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                     <i class="bi bi-currency-dollar"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>$3,264</h6>
-                                    <span class="text-success small pt-1 fw-bold">8%</span> <span
-                                        class="text-muted small pt-2 ps-1">increase</span>
+                                    <h6>${income}</h6>
+<!--                                    <span class="text-success small pt-1 fw-bold">8%</span> <span
+                                        class="text-muted small pt-2 ps-1">increase</span>-->
 
                                 </div>
                             </div>
@@ -121,9 +123,9 @@
                                     <i class="bi bi-people"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>1244</h6>
-                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                                        class="text-muted small pt-2 ps-1">decrease</span>
+                                    <h6>${countacc}</h6>
+<!--                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                                        class="text-muted small pt-2 ps-1">decrease</span>-->
 
                                 </div>
                             </div>
@@ -234,8 +236,9 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-
+                            
                             <table class="table table-borderless datatable">
+                                
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -245,15 +248,18 @@
                                         <th scope="col">Status</th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody>
+                                    <c:forEach items = "${requestScope.listSale}" var ="listSale">
                                     <tr>
-                                        <th scope="row"><a href="#">#2457</a></th>
-                                        <td>Brandon Jacob</td>
-                                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                                        <td>$64</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <th scope="row"><a href="#">${listSale.id}</a></th>
+                                        <td>${listSale.name}</td>
+                                        <td><a href="#" class="text-primary">${listSale.servicename}</a></td>
+                                        <td>${listSale.price}</td>
+                                        <td><span class="badge bg-success">${listSale.status}</span></td>
                                     </tr>
-                                    <tr>
+                                    </c:forEach>
+<!--                                    <tr>
                                         <th scope="row"><a href="#">#2147</a></th>
                                         <td>Bridie Kessler</td>
                                         <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
@@ -280,8 +286,9 @@
                                         <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
                                         <td>$165</td>
                                         <td><span class="badge bg-success">Approved</span></td>
-                                    </tr>
+                                    </tr>-->
                                 </tbody>
+                                
                             </table>
 
                         </div>
@@ -386,59 +393,61 @@
 
                 <div class="card-body">
                     <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+                    <c:forEach items="${requestScope.list}" var="list">
+                        <div class="activity">
 
-                    <div class="activity">
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">${list.date}</div>
+                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                                <div class="activity-content">
+                                    <a> ${list.status}</a>
+                                    <a> ${list.note}</a>
+                                </div>
+                            </div><!-- End activity item-->
 
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">32 min</div>
-                            <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                            <div class="activity-content">
-                                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                            </div>
-                        </div><!-- End activity item-->
 
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">56 min</div>
-                            <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                            <div class="activity-content">
-                                Voluptatem blanditiis blanditiis eveniet
-                            </div>
-                        </div><!-- End activity item-->
+                            <!--                        <div class="activity-item d-flex">
+                                                        <div class="activite-label">56 min</div>
+                                                        <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
+                                                        <div class="activity-content">
+                                                            Voluptatem blanditiis blanditiis eveniet
+                                                        </div>
+                                                    </div> End activity item
+                            
+                                                    <div class="activity-item d-flex">
+                                                        <div class="activite-label">2 hrs</div>
+                                                        <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                                                        <div class="activity-content">
+                                                            Voluptates corrupti molestias voluptatem
+                                                        </div>
+                                                    </div> End activity item
+                            
+                                                    <div class="activity-item d-flex">
+                                                        <div class="activite-label">1 day</div>
+                                                        <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
+                                                        <div class="activity-content">
+                                                            Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
+                                                        </div>
+                                                    </div> End activity item
+                            
+                                                    <div class="activity-item d-flex">
+                                                        <div class="activite-label">2 days</div>
+                                                        <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
+                                                        <div class="activity-content">
+                                                            Est sit eum reiciendis exercitationem
+                                                        </div>
+                                                    </div> End activity item
+                            
+                                                    <div class="activity-item d-flex">
+                                                        <div class="activite-label">4 weeks</div>
+                                                        <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
+                                                        <div class="activity-content">
+                                                            Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                                                        </div>
+                                                    </div> End activity item-->
 
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">2 hrs</div>
-                            <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                            <div class="activity-content">
-                                Voluptates corrupti molestias voluptatem
-                            </div>
-                        </div><!-- End activity item-->
-
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">1 day</div>
-                            <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                            <div class="activity-content">
-                                Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                            </div>
-                        </div><!-- End activity item-->
-
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">2 days</div>
-                            <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                            <div class="activity-content">
-                                Est sit eum reiciendis exercitationem
-                            </div>
-                        </div><!-- End activity item-->
-
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">4 weeks</div>
-                            <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                            <div class="activity-content">
-                                Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                            </div>
-                        </div><!-- End activity item-->
-
-                    </div>
-
+                        </div>
+                    </c:forEach>
                 </div>
             </div><!-- End Recent Activity -->
 
@@ -535,7 +544,7 @@
                     <h5 class="card-title">Website Traffic <span>| Today</span></h5>
 
                     <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
+                    
                     <script>
                         document.addEventListener("DOMContentLoaded", () => {
                             echarts.init(document.querySelector("#trafficChart")).setOption({
@@ -565,32 +574,38 @@
                                         labelLine: {
                                             show: false
                                         },
-                                        data: [{
-                                                value: 1048,
-                                                name: 'Search Engine'
-                                            },
+                                        
+                                        data: [
+                                            <c:forEach items="${requestScope.cateTra}" var="cateTra">
                                             {
-                                                value: 735,
-                                                name: 'Direct'
+                                                value: ${cateTra.countcate},
+                                                name: '${cateTra.catename}'
                                             },
-                                            {
-                                                value: 580,
-                                                name: 'Email'
-                                            },
-                                            {
-                                                value: 484,
-                                                name: 'Union Ads'
-                                            },
-                                            {
-                                                value: 300,
-                                                name: 'Video Ads'
-                                            }
+                                            </c:forEach>
+//                                            ,
+//                                            {
+//                                                value: 735,
+//                                                name: 'Direct'
+//                                            },
+//                                            {
+//                                                value: 580,
+//                                                name: 'Email'
+//                                            },
+//                                            {
+//                                                value: 484,
+//                                                name: 'Union Ads'
+//                                            },
+//                                            {
+//                                                value: 300,
+//                                                name: 'Video Ads'
+//                                            }
                                         ]
+                                                                            
                                     }]
                             });
                         });
                     </script>
-
+                   
                 </div>
             </div><!-- End Website Traffic -->
 

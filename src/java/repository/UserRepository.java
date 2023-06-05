@@ -85,11 +85,11 @@ public class UserRepository {
         return null;
     }
 
-    public void changePass(String email, String password) throws SQLException {
-        String query = "update Account set password = ? where email = ?";
+    public void changePass(String aid, String password) throws SQLException {
+        String query = "update Account set password = ? where aid = ?";
         connect = DBConfig.getConnection();
         ps = connect.prepareStatement(query);
-        ps.setString(2, email);
+        ps.setString(2, aid);
         ps.setString(1, password);
         ps.executeUpdate();
         connect.close();
