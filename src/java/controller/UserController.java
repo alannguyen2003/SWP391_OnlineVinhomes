@@ -59,6 +59,10 @@ public class UserController extends HttpServlet {
                 case "signup":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
+
+                case "signup_handler":
+                    signUpHandler(request, response);
+                    break;
                 case "change-password":
                     try {
                     ToastEntity toast = null;
@@ -120,6 +124,33 @@ public class UserController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
         }
 
+    }
+
+    protected void signUpHandler(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            String name = request.getParameter("name");
+            String phone = request.getParameter("phone");
+            int blockId = Integer.parseInt(request.getParameter("bid"));
+            UserEntity entity = new UserEntity();
+            entity.setEmail(email);
+            entity.setName(name);
+            entity.setPhone(phone);
+            entity.setBID(blockId);
+            entity.setPassword(password);
+            boolean check = userService.addNewResident(entity);
+            if (check) {
+                request.setAttribute("message", "Please login again.");
+                request.getRequestDispatcher("/user/login.do").forward(request, response);
+            } else {
+                request.setAttribute("message", "Email exist! Please choose another one!!");
+                request.getRequestDispatcher("/user/signup.do").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void login_handler(HttpServletRequest request, HttpServletResponse response)

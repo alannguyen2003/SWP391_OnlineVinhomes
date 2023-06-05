@@ -40,5 +40,22 @@ public class UserService {
     public String getUserMoneyForChart() throws SQLException {
         return userRepo.getTopUserTotalMoneyJsArray();
     }
+    
+    public int getCountResident() throws Exception {
+        return userRepo.getCountResident();
+    }
+    
+    public boolean addNewResident(UserEntity entity) throws Exception {
+        if (userRepo.Check(entity.getEmail()) != null) {
+            return false;
+        }
+        userRepo.addNewResident(entity);
+        return true;
+    }
+    
+    public static void main(String[] args) throws Exception {
+        UserService service = new UserService();
+        System.out.println(service.getCountResident());
+    }
 }
 

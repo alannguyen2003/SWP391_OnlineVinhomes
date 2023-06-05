@@ -223,6 +223,38 @@ public class UserRepository {
         }
         return result;
     }
+    
+    public int getCountResident() throws Exception {
+        Connection cn = DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select count(*) as count from Resident";
+            pst = cn.prepareStatement(query);
+            rs = pst.executeQuery();
+        }
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public void addNewResident(UserEntity userEntity) throws Exception {
+        Connection cn = DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "insert into Account(phone, email, password, name, BID, roleId)\n"
+                    + "values (?, ?, ?, ?, ?, 1)";
+            pst = cn.prepareStatement(query);
+            pst.setString(1, userEntity.getPhone());
+            pst.setString(2, userEntity.getEmail());
+            pst.setString(3, userEntity.getPassword());
+            pst.setNString(4, userEntity.getName());
+            pst.setInt(5, userEntity.getBID());
+            pst.executeUpdate();
+        }
+    }
 
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
