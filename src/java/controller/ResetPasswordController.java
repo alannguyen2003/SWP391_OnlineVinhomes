@@ -48,7 +48,6 @@ public class ResetPasswordController extends HttpServlet {
                     break;
                 case "reset-pass-handler-commit":
                     resetPassCommit(request, response);
-
                     break;
             }
         } catch (Exception e) {
