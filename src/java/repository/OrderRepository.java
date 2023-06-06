@@ -29,15 +29,15 @@ public class OrderRepository {
         String sql = "";
         switch (datePart) {
             case "day":
-                sql = String.format("select datepart(day, h.[date]) as [label], sum(d.price) as total from Orders h join OrderDetail d on h.id = d.orderHeaderId where datepart(month, h.[date]) = %s and datepart(year, h.[date]) = %s group by datepart(day, h.[date])",
+                sql = String.format("select datepart(day, h.[date]) as [label], sum(d.price) as total from Orders h join OrderDetail d on h.id = d.orderHeader_Id where datepart(month, h.[date]) = %s and datepart(year, h.[date]) = %s group by datepart(day, h.[date])",
                         timeSelect[0], timeSelect[1]);
                 break;
             case "month":
-                sql = String.format("select datepart(month, h.[date]) as [label], sum(d.price) as total from Orders h join OrderDetail d on h.id = d.orderHeaderId where datepart(year, h.[date]) = %s group by datepart(month, h.[date])",
+                sql = String.format("select datepart(month, h.[date]) as [label], sum(d.price) as total from Orders h join OrderDetail d on h.id = d.orderHeader_Id where datepart(year, h.[date]) = %s group by datepart(month, h.[date])",
                         timeSelect[0]);
                 break;
             case "year":
-                sql = String.format("select datepart(year, h.[date]) as [label], sum(d.price) as total from Orders h join OrderDetail d on h.id = d.orderHeaderId where datepart(year, h.[date]) between %s and %s group by datepart(year, h.[date])",
+                sql = String.format("select datepart(year, h.[date]) as [label], sum(d.price) as total from Orders h join OrderDetail d on h.id = d.orderHeader_Id where datepart(year, h.[date]) between %s and %s group by datepart(year, h.[date])",
                         timeSelect[0], timeSelect[1]);
                 break;
         }
@@ -103,7 +103,7 @@ public class OrderRepository {
         List<OrderDetailEntity> list = null;
         Connection con = DBConfig.getConnection();
 
-        PreparedStatement stm = con.prepareStatement("select * from OrderDetail where orderheaderid = ? ");
+        PreparedStatement stm = con.prepareStatement("select * from OrderDetail where orderheader_id = ? ");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         list = new ArrayList<>();
@@ -127,7 +127,7 @@ public class OrderRepository {
 
         PreparedStatement stm = con.prepareStatement("select o.*, s.[name]\n"
                 + "from orderdetail o, service s\n"
-                + "where o.orderHeaderId = ? and o.serviceId = s.service_id");
+                + "where o.orderHeader_Id = ? and o.service_Id = s.service_id");
         stm.setInt(1, orderHeaderId);
         ResultSet rs = stm.executeQuery();
         list = new HashMap<>();
@@ -195,8 +195,8 @@ public class OrderRepository {
         int rev = 0;
         Connection con = DBConfig.getConnection();
         Statement stm = con.createStatement();
-        ResultSet rs = stm.executeQuery("select sum(OrderDetail.max_price) "
-                + "as Revenue from OrderDetail left join Orders on OrderDetail.orderHeaderId = Orders.OID where Orders.status='Completed'");
+        ResultSet rs = stm.executeQuery("select sum(OrderDetail.price) "
+                + "as Revenue from OrderDetail left join Orders on OrderDetail.orderHeader_Id = Orders.OID where Orders.status='Completed'");
 
         while (rs.next()) {
             rev = rs.getInt(1);
@@ -223,10 +223,10 @@ public class OrderRepository {
         Connection con = DBConfig.getConnection();
 
         Statement stm = con.createStatement();
-        ResultSet rs = stm.executeQuery("select Orders.OID, Account.name, Service.name, OrderDetail.max_price, Orders.status \n"
+        ResultSet rs = stm.executeQuery("select Orders.OID, Account.name, Service.name, OrderDetail.price, Orders.status \n"
                 + "	from Orders left join Account on Orders.UID = Account.AID  \n"
-                + "	left join OrderDetail on Orders.OID = OrderDetail.orderHeaderId\n"
-                + "	left join Service on OrderDetail.serviceId = Service.service_id");
+                + "	left join OrderDetail on Orders.OID = OrderDetail.orderHeader_Id\n"
+                + "	left join Service on OrderDetail.service_Id = Service.service_id");
         list = new ArrayList<>();
         while (rs.next()) {
             SaleEntity sa = new SaleEntity();
@@ -247,9 +247,9 @@ public class OrderRepository {
         Connection con = DBConfig.getConnection();
 
         Statement stm = con.createStatement();
-        ResultSet rs = stm.executeQuery("select Category.name, COUNT(OrderDetail.categoryId) "
+        ResultSet rs = stm.executeQuery("select Category.name, COUNT(OrderDetail.category_Id) "
                 + "as CountService from OrderDetail "
-                + "left join Category on OrderDetail.categoryId = Category.CID "
+                + "left join Category on OrderDetail.category_Id = Category.CID "
                 + "group by Category.name");
         list = new ArrayList<>();
         while (rs.next()) {
@@ -380,7 +380,7 @@ public class OrderRepository {
     }
     
     public int getTotalMoneyOfOrder(int oId) throws SQLException {
-        String query = "select SUM(od.min_price) as totalMoney from Orders as o join OrderDetail as od on o.OID = od.orderHeaderId where o.OID = ? and o.status = 'Completed'";
+        String query = "select SUM(od.min_price) as totalMoney from Orders as o join OrderDetail as od on o.OID = od.orderHeader_Id where o.OID = ? and o.status = 'Completed'";
         int result = 0;
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
@@ -394,5 +394,9 @@ public class OrderRepository {
     }
 
 
-    
+    public static void main(String[] args) throws SQLException {
+        OrderRepository op = new OrderRepository();
+        int rev = op.Revenue();
+        System.out.println(rev);
+    }
 }

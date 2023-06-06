@@ -146,8 +146,9 @@ public class ServiceController extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String contact = request.getParameter("contact");
+            double rated = Double.parseDouble(request.getParameter("rated"));
             FeedbackService fs = new FeedbackService();
-            fs.addFeedback(UID, serviceID, message, name, contact, email);
+            fs.addFeedback(UID, serviceID, message, name, contact, email, rated);
             response.sendRedirect(request.getContextPath() + "/service/service-detail.do?id=" + serviceID);
         }
     }

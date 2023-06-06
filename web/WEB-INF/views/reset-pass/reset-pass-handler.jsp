@@ -13,6 +13,7 @@
             <div class = "fs-1">Reset Password Page</div>
             <div class = "mt-5">
                 <form action = "<c:url value="/reset-pass/reset-pass-handler-commit.do"/>">
+                    <input type ="text" hidden name="code" value="${code}"/>
                     <input type="text" hidden name="email" value="${email}"/>
                     <input class = "mt-3" style="width: 300px;height: 50px" placeholder = "Enter your new password" type="password" name="newPassword"/>
                     <br/>

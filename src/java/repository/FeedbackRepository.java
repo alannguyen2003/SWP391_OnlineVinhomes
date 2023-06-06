@@ -35,14 +35,15 @@ public class FeedbackRepository {
             fb.setName(rs.getString("name"));
             fb.setContactNumber(rs.getString("contact_number"));
             fb.setEmail(rs.getString("email"));
+            fb.setRated(rs.getDouble("rated"));
             result.add(fb);
         }
         con.close();
         return result;
     }
     
-    public void addFeedback(int UID, int DID, String message, String name, String contact, String email) throws SQLException{
-        String query = "insert into Feedback values (?,?,?,?,?,?)";
+    public void addFeedback(int UID, int DID, String message, String name, String contact, String email, double rated) throws SQLException{
+        String query = "insert into Feedback values (?,?,?,?,?,?,?)";
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, UID);
@@ -51,6 +52,7 @@ public class FeedbackRepository {
         stm.setString(4, name);
         stm.setString(5, contact);
         stm.setString(6, email);
+        stm.setDouble(7, rated);
         stm.executeUpdate();
         con.close();
     }
@@ -77,7 +79,7 @@ public class FeedbackRepository {
     }
     public static void main(String[] args) throws SQLException {
         FeedbackRepository repo = new FeedbackRepository();
-        repo.addFeedback(1, 1, "Test", "test", "0898980731", "a@gmail.com");
+        repo.addFeedback(1, 1, "Test", "test", "0898980731", "a@gmail.com", 5);
         for(FeedbackEntity entity : repo.getFeedbackOfService(1)){
             System.out.println(entity);
         }

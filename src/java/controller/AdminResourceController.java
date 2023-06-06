@@ -42,7 +42,7 @@ public class AdminResourceController extends HttpServlet {
         String action = (String) request.getAttribute("action");
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
-        if (user.getRoleID() == 3) {
+        if (user.getRoleID() == 4) {
             try {
                 switch (action) {
                     case "table-resource":
@@ -194,8 +194,11 @@ public class AdminResourceController extends HttpServlet {
         String rId = (String) request.getParameter("resourceId");
         String rName = (String) request.getParameter("resourceName");
         String quantity = (String) request.getParameter("quantity");
+        String op = (String) request.getParameter("op");
         String message;
-        if (bId.isBlank() || bName.isBlank() || rId.isBlank() || rName.isBlank() || quantity.isBlank()) {
+        switch(op) {
+            case "update":
+                if (bId.isBlank() || bName.isBlank() || rId.isBlank() || rName.isBlank() || quantity.isBlank()) {
             message = "You need to select UPDATE operation before going to update page";
         } else {
             BlockResourceEntity br = new BlockResourceEntity(Integer.parseInt(bId), bName, Integer.parseInt(rId), rName, Integer.parseInt(quantity));
@@ -204,6 +207,12 @@ public class AdminResourceController extends HttpServlet {
             message = "Updated Successfully";
         }
         response.sendRedirect(request.getContextPath() + String.format("/admin-resource/table-resource.do?op=getAll&message=%s", message));
+                break;
+            case "cancel":
+                response.sendRedirect(request.getContextPath() + "/admin-resource/table-resource.do?op=getAll");
+                break;
+        }
+        
 //        request.setAttribute("action", "table-resource");
 //        request.setAttribute("op", "getAll");
 //        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);

@@ -21,12 +21,15 @@ public class UserService {
     public UserEntity checkEmailExist(String email) throws SQLException {
         return userRepo.Check(email);
     }
+    public void resetPass(String email, String password) throws SQLException {
+        userRepo.resetPass(email, password);
+    }
     public void changePass(String aid, String password) throws SQLException {
          userRepo.changePass(aid, password);
     }
-    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException{
-        userRepo.createAccount(phone, email, password, name, blockId, roleId);
-    }
+//    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException{
+//        userRepo.createAccount(phone, email, password, name, blockId, roleId);
+//    }
     public ArrayList<UserEntity> getAllUser() throws Exception{
         return userRepo.getAllUser();
     }
@@ -51,6 +54,10 @@ public class UserService {
         }
         userRepo.addNewResident(entity);
         return true;
+    }
+    
+    public UserEntity getUser(String aid) throws SQLException {
+        return userRepo.getUser(aid);
     }
     
     public static void main(String[] args) throws Exception {
