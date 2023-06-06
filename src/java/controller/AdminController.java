@@ -176,11 +176,11 @@ public class AdminController extends HttpServlet {
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
                 break;
-            case "filter":
-                String filterOption = (String) request.getParameter("optionBlock");
+            case "sort":
+                String sortOption = (String) request.getParameter("optionBlock");
                 list = rs.getAllResident();
 
-                if (filterOption.equals("blockAsc")) {
+                if (sortOption.equals("blockAsc")) {
                     Collections.sort(list, (e1, e2) -> {
                         return e1.getBID() - e2.getBID();
                     });
@@ -189,11 +189,21 @@ public class AdminController extends HttpServlet {
                         return e2.getBID() - e1.getBID();
                     });
                 }
+                
+                if (sortOption.equals("statusAsc")) {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e1.getStatus()- e2.getStatus();
+                    });
+                } else {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e2.getStatus()- e1.getStatus();
+                    });
+                }
                 // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
-                request.setAttribute("optionBlock", filterOption);
+                request.setAttribute("optionBlock", sortOption);
                 break;
             case "search":
                 String searchValue = (String) request.getParameter("txtSearch");
@@ -249,11 +259,11 @@ public class AdminController extends HttpServlet {
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
                 break;
-            case "filter":
-                String filterOption = (String) request.getParameter("option");
+            case "sort":
+                String sortOption = (String) request.getParameter("option");
                 list = us.getAllUser();
 
-                if (filterOption.equals("blockAsc")) {
+                if (sortOption.equals("blockAsc")) {
                     Collections.sort(list, (e1, e2) -> {
                         return e1.getBID() - e2.getBID();
                     });
@@ -263,7 +273,7 @@ public class AdminController extends HttpServlet {
                     });
                 }
 
-                if (filterOption.equals("roleAsc")) {
+                if (sortOption.equals("roleAsc")) {
                     Collections.sort(list, (e1, e2) -> {
                         return e1.getRoleID() - e2.getRoleID();
                     });
@@ -272,12 +282,22 @@ public class AdminController extends HttpServlet {
                         return e2.getRoleID() - e1.getRoleID();
                     });
                 }
+                
+                if (sortOption.equals("statusAsc")) {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e1.getStatus()- e2.getStatus();
+                    });
+                } else {
+                    Collections.sort(list, (e1, e2) -> {
+                        return e2.getStatus()- e1.getStatus();
+                    });
+                }
 
                 // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
-                request.setAttribute("option", filterOption);
+                request.setAttribute("option", sortOption);
                 break;
             case "search":
                 String searchValue = (String) request.getParameter("txtSearch");

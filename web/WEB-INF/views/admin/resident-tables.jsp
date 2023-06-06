@@ -38,14 +38,16 @@
                 <div class="card-header py-3 col-md-6">
                     <form>
                         <div class="form-group pb-2">
-                            <label  class="p-1" for="exampleInputEmail1">Filter</label>
+                            <label  class="p-1" for="exampleInputEmail1">Sort</label>
                             <select class="form-select" aria-label="Default select example" name="optionBlock">
                                 <option ${optionBlock=="blockAsc"?"selected":""} value="blockAsc">Order by block ascending</option>
                                 <option ${optionBlock=="blockDesc"?"selected":""} value="blockDesc">Order by block descending</option>
+                                <option ${optionBlock=="statusAsc"?"selected":""} value="statusAsc">Order by status ascending</option>
+                                <option ${optionBlock=="statusDesc"?"selected":""} value="statusDesc">Order by status descending</option>
                             </select>
                         </div>
                         <br/>
-                        <button type="submit" class="btn btn-primary" name = "op" value="filter">Filter</button>
+                        <button type="submit" class="btn btn-primary" name = "op" value="sort">Sort</button>
                     </form>
                 </div>
             </div>

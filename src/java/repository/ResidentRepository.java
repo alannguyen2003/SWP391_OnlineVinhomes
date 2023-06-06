@@ -84,6 +84,34 @@ public class ResidentRepository {
         return list;
     }
         
+//    public ArrayList<UserEntity> getAllResidentPhone() throws Exception {
+//        ArrayList<UserEntity> list = new ArrayList<>();
+//        Connection cn = (Connection) DBConfig.getConnection();
+//        PreparedStatement pst;
+//        ResultSet rs = null;
+//        if (cn != null) {
+//            String query = "select * \n" +
+//"                         from Account where Account.roleId=1";
+//            pst = cn.prepareStatement(query);
+//            rs = pst.executeQuery();
+//        }
+//        while (rs.next()) {
+//            UserEntity entity = new UserEntity();
+//            entity.setAID(rs.getInt(1));
+//            entity.setPhone(rs.getString(2));
+//            entity.setEmail(rs.getString(3));
+//            entity.setPassword(rs.getString(4));
+//            entity.setName(rs.getString(5));
+//            entity.setGender(rs.getString(6));
+//            entity.setBID(rs.getInt(7));
+//            entity.setRoleID(rs.getInt(8));
+//            entity.setRoom(rs.getString(9));
+//            entity.setStatus(rs.getInt(10));
+//            list.add(entity);
+//        }
+//        return list;
+//    }    
+        
     public UserEntity getOne(int aid) throws SQLException {
         UserEntity user = new UserEntity();
 
