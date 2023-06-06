@@ -297,7 +297,7 @@ public class UserRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
-        System.out.println(rep.getUser("13"));
+        
     }
 
 }
