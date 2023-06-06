@@ -34,8 +34,8 @@ public class ResidentRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select Account.AID, Account.phone, Account.email, Account.password, Account.name, Account.BID, Account.roleId, Resident.room \n" +
-"                         from Account left join Resident on Account.AID = Resident.AID where Account.roleId=1";
+            String query = "select * \n" +
+"                         from Account where Account.roleId=1";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
         }
@@ -46,9 +46,11 @@ public class ResidentRepository {
             entity.setEmail(rs.getString(3));
             entity.setPassword(rs.getString(4));
             entity.setName(rs.getString(5));
-            entity.setBID(rs.getInt(6));
-            entity.setRoleID(rs.getInt(7));
-            entity.setRoom(rs.getString(8));
+            entity.setGender(rs.getString(6));
+            entity.setBID(rs.getInt(7));
+            entity.setRoleID(rs.getInt(8));
+            entity.setRoom(rs.getString(9));
+            entity.setStatus(rs.getInt(10));
             list.add(entity);
         }
         return list;
@@ -59,8 +61,8 @@ public class ResidentRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select Account.AID, Account.phone, Account.email, Account.password, Account.name as fullName, Account.BID, Account.roleId, Resident.room \n" +
-                            "from Account left join Resident on Account.AID = Resident.AID where Account.roleId = 1 AND Account.name like ? ";
+            String query = "select * \n" +
+                            "from Account where Account.roleId = 1 AND Account.name like ? ";
             pst = cn.prepareStatement(query);
             pst.setString(1, "%" + residentName + "%");
             rs = pst.executeQuery();
@@ -72,9 +74,11 @@ public class ResidentRepository {
             entity.setEmail(rs.getString(3));
             entity.setPassword(rs.getString(4));
             entity.setName(rs.getString(5));
-            entity.setBID(rs.getInt(6));
-            entity.setRoleID(rs.getInt(7));
-            entity.setRoom(rs.getString(8));
+            entity.setGender(rs.getString(6));
+            entity.setBID(rs.getInt(7));
+            entity.setRoleID(rs.getInt(8));
+            entity.setRoom(rs.getString(9));
+            entity.setStatus(rs.getInt(10));
             list.add(entity);
         }
         return list;
@@ -84,7 +88,7 @@ public class ResidentRepository {
         UserEntity user = new UserEntity();
 
         Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("select * from account a left join resident r on a.AID = r.AID where a.AID = ?");
+        PreparedStatement pstm = con.prepareStatement("select * from account a where a.AID = ?");
         pstm.setInt(1, aid);
         ResultSet rs = pstm.executeQuery();
         if (rs.next()) {
@@ -93,10 +97,11 @@ public class ResidentRepository {
             user.setEmail(rs.getString("email"));
             user.setPassword(rs.getString("password"));
             user.setName(rs.getString("name"));
+            user.setGender(rs.getString("gender"));
             user.setBID(rs.getInt("BID"));
             user.setRoleID(rs.getInt("roleID"));
             user.setRoom(rs.getString("room"));
-//            user.setManagerId(rs.getString("managerId"));
+            user.setStatus(rs.getInt("status"));
         }
         con.close();
         return user;
@@ -104,9 +109,21 @@ public class ResidentRepository {
         
     public void updateRoom(String room, int AID) throws SQLException{
         Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update Resident set room = ? where AID = ?");
+        PreparedStatement pstm = con.prepareStatement("update Account set room = ? where AID = ?");
         pstm.setString(1, room);
         pstm.setInt(2, AID);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+    
+    public void updateResident(String room, int BID, int status, int AID) throws SQLException{
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Account set room = ?, BID = ?, status = ? where AID = ?");
+        pstm.setString(1, room);
+        pstm.setInt(2, BID);
+        pstm.setInt(3, status);
+        pstm.setInt(4, AID);
         int count = pstm.executeUpdate();
 
         con.close();
@@ -114,7 +131,7 @@ public class ResidentRepository {
 
     public static void main(String[] args) throws Exception {
         ResidentRepository repo = new ResidentRepository();
-        System.out.println(repo.getOne(13));
+        repo.updateResident("GP09B3198", 4, 1, 13);
     }
 
 }

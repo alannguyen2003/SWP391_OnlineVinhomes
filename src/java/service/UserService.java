@@ -27,9 +27,9 @@ public class UserService {
     public void changePass(String aid, String password) throws SQLException {
          userRepo.changePass(aid, password);
     }
-    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException{
-        userRepo.createAccount(phone, email, password, name, blockId, roleId);
-    }
+//    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException{
+//        userRepo.createAccount(phone, email, password, name, blockId, roleId);
+//    }
     public ArrayList<UserEntity> getAllUser() throws Exception{
         return userRepo.getAllUser();
     }

@@ -14,8 +14,8 @@ import repository.FeedbackRepository;
 public class FeedbackService {
     private FeedbackRepository feedbackRepository = new FeedbackRepository();
     
-    public void addFeedback(int UID, int DID, String message, String name, String contact, String email) throws SQLException{  
-        feedbackRepository.addFeedback(UID, DID, message, name, contact, email);
+    public void addFeedback(int UID, int DID, String message, String name, String contact, String email, double rated) throws SQLException{  
+        feedbackRepository.addFeedback(UID, DID, message, name, contact, email, rated);
     }
     
     public List<FeedbackEntity> getFeedbackOfService(int DID) throws SQLException{

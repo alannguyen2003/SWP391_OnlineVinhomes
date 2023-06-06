@@ -99,9 +99,8 @@ public class UserController extends HttpServlet {
                     try {
                     String aid = Integer.toString(user.getAID());
                     if (user.getRoleID() == 1) {
-                        ResidentEntity res;
-                        res = residentService.read(aid);
-                        request.setAttribute("res", res);
+                        user = userService.getUser(aid);
+                        request.setAttribute("res", user);
                         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     } else {
                         admindashboard(request, response);

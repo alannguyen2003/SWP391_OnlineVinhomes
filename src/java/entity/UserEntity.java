@@ -15,39 +15,55 @@ public class UserEntity {
     private String email;
     private String password;
     private String name;
+    private String gender;
     private int BID;
     private int roleID;
     private String room;
-    private String managerId;
+    private int status;
 
     public UserEntity() {
     }
 
-    public UserEntity(int AID, String phone, String email, String password, String name, int BID, int roleID) {
+    public UserEntity(int AID, String phone, String email, String password, String name, String gender, int BID, int roleID, String room, int status) {
         this.AID = AID;
         this.phone = phone;
         this.email = email;
         this.password = password;
         this.name = name;
-        this.BID = BID;
-        this.roleID = roleID;
-    }
-
-    
-    
-    public UserEntity(int AID, String phone, String email, String password, String name, int BID, int roleID, String room, String managerId) {
-        this.AID = AID;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-        this.name = name;
+        this.gender = gender;
         this.BID = BID;
         this.roleID = roleID;
         this.room = room;
-        this.managerId = managerId;
+        this.status = status;
     }
 
     
+    
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+//    public UserEntity(int AID, String phone, String email, String password, String name, int BID, int roleID, String room, String managerId) {
+//        this.AID = AID;
+//        this.phone = phone;
+//        this.email = email;
+//        this.password = password;
+//        this.name = name;
+//        this.BID = BID;
+//        this.roleID = roleID;
+//        this.room = room;
+//    }
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public int getAID() {
         return AID;
@@ -113,19 +129,8 @@ public class UserEntity {
         this.roleID = roleID;
     }
 
-    public String getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
-    }
-
     @Override
     public String toString() {
-        return "UserEntity{" + "AID=" + AID + ", phone=" + phone + ", email=" + email + ", password=" + password + ", name=" + name + ", BID=" + BID + ", roleID=" + roleID + ", room=" + room + ", managerId=" + managerId + '}';
+        return "UserEntity{" + "AID=" + AID + ", phone=" + phone + ", email=" + email + ", password=" + password + ", name=" + name + ", gender=" + gender + ", BID=" + BID + ", roleID=" + roleID + ", room=" + room + ", status=" + status + '}';
     }
-    
-    
-
 }

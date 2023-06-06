@@ -30,7 +30,6 @@ import entity.SaleEntity;
 import java.util.List;
 import service.UserService;
 
-
 /**
  *
  * @author ASUS
@@ -41,10 +40,8 @@ public class AdminController extends HttpServlet {
     private ResidentService rs = new ResidentService();
 
     private OrderService os = new OrderService();
-    
 
     private UserService us = new UserService();
-
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -70,7 +67,7 @@ public class AdminController extends HttpServlet {
                         load_Admindashboard(request, response);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
-                    
+
                     case "resident-tables":
                         residentTables(request, response);
                         break;
@@ -85,9 +82,11 @@ public class AdminController extends HttpServlet {
                     case "account-create":
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
-                    case "accountCreate":
-                        create(request, response);
-
+//                    case "accountCreate":
+//                        create(request, response);
+//                        break;
+                    case "updateResident":
+                        updateResident(request, response);
                         break;
                 }
             } catch (Exception ex) {
@@ -218,18 +217,17 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
 
-    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
-        int blockId = Integer.parseInt(request.getParameter("blockId"));
-        int roleId = Integer.parseInt(request.getParameter("roleId"));
-        us.createAccount(phone, email, password, name, blockId, roleId);
-        request.setAttribute("message", "Account has been added!");
-        response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
-    }
-
+//    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+//        String name = request.getParameter("name");
+//        String email = request.getParameter("email");
+//        String password = request.getParameter("password");
+//        String phone = request.getParameter("phone");
+//        int blockId = Integer.parseInt(request.getParameter("blockId"));
+//        int roleId = Integer.parseInt(request.getParameter("roleId"));
+//        us.createAccount(phone, email, password, name, blockId, roleId);
+//        request.setAttribute("message", "Account has been added!");
+//        response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+//    }
     private void userTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String op = (String) request.getParameter("op");
         String indexPage = request.getParameter("page");
@@ -264,17 +262,17 @@ public class AdminController extends HttpServlet {
                         return e2.getBID() - e1.getBID();
                     });
                 }
-                
+
                 if (filterOption.equals("roleAsc")) {
                     Collections.sort(list, (e1, e2) -> {
-                        return e1.getRoleID()- e2.getRoleID();
+                        return e1.getRoleID() - e2.getRoleID();
                     });
                 } else {
                     Collections.sort(list, (e1, e2) -> {
-                        return e2.getRoleID()- e1.getRoleID();
+                        return e2.getRoleID() - e1.getRoleID();
                     });
                 }
-                
+
                 // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
@@ -301,6 +299,17 @@ public class AdminController extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+    }
+
+    protected void updateResident(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String room = request.getParameter("room");
+        int BID = Integer.parseInt(request.getParameter("BID"));
+        int status = Integer.parseInt(request.getParameter("status"));
+        int AID = Integer.parseInt(request.getParameter("AID"));
+        rs.updateResident(room, BID, status, AID);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/resident-detail.do?AID=" + AID).forward(request, response);
     }
 
 }

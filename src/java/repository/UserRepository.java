@@ -32,8 +32,8 @@ public class UserRepository {
     public UserEntity Login(String email, String password) throws SQLException {
         //select * from tbl User where email = ? and password=?
         String query = """
-                       select Account.AID, Account.phone, Account.email, Account.password, Account.name, Account.BID, Account.roleId, Resident.room, Employee.manager_id 
-                         from Account left join Resident on Account.AID = Resident.AID left join Employee on Account.AID = Employee.AID where email=? and password=?""";
+                       select *
+                         from Account where email=? and password=?""";
         try {
             connect = new DBConfig().getConnection();
             ps = connect.prepareStatement(query);
@@ -46,10 +46,11 @@ public class UserRepository {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getInt(6),
+                        rs.getString(6),
                         rs.getInt(7),
-                        rs.getString(8),
-                        rs.getString(9)
+                        rs.getInt(8),
+                        rs.getString(9),
+                        rs.getInt(10)
                 );
             }
         } catch (SQLException ex) {
@@ -61,8 +62,8 @@ public class UserRepository {
     public UserEntity Check(String email) throws SQLException {
         //select * from tbl User where email = ? and password=?
         String query = """
-                       select Account.AID, Account.phone, Account.email, Account.password, Account.name, Account.BID, Account.roleId, Resident.room, Employee.manager_id 
-                         from Account left join Resident on Account.AID = Resident.AID left join Employee on Account.AID = Employee.AID where email=? """;
+                       select *
+                         from Account where email=? """;
         try {
             connect = new DBConfig().getConnection();
             ps = connect.prepareStatement(query);
@@ -74,10 +75,11 @@ public class UserRepository {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getInt(6),
+                        rs.getString(6),
                         rs.getInt(7),
-                        rs.getString(8),
-                        rs.getString(9));
+                        rs.getInt(8),
+                        rs.getString(9),
+                        rs.getInt(10));
             }
         } catch (SQLException ex) {
             System.err.println("Error at Check User");
@@ -95,7 +97,7 @@ public class UserRepository {
         connect.close();
 
     }
-    
+
     public void changePass(String aid, String password) throws SQLException {
         String query = "update Account set password = ? where aid = ?";
         connect = DBConfig.getConnection();
@@ -106,20 +108,20 @@ public class UserRepository {
         connect.close();
 
     }
-
-    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException {
-        String query = "insert into Account values(?,?,?,?,?,?)";
-        Connection con = DBConfig.getConnection();
-        PreparedStatement stm = con.prepareStatement(query);
-        stm.setString(1, phone);
-        stm.setString(2, email);
-        stm.setString(3, password);
-        stm.setString(4, name);
-        stm.setInt(5, blockId);
-        stm.setInt(6, roleId);
-        stm.executeUpdate();
-        con.close();
-    }
+//      CREATE ACCOUNT MANAGER FOR ADMIN - AI LAM PHAN NAY THI SUA 
+//    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException {
+//        String query = "insert into Account values(?,?,?,?,?,?)";
+//        Connection con = DBConfig.getConnection();
+//        PreparedStatement stm = con.prepareStatement(query);
+//        stm.setString(1, phone);
+//        stm.setString(2, email);
+//        stm.setString(3, password);
+//        stm.setString(4, name);
+//        stm.setInt(5, blockId);
+//        stm.setInt(6, roleId);
+//        stm.executeUpdate();
+//        con.close();
+//    }
 
     public ArrayList<UserEntity> getAllUser() throws Exception {
         ArrayList<UserEntity> list = new ArrayList<>();
@@ -127,8 +129,7 @@ public class UserRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select Account.AID, Account.phone, Account.email, Account.password, Account.name, Account.BID, Account.roleId, Resident.room \n"
-                    + "                         from Account left join Resident on Account.AID = Resident.AID";
+            String query = "select * from Account";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
         }
@@ -139,9 +140,11 @@ public class UserRepository {
             entity.setEmail(rs.getString(3));
             entity.setPassword(rs.getString(4));
             entity.setName(rs.getString(5));
-            entity.setBID(rs.getInt(6));
-            entity.setRoleID(rs.getInt(7));
-            entity.setRoom(rs.getString(8));
+            entity.setGender(rs.getString(6));
+            entity.setBID(rs.getInt(7));
+            entity.setRoleID(rs.getInt(8));
+            entity.setRoom(rs.getString(9));
+            entity.setStatus(rs.getInt(10));
             list.add(entity);
         }
         return list;
@@ -153,8 +156,8 @@ public class UserRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select Account.AID, Account.phone, Account.email, Account.password, Account.name as fullName, Account.BID, Account.roleId, Resident.room \n"
-                    + "from Account left join Resident on Account.AID = Resident.AID where Account.name like ? ";
+            String query = "select * \n"
+                    + "from Account where Account.name like ? ";
             pst = cn.prepareStatement(query);
             pst.setString(1, "%" + name + "%");
             rs = pst.executeQuery();
@@ -166,9 +169,11 @@ public class UserRepository {
             entity.setEmail(rs.getString(3));
             entity.setPassword(rs.getString(4));
             entity.setName(rs.getString(5));
-            entity.setBID(rs.getInt(6));
-            entity.setRoleID(rs.getInt(7));
-            entity.setRoom(rs.getString(8));
+            entity.setGender(rs.getString(6));
+            entity.setBID(rs.getInt(7));
+            entity.setRoleID(rs.getInt(8));
+            entity.setRoom(rs.getString(9));
+            entity.setStatus(rs.getInt(10));
             list.add(entity);
         }
         return list;
@@ -234,7 +239,7 @@ public class UserRepository {
         }
         return result;
     }
-    
+
     public int getCountResident() throws Exception {
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
@@ -266,6 +271,7 @@ public class UserRepository {
             pst.executeUpdate();
         }
     }
+
     public UserEntity getUser(String aid) throws SQLException {
         UserEntity user = new UserEntity();
 
@@ -279,8 +285,11 @@ public class UserRepository {
             user.setEmail(rs.getString(3));
             user.setPassword(rs.getString(4));
             user.setName(rs.getString(5));
-            user.setBID(rs.getInt(6));
-            user.setRoleID(rs.getInt(7));
+            user.setGender(rs.getString(6));
+            user.setBID(rs.getInt(7));
+            user.setRoleID(rs.getInt(8));
+            user.setRoom(rs.getString(9));
+            user.setStatus(rs.getInt(10));
         }
         con.close();
         return user;
@@ -288,7 +297,7 @@ public class UserRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
-        System.out.println(rep.getAllUser());
+        System.out.println(rep.getUser("13"));
     }
 
 }

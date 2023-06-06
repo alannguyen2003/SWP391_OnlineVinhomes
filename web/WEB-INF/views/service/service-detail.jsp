@@ -11,6 +11,59 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style type="text/css">
+            .star-rating {
+                margin: 25px 0 0px;
+                font-size: 0;
+                white-space: nowrap;
+                display: inline-block;
+                width: 100px;
+                height: 20px;
+                overflow: hidden;
+                position: relative;
+                background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+                background-size: contain;
+            }
+            .star-rating i {
+                opacity: 0;
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 20%;
+                z-index: 1;
+                background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+                background-size: contain;
+            }
+            .star-rating input {
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                opacity: 0;
+                display: inline-block;
+                width: 20%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                z-index: 2;
+                position: relative;
+            }
+            .star-rating input:hover + i,
+            .star-rating input:checked + i {
+                opacity: 1;
+            }
+            .star-rating i ~ i {
+                width: 40%;
+            }
+            .star-rating i ~ i ~ i {
+                width: 60%;
+            }
+            .star-rating i ~ i ~ i ~ i {
+                width: 80%;
+            }
+            .star-rating i ~ i ~ i ~ i ~ i {
+                width: 100%;
+            }
+        </style>
     </head>
     <body>
         <!-- Detail -->
@@ -30,15 +83,15 @@
                                             <c:if test="${requestScope.service.categoryID != 1}">
                                         <li><a href="<c:url value="/service/service-list.do?id=1" />">Cleaning<span
                                                     class="fa fa-angle-right"></span></a></li>
-                                    </c:if>
-                                    <c:if test="${requestScope.service.categoryID == 2}">
+                                            </c:if>
+                                            <c:if test="${requestScope.service.categoryID == 2}">
                                         <li class="active"><a href="<c:url value="/service/service-list.do?id=2" />">Maintenance<span
                                                     class="fa fa-angle-right"></span></a></li>
                                             </c:if>
                                             <c:if test="${requestScope.service.categoryID != 2}">
                                         <li><a href="<c:url value="/service/service-list.do?id=2" />">Maintenance<span
                                                     class="fa fa-angle-right"></span></a></li>
-                                    </c:if>
+                                            </c:if>
 
                                     <c:if test="${requestScope.service.categoryID == 3}">
                                         <li class="active"><a href="<c:url value="/service/service-list.do?id=3" />">Security<span
@@ -47,7 +100,7 @@
                                             <c:if test="${requestScope.service.categoryID != 3}">
                                         <li><a href="<c:url value="/service/service-list.do?id=3" />">Security<span
                                                     class="fa fa-angle-right"></span></a></li>
-                                    </c:if>
+                                            </c:if>
 
                                     <c:if test="${requestScope.service.categoryID == 4}">
                                         <li class="active"><a href="<c:url value="/service/service-list.do?id=4" />">Pest Control<span
@@ -56,7 +109,7 @@
                                             <c:if test="${requestScope.service.categoryID != 4}">
                                         <li><a href="<c:url value="/service/service-list.do?id=4" />">Pest Control<span
                                                     class="fa fa-angle-right"></span></a></li>
-                                    </c:if>
+                                            </c:if>
 
                                 </ul>
                             </div>
@@ -90,7 +143,7 @@
                                 <h3 class="service-details__content-title">${service.name}</h3>
                                 <p class="service-details__text-2">${service.lowerPrice} - ${service.upperPrice} $</p>
                                 <p class="service-details__text-3">${service.description}</p>
-                                
+
                             </div>
                             <div class="service-details__points-box">
                                 <ul class="list-unstyled service-details__points">
@@ -140,6 +193,16 @@
                                                 <textarea rows="4" class="w-100" name="message" form="cmtForm" placeholder="  Share your thoughts about the service"></textarea>
                                             </div>
                                             ${message}
+                                            <h4 class="text-dark">
+                                                Vote from 1 to 5 for this service
+                                            </h4>
+                                            <span class="star-rating">
+                                                <input type="radio" name="rated" value="1"><i></i>
+                                                <input type="radio" name="rated" value="2"><i></i>
+                                                <input type="radio" name="rated" value="3"><i></i>
+                                                <input type="radio" name="rated" value="4"><i></i>
+                                                <input type="radio" name="rated" value="5"><i></i>
+                                            </span>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <p class="small mb-0" style="color: #1D38A5;">
                                                     <button type="submit" class="btn btn-outline-primary">Post</button>
@@ -171,8 +234,12 @@
                                                     <a href="#!" class="link-grey">${fb.email}</a>
                                                 </p>
                                                 <div class="d-flex flex-row">
-                                                    <i class="fas fa-star text-warning me-2"></i>
-                                                    <i class="far fa-check-circle" style="color: greenyellow;"></i>
+                                                    <c:forEach begin="1" end="${fb.rated}">
+                                                        <i class="fas fa-star text-warning me-2"></i>
+                                                    </c:forEach>
+                                                    <c:forEach begin="${fb.rated + 1}" end="5">
+                                                        <i class="far fa-star text-warning me-2"></i>
+                                                    </c:forEach>
                                                 </div>
                                             </div>
                                         </div>

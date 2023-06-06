@@ -58,6 +58,7 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
+                                    <th>Gender</th>
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Room</th>
@@ -72,11 +73,13 @@
                                     <tr>
                                         <td>${r.AID}</td>
                                         <td>${r.name}</td>
+                                        <td>${r.gender}</td>
                                         <td>${r.email}</td>
                                         <td>${r.phone}</td>
                                         <td>${r.room}</td>
                                         <td>${r.BID}</td>
                                         <td>${r.roleID}</td>
+                                        <td>${r.status}</td>
                                         <td>
 
                                         </td>
