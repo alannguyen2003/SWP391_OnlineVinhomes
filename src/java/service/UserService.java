@@ -56,6 +56,10 @@ public class UserService {
         return true;
     }
     
+    public UserEntity getUser(String aid) throws SQLException {
+        return userRepo.getUser(aid);
+    }
+    
     public static void main(String[] args) throws Exception {
         UserService service = new UserService();
         System.out.println(service.getCountResident());

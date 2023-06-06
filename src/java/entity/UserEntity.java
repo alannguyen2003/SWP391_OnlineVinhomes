@@ -23,6 +23,18 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(int AID, String phone, String email, String password, String name, int BID, int roleID) {
+        this.AID = AID;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.BID = BID;
+        this.roleID = roleID;
+    }
+
+    
+    
     public UserEntity(int AID, String phone, String email, String password, String name, int BID, int roleID, String room, String managerId) {
         this.AID = AID;
         this.phone = phone;

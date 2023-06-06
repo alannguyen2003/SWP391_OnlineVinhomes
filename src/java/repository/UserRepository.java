@@ -266,6 +266,25 @@ public class UserRepository {
             pst.executeUpdate();
         }
     }
+    public UserEntity getUser(String aid) throws SQLException {
+        UserEntity user = new UserEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("select * from account where  AID = ?");
+        pstm.setString(1, aid);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            user.setAID(rs.getInt(1));
+            user.setPhone(rs.getString(2));
+            user.setEmail(rs.getString(3));
+            user.setPassword(rs.getString(4));
+            user.setName(rs.getString(5));
+            user.setBID(rs.getInt(6));
+            user.setRoleID(rs.getInt(7));
+        }
+        con.close();
+        return user;
+    }
 
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
