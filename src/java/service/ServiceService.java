@@ -28,6 +28,14 @@ public class ServiceService {
         return serviceRepository.getServiceById(DID);
     }
     
+    public ArrayList<ServiceEntity> getServiceByName(String serviceName) throws Exception {
+        return serviceRepository.getServiceByName(serviceName);
+    }
+    
+    public ArrayList<ServiceEntity> getServiceByDescription(String serviceDescription) throws Exception {
+        return serviceRepository.getServiceByDescription(serviceDescription);
+    }
+    
     public static void main(String[] args) throws Exception {
         ServiceService serviceService = new ServiceService();
         for (ServiceEntity entity : serviceService.getServiceByCategory(1)) {

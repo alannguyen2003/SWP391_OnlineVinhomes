@@ -27,9 +27,14 @@ import service.UserService;
 import service.OrderService;
 import entity.OrderHeaderEntity;
 import entity.SaleEntity;
+import entity.ServiceEntity;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import service.CategoryService;
+import service.ServiceService;
+import service.SupplierService;
 import service.UserService;
-
 
 /**
  *
@@ -41,10 +46,14 @@ public class AdminController extends HttpServlet {
     private ResidentService rs = new ResidentService();
 
     private OrderService os = new OrderService();
-    
 
     private UserService us = new UserService();
 
+    private ServiceService ss = new ServiceService();
+    
+    private CategoryService cs = new CategoryService();
+    
+    private SupplierService sls = new SupplierService();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -70,7 +79,7 @@ public class AdminController extends HttpServlet {
                         load_Admindashboard(request, response);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
-                    
+
                     case "resident-tables":
                         residentTables(request, response);
                         break;
@@ -79,6 +88,11 @@ public class AdminController extends HttpServlet {
                         UserEntity u = rs.getOne(AID);
                         request.setAttribute("u", u);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "service-list":
+                        serviceList(request, response);
+                        break;
+                    case "service-detail":
                         break;
                     case "user-tables":
                         userTables(request, response);
@@ -171,7 +185,6 @@ public class AdminController extends HttpServlet {
         switch (op) {
             case "getAll":
                 list = rs.getAllResident();
-                request.setAttribute("activeTab", "resident");
                 // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
@@ -211,6 +224,7 @@ public class AdminController extends HttpServlet {
         int endIndex = Math.min(startIndex + pageSize, totalItems);
         List<UserEntity> sublist = list.subList(startIndex, endIndex);
 
+        request.setAttribute("activeTab", "resident");
         request.setAttribute("op", op);
         request.setAttribute("list", sublist);
         request.setAttribute("totalPages", totalPages);
@@ -230,6 +244,66 @@ public class AdminController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
     }
 
+    private void serviceList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String indexPage = request.getParameter("page");
+        HttpSession session = request.getSession();
+        int currentPage = 1;
+
+        if (indexPage != null) {
+            currentPage = Integer.parseInt(indexPage);
+        }
+        List<ServiceEntity> list = new ArrayList<>();
+        int totalPages = 0;
+        int totalItems = 0;
+        int pageSize = 10;
+
+        // Lấy tất cả dữ liệu Service ban đầu
+        // Xử lý dữ liệu nếu có yêu cầu
+        String op = (String) request.getParameter("op");
+        switch (op) {
+            case "getAll":
+                list = ss.getAllService();
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                break;
+            case "generate":
+                list = ss.getAllService();
+                String filterOption = request.getParameter("filterOption");
+                int filterValue1 = Integer.parseInt(request.getParameter("filterValue1"));
+                int filterValue2 = Integer.parseInt(request.getParameter("filterValue2"));
+                String searchOption = request.getParameter("searchOption");
+                String searchValue = request.getParameter("searchValue");
+                String sortOption = request.getParameter("sortOption");
+                String sortType = request.getParameter("sortType");
+
+                list = filterSearchSort(list, filterOption, filterValue1, filterValue2, searchOption, searchValue, sortOption, sortType);
+                        
+                totalItems = list.size();
+                totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                
+                request.setAttribute("filterOption", filterOption);
+                request.setAttribute("filterValue1", filterValue1);
+                request.setAttribute("filterValue2", filterValue2);
+                request.setAttribute("searchOption", searchOption);
+                request.setAttribute("searchValue", searchValue);
+                request.setAttribute("sortOption", sortOption);
+                request.setAttribute("sortType", sortType);
+                break;
+        }
+        // Cắt danh sách dữ liệu theo phân trang
+        List<ServiceEntity> subList = paginateList(list, currentPage, pageSize);
+        
+        request.setAttribute("activeTab", "service");
+        request.setAttribute("op", op);
+        request.setAttribute("categoryList", cs.getAllCategory());
+        request.setAttribute("supplierList", sls.getAllSupplier());
+        request.setAttribute("list", subList);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+    }
+
     private void userTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String op = (String) request.getParameter("op");
         String indexPage = request.getParameter("page");
@@ -245,7 +319,6 @@ public class AdminController extends HttpServlet {
         switch (op) {
             case "getAll":
                 list = us.getAllUser();
-
                 // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
@@ -264,17 +337,17 @@ public class AdminController extends HttpServlet {
                         return e2.getBID() - e1.getBID();
                     });
                 }
-                
+
                 if (filterOption.equals("roleAsc")) {
                     Collections.sort(list, (e1, e2) -> {
-                        return e1.getRoleID()- e2.getRoleID();
+                        return e1.getRoleID() - e2.getRoleID();
                     });
                 } else {
                     Collections.sort(list, (e1, e2) -> {
-                        return e2.getRoleID()- e1.getRoleID();
+                        return e2.getRoleID() - e1.getRoleID();
                     });
                 }
-                
+
                 // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
@@ -296,6 +369,7 @@ public class AdminController extends HttpServlet {
         int endIndex = Math.min(startIndex + pageSize, totalItems);
         List<UserEntity> sublist = list.subList(startIndex, endIndex);
 
+        request.setAttribute("activeTab", "user");
         request.setAttribute("op", op);
         request.setAttribute("list", sublist);
         request.setAttribute("totalPages", totalPages);
@@ -303,4 +377,84 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
 
+    private List<ServiceEntity> filterSearchSort(List<ServiceEntity> list, String filterOption, int filterValue1, int filterValue2, String searchOption,
+            String searchValue, String sortOption, String sortType) {
+        // Lọc dữ liệu nếu có yêu cầu
+        if (filterOption != null && !filterOption.isEmpty()) {
+            list = filterList(list, filterOption, filterValue1, filterValue2);
+      }
+        
+        // Tìm kiếm dữ liệu nếu có yêu cầu
+        if (searchOption != null && !searchOption.isEmpty() && searchValue != null && !searchValue.isEmpty()) {
+            list = searchInList(list, searchOption, searchValue);
+        }
+
+        // Sắp xếp dữ liệu nếu có yêu cầu
+        if (sortOption != null && !sortOption.isEmpty() && sortType != null && !sortType.isEmpty()) {
+            list = sortList(list, sortOption, sortType);
+        }
+
+        return list;
+    }
+
+    private List<ServiceEntity> filterList(List<ServiceEntity> list, String filterOption, int filterValue1, int filterValue2) {
+    List<ServiceEntity> filteredList = new ArrayList<>();
+
+    // Lọc dữ liệu dựa trên filterOption và dữ liệu lọc
+    if (filterOption.equals("category")) {
+        filteredList = list.stream()
+            .filter(service -> service.getCategoryID() == filterValue1)
+            .collect(Collectors.toList());
+    } else if (filterOption.equals("supplier")) {
+        filteredList = list.stream()
+            .filter(service -> service.getSupplierID() == filterValue2)
+            .collect(Collectors.toList());
+    }
+    // Trả về danh sách đã lọc
+    return filteredList;
+}
+
+// Phương thức sắp xếp danh sách dữ liệu
+    private List<ServiceEntity> sortList(List<ServiceEntity> list, String sortOption, String sortType) {
+        List<ServiceEntity> sortedList = new ArrayList<>(list);
+        switch (sortOption) {
+            case "name":
+                sortedList.sort((e1, e2) -> e1.getName().compareTo(e2.getName()));
+                break;
+            case "category":
+                sortedList.sort(Comparator.comparingInt(ServiceEntity::getCategoryID));
+                break;
+            case "minPrice":
+            case "maxPrice":
+                sortedList.sort((e1, e2) -> Double.compare(e1.getLowerPrice(), e2.getLowerPrice()));
+                break;
+        }
+        if (sortType.equals("Descending")) {
+            Collections.reverse(sortedList);
+        }
+        return sortedList;
+    }
+
+    private List<ServiceEntity> searchInList(List<ServiceEntity> list, String searchOption, String searchValue) {
+        List<ServiceEntity> searchResults = new ArrayList<>();
+        System.out.println(searchValue);
+        for (ServiceEntity service : list) {
+            if (searchOption.equals("name")) {
+                if (service.getName().toLowerCase().contains(searchValue.toLowerCase())) {
+                   searchResults.add(service);
+               }
+            } else if (searchOption.equals("description")) {
+                if (service.getDescription().toLowerCase().contains(searchValue.toLowerCase())) {
+                    searchResults.add(service);
+                }
+            }
+        }
+        return searchResults;
+    }
+
+    private List<ServiceEntity> paginateList(List<ServiceEntity> list, int currentPage, int pageSize) {
+        int startIndex = (currentPage - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, list.size());
+        return list.subList(startIndex, endIndex);
+    }
 }

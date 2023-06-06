@@ -1278,3 +1278,10 @@ h6 {
     top: 150px!important;
 }
 
+#filterSupplierDiv {
+    display: none;
+}
+
+#filterCategoryDiv {
+    display: none;
+}

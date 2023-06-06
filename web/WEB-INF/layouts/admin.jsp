@@ -277,7 +277,7 @@
                 </li><!-- End Dashboard -->
 
                 <li class="nav-item ${activeTab == "service" ? "active" : ""}">
-                    <a class="nav-link1" href="#">
+                    <a class="nav-link1" href="<c:url value="/admin/service-list.do?op=getAll" />">
                         <i class="bi bi-gear-fill"></i>
                         <span>Manage Service</span>
                     </a>
@@ -294,9 +294,9 @@
                         <span>Manage Resident</span>
                     </a>
                 </li><!-- End Resident Nav -->
-                <li class="nav-item ${activeTab == "resident" ? "active" : ""}">
+                <li class="nav-item ${activeTab == "user" ? "active" : ""}">
                     <a class="nav-link1" href="<c:url value="/admin/user-tables.do?op=getAll" />">
-                        <i class="bi bi-people-fill"></i>
+                        <i class="bi bi-person-vcard-fill"></i>
                         <span>Manage User</span>
                     </a>
                 </li><!-- End User Nav -->

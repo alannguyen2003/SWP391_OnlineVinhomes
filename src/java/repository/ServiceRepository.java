@@ -38,6 +38,34 @@ public class ServiceRepository {
         }
         return list;
     }
+    public ArrayList<ServiceEntity> getServiceByName(String serviceName) throws Exception {
+        ArrayList <ServiceEntity> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null){
+            String query = "select * from Service  \n" +
+                            "where  Service.name like ? ";
+            pst = cn.prepareStatement(query);
+            pst.setString(1, "%" + serviceName + "%" );
+            rs = pst.executeQuery();
+        }
+        
+        while(rs.next()){
+            ServiceEntity serviceEntity = new ServiceEntity();
+            serviceEntity.setServiceID(rs.getInt(1));
+            serviceEntity.setName(rs.getString(2));
+            serviceEntity.setDescription(rs.getString(3));
+            serviceEntity.setLowerPrice(rs.getDouble(4));
+            serviceEntity.setUpperPrice(rs.getDouble(5));
+            serviceEntity.setSupplierID(rs.getInt(6));
+            serviceEntity.setCategoryID(rs.getInt(7));
+            
+            list.add(serviceEntity);
+            
+        }
+        return list;
+    }
 
     public ArrayList<ServiceEntity> getServiceByCategory(int categoryId) throws Exception {
         ArrayList<ServiceEntity> list = new ArrayList<>();
@@ -61,6 +89,32 @@ public class ServiceRepository {
             entity.setSupplierID(rs.getInt(6));
             entity.setCategoryID(rs.getInt(7));
             list.add(entity);
+        }
+        return list;
+    }
+    
+    public ArrayList<ServiceEntity> getServiceByDescription(String serviceDescription) throws Exception {
+        ArrayList<ServiceEntity> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select * from Service \n"
+                    + "where Service.description LIKE ?";
+            pst = cn.prepareStatement(query);
+            pst.setString(1, "%" + serviceDescription + "%");
+            rs = pst.executeQuery();
+        }
+        while (rs.next()) {
+            ServiceEntity serviceEntity = new ServiceEntity();
+            serviceEntity.setServiceID(rs.getInt(1));
+            serviceEntity.setName(rs.getString(2));
+            serviceEntity.setDescription(rs.getString(3));
+            serviceEntity.setLowerPrice(rs.getDouble(4));
+            serviceEntity.setUpperPrice(rs.getDouble(5));
+            serviceEntity.setSupplierID(rs.getInt(6));
+            serviceEntity.setCategoryID(rs.getInt(7));
+            list.add(serviceEntity);
         }
         return list;
     }
