@@ -308,7 +308,7 @@
                     </a>
                 </li><!-- End Resouces Nav -->
                 <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
-                    <a class="nav-link1" href="#">
+                    <a class="nav-link1" href="<c:url value="/admin-sales/dashboard.do"/>">
                         <i class="bi bi-cash-coin"></i>
                         <span>Revenue</span>
                     </a>
@@ -354,6 +354,7 @@
 
         <!-- Template Main JS File -->
         <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+
 
     </body>
 
