@@ -99,15 +99,14 @@ public class UserController extends HttpServlet {
                     try {
                     String aid = Integer.toString(user.getAID());
                     if (user.getRoleID() == 1) {
-                        ResidentEntity res;
-                        res = residentService.read(aid);
-                        request.setAttribute("res", res);
+                        user = userService.getUser(aid);
+                        request.setAttribute("res", user);
+                        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     } else {
-                        EmployeeEntity emp = employeeService.read(aid);
-                        request.setAttribute("emp", emp);
+                        admindashboard(request, response);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                     }
-
-                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    
                 } catch (SQLException ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -249,6 +248,20 @@ public class UserController extends HttpServlet {
         int AID = Integer.parseInt(request.getParameter("AID"));
         residentService.updateRoom(room, AID);
         response.sendRedirect(request.getContextPath() + "/user/profile.do");
+    }
+    
+    protected void admindashboard(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        String aid = Integer.toString(user.getAID());
+        if (user.getRoleID() == 4 || user.getRoleID()== 3 ){
+                        UserEntity entity;
+                        entity = userService.getUser(aid);
+                        request.setAttribute("user", entity);
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/user/login.do");
+                    }
     }
 
 }

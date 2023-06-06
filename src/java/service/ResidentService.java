@@ -33,4 +33,8 @@ public class ResidentService {
     public void updateRoom(String room, int AID) throws SQLException{
         residentRepo.updateRoom(room, AID);
     }
+    
+    public void updateResident(String room, int BID, int status, int AID) throws SQLException{
+        residentRepo.updateResident(room, BID, status, AID);
+    }
 }

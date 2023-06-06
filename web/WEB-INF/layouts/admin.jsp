@@ -39,7 +39,7 @@
         <!-- Template Main CSS File -->
         <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
 
-        
+
     </head>
 
     <body>
@@ -51,7 +51,7 @@
                     <img src="<c:url value="/assets/images/resources/logo-1.png"/>" alt="" class="logo-image">
                 </a>
             </div>
-                <i class="bi bi-list toggle-sidebar-btn"></i>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
             <!-- End Logo -->
 
             <div style="margin-left: 20rem;" class="search-bar">
@@ -294,12 +294,14 @@
                         <span>Manage Resident</span>
                     </a>
                 </li><!-- End Resident Nav -->
+                <c:if test="${user.roleID == 4}">
                 <li class="nav-item ${activeTab == "user" ? "active" : ""}">
                     <a class="nav-link1" href="<c:url value="/admin/user-tables.do?op=getAll" />">
                         <i class="bi bi-person-vcard-fill"></i>
                         <span>Manage User</span>
                     </a>
                 </li><!-- End User Nav -->
+                </c:if>
                 <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
                     <a class="nav-link1" href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>">
                         <i class="bi bi-box-fill"></i>
@@ -336,7 +338,7 @@
             <jsp:include page="/WEB-INF/views/${controller}/${action}.jsp" />
         </main><!-- End #main -->
 
-      
+
 
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
                 class="bi bi-arrow-up-short"></i></a>
@@ -353,6 +355,7 @@
 
         <!-- Template Main JS File -->
         <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+
 
     </body>
 

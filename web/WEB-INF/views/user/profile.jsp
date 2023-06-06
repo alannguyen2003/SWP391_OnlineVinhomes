@@ -61,7 +61,7 @@
             <div class="card card-raised mb-5">
                 <div style="margin: 0px!important;" class="card-body p-5">
 
-                    <c:if test="${res.room == null && user.roleID == 1}">
+                    <c:if test="${user.room == null && user.roleID == 1}">
                         <div class="caption text-center">Enter your room number
                             <form action="<c:url value="/user/updateRoom.do" />">
                                 <input type="hidden" name="AID" value="${res.AID}" />
@@ -70,7 +70,7 @@
                             </form>
                         </div>
                     </c:if>
-                    <c:if test="${res.room != null && user.roleID == 1}">
+                    <c:if test="${user.room != null && user.roleID == 1}">
                         <div class="card-title">Your Room:</div>
                         <div class="card-subtitle mb-4">${res.room}</div>
                     </c:if>

@@ -238,7 +238,6 @@
                             <h5 class="card-title">Recent Sales <span>| Today</span></h5>
                             
                             <table class="table table-borderless datatable">
-                                
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -248,7 +247,6 @@
                                         <th scope="col">Status</th>
                                     </tr>
                                 </thead>
-                                
                                 <tbody>
                                     <c:forEach items = "${requestScope.listSale}" var ="listSale">
                                     <tr>

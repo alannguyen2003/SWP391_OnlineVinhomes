@@ -16,11 +16,12 @@ public class FeedbackEntity {
     private String contactNumber;
     private String email;
     private int FID;
+    private double rated;
 
     public FeedbackEntity() {
     }
 
-    public FeedbackEntity(int UID, int DID, String message, String name, String contactNumber, String email, int FID) {
+    public FeedbackEntity(int UID, int DID, String message, String name, String contactNumber, String email, int FID, double rated) {
         this.UID = UID;
         this.DID = DID;
         this.message = message;
@@ -28,6 +29,15 @@ public class FeedbackEntity {
         this.contactNumber = contactNumber;
         this.email = email;
         this.FID = FID;
+        this.rated = rated;
+    }
+
+    public double getRated() {
+        return rated;
+    }
+
+    public void setRated(double rated) {
+        this.rated = rated;
     }
 
     public int getUID() {

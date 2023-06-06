@@ -25,7 +25,7 @@
             </div>
             <!-- Account details card-->
 
-            <form action="">
+            <form action="<c:url value="/admin/updateResident.do" />">
                 <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">ID</label>
                     <div class="col-md-8 col-lg-9">
@@ -61,28 +61,27 @@
                 <div class="row mb-3">
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Room</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="address" type="hidden" class="form-control" id="Address" value="${u.room}">
-                        <input name="address" type="text" class="form-control" id="Address" value="${u.room}" disabled="">
+                        <input name="room" type="text" class="form-control" id="Address" value="${u.room}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Block ID</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address" value="${u.BID}">
+                        <input name="BID" type="text" class="form-control" id="Address" value="${u.BID}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Status</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address" value="...">
+                        <input name="status" type="text" class="form-control" id="Address" value="${u.status}">
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" name = "op" value="update">Save change</button>
+                        <button type="submit" class="btn btn-primary">Save change</button>
                     </div>
                 </div>
             </form>
