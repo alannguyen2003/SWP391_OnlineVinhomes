@@ -131,39 +131,77 @@
         </div>
     </div>
 </section>
-<%--
-<nav aria-label="Page navigation example" class="col-lg-12" style="display: flex; justify-content: center">
-<ul class="pagination">
 
-        <c:if test="${currentPage > 1}">
-            <li class="page-item"><a class="page-link" href="<c:url value="/admin/service-list.do?&page=${currentPage - 1}&op=${op}
-                   &filterOption=${filterOption}&filterValue=${filterValue}
-                   &searchOption=${searchOption}&searchValue=${searchValue}
-                   &sortOption=${sortOption}" />">Previous</a></li>
-            </c:if>
-
+<nav>
+    <ul class="pagination justify-content-center">
+        <c:url var="previousPageUrl" value="/admin/service-list.do">
+            <c:param name="page" value="${currentPage - 1}" />
+            <c:param name="op" value="${op}" />
+            <c:param name="filterOption" value="${filterOption}" />
+            <c:param name="filterValue1" value="${filterValue1}" />
+            <c:param name="filterValue2" value="${filterValue2}" />
+            <c:param name="searchOption" value="${searchOption}" />
+            <c:param name="searchValue" value="${searchValue}" />
+            <c:param name="sortOption" value="${sortOption}" />
+            <c:param name="sortType" value="${sortType}" />
+        </c:url>
+        <li class="page-item">
+            <a class="page-link" href="${previousPageUrl}">Previous</a>
+        </li>
+        
         <c:forEach var="i" begin="1" end="${totalPages}">
             <c:choose>
                 <c:when test="${i == currentPage}">
-                    <li class="page-item active"><a class="page-link" href="#"><c:out value="${i}" /></a></li>
-                    </c:when>
-                    <c:otherwise>
-                        <c:if test="${i <= 3 || i >= totalPages - 2 || (i >= currentPage - 1 && i <= currentPage + 1)}">
-                        <li class="page-item"><a class="page-link" href="<c:url value='/admin/resident-tables.do?page=${i}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}' />"><c:out value="${i}" /></a></li>
-                        </c:if>
-                        <c:if test="${i == 4 && currentPage > 5}">
-                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                        </c:if>
-                        <c:if test="${i == totalPages - 3 && currentPage < totalPages - 4}">
-                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                        </c:if>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <c:if test="${currentPage < totalPages}">
-            <li class="page-item"><a class="page-link" href="<c:url value="/admin/resident-tables.do?page=${currentPage + 1}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}" />">Next</a></li>
-            </c:if>
+                    <li class="page-item active">
+                        <a class="page-link" href="#"><c:out value="${i}" /></a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${i <= 3 || i >= totalPages - 2 || (i >= currentPage - 1 && i <= currentPage + 1)}">
+                        <c:url var="pageUrl" value="/admin/service-list.do">
+                            <c:param name="page" value="${i}" />
+                            <c:param name="op" value="${op}" />
+                            <c:param name="filterOption" value="${filterOption}" />
+                            <c:param name="filterValue1" value="${filterValue1}" />
+                            <c:param name="filterValue2" value="${filterValue2}" />
+                            <c:param name="searchOption" value="${searchOption}" />
+                            <c:param name="searchValue" value="${searchValue}" />
+                            <c:param name="sortOption" value="${sortOption}" />
+                            <c:param name="sortType" value="${sortType}" />
+                        </c:url>
+                        <li class="page-item">
+                            <a class="page-link" href="${pageUrl}"><c:out value="${i}" /></a>
+                        </li>
+                    </c:if>
+                    <c:if test="${i == 4 && currentPage > 5}">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                    </c:if>
+                    <c:if test="${i == totalPages - 3 && currentPage < totalPages - 4}">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        
+        <c:url var="nextPageUrl" value="/admin/service-list.do">
+            <c:param name="page" value="${currentPage + 1}" />
+            <c:param name="op" value="${op}" />
+            <c:param name="filterOption" value="${filterOption}" />
+            <c:param name="filterValue1" value="${filterValue1}" />
+            <c:param name="filterValue2" value="${filterValue2}" />
+            <c:param name="searchOption" value="${searchOption}" />
+            <c:param name="searchValue" value="${searchValue}" />
+            <c:param name="sortOption" value="${sortOption}" />
+            <c:param name="sortType" value="${sortType}" />
+        </c:url>
+        <li class="page-item">
+            <a class="page-link" href="${nextPageUrl}">Next</a>
+        </li>
     </ul>
 </nav>
---%>
+
 
