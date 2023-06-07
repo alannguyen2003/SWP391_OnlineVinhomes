@@ -1,23 +1,28 @@
 package repository;
 
 import config.DBConfig;
+import entity.CartEntity;
+import entity.ItemEntity;
 import entity.MyOrderEntity;
 import entity.OrderDetailEntity;
 import entity.OrderHeaderEntity;
 import entity.RevenueEntity;
 import entity.SaleEntity;
+import entity.UserEntity;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import service.UserService;
 
 public class OrderRepository {
 
@@ -391,6 +396,37 @@ public class OrderRepository {
         }
         
         return result;
+    }
+    
+    public void addOrder(UserEntity user, CartEntity cart) throws SQLException {
+        LocalDate curDate = java.time.LocalDate.now();
+        String date = curDate.toString();
+        UserService uService = new UserService();
+        Connection con = DBConfig.getConnection();
+        String sql = "insert into Orders values(?, 'Pending',?, ?, null)";
+        PreparedStatement stm = con.prepareStatement(sql);
+        stm.setString(1, date);
+        stm.setInt(2, user.getAID());
+        stm.setInt(3, uService.getManagerOfBlock(user.getBID()).getAID());
+        stm.executeUpdate();
+        String sql1 = "select top 1 oid from Orders order by oid desc";
+        PreparedStatement stm1 = con.prepareStatement(sql1);
+        ResultSet rs = stm1.executeQuery();
+        while (rs.next()) {
+            int oid = rs.getInt("oid");
+            for (ItemEntity item : cart.getItems()) {
+                String sql2 = "insert into OrderDetail values(?, ?, ?, ?)";
+                PreparedStatement stm2 = con.prepareStatement(sql2);
+                stm2.setInt(1, oid);
+                stm2.setInt(2, item.getService().getServiceID());
+                stm2.setInt(3, item.getService().getCategoryID());
+                stm2.setDouble(4, item.getPrice());
+                stm2.executeUpdate();
+            }
+        }
+        con.close();
+
+
     }
 
 

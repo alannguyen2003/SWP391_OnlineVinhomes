@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import service.CartService;
+import service.OrderService;
 import service.ServiceService;
 
 /**
@@ -52,15 +53,17 @@ public class CartController extends HttpServlet {
                 case "cart":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
-                case "addToCart":      
+                case "addToCart":
                     addToCart(request, response);
                     break;
                 case "removeFromCart":
                     removeFromCart(request, response);
                     break;
                 case "cart-contact":
-                    
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    break;
+                case "cart-completion":
+                    cartCompletion(request, response);
                     break;
             }
         } catch (SQLException ex) {
@@ -153,7 +156,7 @@ public class CartController extends HttpServlet {
         session3.setAttribute("size", list2.size());
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
-    
+
 //    protected void contact(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
 //        try {
@@ -186,5 +189,22 @@ public class CartController extends HttpServlet {
 //        } catch (Exception ex) {
 //        }
 //    }
+    protected void cartCompletion(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            HttpSession session = request.getSession();
+            CartEntity cart = (CartEntity) session.getAttribute("cart");
+            UserEntity user = (UserEntity) session.getAttribute("user");
+            OrderService oService = new OrderService();
+            oService.addOrder(user, cart);
+            session.removeAttribute("cart");
+            session.removeAttribute("size");
+            request.setAttribute("controller", "home");
+            request.setAttribute("action", "index");
+            request.setAttribute("orderMessage", "Order Successfully. Thank you for your supporting.");
+            request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
 }
