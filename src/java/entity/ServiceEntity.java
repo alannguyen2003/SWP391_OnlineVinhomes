@@ -16,11 +16,12 @@ public class ServiceEntity {
     private double upperPrice;
     private int supplierID;
     private int categoryID;
+    private double rated;
 
     public ServiceEntity() {
     }
 
-    public ServiceEntity(int serviceID, String name, String description, double lowerPrice, double upperPrice, int supplierID, int categoryID) {
+    public ServiceEntity(int serviceID, String name, String description, double lowerPrice, double upperPrice, int supplierID, int categoryID, double rated) {
         this.serviceID = serviceID;
         this.name = name;
         this.description = description;
@@ -28,6 +29,7 @@ public class ServiceEntity {
         this.upperPrice = upperPrice;
         this.supplierID = supplierID;
         this.categoryID = categoryID;
+        this.rated = rated;
     }
 
     public int getServiceID() {
@@ -86,8 +88,16 @@ public class ServiceEntity {
         this.categoryID = categoryID;
     }
 
+    public double getRated() {
+        return rated;
+    }
+
+    public void setRated(double rated) {
+        this.rated = rated;
+    }
+
     @Override
     public String toString() {
-        return "ServiceEntity{" + "serviceID=" + serviceID + ", name=" + name + ", description=" + description + ", lowerPrice=" + lowerPrice + ", upperPrice=" + upperPrice + ", supplierID=" + supplierID + ", categoryID=" + categoryID + '}';
+        return "ServiceEntity{" + "serviceID=" + serviceID + ", name=" + name + ", description=" + description + ", lowerPrice=" + lowerPrice + ", upperPrice=" + upperPrice + ", supplierID=" + supplierID + ", categoryID=" + categoryID + ", rated=" + rated + '}';
     }
 }

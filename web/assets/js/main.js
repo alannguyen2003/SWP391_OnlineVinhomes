@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Lưu trữ giá trị mặc định của combobox con
     var defaultCategoryValue = document.getElementById("filterCategory").value;
     var defaultSupplierValue = document.getElementById("filterSupplier").value;
@@ -360,17 +360,17 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // Khôi phục giá trị mặc định cho combobox con khi sự kiện "change" xảy ra
-    document.getElementById("filterCategory").addEventListener("change", function() {
+    document.getElementById("filterCategory").addEventListener("change", function () {
         defaultCategoryValue = this.value;
     });
 
-    document.getElementById("filterSupplier").addEventListener("change", function() {
+    document.getElementById("filterSupplier").addEventListener("change", function () {
         defaultSupplierValue = this.value;
     });
-    
+
     // Ẩn combobox "filterSupplier" trong lần chạy đầu tiên
     document.getElementById("filterSupplierDiv").style.display = "none";
-    
+
     // Gán giá trị mặc định cho combobox con nếu filterOption đã được chọn
     var filterOption = document.getElementById("filterOption").value;
     if (filterOption === "category") {
@@ -379,6 +379,120 @@ document.addEventListener("DOMContentLoaded", function() {
     } else if (filterOption === "supplier") {
         document.getElementById("filterSupplierDiv").style.display = "block";
         document.getElementById("filterSupplier").value = defaultSupplierValue;
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Lưu trữ giá trị mặc định của combobox con
+    var defaultGenderValue = document.getElementById("filterGender").value;
+    var defaultRoleValue = document.getElementById("filterRole").value;
+    var defaultStatusValue = document.getElementById("filterStatus").value;
+
+    // Bắt sự kiện onchange của combobox cha
+    document.getElementById("filterOption").onchange = function () {
+        var filterOption = this.value;
+
+        // Ẩn tất cả combobox con
+        document.getElementById("filterGenderDiv").style.display = "none";
+        document.getElementById("filterRoleDiv").style.display = "none";
+        document.getElementById("filterStatusDiv").style.display = "none";
+
+        // Hiển thị combobox con tương ứng dựa vào giá trị của combobox cha
+        if (filterOption === "gender") {
+            document.getElementById("filterGenderDiv").style.display = "block";
+            // Xóa giá trị của combobox "filterRole và Status"
+            document.getElementById("filterRole").selectedIndex = 0;
+            document.getElementById("filterStatus").selectedIndex = 0;
+        } else if (filterOption === "role") {
+            document.getElementById("filterRoleDiv").style.display = "block";
+            // Xóa giá trị của combobox "filterCategory"
+            document.getElementById("filterGender").selectedIndex = 0;
+            document.getElementById("filterStatus").selectedIndex = 0;
+        } else if (filterOption === "status") {
+            document.getElementById("filterStatusDiv").style.display = "block";
+            // Xóa giá trị của combobox "filterCategory"
+            document.getElementById("filterGender").selectedIndex = 0;
+            document.getElementById("filterRole").selectedIndex = 0;
+        }
+    };
+
+    // Khôi phục giá trị mặc định cho combobox con khi sự kiện "change" xảy ra
+    document.getElementById("filterGender").addEventListener("change", function () {
+        defaultGenderValue = this.value;
+    });
+
+    document.getElementById("filterRole").addEventListener("change", function () {
+        defaultRoleValue = this.value;
+    });
+
+    document.getElementById("filterStatus").addEventListener("change", function () {
+        defaultStatusValue = this.value;
+    });
+
+    // Ẩn combobox "filterRole + status" trong lần chạy đầu tiên
+    document.getElementById("filterRoleDiv").style.display = "none";
+    document.getElementById("filterStatusDiv").style.display = "none";
+
+    // Gán giá trị mặc định cho combobox con nếu filterOption đã được chọn
+    var filterOption = document.getElementById("filterOption").value;
+    if (filterOption === "gender") {
+        document.getElementById("filterGenderDiv").style.display = "block";
+        document.getElementById("filterGender").value = defaultGenderValue;
+    } else if (filterOption === "role") {
+        document.getElementById("filterRoleDiv").style.display = "block";
+        document.getElementById("filterRole").value = defaultRoleValue;
+    } else if (filterOption === "status") {
+        document.getElementById("filterStatusDiv").style.display = "block";
+        document.getElementById("filterStatus").value = defaultStatusValue;
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Lưu trữ giá trị mặc định của combobox con
+    var defaultBlockValue = document.getElementById("filterBlock").value;
+    var defaultStatusResValue = document.getElementById("filterStatusRes").value;
+
+    // Bắt sự kiện onchange của combobox cha
+    document.getElementById("filterOption").onchange = function () {
+        var filterOption = this.value;
+
+        // Ẩn tất cả combobox con
+        document.getElementById("filterBlockDiv").style.display = "none";
+        document.getElementById("filterStatusResDiv").style.display = "none";
+
+        // Hiển thị combobox con tương ứng dựa vào giá trị của combobox cha
+        if (filterOption === "block") {
+            document.getElementById("filterBlockDiv").style.display = "block";
+            // Xóa giá trị của combobox "filterRole và Status"
+            document.getElementById("filterStatusRes").selectedIndex = 0;
+        } else if (filterOption === "status") {
+            document.getElementById("filterStatusResDiv").style.display = "block";
+            // Xóa giá trị của combobox "filterCategory"
+            document.getElementById("filterBlock").selectedIndex = 0;
+        }
+    };
+
+    // Khôi phục giá trị mặc định cho combobox con khi sự kiện "change" xảy ra
+    document.getElementById("filterBlock").addEventListener("change", function () {
+        defaultBlockValue = this.value;
+    });
+
+    document.getElementById("filterStatusRes").addEventListener("change", function () {
+        defaultStatusResValue = this.value;
+    });
+
+    // Ẩn combobox "filterRole + status" trong lần chạy đầu tiên
+    document.getElementById("filterStatusResDiv").style.display = "none";
+    document.getElementById("filterBlockDiv").style.display = "none";
+
+    // Gán giá trị mặc định cho combobox con nếu filterOption đã được chọn
+    var filterOption = document.getElementById("filterOption").value;
+    if (filterOption === "block") {
+        document.getElementById("filterBlockDiv").style.display = "block";
+        document.getElementById("filterBlock").value = defaultBlockValue;
+    } else if (filterOption === "status") {
+        document.getElementById("filterStatusResDiv").style.display = "block";
+        document.getElementById("filterStatusRes").value = defaultStatusResValue;
     }
 });
 

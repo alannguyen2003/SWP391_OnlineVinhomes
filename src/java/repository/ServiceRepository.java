@@ -32,8 +32,9 @@ public class ServiceRepository {
             entity.setDescription(rs.getString(3));
             entity.setLowerPrice(rs.getDouble(4));
             entity.setUpperPrice(rs.getDouble(5));
-            entity.setSupplierID(rs.getInt(6));
-            entity.setCategoryID(rs.getInt(7));
+            entity.setRated(rs.getDouble(6));
+            entity.setSupplierID(rs.getInt(7));
+            entity.setCategoryID(rs.getInt(8));
             list.add(entity);
         }
         return list;
@@ -58,8 +59,9 @@ public class ServiceRepository {
             serviceEntity.setDescription(rs.getString(3));
             serviceEntity.setLowerPrice(rs.getDouble(4));
             serviceEntity.setUpperPrice(rs.getDouble(5));
-            serviceEntity.setSupplierID(rs.getInt(6));
-            serviceEntity.setCategoryID(rs.getInt(7));
+            serviceEntity.setRated(rs.getDouble(6));
+            serviceEntity.setSupplierID(rs.getInt(7));
+            serviceEntity.setCategoryID(rs.getInt(8));
             
             list.add(serviceEntity);
             
@@ -86,8 +88,9 @@ public class ServiceRepository {
             entity.setDescription(rs.getString(3));
             entity.setLowerPrice(rs.getDouble(4));
             entity.setUpperPrice(rs.getDouble(5));
-            entity.setSupplierID(rs.getInt(6));
-            entity.setCategoryID(rs.getInt(7));
+            entity.setRated(rs.getDouble(6));
+            entity.setSupplierID(rs.getInt(7));
+            entity.setCategoryID(rs.getInt(8));
             list.add(entity);
         }
         return list;
@@ -112,8 +115,9 @@ public class ServiceRepository {
             serviceEntity.setDescription(rs.getString(3));
             serviceEntity.setLowerPrice(rs.getDouble(4));
             serviceEntity.setUpperPrice(rs.getDouble(5));
-            serviceEntity.setSupplierID(rs.getInt(6));
-            serviceEntity.setCategoryID(rs.getInt(7));
+            serviceEntity.setRated(rs.getDouble(6));
+            serviceEntity.setSupplierID(rs.getInt(7));
+            serviceEntity.setCategoryID(rs.getInt(8));
             list.add(serviceEntity);
         }
         return list;
@@ -138,6 +142,7 @@ public class ServiceRepository {
                 service.setDescription(rs.getString("description"));
                 service.setLowerPrice(rs.getDouble("lower_price"));
                 service.setUpperPrice(rs.getDouble("upper_price"));
+                service.setRated(rs.getDouble("rated"));
                 service.setSupplierID(rs.getInt("supplier_id"));
                 service.setCategoryID(rs.getInt("category_id"));
             }
@@ -159,7 +164,22 @@ public class ServiceRepository {
     }
     
     
-    
+    public void updateService(int service_id, String name, String description, double lowerPrice, double upperPrice, double rated, int supplierId, int categoryId) throws SQLException{
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Service set name = ?, description = ?, lower_price = ?, upper_price = ?"
+                                                        + ", rated = ?, supplier_id = ?, category_id = ? where service_id = ?");
+        pstm.setString(1, name);
+        pstm.setString(2, description);
+        pstm.setDouble(3, lowerPrice);
+        pstm.setDouble(4, upperPrice);
+        pstm.setDouble(5, rated);
+        pstm.setInt(6, supplierId);
+        pstm.setInt(7, categoryId);
+        pstm.setInt(8, service_id);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
     
     
     public static void main(String[] args) throws Exception {

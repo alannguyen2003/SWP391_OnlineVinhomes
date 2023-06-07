@@ -27,8 +27,8 @@
                             <div class="col-md-2">
                                 <label class="p-1" for="filterOption">Filter By:</label>
                                 <select class="form-select" aria-label="Default select example" name="filterOption" id="filterOption">
-                                    <option value="category" ${filterOption=="category" ? "selected" : ""}>Category</option>
-                                    <option value="supplier" ${filterOption=="supplier" ? "selected" : ""}>Supplier</option>
+                                    <option value="block" ${filterOption=="block" ? "selected" : ""}>Block</option>
+                                    <option value="status" ${filterOption=="status" ? "selected" : ""}>Status</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -36,8 +36,8 @@
                                     <label class="p-1" for="filterCategory">Value:</label>
                                     <select class="form-select" aria-label="Default select example" name="filterValue1" id="filterCategory">
                                         <!-- Các option của combobox category -->
-                                        <c:forEach var="cl" items="${categoryList}">
-                                            <option value="${cl.id}" ${cl.id == filterValue1 ? "selected" : ""}>${cl.name}</option>
+                                        <c:forEach var="bl" items="${blockList}">
+                                            <option value="${bl.id}" ${bl.id == filterValue1 ? "selected" : ""}>${bl.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -105,6 +105,7 @@
                                     <th>Description</th>
                                     <th>Min Price</th>
                                     <th>Max Price</th>
+                                    <th>Rated</th>
                                     <th>Supplier</th>
                                     <th>Category</th>
                                     <th>Operation</th>
@@ -118,9 +119,10 @@
                                         <td>${s.description}</td>
                                         <td>${s.lowerPrice}</td>
                                         <td>${s.upperPrice}</td>
+                                        <td>${s.rated}</td>
                                         <td>${s.supplierID}</td>
                                         <td>${s.categoryID}</td>
-                                        <td><a class="btn btn-outline-primary" href="<c:url value="#"/>">View <i class="bi bi-gear"></i></a></td>
+                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/service-detail.do?serviceID=${s.serviceID}"/>">View <i class="bi bi-gear"></i></a></td>
                                     </tr>
                                 </tbody>
                             </c:forEach>
@@ -134,6 +136,7 @@
 
 <nav>
     <ul class="pagination justify-content-center">
+        <c:if test="${currentPage > 1}">
         <c:url var="previousPageUrl" value="/admin/service-list.do">
             <c:param name="page" value="${currentPage - 1}" />
             <c:param name="op" value="${op}" />
@@ -148,7 +151,7 @@
         <li class="page-item">
             <a class="page-link" href="${previousPageUrl}">Previous</a>
         </li>
-        
+        </c:if>
         <c:forEach var="i" begin="1" end="${totalPages}">
             <c:choose>
                 <c:when test="${i == currentPage}">
@@ -186,7 +189,7 @@
                 </c:otherwise>
             </c:choose>
         </c:forEach>
-        
+        <c:if test="${currentPage < totalPages}">
         <c:url var="nextPageUrl" value="/admin/service-list.do">
             <c:param name="page" value="${currentPage + 1}" />
             <c:param name="op" value="${op}" />
@@ -201,6 +204,7 @@
         <li class="page-item">
             <a class="page-link" href="${nextPageUrl}">Next</a>
         </li>
+        </c:if>
     </ul>
 </nav>
 
