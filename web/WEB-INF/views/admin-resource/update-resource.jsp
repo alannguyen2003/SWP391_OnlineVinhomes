@@ -62,9 +62,9 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-10">
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#updateResourceModal">Update</button>
-                                <input id="updateResource" type="submit" name="op" hidden>
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#cancelUpdateResourceModal">Cancel</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateResourceModal">Update</button>
+                                <input id="updateResource" type="submit" name="op" value="" hidden>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancelUpdateResourceModal">Cancel</button>
                             </div>
                         </div>
 
@@ -78,30 +78,6 @@
     </div>
 </section>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="updateResourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -116,7 +92,7 @@
             <div class="modal-body">Select "Update" below if you are ready to update this resource.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a id="updateResourceLink" class="btn btn-primary"/>Update</a>
+                <a id="updateResourceLink" onclick="updateResource()" class="btn btn-primary"/>Update</a>
             </div>
         </div>
     </div>
@@ -134,24 +110,24 @@
             <div class="modal-body">Select "Yes" below if you are ready to cancel the update transaction.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
-                <a id="cancelUpdateResourceLink" class="btn btn-primary"/>"/>Yes</a>
+                <a id="cancelUpdateResourceLink" onclick="cancelUpdateResource()" class="btn btn-primary"/>Yes</a>
             </div>
         </div>
     </div>
 </div>   
 <script>
-    $("#updateResourceLink").click(function () {
+    function updateResource() {
         var form = document.getElementById("updateResourceForm");
-        form.elements.namedItem("op").value = "update";
-        form.submit();
-
-    });
-    $("#cancelUpdateResourceLink").click(function () {
+        var submitOp = document.getElementById("updateResource");
+        submitOp.value = 'update';
+        submitOp.click();
+    }
+    function cancelUpdateResource() {
         var form = document.getElementById("updateResourceForm");
-        form.elements.namedItem("op").value = "cancel";
-        form.submit();
-
-    });
+        var submitOp = document.getElementById("updateResource");
+        submitOp.value = 'cancel';
+        submitOp.click();
+    }
 </script>
 
 

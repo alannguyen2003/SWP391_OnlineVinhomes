@@ -28,6 +28,7 @@
             rel="stylesheet">
 
         <!-- Vendor CSS Files -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -295,12 +296,12 @@
                     </a>
                 </li><!-- End Resident Nav -->
                 <c:if test="${user.roleID == 4}">
-                <li class="nav-item ${activeTab == "user" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/user-tables.do?op=getAll" />">
-                        <i class="bi bi-person-vcard-fill"></i>
-                        <span>Manage User</span>
-                    </a>
-                </li><!-- End User Nav -->
+                    <li class="nav-item ${activeTab == "user" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/user-tables.do?op=getAll" />">
+                            <i class="bi bi-person-vcard-fill"></i>
+                            <span>Manage User</span>
+                        </a>
+                    </li><!-- End User Nav -->
                 </c:if>
                 <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
                     <a class="nav-link1" href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>">
@@ -344,6 +345,10 @@
                 class="bi bi-arrow-up-short"></i></a>
 
         <!-- Vendor JS Files -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/pooper.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/apexcharts/apexcharts.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/chart.js/chart.umd.js"></script>

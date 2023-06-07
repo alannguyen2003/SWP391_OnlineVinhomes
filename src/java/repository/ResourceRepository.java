@@ -26,7 +26,7 @@ public class ResourceRepository {
                        select br.BID, b.name as blockName, r.RID , r.name as resourceName, br.quantity 
                        from BlockResource as br join BlockVin as b on br.BID = b.BID 
                        join Resource as r on br.RID = r.RID
-                       where br.BID = (select a.BID from Account as a join Employee as e on a.AID = e.AID where a.roleId = 3 and a.BID = ?)""";
+                       where br.BID = ?""";
 
         PreparedStatement stm = con.prepareStatement(query);
 //        stm.setInt(2, ((page - 1) * entries));
@@ -56,7 +56,7 @@ public class ResourceRepository {
                        select br.BID, b.name as blockName, r.RID , r.name as resourceName, br.quantity 
                        from BlockResource as br join BlockVin as b on br.BID = b.BID 
                        join Resource as r on br.RID = r.RID
-                       where br.BID = (select a.BID from Account as a join Employee as e on a.AID = e.AID where a.roleId = 3 and a.BID = ?) and r.name like ?""";
+                       where br.BID = ? and r.name like ?""";
   
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, blockId);
