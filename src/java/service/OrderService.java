@@ -1,10 +1,12 @@
 package service;
 
+import entity.CartEntity;
 import entity.MyOrderEntity;
 import entity.OrderDetailEntity;
 import entity.OrderHeaderEntity;
 import entity.RevenueEntity;
 import entity.SaleEntity;
+import entity.UserEntity;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -69,5 +71,8 @@ public class OrderService {
     public String getMonth() {
         return orderRepository.getJsMonthArray(orderRepository.getValidatedMonth());
 
+    }
+    public void addOrder(UserEntity user, CartEntity cart) throws SQLException {
+        orderRepository.addOrder(user, cart);
     }
 }

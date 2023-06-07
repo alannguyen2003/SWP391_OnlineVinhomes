@@ -128,7 +128,7 @@
                             <a href="<c:url value="/cart/cart.do" />" class="btn btn-primary mt-10">Cancel</a>
                         </div>
                         <div class="col-6 mb-40" style="display: flex; justify-content: flex-end">
-                            <a class="btn btn-primary mt-10">Place order</a>
+                            <a class="btn btn-primary mt-10" data-toggle="modal" data-target="#cartCompletion"/>Place order</a>
                         </div>
                     </div>
                 </div>
@@ -137,3 +137,22 @@
     </div>
 </section> 
 <!--Page Section End -->
+
+<div class="modal fade" id="cartCompletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Do you want to order?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Yes" below if you are ready to place your order.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                <a class="btn btn-success" href="<c:url value="/cart/cart-completion.do"/>">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>   

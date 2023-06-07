@@ -60,6 +60,9 @@ public class UserService {
         return userRepo.getUser(aid);
     }
     
+    public UserEntity getManagerOfBlock(int blockId) throws SQLException {
+        return userRepo.getManagerOfBlock(blockId);
+    }
     public static void main(String[] args) throws Exception {
         UserService service = new UserService();
         System.out.println(service.getCountResident());

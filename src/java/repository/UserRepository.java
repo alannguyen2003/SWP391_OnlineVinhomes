@@ -294,6 +294,19 @@ public class UserRepository {
         con.close();
         return user;
     }
+    
+    public UserEntity getManagerOfBlock(int blockId) throws SQLException {
+        UserEntity user = new UserEntity();
+        String query = "select * from Account where roleId = 4 and BID = ?";
+        Connection con = DBConfig.getConnection();
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, blockId);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            user.setAID(rs.getInt("aid"));
+        }
+        return user;
+    }
 
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
