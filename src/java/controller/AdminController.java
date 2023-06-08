@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import payload.request.OrderHeaderRequest;
 import service.BlockVinService;
 import service.CategoryService;
 import service.RoleService;
@@ -106,6 +107,12 @@ public class AdminController extends HttpServlet {
 //                    case "accountCreate":
 //                        create(request, response);
 //                        break;
+                    case "service-create":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "serviceCreate":
+                        serviceCreate(request, response);
+                        break;
                     case "updateResident":
                         updateResident(request, response);
                         break;
@@ -114,6 +121,9 @@ public class AdminController extends HttpServlet {
                         break;
                     case "admin-supplier":
                         loadSupplierList(request, response);
+                        break;
+                    case "order-list":
+                        loadOrderList(request, response);
                         break;
                 }
             } catch (Exception ex) {
@@ -124,7 +134,7 @@ public class AdminController extends HttpServlet {
         }
 
     }
-    
+
     protected void load_Admindashboard(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
@@ -134,7 +144,7 @@ public class AdminController extends HttpServlet {
         int countacc = os.countAcc();
         List<SaleEntity> listSale = os.recentSale();
         List<SaleEntity> cateTra = os.cateTraffic();
-        List<SaleEntity> topsell =  os.topsell();
+        List<SaleEntity> topsell = os.topsell();
         request.setAttribute("list", orderList);
         request.setAttribute("count", count);
         request.setAttribute("income", revenue);
@@ -142,7 +152,44 @@ public class AdminController extends HttpServlet {
         request.setAttribute("listSale", listSale);
         request.setAttribute("cateTra", cateTra);
         request.setAttribute("topsell", topsell);
-        
+
+    }
+    
+//  ----------------------------------------
+//  Orders Function
+//  ----------------------------------------
+    protected void loadOrderList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        try {
+            String op = (String) request.getParameter("op");
+            String indexPage = request.getParameter("page");
+            HttpSession session = request.getSession();
+            int currentPage = 1;
+            if (indexPage != null) {
+                currentPage = Integer.parseInt(indexPage);
+            }
+            ArrayList<OrderHeaderRequest> list = new ArrayList<>();
+            int totalItems = 0;
+            int totalPages = 0;
+            int pageSize = 10;
+            switch (op) {
+                case "getall":
+                    list = os.getAllOrders();
+                    // Calculate the total number of pages
+                    totalItems = list.size();
+                    totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                    break;
+            }
+            // Cắt danh sách dữ liệu theo phân trang            
+            request.setAttribute("activeTab", "order");
+            request.setAttribute("op", op);
+            request.setAttribute("list", list);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", currentPage);
+            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 //  ----------------------------------------
@@ -178,7 +225,7 @@ public class AdminController extends HttpServlet {
                     totalPages = (int) Math.ceil((double) totalItems / pageSize);
                     break;
             }
-                        
+
             request.setAttribute("activeTab", "supplier");
             request.setAttribute("op", op);
             request.setAttribute("list", list);
@@ -372,6 +419,12 @@ public class AdminController extends HttpServlet {
         }
         return searchResults;
     }
+    
+    private ArrayList<OrderHeaderRequest> paginateListOrders(ArrayList<OrderHeaderRequest> list, int currentPage, int pageSize) {
+        int startIndex = (currentPage - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, list.size());
+        return (ArrayList<OrderHeaderRequest>) list.subList(startIndex, endIndex);
+    }
 
     private List<UserEntity> paginateListResident(List<UserEntity> list, int currentPage, int pageSize) {
         int startIndex = (currentPage - 1) * pageSize;
@@ -553,6 +606,27 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/admin/service-detail.do?serviceID=" + service_id).forward(request, response);
     }
 
+    private void serviceCreate(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        String op = request.getParameter("op");
+        switch (op) {
+            case "create":
+                String serviceName = request.getParameter("name");
+                String description = request.getParameter("description");
+                double lowerPrice = Double.parseDouble(request.getParameter("lowerPrice"));
+                double upperPrice = Double.parseDouble(request.getParameter("upperPrice"));
+                double rated = Double.parseDouble(request.getParameter("rated"));
+                int supplierID = Integer.parseInt(request.getParameter("supplierID"));
+                int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+                ss.addService(serviceName, description, lowerPrice, upperPrice, rated, supplierID, categoryID);
+                response.sendRedirect(request.getContextPath() + "/admin/service-list.do?op=getAll");
+                break;
+            case "cancel":
+                response.sendRedirect(request.getContextPath() + "/admin/service-list.do?op=getAll");
+                break;
+        }
+    }
+
+
     /*
     -------------------------------------------------------------------------------------------------------------------------------
     
@@ -730,6 +804,6 @@ public class AdminController extends HttpServlet {
         int endIndex = Math.min(startIndex + pageSize, list.size());
         return list.subList(startIndex, endIndex);
     }
-    
+
     //é đù ăng seng
 }

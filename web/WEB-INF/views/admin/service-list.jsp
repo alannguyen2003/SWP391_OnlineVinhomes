@@ -27,8 +27,8 @@
                             <div class="col-md-2">
                                 <label class="p-1" for="filterOption">Filter By:</label>
                                 <select class="form-select" aria-label="Default select example" name="filterOption" id="filterOption">
-                                    <option value="block" ${filterOption=="block" ? "selected" : ""}>Block</option>
-                                    <option value="status" ${filterOption=="status" ? "selected" : ""}>Status</option>
+                                    <option value="category" ${filterOption=="category" ? "selected" : ""}>Category</option>
+                                    <option value="supplier" ${filterOption=="supplier" ? "selected" : ""}>Supplier</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -36,8 +36,8 @@
                                     <label class="p-1" for="filterCategory">Value:</label>
                                     <select class="form-select" aria-label="Default select example" name="filterValue1" id="filterCategory">
                                         <!-- Các option của combobox category -->
-                                        <c:forEach var="bl" items="${blockList}">
-                                            <option value="${bl.id}" ${bl.id == filterValue1 ? "selected" : ""}>${bl.name}</option>
+                                        <c:forEach var="cl" items="${categoryList}">
+                                            <option value="${cl.id}" ${cl.id == filterValue1 ? "selected" : ""}>${cl.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -91,7 +91,7 @@
 
                         <button type="submit" class="btn btn-primary" name = "op" value="generate"><i class="bi bi-search"></i></button>
                     </form>
-
+                                <a href="<c:url value="/admin/service-create.do" />" class="btn btn-primary mt-2">Create</a>
                 </div>
             </div>
             <div class="card shadow mb-4">
@@ -207,5 +207,7 @@
         </c:if>
     </ul>
 </nav>
+                            
+                            
 
 

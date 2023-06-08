@@ -1,17 +1,17 @@
 <%-- 
-    Document   : account-create
-    Created on : Jun 4, 2023, 1:51:00 PM
+    Document   : create-serivce
+    Created on : Jun 8, 2023, 9:44:58 AM
     Author     : admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
-    <h1>Create Manager Account</h1>
+<h1>Create Service</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/admin/admin-dashboard.do" />">Home</a></li>
             <li class="breadcrumb-item">Forms</li>
-            <li class="breadcrumb-item active">Create</li>
+            <li class="breadcrumb-item active">Create Service</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -20,45 +20,46 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Create Manager Account</h5>
+                    <h5 class="card-title">Create Service</h5>
                     <!-- General Form Elements -->
-                    <form action="<c:url value="/admin/accountCreate.do"/>">
+                    <form action="<c:url value="serviceCreate.do"/>">
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Name</label>
+                            <label for="inputText" class="col-sm-2 col-form-label">Service Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="name" value="">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputText" class="col-sm-2 col-form-label" >Email</label>
+                            <label for="inputText" class="col-sm-2 col-form-label" >Description</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="email" value = "" >
+                                <input type="text" class="form-control" name="description" value = "" >
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputText" class="col-sm-2 col-form-label" >Password</label>
+                            <label for="inputText" class="col-sm-2 col-form-label" >Lower Price</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password" value = "" >
+                                <input type="number" step="0.5" class="form-control" name="lowerPrice" value = "" >
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputText" class="col-sm-2 col-form-label">Phone</label>
+                            <label for="inputText" class="col-sm-2 col-form-label">Upper Price</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="phone" value = "" >
+                                <input type="number" step="0.5" class="form-control" name="upperPrice" value = "" >
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputNumber" class="col-sm-2 col-form-label">Block ID</label>
+                            <label for="inputNumber" class="col-sm-2 col-form-label">Supplier ID</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="blockId" value = "">
+                                <input type="number" class="form-control" name="supplierID" value = "">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputNumber" class="col-sm-2 col-form-label">Role ID</label>
+                            <label for="inputNumber" class="col-sm-2 col-form-label">Category ID</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="roleId" value = "">
+                                <input type="number" class="form-control" name="categoryID" value = "">
                             </div>
                         </div>
+                        <input type="number" hidden="" class="form-control" name="rated" value = "0">
                         <div class="row mb-3">
                             <div class="col-sm-12 d-flex justify-content-end">
                                 <button name="op" value="create" type="submit" class="btn btn-primary" style="margin-right: 10px">Create</button>

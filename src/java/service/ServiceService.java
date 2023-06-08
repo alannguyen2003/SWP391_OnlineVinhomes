@@ -40,6 +40,10 @@ public class ServiceService {
         serviceRepository.updateService(service_id, name, description, lowerPrice, upperPrice, rated, supplierId, categoryId);
     }
     
+    public void addService(String name, String description, double lowerPrice, double upperPrice, double rated, int supplierID, int categoryID) throws SQLException{
+        serviceRepository.addService(name, description, lowerPrice, upperPrice, rated, supplierID, categoryID);
+    }
+    
     public static void main(String[] args) throws Exception {
         ServiceService serviceService = new ServiceService();
         for (ServiceEntity entity : serviceService.getServiceByCategory(1)) {

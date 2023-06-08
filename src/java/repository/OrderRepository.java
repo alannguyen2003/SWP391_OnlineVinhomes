@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import payload.request.OrderHeaderRequest;
 import service.UserService;
 
 public class OrderRepository {
@@ -274,10 +275,10 @@ public class OrderRepository {
         Connection con = DBConfig.getConnection();
 
         Statement stm = con.createStatement();
-        ResultSet rs = stm.executeQuery("select top 5 Orders.OID, Service.name, OrderDetail.price ,COUNT(service.service_id) as Sold, Sum(OrderDetail.price) as Revenue\n" +
-"from Orders left join OrderDetail ON Orders.OID = OrderDetail.orderHeader_id \n" +
-"left join Service on Service.service_id = OrderDetail.service_id where Orders.status = 'Completed' \n" +
-"GROUP BY Orders.OID, Service.name, OrderDetail.price");
+        ResultSet rs = stm.executeQuery("select top 5 Orders.OID, Service.name, OrderDetail.price ,COUNT(service.service_id) as Sold, Sum(OrderDetail.price) as Revenue\n"
+                + "from Orders left join OrderDetail ON Orders.OID = OrderDetail.orderHeader_id \n"
+                + "left join Service on Service.service_id = OrderDetail.service_id where Orders.status = 'Completed' \n"
+                + "GROUP BY Orders.OID, Service.name, OrderDetail.price");
         list = new ArrayList<>();
         while (rs.next()) {
             SaleEntity oh = new SaleEntity();
@@ -407,7 +408,7 @@ public class OrderRepository {
     }
 
     public int getTotalMoneyOfOrder(int oId) throws SQLException {
-        String query = "select SUM(od.min_price) as totalMoney from Orders as o join OrderDetail as od on o.OID = od.orderHeader_Id where o.OID = ? and o.status = 'Completed'";
+        String query = "select SUM(od.price) as totalMoney from Orders as o join OrderDetail as od on o.OID = od.orderHeader_Id where o.OID = ? and o.status = 'Completed'";
         int result = 0;
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
@@ -450,9 +451,57 @@ public class OrderRepository {
 
     }
 
-    public static void main(String[] args) throws SQLException {
+    public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
+        ArrayList<OrderHeaderRequest> list = new ArrayList<>();
+        Connection cn = DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select o.OID, a.name, o.time, o.status, o.note from Orders o\n"
+                    + "left join Account a\n"
+                    + "on o.UID = a.AID";
+            pst = cn.prepareStatement(query);
+            rs = pst.executeQuery();
+        }
+        if (rs != null) {
+            while (rs.next()) {
+                OrderHeaderRequest entity = new OrderHeaderRequest();
+                entity.setId(rs.getInt(1));
+                entity.setResidentName(rs.getNString(2));
+                entity.setDate(rs.getDate(3));
+                entity.setStatus(rs.getString(4));
+                entity.setNote(rs.getString(5));
+                list.add(entity);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<String> getEmployeeListForOrderList() throws Exception {
+        ArrayList<String> list = new ArrayList<>();
+        Connection cn = DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select a.name from Orders o \n"
+                    + "left join Account a\n"
+                    + "on o.EID = a.AID";
+            pst = cn.prepareStatement(query);
+            rs = pst.executeQuery();
+        }
+        if (rs != null) {
+            while (rs.next()) {
+                String name = rs.getString(1);
+                list.add(name);
+            }
+        }
+        return list;
+    }
+
+    public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        int rev = op.Revenue();
-        System.out.println(rev);
+        for (String request : op.getEmployeeListForOrderList()) {
+            System.out.println(request);
+        }
     }
 }
