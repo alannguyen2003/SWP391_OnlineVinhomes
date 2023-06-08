@@ -8,8 +8,10 @@ import entity.RevenueEntity;
 import entity.SaleEntity;
 import entity.UserEntity;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import payload.request.OrderHeaderRequest;
 import repository.OrderRepository;
 
 public class OrderService {
@@ -79,5 +81,21 @@ public class OrderService {
     }
     public void addOrder(UserEntity user, CartEntity cart) throws SQLException {
         orderRepository.addOrder(user, cart);
+    }
+    
+    public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
+        ArrayList<OrderHeaderRequest> list = orderRepository.getAllOrders();
+        ArrayList<String> listEmployee = orderRepository.getEmployeeListForOrderList();
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setEmployeeName(listEmployee.get(i));
+        }
+        return list;
+    }
+    
+    public static void main(String[] args) throws Exception {
+        OrderService orderService = new OrderService();
+        for (OrderHeaderRequest request : orderService.getAllOrders()) {
+            System.out.println(request);
+        }
     }
 }

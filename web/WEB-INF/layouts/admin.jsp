@@ -316,7 +316,7 @@
                     </a>
                 </li><!-- End Revenue Nav -->
                 <li class="nav-item ${activeTab == "order" ? "active" : ""}">
-                    <a class="nav-link1" href="#">
+                    <a class="nav-link1" href="<c:url value="/admin/order-list.do?op=getall"/>">
                         <i class="bi bi-clipboard-fill"></i>
                         <span>Order List</span>
                     </a>
