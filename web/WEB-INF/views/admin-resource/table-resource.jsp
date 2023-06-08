@@ -31,7 +31,9 @@
                         <input type="text" class="form-control" id="exampleInputEmail1" name = "txtSearch" value="${searchValue}" aria-describedby="emailHelp" placeholder="Enter resource name">
                     </div>
                     <br/>
-                    <select class="form-select" aria-label="Default select example" name="searchOption">
+                    <input type="checkbox" name="isSortedSearch" id="isSortedSearch"/> Sorted by Quantity
+                    <br/>
+                    <select class="form-select" hidden id="sortedSearchOption" aria-label="Default select example" name="searchOption">
                         <option ${searchOption=="quantityAsc"?"selected":""} value="quantityAsc">Order by quantity ascending</option>
                         <option ${searchOption=="quantityDesc"?"selected":""} value="quantityDesc">Order by quantity descending</option>
                     </select>
@@ -50,9 +52,12 @@
                     <button type="submit" class="btn btn-primary" name = "op" value="filter">Filter</button>
                 </form>
             </div>
-            
+            <div class="card-header py-3">
+                <a href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>" class="btn btn-primary">Reset table</a>
+            </div>
+
             <div class="card-body">
-                
+
                 <div class="table-responsive">
                     ${message}
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -90,3 +95,15 @@
             </c:forEach>
     </ul>
 </nav>
+
+<script>
+    var checkbox = document.querySelector("input[name=isSortedSearch]");
+
+    checkbox.addEventListener('change', function () {
+        if (this.checked) {
+            document.getElementById("sortedSearchOption").hidden = false;
+        } else {
+            document.getElementById("sortedSearchOption").hidden = true;
+        }
+    });
+</script>

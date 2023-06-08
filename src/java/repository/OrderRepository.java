@@ -408,7 +408,7 @@ public class OrderRepository {
     }
 
     public int getTotalMoneyOfOrder(int oId) throws SQLException {
-        String query = "select SUM(od.min_price) as totalMoney from Orders as o join OrderDetail as od on o.OID = od.orderHeader_Id where o.OID = ? and o.status = 'Completed'";
+        String query = "select SUM(od.price) as totalMoney from Orders as o join OrderDetail as od on o.OID = od.orderHeader_Id where o.OID = ? and o.status = 'Completed'";
         int result = 0;
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);

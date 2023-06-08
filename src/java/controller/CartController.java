@@ -198,9 +198,7 @@ public class CartController extends HttpServlet {
             oService.addOrder(user, cart);
             session.removeAttribute("cart");
             session.removeAttribute("size");
-            request.setAttribute("controller", "home");
-            request.setAttribute("action", "index");
-            request.setAttribute("orderMessage", "Order Successfully. Thank you for your supporting.");
+            request.setAttribute("orderMessage", "Thank you for your supporting. Our employee will contact you via Phone soon.");
             request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();

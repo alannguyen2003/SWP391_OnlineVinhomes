@@ -184,9 +184,9 @@ public class UserRepository {
         List<String> list = new ArrayList<>();
         Connection con = DBConfig.getConnection();
         String SQL = """
-                     select top 5 a.AID, a.name, SUM(od.min_price) as totalMoney from Orders as o 
+                     select top 5 a.AID, a.name, SUM(od.price) as totalMoney from Orders as o 
                      join 
-                     OrderDetail as od on o.OID = od.orderHeaderId 
+                     OrderDetail as od on o.OID = od.orderHeader_Id 
                      join 
                      Account as a on o.UID = a.AID
                      group by a.AID, a.name
@@ -215,9 +215,9 @@ public class UserRepository {
         List<Double> list = new ArrayList<>();
         Connection con = DBConfig.getConnection();
         String SQL = """
-                     select top 5 a.AID, a.name, SUM(od.min_price) as totalMoney from Orders as o 
+                     select top 5 a.AID, a.name, SUM(od.price) as totalMoney from Orders as o 
                      join 
-                     OrderDetail as od on o.OID = od.orderHeaderId 
+                     OrderDetail as od on o.OID = od.orderHeader_Id 
                      join 
                      Account as a on o.UID = a.AID
                      group by a.AID, a.name
