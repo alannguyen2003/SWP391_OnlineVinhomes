@@ -307,6 +307,19 @@ public class UserRepository {
         }
         return user;
     }
+    
+    public void updateProfile(String username, String gender, int bid, String phone, int aid) throws SQLException{
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Account set name = ?, gender = ?, BID = ?, phone = ? where AID = ?");
+        pstm.setString(1, username);
+        pstm.setString(2, gender);
+        pstm.setInt(3, bid);
+        pstm.setString(4, phone);
+        pstm.setInt(5, aid);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
 
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();

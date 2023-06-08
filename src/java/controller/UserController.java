@@ -114,6 +114,9 @@ public class UserController extends HttpServlet {
                 case "updateRoom":
                     update(request, response);
                     break;
+                case "updateInfo":
+                    updateInfo(request, response);
+                    break;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -248,6 +251,42 @@ public class UserController extends HttpServlet {
         int AID = Integer.parseInt(request.getParameter("AID"));
         residentService.updateRoom(room, AID);
         response.sendRedirect(request.getContextPath() + "/user/profile.do");
+    }
+    
+    protected void updateInfo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        String op = request.getParameter("op");
+        switch (op) {
+            case "comfirm":
+                try {
+                    // Đọc dữ liệu từ client gửi lên
+                    String id = request.getParameter("aid");
+                    String name = request.getParameter("username");
+                    String gender = request.getParameter("gender");
+                    int bid = Integer.parseInt(request.getParameter("bid"));
+                    String phone = request.getParameter("phone");
+//                    if (id == null && name == null && gender == null && phone == null && bid == null) {
+//                        //Nếu nhập chưa đúng newpass và repass thì cho nhập lại       
+//                        //trả về câu lệnh báo lỗi vào request
+//                        request.setAttribute("message", "You must fill all boxes");
+//                        //quay ve home page
+//                        request.getRequestDispatcher("/auth/edit.do").forward(request, response);
+//                    } else {
+                        // Cập nhật dữ liệu vào db
+                        
+                        userService.updateInfo(name, gender, bid, phone, bid);
+                        // Lưu thông tin vào session
+                        request.getRequestDispatcher("/user/profile.do").forward(request, response);
+//                    }
+//                    // Hiển thị danh sách các mẫu tin của table user
+//                    response.sendRedirect(request.getContextPath() + "/user/login.do");
+                } catch (Exception ex) {
+                    ex.printStackTrace(); // In ra chi tiết thông tin lỗi
+                    throw new ServletException(ex); // Ném lại ngoại lệ để xử lý ở phía khác
+                }
+                break;
+            
+        }
     }
     
     protected void admindashboard(HttpServletRequest request, HttpServletResponse response)

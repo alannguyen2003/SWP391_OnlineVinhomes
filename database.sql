@@ -322,3 +322,19 @@ VALUES
 	('2023-04-01', 'Completed', 18, 6, NULL),
 	('2023-05-01', 'Completed', 19, 7, NULL)
 	go
+
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (1, 3, 2, 120);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (2, 5, 3, 200);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (3, 2, 1, 80);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (4, 4, 2, 140);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (5, 8, 4, 100);
+
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (6, 3, 2, 120);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (6, 5, 3, 200);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (6, 2, 1, 80);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (7, 4, 2, 140);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (8, 8, 4, 100);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (9, 6, 3, 300);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (10, 1, 1, 100);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (11, 7, 4, 60);
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) VALUES (12, 9, 4, 400);

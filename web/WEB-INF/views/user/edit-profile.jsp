@@ -108,8 +108,8 @@
 
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
-                            <label class="label">Gender</label>
-                            <input class="w-100 form-control" name="email" value="${user.gender}">
+                            <label class="label">Email</label>
+                            <input class="w-100 form-control" name="email" value="${user.email}">
                         </div>
 
                         <!-- Form Row-->
@@ -131,15 +131,15 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" class="form-control" name="aid" id="id" value="${sessionScope.user.AID}">       
+
                         <input id="avatar" name="avatar" type="file" accept="image/*" style="display: none" />
                         <input type="hidden" name="isAvaChange" value="false">
                         <!-- Save changes button-->
-                        <div class="text-end"><button class="btn btn-primary" name="op" value="comfirm" type="submit">Save changes</button></div>
+                        <div class="text-end"><button class="btn btn-primary" type="submit">Save changes</button></div>
                     </form>
 
                 </div>
-
+                
             </div>
         </div>
     </div>
