@@ -128,19 +128,21 @@ public class AdminController extends HttpServlet {
     protected void load_Admindashboard(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
-        List<OrderHeaderEntity> orderList = os.recentOrder();
+        List<SaleEntity> orderList = os.recentOrder();
         int count = os.completeOrder();
         int revenue = os.Revenue();
         int countacc = os.countAcc();
         List<SaleEntity> listSale = os.recentSale();
         List<SaleEntity> cateTra = os.cateTraffic();
+        List<SaleEntity> topsell =  os.topsell();
         request.setAttribute("list", orderList);
         request.setAttribute("count", count);
         request.setAttribute("income", revenue);
         request.setAttribute("countacc", countacc);
         request.setAttribute("listSale", listSale);
         request.setAttribute("cateTra", cateTra);
-
+        request.setAttribute("topsell", topsell);
+        
     }
 
 //  ----------------------------------------

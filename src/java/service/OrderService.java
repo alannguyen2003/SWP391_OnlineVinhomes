@@ -41,7 +41,7 @@ public class OrderService {
     }
 
     
-    public List<OrderHeaderEntity> recentOrder() throws SQLException {
+    public List<SaleEntity> recentOrder() throws SQLException {
         return orderRepository.recentOrder();
     }
     
@@ -64,6 +64,11 @@ public class OrderService {
     public List<SaleEntity> cateTraffic() throws SQLException {
         return orderRepository.cateTraffic();
     }
+    
+    public List<SaleEntity> topsell() throws SQLException {
+        return orderRepository.topsell();
+    }
+    
     public String getTotalMoneyInMonth() {
         return orderRepository.getJsTotalMoneyArray(orderRepository.getTotalMoneyInMonth());
     }
