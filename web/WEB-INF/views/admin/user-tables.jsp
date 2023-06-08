@@ -140,7 +140,7 @@
                                         <td>${r.roleID}</td>
                                         <td>${r.status}</td>
                                         <td>
-
+                                            <a class="btn btn-outline-primary" href="<c:url value="#"/>">View <i class="bi bi-gear"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -229,5 +229,5 @@
         </c:if>
     </ul>
 </nav>
-                            
-                            <!<!-- Easter Egg lol dasdjahkdjhadjka -->
+
+<!<!-- Easter Egg lol dasdjahkdjhadjka -->
