@@ -91,7 +91,7 @@
 
                         <button type="submit" class="btn btn-primary" name = "op" value="generate"><i class="bi bi-search"></i></button>
                     </form>
-
+                                <a href="<c:url value="/admin/service-create.do" />" class="btn btn-primary mt-2">Create</a>
                 </div>
             </div>
             <div class="card shadow mb-4">

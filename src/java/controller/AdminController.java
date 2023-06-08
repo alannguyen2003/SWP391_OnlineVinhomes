@@ -106,6 +106,12 @@ public class AdminController extends HttpServlet {
 //                    case "accountCreate":
 //                        create(request, response);
 //                        break;
+                    case "service-create":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "serviceCreate":
+                        serviceCreate(request, response);
+                        break;
                     case "updateResident":
                         updateResident(request, response);
                         break;
@@ -124,7 +130,7 @@ public class AdminController extends HttpServlet {
         }
 
     }
-    
+
     protected void load_Admindashboard(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
@@ -134,7 +140,7 @@ public class AdminController extends HttpServlet {
         int countacc = os.countAcc();
         List<SaleEntity> listSale = os.recentSale();
         List<SaleEntity> cateTra = os.cateTraffic();
-        List<SaleEntity> topsell =  os.topsell();
+        List<SaleEntity> topsell = os.topsell();
         request.setAttribute("list", orderList);
         request.setAttribute("count", count);
         request.setAttribute("income", revenue);
@@ -142,7 +148,7 @@ public class AdminController extends HttpServlet {
         request.setAttribute("listSale", listSale);
         request.setAttribute("cateTra", cateTra);
         request.setAttribute("topsell", topsell);
-        
+
     }
 
 //  ----------------------------------------
@@ -178,7 +184,7 @@ public class AdminController extends HttpServlet {
                     totalPages = (int) Math.ceil((double) totalItems / pageSize);
                     break;
             }
-                        
+
             request.setAttribute("activeTab", "supplier");
             request.setAttribute("op", op);
             request.setAttribute("list", list);
@@ -553,6 +559,27 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/admin/service-detail.do?serviceID=" + service_id).forward(request, response);
     }
 
+    private void serviceCreate(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        String op = request.getParameter("op");
+        switch (op) {
+            case "create":
+                String serviceName = request.getParameter("name");
+                String description = request.getParameter("description");
+                double lowerPrice = Double.parseDouble(request.getParameter("lowerPrice"));
+                double upperPrice = Double.parseDouble(request.getParameter("upperPrice"));
+                double rated = Double.parseDouble(request.getParameter("rated"));
+                int supplierID = Integer.parseInt(request.getParameter("supplierID"));
+                int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+                ss.addService(serviceName, description, lowerPrice, upperPrice, rated, supplierID, categoryID);
+                response.sendRedirect(request.getContextPath() + "/admin/service-list.do?op=getAll");
+                break;
+            case "cancel":
+                response.sendRedirect(request.getContextPath() + "/admin/service-list.do?op=getAll");
+                break;
+        }
+    }
+
+
     /*
     -------------------------------------------------------------------------------------------------------------------------------
     
@@ -730,6 +757,6 @@ public class AdminController extends HttpServlet {
         int endIndex = Math.min(startIndex + pageSize, list.size());
         return list.subList(startIndex, endIndex);
     }
-    
+
     //é đù ăng seng
 }

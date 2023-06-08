@@ -22,9 +22,9 @@
                 <div class="card-body">
                     <h5 class="card-title">Create Service</h5>
                     <!-- General Form Elements -->
-                    <form action="<c:url value="/admin/serviceCreate.do"/>">
+                    <form action="<c:url value="serviceCreate.do"/>">
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Service Name</label>
+                            <label for="inputText" class="col-sm-2 col-form-label">Service Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="name" value="">
                             </div>
@@ -59,11 +59,11 @@
                                 <input type="number" class="form-control" name="categoryID" value = "">
                             </div>
                         </div>
-                        <input type="number" hidden="" class="form-control" name="rated" value = "">
+                        <input type="number" hidden="" class="form-control" name="rated" value = "0">
                         <div class="row mb-3">
-                            <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary">Create</button>
-                                <button type="submit" class="btn btn-primary">Cancel</button>
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button name="op" value="create" type="submit" class="btn btn-primary" style="margin-right: 10px">Create</button>
+                                <button name="op" value="cancel" type="submit" class="btn btn-primary">Cancel</button>
                             </div>
                         </div>
 

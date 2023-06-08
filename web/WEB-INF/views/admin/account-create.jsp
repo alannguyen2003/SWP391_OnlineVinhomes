@@ -60,9 +60,9 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary">Create</button>
-                                <button type="submit" class="btn btn-primary">Cancel</button>
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button name="op" value="create" type="submit" class="btn btn-primary" style="margin-right: 10px">Create</button>
+                                <button name="op" value="cancel" type="submit" class="btn btn-primary">Cancel</button>
                             </div>
                         </div>
 
