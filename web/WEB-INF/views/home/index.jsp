@@ -971,6 +971,11 @@
     </div>
 </section>
 <!--Why Choose One End-->
+<%--<c:if test="${orderMessage != null}">
+    <script type="text/javascript">
+        window.alert(${orderMessage});
+    </script>
+</c:if>--%>
 
 
 

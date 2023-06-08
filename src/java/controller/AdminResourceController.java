@@ -100,30 +100,34 @@ public class AdminResourceController extends HttpServlet {
             case "search":
                 String searchValue = (String) request.getParameter("txtSearch");
                 list1 = rService.getResourceBySearched(searchValue, userBlockId);
+                String isSortedSearch = "";
+                isSortedSearch += (String) request.getParameter("isSortedSearch");
                 String searchOption = (String) request.getParameter("searchOption");
-                if (!list1.isEmpty()) {
-                    if (searchOption.equals("quantityAsc")) {
-                        Collections.sort(list1, (e1, e2) -> {
-                            return e1.getQuantity() - e2.getQuantity();
-                        });
-                    } else {
-                        Collections.sort(list1, (e1, e2) -> {
-                            return e2.getQuantity() - e1.getQuantity();
-                        });
-                    }
-                    endPage = list1.size() / 10;
-                    if (list1.size() % 10 != 0) {
-                        endPage++;
-                    }
-                    numberOfEntitiesInLastPage = list1.size() % 10;
-                    if (page == endPage) {
-                        for (int i = 0 + 10 * (page - 1); i < (10 * page) - (10 - numberOfEntitiesInLastPage); i++) {
-                            list.add(list1.get(i));
+                if (isSortedSearch.equals("on")) {
+                    if (!list1.isEmpty()) {
+                        if (searchOption.equals("quantityAsc")) {
+                            Collections.sort(list1, (e1, e2) -> {
+                                return e1.getQuantity() - e2.getQuantity();
+                            });
+                        } else {
+                            Collections.sort(list1, (e1, e2) -> {
+                                return e2.getQuantity() - e1.getQuantity();
+                            });
                         }
-                    } else {
-                        for (int i = 0 + 10 * (page - 1); i < 10 * page; i++) {
-                            list.add(list1.get(i));
-                        }
+                    }
+                }
+                endPage = list1.size() / 10;
+                if (list1.size() % 10 != 0) {
+                    endPage++;
+                }
+                numberOfEntitiesInLastPage = list1.size() % 10;
+                if (page == endPage) {
+                    for (int i = 0 + 10 * (page - 1); i < (10 * page) - (10 - numberOfEntitiesInLastPage); i++) {
+                        list.add(list1.get(i));
+                    }
+                } else {
+                    for (int i = 0 + 10 * (page - 1); i < 10 * page; i++) {
+                        list.add(list1.get(i));
                     }
                 }
 
@@ -196,28 +200,26 @@ public class AdminResourceController extends HttpServlet {
         String quantity = (String) request.getParameter("quantity");
         String op = (String) request.getParameter("op");
         String message;
-        switch(op) {
+        switch (op) {
             case "update":
                 if (bId.isBlank() || bName.isBlank() || rId.isBlank() || rName.isBlank() || quantity.isBlank()) {
-            message = "You need to select UPDATE operation before going to update page";
-        } else {
-            BlockResourceEntity br = new BlockResourceEntity(Integer.parseInt(bId), bName, Integer.parseInt(rId), rName, Integer.parseInt(quantity));
-            ResourceService rService = new ResourceService();
-            rService.updateResource(br);
-            message = "Updated Successfully";
-        }
-        response.sendRedirect(request.getContextPath() + String.format("/admin-resource/table-resource.do?op=getAll&message=%s", message));
+                    message = "You need to select UPDATE operation before going to update page";
+                } else {
+                    BlockResourceEntity br = new BlockResourceEntity(Integer.parseInt(bId), bName, Integer.parseInt(rId), rName, Integer.parseInt(quantity));
+                    ResourceService rService = new ResourceService();
+                    rService.updateResource(br);
+                    message = "Updated Successfully";
+                }
+                response.sendRedirect(request.getContextPath() + String.format("/admin-resource/table-resource.do?op=getAll&message=%s", message));
                 break;
             case "cancel":
                 response.sendRedirect(request.getContextPath() + "/admin-resource/table-resource.do?op=getAll");
                 break;
         }
-        
+
 //        request.setAttribute("action", "table-resource");
 //        request.setAttribute("op", "getAll");
 //        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-
-     
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
