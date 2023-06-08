@@ -19,4 +19,15 @@ public class SupplierService {
     public ArrayList<SupplierEntity> getAllSupplier() throws Exception {
         return supplierRepo.getAllSupplier();
     }
+    
+    public ArrayList<SupplierEntity> searchByName(String name) throws Exception {
+        return name.isBlank()? supplierRepo.getAllSupplier() : supplierRepo.searchByName(name);
+    }
+    
+    public static void main(String[] args) throws Exception {
+        SupplierService service = new SupplierService();
+        for (SupplierEntity entity : service.searchByName("home")) {
+            System.out.println(entity);
+        }
+    }
 }

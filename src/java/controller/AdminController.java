@@ -21,8 +21,11 @@ import service.OrderService;
 import entity.OrderHeaderEntity;
 import entity.SaleEntity;
 import entity.ServiceEntity;
+import entity.SupplierEntity;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import service.BlockVinService;
 import service.CategoryService;
@@ -48,7 +51,7 @@ public class AdminController extends HttpServlet {
 
     private CategoryService cs = new CategoryService();
 
-    private SupplierService sls = new SupplierService();
+    private SupplierService supplierService = new SupplierService();
 
     private RoleService rss = new RoleService();
 
@@ -109,6 +112,9 @@ public class AdminController extends HttpServlet {
                     case "updateService":
                         updateService(request, response);
                         break;
+                    case "admin-supplier":
+                        loadSupplierList(request, response);
+                        break;
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -118,23 +124,70 @@ public class AdminController extends HttpServlet {
         }
 
     }
-
+    
     protected void load_Admindashboard(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
-        List<OrderHeaderEntity> orderList = os.recentOrder();
+        List<SaleEntity> orderList = os.recentOrder();
         int count = os.completeOrder();
         int revenue = os.Revenue();
         int countacc = os.countAcc();
         List<SaleEntity> listSale = os.recentSale();
         List<SaleEntity> cateTra = os.cateTraffic();
+        List<SaleEntity> topsell =  os.topsell();
         request.setAttribute("list", orderList);
         request.setAttribute("count", count);
         request.setAttribute("income", revenue);
         request.setAttribute("countacc", countacc);
         request.setAttribute("listSale", listSale);
         request.setAttribute("cateTra", cateTra);
+        request.setAttribute("topsell", topsell);
+        
+    }
 
+//  ----------------------------------------
+//  Suppliers Function 
+//  ----------------------------------------
+    protected void loadSupplierList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        try {
+            String op = (String) request.getParameter("op");
+            String indexPage = request.getParameter("page");
+            HttpSession session = request.getSession();
+            int currentPage = 1;
+            if (indexPage != null) {
+                currentPage = Integer.parseInt(indexPage);
+            }
+            ArrayList<SupplierEntity> list = new ArrayList<>();
+            int totalItems = 0;
+            int totalPages = 0;
+            int pageSize = 10;
+            switch (op) {
+                case "getall":
+                    list = supplierService.getAllSupplier();
+                    // Calculate the total number of pages
+                    totalItems = list.size();
+                    totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                    break;
+                case "search":
+                    String name = request.getParameter("txtSearch");
+                    list = supplierService.searchByName(name);
+                    request.setAttribute("searchValue", name);
+                    // Calculate the total number of pages
+                    totalItems = list.size();
+                    totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                    break;
+            }
+                        
+            request.setAttribute("activeTab", "supplier");
+            request.setAttribute("op", op);
+            request.setAttribute("list", list);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", currentPage);
+            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -397,7 +450,7 @@ public class AdminController extends HttpServlet {
         request.setAttribute("activeTab", "service");
         request.setAttribute("op", op);
         request.setAttribute("categoryList", cs.getAllCategory());
-        request.setAttribute("supplierList", sls.getAllSupplier());
+        request.setAttribute("supplierList", supplierService.getAllSupplier());
         request.setAttribute("list", subList);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);

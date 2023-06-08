@@ -240,7 +240,7 @@
                             <table class="table table-borderless datatable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
+                                        <th scope="col">OID</th>
                                         <th scope="col">Customer</th>
                                         <th scope="col">Product</th>
                                         <th scope="col">Price</th>
@@ -325,14 +325,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:forEach items="${requestScope.topsell}" var="topsell">
                                     <tr>
                                         <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                                        <td>$64</td>
-                                        <td class="fw-bold">124</td>
-                                        <td>$5,828</td>
+                                        <td><a href="#" class="text-primary fw-bold">${topsell.servicename}</a></td>
+                                        <td>${topsell.price}</td>
+                                        <td class="fw-bold">${topsell.sold}</td>
+                                        <td>${topsell.revenue}</td>
                                     </tr>
-                                    <tr>
+                                    </c:forEach>
+<!--                                    <tr>
                                         <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
                                         <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
                                         <td>$46</td>
@@ -359,7 +361,7 @@
                                         <td>$79</td>
                                         <td class="fw-bold">41</td>
                                         <td>$3,239</td>
-                                    </tr>
+                                    </tr>-->
                                 </tbody>
                             </table>
 
@@ -399,7 +401,7 @@
                                 <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                                 <div class="activity-content">
                                     <a> ${list.status}</a>
-                                    <a> ${list.note}</a>
+                                    <a> ${list.servicename}</a>
                                 </div>
                             </div><!-- End activity item-->
 

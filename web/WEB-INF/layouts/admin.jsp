@@ -284,7 +284,7 @@
                     </a>
                 </li><!-- End Manage Service -->
                 <li class="nav-item ${activeTab == "supplier" ? "active" : ""}">
-                    <a class="nav-link1" href="#">
+                    <a class="nav-link1" href="<c:url value="/admin/admin-supplier.do?op=getall" />">
                         <i class="bi bi-building-up"></i>
                         <span>Manage Suppiler</span>
                     </a>
