@@ -140,7 +140,7 @@
                                         <td>${r.roleID}</td>
                                         <td>${r.status}</td>
                                         <td>
-                                            <a class="btn btn-outline-primary" href="<c:url value="#"/>">View <i class="bi bi-gear"></i></a>
+                                            <a class="btn btn-outline-primary" href="<c:url value="/admin/user-detail.do?AID=${r.AID}"/>">View <i class="bi bi-gear"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

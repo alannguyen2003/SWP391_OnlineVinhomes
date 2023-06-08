@@ -104,6 +104,10 @@ public class AdminController extends HttpServlet {
                     case "account-create":
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
+                    case "user-detail":
+                        user_detail(request, response);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
 //                    case "accountCreate":
 //                        create(request, response);
 //                        break;
@@ -433,6 +437,17 @@ public class AdminController extends HttpServlet {
     }
 
     protected void updateResident(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String room = request.getParameter("room");
+        int BID = Integer.parseInt(request.getParameter("BID"));
+        int status = Integer.parseInt(request.getParameter("status"));
+        int AID = Integer.parseInt(request.getParameter("AID"));
+        rs.updateResident(room, BID, status, AID);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/resident-detail.do?AID=" + AID).forward(request, response);
+    }
+    
+    protected void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String room = request.getParameter("room");
         int BID = Integer.parseInt(request.getParameter("BID"));
         int status = Integer.parseInt(request.getParameter("status"));
@@ -804,6 +819,15 @@ public class AdminController extends HttpServlet {
         int endIndex = Math.min(startIndex + pageSize, list.size());
         return list.subList(startIndex, endIndex);
     }
+    
+    private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
+        String aid = request.getParameter("AID");
 
-    //é đù ăng seng
+        UserEntity user = us.getUser(aid); 
+       
+        request.setAttribute("u", user);
+        
+    }
+
+    //é đù ăng seng //m quay ha
 }
