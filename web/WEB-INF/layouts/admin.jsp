@@ -27,42 +27,7 @@
             href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
             rel="stylesheet">
         
-        <!-- fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com/">
-
-        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-
-        <link
-            href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap"
-            rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/animate/animate.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/animate/custom-animate.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/fontawesome/css/all.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/jarallax/jarallax.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/jquery-magnific-popup/jquery.magnific-popup.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/nouislider/nouislider.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/nouislider/nouislider.pips.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/odometer/odometer.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/swiper/swiper.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/brote-icons/style.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/tiny-slider/tiny-slider.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/reey-font/stylesheet.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/owl-carousel/owl.carousel.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/owl-carousel/owl.theme.default.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/bxslider/jquery.bxslider.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/bootstrap-select/css/bootstrap-select.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/vegas/vegas.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/jquery-ui/jquery-ui.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/timepicker/timePicker.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/order.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/home.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/contact/style_1.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/contact/helper.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/login/login.css" />
+        
 
         <!-- template styles -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/brote.css" />
