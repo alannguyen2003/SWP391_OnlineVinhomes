@@ -83,6 +83,7 @@ public class ResetPasswordController extends HttpServlet {
         }
     }
 
+
     protected void resetPassCommit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String email = (String) request.getParameter("email");
         String code = request.getParameter("code");
@@ -119,6 +120,10 @@ public class ResetPasswordController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
         }
     }
+//    public static void main(String[] args) throws Exception {
+//        GmailService gmailer = new GmailService();
+//        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
