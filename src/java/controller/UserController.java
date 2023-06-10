@@ -260,7 +260,7 @@ public class UserController extends HttpServlet {
             case "comfirm":
                 try {
                     // Đọc dữ liệu từ client gửi lên
-                    String id = request.getParameter("aid");
+                    int id = Integer.parseInt(request.getParameter("aid"));
                     String name = request.getParameter("username");
                     String gender = request.getParameter("gender");
                     int bid = Integer.parseInt(request.getParameter("bid"));
@@ -274,9 +274,13 @@ public class UserController extends HttpServlet {
 //                    } else {
                         // Cập nhật dữ liệu vào db
                         
-                        userService.updateInfo(name, gender, bid, phone, bid);
+                        userService.updateInfo(name, gender, bid, phone, id);
+                        
+                        HttpSession session = request.getSession();
+                        UserEntity user = userService.getUser(id+"");
+                        session.setAttribute("user", user);
                         // Lưu thông tin vào session
-                        request.getRequestDispatcher("/user/profile.do").forward(request, response);
+                        response.sendRedirect(request.getContextPath() + "/user/profile.do?AID=" + id);
 //                    }
 //                    // Hiển thị danh sách các mẫu tin của table user
 //                    response.sendRedirect(request.getContextPath() + "/user/login.do");

@@ -166,13 +166,13 @@
                                             <c:if test="${user != null}">
                                                 <!-- Neu user da login -->
                                                 <li style="margin-left: 18rem">
-                                                    <a href="<c:url value="/user/profile.do" />">Hello, ${user.email}</a>
+                                                    <a href="<c:url value="/user/profile.do?AID=${user.AID}" />">Hello, ${user.email}</a>
                                                 </li>
 
                                                 <li class="dropdown">
                                                     <a href="#"><i class="bi bi-person-fill"></i></a>
                                                     <ul>
-                                                        <li><a href="<c:url value="/user/profile.do"/>">View profile</a></li>
+                                                        <li><a href="<c:url value="/user/profile.do?AID=${user.AID}"/>">View profile</a></li>
                                                         <li><a href="<c:url value="/order/myorder.do?aid=${user.AID}"/>">My Orders</a></li>
                                                         <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
                                                     </ul>

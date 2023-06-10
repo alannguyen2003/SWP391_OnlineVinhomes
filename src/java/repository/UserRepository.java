@@ -323,7 +323,8 @@ public class UserRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
-        
+        for(UserEntity user : rep.getAllUser())
+        System.out.println(user);        
     }
 
 }

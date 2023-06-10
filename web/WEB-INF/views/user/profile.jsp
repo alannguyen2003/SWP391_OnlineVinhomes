@@ -96,12 +96,12 @@
                 <div style="margin: 0px!important;" class="card-body p-5">
                     <div class="card-title">Account Details</div>
                     <div class="card-subtitle mb-4">Review and update your account information below.</div>
-                    <form method="post" action="<c:url value="/user/updateInfo.do" />" enctype="multipart/form-data">
+                    <form method="post" action="<c:url value="/user/updateInfo.do" />">
                         <!-- Form Group (username)-->
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>
                             <label class="label">Username</label>
-                            <input class="w-100 form-control" name="username" value="${sessionScope.user.name}">
+                            <input class="w-100 form-control" name="username" value="${user.name}">
                         </div>
 
                         <!-- Form Group (address)-->
@@ -109,7 +109,7 @@
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
                             <label class="label">Gender</label>
-                            <input class="w-100 form-control" name="email" value="${user.gender}">
+                            <input class="w-100 form-control" name="gender" value="${user.gender}">
                         </div>
 
                         <!-- Form Row-->
@@ -131,7 +131,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" class="form-control" name="aid" id="id" value="${sessionScope.user.AID}">       
+                        <input type="hidden" class="form-control" name="aid" id="id" value="${user.AID}">       
                         <input id="avatar" name="avatar" type="file" accept="image/*" style="display: none" />
                         <input type="hidden" name="isAvaChange" value="false">
                         <!-- Save changes button-->
