@@ -83,7 +83,6 @@ public class ResetPasswordController extends HttpServlet {
         }
     }
 
-
     protected void resetPassCommit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String email = (String) request.getParameter("email");
         String code = request.getParameter("code");
