@@ -22,8 +22,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import service.CartService;
+import service.GmailService;
 import service.OrderService;
 import service.ServiceService;
+import service.SupplierService;
 
 /**
  *
@@ -196,6 +198,20 @@ public class CartController extends HttpServlet {
             UserEntity user = (UserEntity) session.getAttribute("user");
             OrderService oService = new OrderService();
             oService.addOrder(user, cart);
+            String itemNeeded = "";
+            ServiceService sService = new ServiceService();
+            SupplierService supService = new SupplierService();
+            for(ItemEntity item : cart.getItems()) {
+               itemNeeded = sService.checkResource(item.getService(), user.getBID());
+               if(!itemNeeded.isBlank()) {
+                   String email = supService.getSupplierEmail(item.getService().getSupplierID());
+                   GmailService gmailer = new GmailService();
+                   String body = "Short in Resource";
+                   String message = "We are running out of the following resources:\n" + itemNeeded + "Please gather these resources for us. Best regard."; 
+                   gmailer.sendEmail(body, message, email);
+               }
+               itemNeeded = "";
+            }
             session.removeAttribute("cart");
             session.removeAttribute("size");
             request.setAttribute("orderMessage", "Thank you for your supporting. Our employee will contact you via Phone soon.");

@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SupplierRepository {
@@ -60,6 +61,20 @@ public class SupplierRepository {
             }
         }
         return list;
+    }
+    
+    public String getSupplierEmail(int id) throws SQLException {
+        String email = "";
+        
+        String query = "select email from Supplier where SID = ?";
+        Connection con = DBConfig.getConnection();
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            email += rs.getString("email");
+        }
+        return email;
     }
     
     public static void main(String[] args) throws Exception {

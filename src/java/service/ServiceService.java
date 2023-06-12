@@ -44,10 +44,20 @@ public class ServiceService {
         serviceRepository.addService(name, description, lowerPrice, upperPrice, rated, supplierID, categoryID);
     }
     
+    public String checkResource(ServiceEntity service, int blockId) throws SQLException {
+        return serviceRepository.checkResource(service, blockId);
+    }
+    
     public static void main(String[] args) throws Exception {
         ServiceService serviceService = new ServiceService();
-        for (ServiceEntity entity : serviceService.getServiceByCategory(1)) {
-            System.out.println(entity);
-        }
+//        for (ServiceEntity entity : serviceService.getServiceByCategory(1)) {
+//            System.out.println(entity);
+//        }
+        
+        ServiceEntity service = new ServiceEntity();
+        service.setServiceID(1);
+        
+        System.out.println(serviceService.checkResource(service, 1));
+        
     }
 }

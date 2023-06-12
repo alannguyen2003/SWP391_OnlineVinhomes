@@ -195,6 +195,31 @@ public class ServiceRepository {
         stm.executeUpdate();
         con.close();
     }
+    
+    public String checkResource(ServiceEntity service, int blockId) throws SQLException {
+        String needed = "";
+        String query = """
+                       select srn.RID, r.name,srn.quantity - br.quantity as needed
+                       from ServiceResourceNeeded as srn 
+                       left join 
+                       BlockResource as br 
+                       on srn.RID = br.RID and br.BID = ?
+                       left join
+                       Resource as r
+                       on br.RID = r.RID
+                       where srn.SID = ?""";
+        Connection con = DBConfig.getConnection();
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, blockId);
+        stm.setInt(2, service.getServiceID());
+        ResultSet rs = stm.executeQuery();
+        while(rs.next()) {
+            if(rs.getInt("needed") > 0) {
+                needed += rs.getString("name") + ":" + " " + rs.getInt("needed") + "\n";
+            }
+        }
+        return needed;
+    }
 
     public static void main(String[] args) throws Exception {
         ServiceRepository repository = new ServiceRepository();
