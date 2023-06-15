@@ -61,7 +61,7 @@ public class GmailService {
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, GsonFactory jsonFactory)
             throws IOException {
         // Load client secrets.
-        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\SWP391\\SWP391_OnlineVinhomes\\client_secret_483758738967-ft14o2oc0j25n8g1n59hte79uebr822n.apps.googleusercontent.com.json"));
+        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\FPTU2022_2025\\SECOND YEAR\\SUMMER2023\\SWP391\\Project\\SWP391_OnlineVinhomes\\SWP391_OnlineVinhomes\\client_secret_483758738967-ft14o2oc0j25n8g1n59hte79uebr822n.apps.googleusercontent.com.json"));
         GoogleClientSecrets clientSecrets
                 = GoogleClientSecrets.load(jsonFactory,  clientSecretReader);
 
@@ -141,26 +141,28 @@ public class GmailService {
         }
     }
     
-    public boolean validateEmail(String email) {
+    public static boolean isValidEmail(String email) {
 
         try {
 
             Content content = Request.Get(
-            "https://emailvalidation.abstractapi.com/v1/?api_key=887d421a032a4a13b47dec623ae6ccee&email="+email)
+            "https://emailvalidation.abstractapi.com/v1/?api_key=887d421a032a4a13b47dec623ae6ccee&email=" + email)
 
                       
             .execute().returnContent();
-
-           return content.asString().contains("DELIVERABLE");
+            
+            if(content.asString().contains("UNDELIVERABLE")) {
+                return false;
+            }
         } catch (IOException error) {
             System.out.println(error);
         }
-        return false;
+        return true;
     }
 
     public static void main(String[] args) throws Exception {
         GmailService gmailer = new GmailService();
-        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
+        gmailer.sendEmail("Test", "Cho Quang loz", "quangnvse172928@fpt.edu.vn");
     }
 }
 

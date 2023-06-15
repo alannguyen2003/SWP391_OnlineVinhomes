@@ -23,7 +23,7 @@
                             </div> 
                         </div>
 
-                        <form action="<c:url value="/user/signup_handler.do" />" class="signin-form" method ="post">
+                        <form action="<c:url value="/user/signup_handler.do" />" class="signin-form">
                             <div class="p-4">
                                 <div class="form-group mb-3">
                                     <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>

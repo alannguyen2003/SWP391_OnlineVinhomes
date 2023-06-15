@@ -25,6 +25,7 @@ import entity.ToastEntity;
 import service.ResidentService;
 import service.EmployeeService;
 import org.apache.tomcat.jni.SSLContext;
+import service.GmailService;
 import service.UserService;
 
 /**
@@ -106,7 +107,7 @@ public class UserController extends HttpServlet {
                         admindashboard(request, response);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                     }
-                    
+
                 } catch (SQLException ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -142,12 +143,19 @@ public class UserController extends HttpServlet {
             entity.setPhone(phone);
             entity.setBID(blockId);
             entity.setPassword(password);
+            GmailService gs = new GmailService();
+            boolean validateEmail = gs.isValidEmail(email);
             boolean check = userService.addNewResident(entity);
-            if (check) {
-                request.setAttribute("message", "Please login again.");
-                request.getRequestDispatcher("/user/login.do").forward(request, response);
-            } else {
-                request.setAttribute("message", "Email exist! Please choose another one!!");
+            if (validateEmail) {
+                if (check) {
+                    request.setAttribute("message", "Please login again.");
+                    request.getRequestDispatcher("/user/login.do").forward(request, response);
+                } else {
+                    request.setAttribute("message", "Email exist, please try again.");
+                    request.getRequestDispatcher("/user/signup.do").forward(request, response);
+                }
+            }else{
+                request.setAttribute("message", "Invalid email.");
                 request.getRequestDispatcher("/user/signup.do").forward(request, response);
             }
         } catch (Exception e) {
@@ -252,19 +260,19 @@ public class UserController extends HttpServlet {
         residentService.updateRoom(room, AID);
         response.sendRedirect(request.getContextPath() + "/user/profile.do");
     }
-    
+
     protected void updateInfo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         String op = request.getParameter("op");
         switch (op) {
             case "comfirm":
                 try {
-                    // Đọc dữ liệu từ client gửi lên
-                    int id = Integer.parseInt(request.getParameter("aid"));
-                    String name = request.getParameter("username");
-                    String gender = request.getParameter("gender");
-                    int bid = Integer.parseInt(request.getParameter("bid"));
-                    String phone = request.getParameter("phone");
+                // Đọc dữ liệu từ client gửi lên
+                int id = Integer.parseInt(request.getParameter("aid"));
+                String name = request.getParameter("username");
+                String gender = request.getParameter("gender");
+                int bid = Integer.parseInt(request.getParameter("bid"));
+                String phone = request.getParameter("phone");
 //                    if (id == null && name == null && gender == null && phone == null && bid == null) {
 //                        //Nếu nhập chưa đúng newpass và repass thì cho nhập lại       
 //                        //trả về câu lệnh báo lỗi vào request
@@ -272,39 +280,39 @@ public class UserController extends HttpServlet {
 //                        //quay ve home page
 //                        request.getRequestDispatcher("/auth/edit.do").forward(request, response);
 //                    } else {
-                        // Cập nhật dữ liệu vào db
-                        
-                        userService.updateInfo(name, gender, bid, phone, id);
-                        
-                        HttpSession session = request.getSession();
-                        UserEntity user = userService.getUser(id+"");
-                        session.setAttribute("user", user);
-                        // Lưu thông tin vào session
-                        response.sendRedirect(request.getContextPath() + "/user/profile.do?AID=" + id);
+                // Cập nhật dữ liệu vào db
+
+                userService.updateInfo(name, gender, bid, phone, id);
+
+                HttpSession session = request.getSession();
+                UserEntity user = userService.getUser(id + "");
+                session.setAttribute("user", user);
+                // Lưu thông tin vào session
+                response.sendRedirect(request.getContextPath() + "/user/profile.do?AID=" + id);
 //                    }
 //                    // Hiển thị danh sách các mẫu tin của table user
 //                    response.sendRedirect(request.getContextPath() + "/user/login.do");
-                } catch (Exception ex) {
-                    ex.printStackTrace(); // In ra chi tiết thông tin lỗi
-                    throw new ServletException(ex); // Ném lại ngoại lệ để xử lý ở phía khác
-                }
-                break;
-            
+            } catch (Exception ex) {
+                ex.printStackTrace(); // In ra chi tiết thông tin lỗi
+                throw new ServletException(ex); // Ném lại ngoại lệ để xử lý ở phía khác
+            }
+            break;
+
         }
     }
-    
+
     protected void admindashboard(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
         String aid = Integer.toString(user.getAID());
-        if (user.getRoleID() == 4 || user.getRoleID()== 3 ){
-                        UserEntity entity;
-                        entity = userService.getUser(aid);
-                        request.setAttribute("user", entity);
-                    } else {
-                        response.sendRedirect(request.getContextPath() + "/user/login.do");
-                    }
+        if (user.getRoleID() == 4 || user.getRoleID() == 3) {
+            UserEntity entity;
+            entity = userService.getUser(aid);
+            request.setAttribute("user", entity);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/user/login.do");
+        }
     }
 
 }

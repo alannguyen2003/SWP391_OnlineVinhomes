@@ -49,7 +49,7 @@ public class UserService {
     }
     
     public boolean addNewResident(UserEntity entity) throws Exception {
-        if (userRepo.Check(entity.getEmail()) != null) {
+        if (userRepo.Check(entity.getEmail()) != null ) {
             return false;
         }
         userRepo.addNewResident(entity);
