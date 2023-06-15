@@ -32,6 +32,20 @@ public class BlockVinRepository {
         return list;
     }
     
+    public BlockVinEntity getBlockVin(int blockId) throws SQLException {
+        BlockVinEntity entity = new BlockVinEntity();
+        Connection con = DBConfig.getConnection();
+        String query = "select * from BlockVin where bid = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, blockId);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            entity.setBID(rs.getInt("bid"));
+            entity.setName(rs.getString("name"));
+        }
+        return entity;
+    }
+    
     public static void main(String[] args) throws SQLException {
         BlockVinRepository repo = new BlockVinRepository();
         System.out.println(repo.getAllBlock());

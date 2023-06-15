@@ -7,6 +7,7 @@ package repository;
 import java.sql.Connection;
 import config.DBConfig;
 import entity.BlockResourceEntity;
+import entity.ResourceEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -95,8 +96,24 @@ public class ResourceRepository {
             e.setResourceName(rs.getString("resourceName"));
             e.setQuantity(rs.getInt("quantity"));
         }
-        
+        con.close();
         return e;
+    }
+    
+    public boolean addResource(int blockId, int resourceId, int quantity) throws SQLException {
+        boolean check = false;
+        Connection con = DBConfig.getConnection();
+        String query = "insert into BlockResource values(?, ?, ?)";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, blockId);
+        stm.setInt(2, resourceId);
+        stm.setInt(3, quantity);
+        int count = stm.executeUpdate();
+        if(count != 0) {
+            check = true;
+        }
+        con.close();
+        return check;
     }
     
     public boolean updateResource(BlockResourceEntity br) throws SQLException {
@@ -116,6 +133,27 @@ public class ResourceRepository {
         }
         con.close();
         return check;
+    }
+    
+    public List<ResourceEntity> getUnassginedResourceOfBlock(int blockId) throws SQLException {
+        List<ResourceEntity> list = new ArrayList<>();
+        Connection con = DBConfig.getConnection();
+        String query = """
+                       select r.RID, r.name from Resource as r join (select RID from Resource
+                                                                     except
+                                                                     select RID from BlockResource
+                                                                     where BID = ?) as unassgined on r.RID = unassgined.RID""";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, blockId);
+        ResultSet rs = stm.executeQuery();
+        while(rs.next()) {
+            int id = rs.getInt("rid");
+            String name = rs.getString("name");
+            ResourceEntity entity = new ResourceEntity(id, name);
+            list.add(entity);
+        }
+        con.close();
+        return list;
     }
 
     public static void main(String[] args) throws SQLException {

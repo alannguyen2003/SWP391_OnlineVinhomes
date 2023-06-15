@@ -5,6 +5,7 @@
 package service;
 
 import entity.BlockResourceEntity;
+import entity.ResourceEntity;
 import java.sql.SQLException;
 import java.util.List;
 import repository.ResourceRepository;
@@ -21,6 +22,10 @@ public class ResourceService {
         return resourceRepo.getBlockResourceListByResourceName(searched, blockId);
     }
 
+    public boolean addResource(int blockId, int resourceId, int quantity) throws SQLException {
+        return resourceRepo.addResource(blockId, resourceId, quantity);
+    }
+    
     public boolean updateResource(BlockResourceEntity entity) throws SQLException {
         return resourceRepo.updateResource(entity);
     }
@@ -33,8 +38,13 @@ public class ResourceService {
         return resourceRepo.getBlockResourceEntity(bId, rId);
     }
 
+    public List<ResourceEntity> getUnassginedResourcesOfBlock(int blockId) throws SQLException {
+        return resourceRepo.getUnassginedResourceOfBlock(blockId);
+    }
+    
+    
     public static void main(String[] args) throws SQLException {
-        System.out.println(new ResourceService().getAllResource(6).size());
+        System.out.println(new ResourceService().getUnassginedResourcesOfBlock(1).size());
     }
 
     

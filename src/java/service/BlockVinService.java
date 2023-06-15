@@ -5,6 +5,7 @@
 package service;
 
 import entity.BlockVinEntity;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import repository.BlockVinRepository;
 
@@ -18,5 +19,8 @@ public class BlockVinService {
     
     public ArrayList<BlockVinEntity> getAllBlock() throws Exception {
         return bp.getAllBlock();
+    }
+    public BlockVinEntity getBlock(int blockId ) throws SQLException {
+        return bp.getBlockVin(blockId);
     }
 }
