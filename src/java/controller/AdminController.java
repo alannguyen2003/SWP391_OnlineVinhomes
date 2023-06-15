@@ -149,6 +149,7 @@ public class AdminController extends HttpServlet {
         List<SaleEntity> listSale = os.recentSale();
         List<SaleEntity> cateTra = os.cateTraffic();
         List<SaleEntity> topsell = os.topsell();
+        request.setAttribute("activeTab", "dashboard");
         request.setAttribute("list", orderList);
         request.setAttribute("count", count);
         request.setAttribute("income", revenue);

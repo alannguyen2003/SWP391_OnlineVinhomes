@@ -17,7 +17,7 @@ public class BlockVinService {
     
     BlockVinRepository bp = new BlockVinRepository();
     
-    public ArrayList<BlockVinEntity> getAllBlock() throws Exception {
+    public ArrayList<BlockVinEntity> getAllBlock() throws SQLException {
         return bp.getAllBlock();
     }
     public BlockVinEntity getBlock(int blockId ) throws SQLException {
