@@ -37,6 +37,24 @@ public class RoleRepository {
         return list;
     }
     
+    public RoleEntity getRoleByRoleId(int bid) throws SQLException {
+        Connection cn = DBConfig.getConnection();
+        RoleEntity roleEntity = new RoleEntity();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null){
+            String query = "SELECT TOP (1) role_name FROM Role WHERE ID = ?";
+            pst = cn.prepareStatement(query);
+            pst.setInt(1, bid);
+            rs = pst.executeQuery();
+        }
+        while (rs.next()) {
+            roleEntity.setName(rs.getString(1));
+        }
+        return roleEntity;
+    }
+
+    
     public static void main(String[] args) throws SQLException {
         RoleRepository rp = new RoleRepository();
         for(RoleEntity r : rp.getAllRole()){
