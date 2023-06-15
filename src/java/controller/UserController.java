@@ -25,6 +25,7 @@ import entity.ToastEntity;
 import service.ResidentService;
 import service.EmployeeService;
 import org.apache.tomcat.jni.SSLContext;
+import service.GmailService;
 import service.UserService;
 
 /**
@@ -142,12 +143,19 @@ public class UserController extends HttpServlet {
             entity.setPhone(phone);
             entity.setBID(blockId);
             entity.setPassword(password);
+            GmailService gs = new GmailService();
+            boolean validateEmail = gs.isValidEmail(email);
             boolean check = userService.addNewResident(entity);
-            if (check) {
-                request.setAttribute("message", "Please login again.");
-                request.getRequestDispatcher("/user/login.do").forward(request, response);
-            } else {
-                request.setAttribute("message", "Email exist! Please choose another one!!");
+            if (validateEmail) {
+                if (check) {
+                    request.setAttribute("message", "Please login again.");
+                    request.getRequestDispatcher("/user/login.do").forward(request, response);
+                } else {
+                    request.setAttribute("message", "Email exist, please try again.");
+                    request.getRequestDispatcher("/user/signup.do").forward(request, response);
+                }
+            }else{
+                request.setAttribute("message", "Invalid email.");
                 request.getRequestDispatcher("/user/signup.do").forward(request, response);
             }
         } catch (Exception e) {
