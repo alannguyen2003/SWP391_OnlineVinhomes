@@ -31,22 +31,13 @@ public class MyOrderEntity {
         this.od = od;
     }
 
-    public double getMinTotal() {
-        int minTotal = 0;
+    public double getTotal() {
+        int total = 0;
 
         for (OrderDetailEntity od : this.od.keySet()) {
-            minTotal += od.getMinPrice();
+            total += od.getPrice();
         }
-        return minTotal;
+        return total;
     }
 
-    public double getMaxTotal() {
-        int maxTotal = 0;
-
-        for (OrderDetailEntity od : this.od.keySet()) {
-            maxTotal += od.getMaxPrice();
-        }
-
-        return maxTotal;
-    }
 }

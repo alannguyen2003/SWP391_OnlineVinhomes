@@ -1,13 +1,18 @@
 package service;
 
+import entity.CartEntity;
 import entity.MyOrderEntity;
 import entity.OrderDetailEntity;
 import entity.OrderHeaderEntity;
 import entity.RevenueEntity;
 import entity.SaleEntity;
+import entity.UserEntity;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import payload.request.EmployeeOrderRequest;
+import payload.request.OrderHeaderRequest;
 import repository.OrderRepository;
 
 public class OrderService {
@@ -21,6 +26,10 @@ public class OrderService {
     public List<OrderHeaderEntity> selectAll() throws SQLException {
         return orderRepository.selectAll();
     }
+    
+     public OrderHeaderEntity getOne(int id) throws SQLException {
+         return  orderRepository.getOne(id);
+     }
 
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         return orderRepository.selectMyOrders(id);
@@ -39,7 +48,7 @@ public class OrderService {
     }
 
     
-    public List<OrderHeaderEntity> recentOrder() throws SQLException {
+    public List<SaleEntity> recentOrder() throws SQLException {
         return orderRepository.recentOrder();
     }
     
@@ -62,6 +71,11 @@ public class OrderService {
     public List<SaleEntity> cateTraffic() throws SQLException {
         return orderRepository.cateTraffic();
     }
+    
+    public List<SaleEntity> topsell() throws SQLException {
+        return orderRepository.topsell();
+    }
+    
     public String getTotalMoneyInMonth() {
         return orderRepository.getJsTotalMoneyArray(orderRepository.getTotalMoneyInMonth());
     }
@@ -69,5 +83,25 @@ public class OrderService {
     public String getMonth() {
         return orderRepository.getJsMonthArray(orderRepository.getValidatedMonth());
 
+    }
+    public void addOrder(UserEntity user, CartEntity cart) throws SQLException {
+        orderRepository.addOrder(user, cart);
+    }
+    
+    public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
+        ArrayList<OrderHeaderRequest> list = orderRepository.getAllOrders();
+        ArrayList<EmployeeOrderRequest> listEmployee = orderRepository.getEmployeeListForOrderList();
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setEid(listEmployee.get(i).getAid());
+            list.get(i).setEmployeeName(listEmployee.get(i).getName());
+        }
+        return list;
+    }
+    
+    public static void main(String[] args) throws Exception {
+        OrderService orderService = new OrderService();
+        for (OrderHeaderRequest request : orderService.getAllOrders()) {
+            System.out.println(request);
+        }
     }
 }

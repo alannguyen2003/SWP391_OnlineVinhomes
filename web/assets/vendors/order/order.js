@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('[data-toggle="collapse"]').click(function() {
+  $('[data-toggle="collapse1"]').click(function() {
     var target = $(this).data('target');
     var isExpanded = $(target).hasClass('show');
 

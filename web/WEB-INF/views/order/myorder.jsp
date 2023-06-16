@@ -1,9 +1,7 @@
 
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 
 <div class="custom-cursor__cursor"></div>
 <div class="custom-cursor__cursor-two"></div>
@@ -68,8 +66,7 @@
                                 <div class="col"><strong>ID</strong></div>
                                 <div class="col"><strong>Date</strong></div>
                                 <div class="col"><strong>Status</strong></div>
-                                <div class="col"><strong>Min</strong></div>
-                                <div class="col"><strong>Max</strong></div>
+                                <div class="col"><strong>Price</strong></div>
                             </div>
 
                         </div>
@@ -86,9 +83,8 @@
                                             <c:if test="${fo.oh.status != 'Pending'}">
                                             <div class="col"><span class="bage bage-${fo.oh.status == "Completed" ? "success" : "danger"}">${fo.oh.status}</span></div>
                                             </c:if>
-                                        <div class="col"><strong><fmt:formatNumber value="${fo.minTotal}" type="currency" /></strong></div>
-                                        <div class="col"><strong><fmt:formatNumber value="${fo.maxTotal}" type="currency" /></strong></div>
-                                        <div class="toggle-button" data-toggle="collapse" data-target="#demo-${fo.oh.id}"><i class="fa fa-chevron-down"></i></div>
+                                        <div class="col"><strong><fmt:formatNumber value="${fo.total}" type="currency" /></strong></div>
+                                        <div class="toggle-button" data-toggle="collapse1" data-target="#demo-${fo.oh.id}"><i class="fa fa-chevron-down"></i></div>
                                     </div>
                                 </div>
                                 <!-- OrderHeaders Information -->
@@ -99,9 +95,8 @@
                                     <table class="table-responsive mb-0">
                                         <thead>
                                             <tr>
-                                                <th>Service</th>
-                                                <th>Min Price</th>
-                                                <th>Max Price</th>
+                                                <th colspan="1">Service</th>
+                                                <th colspan="3" style="padding-left: 25rem">Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -111,11 +106,10 @@
                                                     <td class="cart__product__item">
                                                         <%-- img src="<c:url value="/assets/img/product/product-${od.key.serviceId}_2.jpg" />"  alt="">--%>
                                                         <div class="cart__product__item__title">
-                                                            <h6>${od.value}</h6>
+                                                            <h6 style="font-size: 19px; height: 100%">${od.value}</h6>
                                                         </div>
                                                     </td>
-                                                    <td class="cart__price"><fmt:formatNumber value="${od.key.minPrice}" type="currency" /></td>
-                                                    <td class="cart__price"><fmt:formatNumber value="${od.key.maxPrice}" type="currency" /></td>
+                                                    <td style="padding-left: 25rem" class="cart__price"><fmt:formatNumber value="${od.key.price}" type="currency" /></td>
                                                 </tr>
                                             </c:forEach>
                                         
@@ -137,9 +131,6 @@
 </section>
 <!--Contact Page Two End-->
 
-<!--Google Map Start-->
-
-<!--Google Map End-->
 
 <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
 

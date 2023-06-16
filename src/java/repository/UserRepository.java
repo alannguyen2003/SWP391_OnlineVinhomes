@@ -7,6 +7,7 @@ package repository;
 import config.DBConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -122,6 +123,33 @@ public class UserRepository {
 //        stm.executeUpdate();
 //        con.close();
 //    }
+    
+    public ArrayList<UserEntity> getEmployee() throws Exception {
+        ArrayList<UserEntity> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select * from Account where roleId = 3";
+            pst = cn.prepareStatement(query);
+            rs = pst.executeQuery();
+        }
+        while (rs.next()) {
+            UserEntity entity = new UserEntity();
+            entity.setAID(rs.getInt(1));
+            entity.setPhone(rs.getString(2));
+            entity.setEmail(rs.getString(3));
+            entity.setPassword(rs.getString(4));
+            entity.setName(rs.getString(5));
+            entity.setGender(rs.getString(6));
+            entity.setBID(rs.getInt(7));
+            entity.setRoleID(rs.getInt(8));
+            entity.setRoom(rs.getString(9));
+            entity.setStatus(rs.getInt(10));
+            list.add(entity);
+        }
+        return list;
+    }
 
     public ArrayList<UserEntity> getAllUser() throws Exception {
         ArrayList<UserEntity> list = new ArrayList<>();
@@ -178,15 +206,30 @@ public class UserRepository {
         }
         return list;
     }
+    
+    public ArrayList<String> getStatus() throws SQLException{
+        ArrayList<String> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "SELECT DISTINCT status FROM dbo.Orders";
+            Statement stm = cn.createStatement();
+            rs = stm.executeQuery(query);
+        }
+        while (rs.next()) {
+            list.add(rs.getString(1));
+        }
+        return list;
+    }
 
     public String getTopUserJsArray() throws SQLException {
         String result = "";
         List<String> list = new ArrayList<>();
         Connection con = DBConfig.getConnection();
         String SQL = """
-                     select top 5 a.AID, a.name, SUM(od.min_price) as totalMoney from Orders as o 
+                     select top 5 a.AID, a.name, SUM(od.price) as totalMoney from Orders as o 
                      join 
-                     OrderDetail as od on o.OID = od.orderHeaderId 
+                     OrderDetail as od on o.OID = od.orderHeader_Id 
                      join 
                      Account as a on o.UID = a.AID
                      group by a.AID, a.name
@@ -215,9 +258,9 @@ public class UserRepository {
         List<Double> list = new ArrayList<>();
         Connection con = DBConfig.getConnection();
         String SQL = """
-                     select top 5 a.AID, a.name, SUM(od.min_price) as totalMoney from Orders as o 
+                     select top 5 a.AID, a.name, SUM(od.price) as totalMoney from Orders as o 
                      join 
-                     OrderDetail as od on o.OID = od.orderHeaderId 
+                     OrderDetail as od on o.OID = od.orderHeader_Id 
                      join 
                      Account as a on o.UID = a.AID
                      group by a.AID, a.name
@@ -294,10 +337,37 @@ public class UserRepository {
         con.close();
         return user;
     }
+    
+    public UserEntity getManagerOfBlock(int blockId) throws SQLException {
+        UserEntity user = new UserEntity();
+        String query = "select * from Account where roleId = 4 and BID = ?";
+        Connection con = DBConfig.getConnection();
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, blockId);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            user.setAID(rs.getInt("aid"));
+        }
+        return user;
+    }
+    
+    public void updateProfile(String username, String gender, int bid, String phone, int aid) throws SQLException{
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Account set name = ?, gender = ?, BID = ?, phone = ? where AID = ?");
+        pstm.setString(1, username);
+        pstm.setString(2, gender);
+        pstm.setInt(3, bid);
+        pstm.setString(4, phone);
+        pstm.setInt(5, aid);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
 
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
-        
+        for(UserEntity user : rep.getAllUser())
+        System.out.println(user);        
     }
 
 }

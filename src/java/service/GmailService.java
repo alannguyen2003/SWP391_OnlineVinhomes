@@ -35,6 +35,7 @@ import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.apache.http.client.fluent.*;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -47,7 +48,7 @@ import javax.mail.internet.MimeMessage;
 public class GmailService {
 
     Gmail service;
-    private final String FROM_EMAIL = "autoemail62@gmail.com";
+    private final String FROM_EMAIL = "johnnypewds123@gmail.com";
     public GmailService() throws Exception {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
@@ -60,17 +61,17 @@ public class GmailService {
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, GsonFactory jsonFactory)
             throws IOException {
         // Load client secrets.
-        Reader clientSecretReader = new InputStreamReader(new FileInputStream("E:\\Git\\SWP391_OnlineVinhomes\\client_secret_483758738967-ft14o2oc0j25n8g1n59hte79uebr822n.apps.googleusercontent.com.json"));
+        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\SWP391\\SWP391_OnlineVinhomes\\client_secret_483758738967-ft14o2oc0j25n8g1n59hte79uebr822n.apps.googleusercontent.com.json"));
         GoogleClientSecrets clientSecrets
                 = GoogleClientSecrets.load(jsonFactory,  clientSecretReader);
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
-                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
+                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("token").toFile()))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8080).build();
         Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
         //returns an authorized Credential object.
         return credential;
@@ -139,9 +140,30 @@ public class GmailService {
             }
         }
     }
+    
+    public static boolean isValidEmail(String email) {
+
+        try {
+
+            Content content = Request.Get(
+            "https://emailvalidation.abstractapi.com/v1/?api_key=887d421a032a4a13b47dec623ae6ccee&email=" + email)
+
+                      
+            .execute().returnContent();
+            
+            if(content.asString().contains("UNDELIVERABLE")) {
+                return false;
+            }
+        } catch (IOException error) {
+            System.out.println(error);
+        }
+        return true;
+    }
 
     public static void main(String[] args) throws Exception {
-        new GmailService().sendEmail("Automated Email", "ANH NGHI DEP TRAI", "johnnypewds123@gmail.com");
+        GmailService gmailer = new GmailService();
+//        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
+        gmailer.isValidEmail("asd@asdadsas.com");
     }
 }
 

@@ -22,7 +22,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import service.CartService;
+import service.GmailService;
+import service.OrderService;
 import service.ServiceService;
+import service.SupplierService;
 
 /**
  *
@@ -52,15 +55,17 @@ public class CartController extends HttpServlet {
                 case "cart":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
-                case "addToCart":      
+                case "addToCart":
                     addToCart(request, response);
                     break;
                 case "removeFromCart":
                     removeFromCart(request, response);
                     break;
                 case "cart-contact":
-                    
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    break;
+                case "cart-completion":
+                    cartCompletion(request, response);
                     break;
             }
         } catch (SQLException ex) {
@@ -153,7 +158,7 @@ public class CartController extends HttpServlet {
         session3.setAttribute("size", list2.size());
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
-    
+
 //    protected void contact(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
 //        try {
@@ -186,5 +191,34 @@ public class CartController extends HttpServlet {
 //        } catch (Exception ex) {
 //        }
 //    }
+    protected void cartCompletion(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            HttpSession session = request.getSession();
+            CartEntity cart = (CartEntity) session.getAttribute("cart");
+            UserEntity user = (UserEntity) session.getAttribute("user");
+            OrderService oService = new OrderService();
+            oService.addOrder(user, cart);
+            String itemNeeded = "";
+            ServiceService sService = new ServiceService();
+            SupplierService supService = new SupplierService();
+            for(ItemEntity item : cart.getItems()) {
+               itemNeeded = sService.checkResource(item.getService(), user.getBID());
+               if(!itemNeeded.isBlank()) {
+                   String email = supService.getSupplierEmail(item.getService().getSupplierID());
+                   GmailService gmailer = new GmailService();
+                   String body = "Short in Resource";
+                   String message = "We are running out of the following resources:\n" + itemNeeded + "Please gather these resources for us. Best regard."; 
+                   gmailer.sendEmail(body, message, email);
+               }
+               itemNeeded = "";
+            }
+            session.removeAttribute("cart");
+            session.removeAttribute("size");
+            request.setAttribute("orderMessage", "Thank you for your supporting. Our employee will contact you via Phone soon.");
+            request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
 }

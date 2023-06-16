@@ -1,12 +1,18 @@
-/*Ch?y hai l?nh n�y tru?c d? t?o database*/
-use master;
-drop database Vinhomes4;
+﻿/*Chạy nguyên cái database*/
+RAISERROR('Creating PerfumeStore database....',0,1)
+SET NOCOUNT ON
 GO
-create database Vinhomes4;
+
+USE [master]
+DROP DATABASE IF EXISTS [Vinhomes4]
 GO
-use Vinhomes4;
+
+CREATE DATABASE [Vinhomes4]
 GO
-/*Ch?y h?t t?t c? do?n sau n�y*/
+
+USE [Vinhomes4]
+GO
+
 create table BlockVin (
 	BID int identity(1,1),
 	name nvarchar(50),
@@ -99,19 +105,7 @@ create table Feedback (
 	contact_number varchar(20),
 	email nvarchar(50)
 )
---create table Orders(
---	OID int identity(1,1),
---	time datetime, 
---	note nvarchar(255),
---	UID int, 
---	EID int, 
---	DID int
---	/*
---		foreign key UID references Resident(UID),
---		foreign key EID references Employee(EID),
---		foreign key DID references Service(DID)
---	*/
---)
+
 create table Orders(
 	OID int identity(1,1) PRIMARY KEY NOT NULL,
 	time datetime, 
@@ -144,7 +138,7 @@ alter table ServiceResourceNeeded
 	foreign key (RID) references Resource(RID)
 
 insert into Role(role_name) values 
-('Resident'), ('None'), ('Manager'), ('Admin')
+('Resident'), ('None'), ('Employee'), ('Admin')
 
 insert into Category(name) values 
 ('Cleaning'), ('Maintenance'), ('Security'), ('Pest Control')
@@ -191,44 +185,44 @@ insert into Account(email, phone, password, name, BID, roleId, room) values
 ('johndoe@email.com', '0912345151','123456', N'John Doe', 2, 4, 'MA03B0156'),                 
 ('janesmith@email.com', '0987654321','123456', N'Jane Smith', 1, 4, 'MA03B0156'),
 ('boblee@email.com', '0934567890', '123456', N'Bob Lee', 3, 4, 'MA03B0156'),
-('doquanghuy@email.com', '0978912345', '123456', N'�? Quang Huy', 7, 4, 'MA03B0156'),
-('vumai@email.com', '0923456789', '123456', N'Vu Th? Mai', 6, 4, 'MA03B0156'),
+('doquanghuy@email.com', '0978912345', '123456', N'Ðỗ Quang Huy', 7, 4, 'MA03B0156'),
+('vumai@email.com', '0923456789', '123456', N'Vu Thị Mai', 6, 4, 'MA03B0156'),
 ('kellylee@email.com', '0923456789', '123456', N'Kelly Lee', 5, 4, 'MA03B0156'),
-('hoangnam@email.com', '0912345678', '123456', N'Ho�ng Van Nam', 4, 4, 'MA03B0156'),
+('hoangnam@email.com', '0912345678', '123456', N'Hoàng Văn Nam', 4, 4, 'MA03B0156'),
 ('emmalin@email.com', '0912345678', '123456', N'Emma Lin', 1, 3, 'MA03B0156'),
 ('sarachen@email.com', '0956789012', '123456',N'Sara Chen', 3, 3, 'MA03B0156'),
 ('tomchen@email.com', '0912345678', '123456',N'Tom Chen', 2, 3, 'MA03B0156'),
-('nguyenvanan@email.com', '0912345678', '123456',N'Nguy?n Van An', 7, 3, 'MA03B0156'),
-('buihuong@email.com', '0987654321', '123456', N'B�i Th? Huong',6,3, 'MA03B0156'),
-('thu1@gmail.com', '0987654321', '123456',N'Nguy?n Th? Thu', 3, 1, 'MA03B0156'),
-('tung@gmail.com', '0912345678', '123456', N'Tr?n Thanh T�ng', 2, 1, 'OR11B0332'),
-('tuan@gmail.com','0934567890', '123456',N'Vu Anh Tu?n',3, 1, 'GP14B2073'),
-('anh@gmail.com', '0909876543', '123456',N'L� Th? H?ng Anh',1, 1, 'MA10B1147'),
-('nam@gmail.com', '0943215678', '123456',N'�? Th�nh Nam',5, 1, 'GP20B4615'),
-('anh1@gmail.com', '0965432198', '123456', N'Nguy?n Th? Ng?c �nh',3, 1, 'MA12B0312'),
-('quan@gmail.com', '0998765432', '123456', N'Phan ��nh Qu�n',2,1, 'OR16B1033'),
-('trang@gmail.com', '0967890123', '123456',N'Tr?n Th? Trang',2, 1, 'GP01B2479'),
-('toan@gmail.com', '0943567128', '123456',N'Nguy?n Van To�n',4, 1, 'MA07B0821'),
-('thu2@gmail.com', '0912876543', '123456', N'V� Th? Kim Thu',1,1, 'OR18B1296'),
-('hieu@gmail.com', '0987654321', '123456', N'L� Minh Hi?u',7,1, 'GP09B3191'),
-('long@gmail.com', '0934567890', '123456', N'Ng� ��nh Thi�n Long',2, 1, 'MA15B2278'),
-('phuong@gmail.com', '0956789012', '123456',N'Tr?n Th? Ho�i Phuong',1, 1, 'OR03B0045'),
-('hong@gmail.com', '0987654321', '123456',N'Vu Th? B�ch H?ng',1, 1, 'GP08B4321'),
-('duy@gmail.com', '0912345678', '123456', N'L� Van Kh�nh Duy',9,1, 'MA17B1654'),
-('thu@gmail.com', '0975123456', '123456',N'Nguy?n Th? Anh Thu',10, 1, 'OR13B0903'),
-('ta23m@gmail.com', '0912345678', '123456',N'Ph?m Minh T�m',2, 1, 'GP06B3102'),
-('anh4@gmail.com', '0923456789', '123456', N'�? Ng?c �nh',5,1, 'MA04B2019'),
-('tuan23@gmail.com', '0965432198', '123456', N'Tr?n Th? Tu?n',9,1, 'OR02B0074'),
-('thu123@gmail.com', '0998765432', '123456', N'V� Th�nh Thu',2, 1, 'GP11B1287'),
-('tam123123@gmail.com', '0912876543', '123456', N'L� Th? Ho�ng T�m',1,1, 'MA09B1111'),
-('yen123123@gmail.com', '0943215678', '123456', N'Ng� �?c Y?n',3,1, 'OR19B1156'),
-('thang1234@gmail.com', '0967890123', '123456',N'Tr?n Th? Ng?c Thang',4, 1, 'GP15B3654'),
-('anh123@gmail.com', '0987654321', '123456', N'Vu Minh Anh',5,1, 'MA05B2468'),
-('hieu12312@gmail.com', '0934567890', '123456', N'Tr?n Ho�ng Hi?u',2,1, 'OR12B0678'),
-('trang1231223@gmail.com', '0975123456', '123456', N'Th�y Trang',3,1, 'GP03B4921'),
-('anh1231232@gmail.com', '0912345678', '123456', N'Ph�c Anh',3,1, 'MA20B1974'),
-('quan12312@gmail.com', '0355412154', '123456',N'Ho�ng Van Qu�n',1, 1, 'OR08B1589'),
-('aduvip@gmail.com', '0355412154', '123456',N'Ho�ng Van Nghia',3, 1, 'GP17B3612')
+('nguyenvanan@email.com', '0912345678', '123456',N'Nguyễn Văn An', 7, 3, 'MA03B0156'),
+('buihuong@email.com', '0987654321', '123456', N'Bùi Thị Hương',6,3, 'MA03B0156'),
+('thu1@gmail.com', '0987654321', '123456',N'Nguyễn Thị Thu', 3, 1, 'MA03B0156'),
+('tung@gmail.com', '0912345678', '123456', N'Trần Thanh Tùng', 2, 1, 'OR11B0332'),
+('tuan@gmail.com','0934567890', '123456',N'Vũ Anh Tuấn',3, 1, 'GP14B2073'),
+('anh@gmail.com', '0909876543', '123456',N'Lê Thị Hồng Anh',1, 1, 'MA10B1147'),
+('nam@gmail.com', '0943215678', '123456',N'Ðỗ Thành Nam',5, 1, 'GP20B4615'),
+('anh1@gmail.com', '0965432198', '123456', N'Nguyễn Thị Ngọc Ánh',3, 1, 'MA12B0312'),
+('quan@gmail.com', '0998765432', '123456', N'Phan Ðình Quân',2,1, 'OR16B1033'),
+('trang@gmail.com', '0967890123', '123456',N'Trần Thị Trang',2, 1, 'GP01B2479'),
+('toan@gmail.com', '0943567128', '123456',N'Nguyễn Van Toàn',4, 1, 'MA07B0821'),
+('thu2@gmail.com', '0912876543', '123456', N'Võ Thị Kim Thu',1,1, 'OR18B1296'),
+('hieu@gmail.com', '0987654321', '123456', N'Lê Minh Hiếu',7,1, 'GP09B3191'),
+('long@gmail.com', '0934567890', '123456', N'Ngô Ðình Thiên Long',2, 1, 'MA15B2278'),
+('phuong@gmail.com', '0956789012', '123456',N'Trần Thị Hoài Phương',1, 1, 'OR03B0045'),
+('hong@gmail.com', '0987654321', '123456',N'Vũ Thị Bích Hồng',1, 1, 'GP08B4321'),
+('duy@gmail.com', '0912345678', '123456', N'Lê Văn Khánh Duy',9,1, 'MA17B1654'),
+('thu@gmail.com', '0975123456', '123456',N'Nguyễn Thị Anh Thư',10, 1, 'OR13B0903'),
+('ta23m@gmail.com', '0912345678', '123456',N'Phạm Minh Tâm',2, 1, 'GP06B3102'),
+('anh4@gmail.com', '0923456789', '123456', N'Ðỗ Ngọc Ánh',5,1, 'MA04B2019'),
+('tuan23@gmail.com', '0965432198', '123456', N'Trần Thanh Tuấn',9,1, 'OR02B0074'),
+('thu123@gmail.com', '0998765432', '123456', N'Võ Thành Thư',2, 1, 'GP11B1287'),
+('tam123123@gmail.com', '0912876543', '123456', N'Lê Thị Hoàng Tâm',1,1, 'MA09B1111'),
+('yen123123@gmail.com', '0943215678', '123456', N'Ngô Ðức Yên',3,1, 'OR19B1156'),
+('thang1234@gmail.com', '0967890123', '123456',N'Trần Thị Ngọc Thăng',4, 1, 'GP15B3654'),
+('anh123@gmail.com', '0987654321', '123456', N'Vũ Minh Anh',5,1, 'MA05B2468'),
+('hieu12312@gmail.com', '0934567890', '123456', N'Trần Hoàng Hiếu',2,1, 'OR12B0678'),
+('trang1231223@gmail.com', '0975123456', '123456', N'Thùy Trang',3,1, 'GP03B4921'),
+('anh1231232@gmail.com', '0912345678', '123456', N'Phúc Anh',3,1, 'MA20B1974'),
+('quan12312@gmail.com', '0355412154', '123456',N'Hoàng Văn Quân',1, 1, 'OR08B1589'),
+('aduvip@gmail.com', '0355412154', '123456',N'Hoàng Văn Nghĩa',3, 1, 'GP17B3612')
 
 insert into BlockResource(BID, RID, quantity) values 
 (1, 1, 10), (1, 2, 43), (1, 16, 125), (1, 3, 42), (1, 7, 86), (1, 8, 23), (1, 10, 2),
@@ -240,16 +234,16 @@ insert into BlockResource(BID, RID, quantity) values
 (7, 11, 8), (7, 3, 12), (7, 2, 3), (7, 1, 3)
 
 insert into Supplier(name, email, phone, address) values 
-('Sparkling Homes Cleaning Service', 'sparklinghomes@gmail.com', '0283123456', N'123 �u?ng Tru?ng Sinh, Phu?ng Hi?p Ph�, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('Clean & Fix Home Services', 'cleanfixhomes@gmail.com', '0283123457', N'456 Nguy?n Duy Trinh, Phu?ng Linh Chi?u, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('Fresh Living Home Solution', 'freshlivingsolution@gmail.com', '0283123458', N'789 Ph?m Van �?ng, Phu?ng B�nh Th?, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('Neat & Tidy Home Care', 'neattidyhomes@gmail.com', '0283123459', N'321 Bung �ng Tho�n, Phu?ng Tam B�nh, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('Spotless Home Services', 'spotlesshomes@gmail.com', '0283123460', N'654 Tang Nhon Ph� A, Phu?ng Tang Nhon Ph� A, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('Homecare Solutions Co.', 'homecaresolutions@gmail.com', '0283123461', N'987 �u?ng L� Van Vi?t, Phu?ng Hi?p B�nh Ch�nh, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('FreshStart Cleaning & Repairs', 'freshstartservices@gmail.com', '0283123462', N'753 L� Van Qu?i, Phu?ng T�n Ph�, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('BrightHome Repair & Maintenance', 'brighthomerepair@gmail.com', '0283123463', N'159 Linh ��ng, Phu?ng Linh ��ng, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('QuickFix Home Services', 'quickfixhomeservices@gmail.com', '0283123464', N'495 Nguy?n Duy Trinh, Phu?ng Linh Trung, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh'),
-('ShinePro Cleaning & Handyman Services', 'shineproservices@gmail.com', '0283123465', N'732 Ph?m Van �?ng, Phu?ng Linh Xu�n, Th�nh ph? Th? �?c, Th�nh ph? H? Ch� Minh')
+('Sparkling Homes Cleaning Service', 'sparklinghomes@gmail.com', '0283123456', N'123 Đường Trường Sinh, Phường Hiệp Phú, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('Clean & Fix Home Services', 'cleanfixhomes@gmail.com', '0283123457', N'456 Nguyễn Duy Trinh, Phường Linh Chiểu, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('Fresh Living Home Solution', 'freshlivingsolution@gmail.com', '0283123458', N'789 Phạm Văn Đồng, Phường Bình Thọ, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('Neat & Tidy Home Care', 'neattidyhomes@gmail.com', '0283123459', N'321 Bung Ông Thoàn, Phường Tam Bình, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('Spotless Home Services', 'spotlesshomes@gmail.com', '0283123460', N'654 Tăng Nhơn Phú A, Phường Tăng Nhơn Phú A, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('Homecare Solutions Co.', 'homecaresolutions@gmail.com', '0283123461', N'987 Đường Lê Văn Việt, Phường Hiệp Bình Chánh, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('FreshStart Cleaning & Repairs', 'freshstartservices@gmail.com', '0283123462', N'753 Lê Văn Quới, Phường Tân Phú, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('BrightHome Repair & Maintenance', 'brighthomerepair@gmail.com', '0283123463', N'159 Linh Ðông, Phường Linh Ðông, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('QuickFix Home Services', 'quickfixhomeservices@gmail.com', '0283123464', N'495 Nguyễn Duy Trinh, Phường Linh Trung, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('ShinePro Cleaning & Handyman Services', 'shineproservices@gmail.com', '0283123465', N'732 Phạm Văn Đồng, Phường Linh Xuân, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh')
 
 insert into Service(name, lower_price, upper_price, description, category_id, supplier_id) values 
 ('Carpet Cleaning', 50, 100, 'We clean carpets using steam and eco-friendly products.', 1, 1),
@@ -277,8 +271,9 @@ insert into Service(name, lower_price, upper_price, description, category_id, su
 ('Electrical Repair', 70, 140, 'We repair wiring, outlets, switches, and other electrical problems.', 2, 3),
 ('Security Guard', 100, 200, 'We provied trained security guards for your building.', 3, 6)
 
-	INSERT INTO dbo.Orders(time, status, UID, EID, note)
+INSERT INTO dbo.Orders(time, status, UID, EID, note)
 VALUES
+
 	('2019-01-29', 'Pending', 13, 1, NULL),
 	('2019-04-01', 'Pending', 15, 3, NULL),
 	('2019-01-29', 'Pending', 16, 4, NULL),
@@ -291,34 +286,66 @@ VALUES
 	('2019-04-01', 'Failed', 27, 6, NULL)
     GO
 
-	INSERT INTO dbo.Orders(time, status, UID, EID, note)
+INSERT INTO dbo.Orders(time, status, UID, EID, note)
 VALUES
 	('2023-01-01', 'Completed', 13, 1, NULL),
 	('2023-02-01', 'Completed', 15, 3, NULL),
 	('2023-03-01', 'Completed', 16, 4, NULL),
 	('2023-04-01', 'Completed', 18, 6, NULL),
-	('2023-05-01', 'Completed', 19, 7, NULL)
+	('2023-05-01', 'Completed', 19, 7, NULL),
+	('2019-01-29', 'Pending', 13, 1, NULL),
+	('2019-04-01', 'Pending', 15, 3, NULL),
+	('2019-01-29', 'Pending', 16, 4, NULL),
+	('2019-04-01', 'Pending', 18, 6, NULL),
+	('2019-01-29', 'Pending', 19, 7, NULL),
+	('2019-04-01', 'Pending', 21, 9, NULL),
+	('2019-01-29', 'Failed', 13, 12, NULL),
+	('2019-01-29', 'Failed', 22, 12, NULL),
+	('2019-04-01', 'Failed', 24, 10, NULL),
+	('2019-01-29', 'Failed', 25, 3, NULL),
+	('2019-04-01', 'Failed', 27, 6, NULL),
+	('2023-01-01', 'Completed', 13, 1, NULL),
+	('2023-02-01', 'Completed', 15, 3, NULL),
+	('2023-03-01', 'Completed', 16, 4, NULL),
+	('2023-04-01', 'Completed', 18, 6, NULL),
+	('2023-05-01', 'Completed', 19, 7, NULL),
+
+	('2023-01-01', 'Pending', 13, NULL, NULL),
+	('2023-02-01', 'Pending', 15, NULL, NULL),
+	('2023-03-01', 'Pending', 16, NULL, NULL),
+	('2023-04-01', 'Pending', 18, NULL, NULL),
+	('2023-05-01', 'Pending', 19, NULL, NULL)
 	GO
-    
-		INSERT INTO dbo.Orders(time, status, UID, EID, note)
-VALUES
-	('2019-01-29', 'Pending', 13, 1, NULL),
-	('2019-04-01', 'Pending', 15, 3, NULL),
-	('2019-01-29', 'Pending', 16, 4, NULL),
-	('2019-04-01', 'Pending', 18, 6, NULL),
-	('2019-01-29', 'Pending', 19, 7, NULL),
-	('2019-04-01', 'Pending', 21, 9, NULL),
-	('2019-01-29', 'Failed', 22, 12, NULL),
-	('2019-04-01', 'Failed', 24, 10, NULL),
-	('2019-01-29', 'Failed', 25, 3, NULL),
-	('2019-04-01', 'Failed', 27, 6, NULL)
-    GO
 
-	INSERT INTO dbo.Orders(time, status, UID, EID, note)
-VALUES
-	('2023-01-01', 'Completed', 13, 1, NULL),
-	('2023-02-01', 'Completed', 15, 3, NULL),
-	('2023-03-01', 'Completed', 16, 4, NULL),
-	('2023-04-01', 'Completed', 18, 6, NULL),
-	('2023-05-01', 'Completed', 19, 7, NULL)
-	go
+INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) 
+VALUES 
+(1, 3, 2, 120),
+(1, 2, 1, 70),
+(1, 5, 3, 150),
+
+(2, 5, 3, 200),
+(3, 2, 1, 80),
+(4, 4, 2, 140),
+(5, 8, 4, 100),
+(6, 3, 2, 120),
+(6, 5, 3, 200),
+(6, 2, 1, 80),
+(7, 4, 2, 140),
+(8, 8, 4, 100),
+(9, 6, 3, 300),
+(10, 1, 1, 100),
+
+(11, 7, 4, 60),
+(11, 7, 4, 40),
+(11, 8, 4, 90),
+
+(12, 9, 4, 400),
+
+(16, 12, 1, 100),
+(16, 5, 3, 200),
+(16, 15, 3, 200)
+GO
+
+SET NOCOUNT OFF
+raiserror('The Vinhomes4 database in now ready for use.',0,1)
+GO

@@ -5,19 +5,16 @@ public class OrderDetailEntity {
     private int orderHeaderId;
     private int serviceId;
     private int categoryId;
-    private double minPrice;
-    private double maxPrice;
-
+    private int price;
     public OrderDetailEntity() {
     }
 
-    public OrderDetailEntity(int id, int orderHeaderId, int serviceId, int categoryId, double minPrice, double maxPrice) {
+    public OrderDetailEntity(int id, int orderHeaderId, int serviceId, int categoryId, int price) {
         this.id = id;
         this.orderHeaderId = orderHeaderId;
         this.serviceId = serviceId;
         this.categoryId = categoryId;
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
+        this.price = price;
     }
 
     public int getId() {
@@ -52,20 +49,14 @@ public class OrderDetailEntity {
         this.categoryId = categoryId;
     }
 
-    public double getMinPrice() {
-        return minPrice;
+    public int getPrice() {
+        return price;
     }
 
-    public void setMinPrice(double minPrice) {
-        this.minPrice = minPrice;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public double getMaxPrice() {
-        return maxPrice;
-    }
-
-    public void setMaxPrice(double maxPrice) {
-        this.maxPrice = maxPrice;
-    }
+    
     
 }

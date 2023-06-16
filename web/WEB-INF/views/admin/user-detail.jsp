@@ -7,12 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <div class="pagetitle">
-    <h1>Resident Detail</h1>
+    <h1>User Detail</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/admin/admin-dashboard.do" />">Home</a></li>
-            <li class="breadcrumb-item">Detail</li>
-            <li class="breadcrumb-item active">Resident Detail</li>
+            <li class="breadcrumb-item">Table</li>
+            <li class="breadcrumb-item active">User Detail</li>
         </ol>
     </nav>
 </div>
@@ -21,11 +21,11 @@
     <div class="card shadow mb-4">
         <div class="card-body mt-4">
             <div class="card-header py-3 mb-3">
-                <h5 class="m-0 font-weight-bold text-primary">Resident Detail</h5>
+                <h6 class="m-0 font-weight-bold text-primary">User Detail</h6>
             </div>
             <!-- Account details card-->
 
-            <form action="<c:url value="/admin/updateResident.do" />">
+            <form action="<c:url value="/admin/updateUser.do" />">
                 <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">ID</label>
                     <div class="col-md-8 col-lg-9">
@@ -39,6 +39,14 @@
                     <div class="col-md-8 col-lg-9">
                         <input name="name" type="hidden" class="form-control" id="name" value="${u.name}">
                         <input name="name" type="text" class="form-control" id="name" value="${u.name}" disabled="">
+                    </div>
+                </div>
+                    
+                <div class="row mb-3">
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                    <div class="col-md-8 col-lg-9">
+                        <input name="gender" type="hidden" class="form-control" id="gender" value="${u.gender}">
+                        <input name="gender" type="text" class="form-control" id="gender" value="${u.gender}" disabled="">
                     </div>
                 </div>
 
@@ -59,23 +67,25 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="Room" class="col-md-4 col-lg-3 col-form-label">Room</label>
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Room</label>
                     <div class="col-md-8 col-lg-9">
                         <input name="room" type="text" class="form-control" id="Address" value="${u.room}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label for="BID" class="col-md-4 col-lg-3 col-form-label">Block</label>
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Block ID</label>
                     <div class="col-md-8 col-lg-9">
-                        <select name="bid" class="w-100 form-control">
-                            <c:forEach var="bl" items="${blockList}">
-                                <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
-                            </c:forEach>
-                        </select>
+                        <input name="BID" type="text" class="form-control" id="Address" value="${u.BID}">
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Status</label>
+                    <div class="col-md-8 col-lg-9">
+                        <input name="status" type="text" class="form-control" id="Address" value="${u.status}">
+                    </div>
+                </div>
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
@@ -87,7 +97,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="updateResidentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -100,15 +110,15 @@
             <div class="modal-body">Select "Update" below if you are ready to update this resident.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a id="updateResidentLink" onclick="updateResident()" class="btn btn-primary"/>Update</a>
+                <a id="updateResidentLink" onclick="updateUser()" class="btn btn-primary"/>Update</a>
             </div>
         </div>
     </div>
 </div>   
 <script>
-    function updateResident() {
-        var form = document.getElementById("updateResidentForm");
-        var submitOp = document.getElementById("updateResident");
+    function updateUser() {
+        var form = document.getElementById("updateUserForm");
+        var submitOp = document.getElementById("updateUser");
         submitOp.value = 'update';
         submitOp.click();
     }

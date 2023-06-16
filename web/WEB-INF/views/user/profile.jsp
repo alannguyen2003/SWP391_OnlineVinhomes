@@ -77,14 +77,8 @@
                     <c:if test="${user.roleID != 1}">
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-cash"></i></div>
-                            <label class="label">Your salary</label>
-                            <div class="card-subtitle mb-4"><fmt:formatNumber value="${emp.salary}" type="currency"/></div>
-                        </div>
-
-                        <div class="mb-4 form-group">
-                            <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-command"></i></div>
-                            <label class="label">Your Manager_ID</label>
-                            <div class="card-subtitle mb-4">${emp.manager_id}</div>
+                            <label class="label">Your Role</label>
+                            <div class="card-subtitle mb-4">${userRole}</div>
                         </div>
                     </c:if>
                 </div>
@@ -96,20 +90,20 @@
                 <div style="margin: 0px!important;" class="card-body p-5">
                     <div class="card-title">Account Details</div>
                     <div class="card-subtitle mb-4">Review and update your account information below.</div>
-                    <form method="post" action="<c:url value="/user/updateInfo.do" />" enctype="multipart/form-data">
+                    <form method="post" action="<c:url value="/user/updateInfo.do" />">
                         <!-- Form Group (username)-->
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>
                             <label class="label">Username</label>
-                            <input class="w-100 form-control" name="username" value="${sessionScope.user.name}">
+                            <input class="w-100 form-control" name="username" value="${user.name}">
                         </div>
 
                         <!-- Form Group (address)-->
 
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
-                            <label class="label">Email</label>
-                            <input class="w-100 form-control" name="email" value="${user.email}">
+                            <label class="label">Gender</label>
+                            <input class="w-100 form-control" name="gender" value="${user.gender}">
                         </div>
 
                         <!-- Form Row-->
@@ -118,8 +112,12 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
-                                    <label class="label">Block ID</label>
-                                    <input class="w-100 form-control" name="bid" value="${user.BID}">
+                                    <label class="label">Block</label>
+                                    <select name="bid" class="w-100 form-control">
+                                        <c:forEach var="bl" items="${blockList}">
+                                            <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
                             <!-- Form Group (phone)-->
@@ -131,15 +129,15 @@
                                 </div>
                             </div>
                         </div>
-
+                        <input type="hidden" class="form-control" name="aid" id="id" value="${user.AID}">       
                         <input id="avatar" name="avatar" type="file" accept="image/*" style="display: none" />
                         <input type="hidden" name="isAvaChange" value="false">
                         <!-- Save changes button-->
-                        <div class="text-end"><button class="btn btn-primary" type="submit">Save changes</button></div>
+                        <div class="text-end"><button class="btn btn-primary" name="op" value="comfirm" type="submit">Save changes</button></div>
                     </form>
 
                 </div>
-                
+
             </div>
         </div>
     </div>

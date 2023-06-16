@@ -12,8 +12,8 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item">Forms</li>
-            <li class="breadcrumb-item active">Elements</li>
+            <li class="breadcrumb-item">Update</li>
+            <li class="breadcrumb-item active">Resource Update</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -23,7 +23,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">General Form Elements</h5>
+                    <h5 class="card-title">Update Resource</h5>
                     <!-- General Form Elements -->
                     <form id="updateResourceForm" action="<c:url value="/admin-resource/update-resource-handler.do"/>">
                         <input type="text" class="form-control" hidden name="blockId" value="${blockResourceEntity.bId}">

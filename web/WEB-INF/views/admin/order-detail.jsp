@@ -7,12 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <div class="pagetitle">
-    <h1>Resident Detail</h1>
+    <h1>Order Details</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/admin/admin-dashboard.do" />">Home</a></li>
             <li class="breadcrumb-item">Detail</li>
-            <li class="breadcrumb-item active">Resident Detail</li>
+            <li class="breadcrumb-item active">Order Details</li>
         </ol>
     </nav>
 </div>
@@ -21,58 +21,63 @@
     <div class="card shadow mb-4">
         <div class="card-body mt-4">
             <div class="card-header py-3 mb-3">
-                <h5 class="m-0 font-weight-bold text-primary">Resident Detail</h5>
+                <h5 class="m-0 font-weight-bold text-primary">Order Details</h5>
             </div>
             <!-- Account details card-->
 
             <form action="<c:url value="/admin/updateResident.do" />">
                 <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">ID</label>
+                    <label for="OID" class="col-md-4 col-lg-3 col-form-label">Order ID</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="AID" type="hidden" class="form-control" id="AID" value="${u.AID}">
-                        <input name="AID" type="text" class="form-control" id="AID" value="${u.AID}" disabled="">
+                        <input name="OID" type="hidden" class="form-control" id="AID" value="${oh.id}">
+                        <input name="OID" type="text" class="form-control" id="AID" value="${oh.id}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                    <label for="Date" class="col-md-4 col-lg-3 col-form-label">Date</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="name" type="hidden" class="form-control" id="name" value="${u.name}">
-                        <input name="name" type="text" class="form-control" id="name" value="${u.name}" disabled="">
+                        <input name="date" type="hidden" class="form-control" id="date" value="${oh.date}">
+                        <input name="date" type="text" class="form-control" id="date" value="${oh.date}" disabled="">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                    <label for="ResidentID" class="col-md-4 col-lg-3 col-form-label">Resident ID</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="email" type="hidden" class="form-control" id="Email" value="${u.email}">
-                        <input name="email" type="email" class="form-control" id="Email" value="${u.email}" disabled="">
+                        <input name="residentId" type="hidden" class="form-control" id="Phone" value="${oh.residentId}">
+                        <input name="residentId" type="text" class="form-control" id="Phone" value="${oh.residentId}" disabled="">
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="hidden" class="form-control" id="Phone" value="${u.phone}">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="${u.phone}" disabled="">
-                    </div>
-                </div>
 
                 <div class="row mb-3">
-                    <label for="Room" class="col-md-4 col-lg-3 col-form-label">Room</label>
+                    <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="room" type="text" class="form-control" id="Address" value="${u.room}">
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label for="BID" class="col-md-4 col-lg-3 col-form-label">Block</label>
-                    <div class="col-md-8 col-lg-9">
-                        <select name="bid" class="w-100 form-control">
-                            <c:forEach var="bl" items="${blockList}">
-                                <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
+                        <select name="status" class="w-100 form-control">
+                            <c:forEach var="status" items="${statusList}">
+                                <option value="${status}" ${status == oh.status ? "selected" : ""}>${status}</option>
                             </c:forEach>
                         </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="Employee" class="col-md-4 col-lg-3 col-form-label">Employee</label>
+                    <div class="col-md-8 col-lg-9">
+                        <select name="bid" class="w-100 form-control">
+                            <option value="">-- Select Employee --</option>
+                            <c:forEach var="emp" items="${empList}">
+                                <option value="${emp.AID}">${emp.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="Note" class="col-md-4 col-lg-3 col-form-label">Note</label>
+                    <div class="col-md-8 col-lg-9">
+                        <input name="note" type="text" class="form-control" id="Note" value="${oh.note}">
                     </div>
                 </div>
 

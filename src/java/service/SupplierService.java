@@ -5,6 +5,7 @@
 package service;
 
 import entity.SupplierEntity;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import repository.SupplierRepository;
 
@@ -18,5 +19,21 @@ public class SupplierService {
     
     public ArrayList<SupplierEntity> getAllSupplier() throws Exception {
         return supplierRepo.getAllSupplier();
+    }
+    
+    public ArrayList<SupplierEntity> searchByName(String name) throws Exception {
+        return name.isBlank()? supplierRepo.getAllSupplier() : supplierRepo.searchByName(name);
+    }
+    
+    public String getSupplierEmail(int id) throws SQLException {
+        return supplierRepo.getSupplierEmail(id);
+    }
+    
+    public static void main(String[] args) throws Exception {
+        SupplierService service = new SupplierService();
+        for (SupplierEntity entity : service.searchByName("home")) {
+            System.out.println(entity);
+        }
+        System.out.println(service.getSupplierEmail(1));
     }
 }

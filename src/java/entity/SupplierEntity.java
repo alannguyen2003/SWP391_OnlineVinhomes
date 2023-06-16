@@ -61,6 +61,12 @@ public class SupplierEntity {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "SupplierEntity{" + "id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address=" + address + '}';
+    }
+    
     
     
 }

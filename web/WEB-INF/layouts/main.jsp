@@ -25,7 +25,7 @@
         <link
             href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap"
             rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/animate/animate.min.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/animate/custom-animate.css" />
@@ -165,13 +165,13 @@
                                             <c:if test="${user != null}">
                                                 <!-- Neu user da login -->
                                                 <li style="margin-left: 18rem">
-                                                    <a href="<c:url value="/user/profile.do" />">Hello, ${user.email}</a>
+                                                    <a href="<c:url value="/user/profile.do?AID=${user.AID}" />">Hello, ${user.email}</a>
                                                 </li>
 
                                                 <li class="dropdown">
                                                     <a href="#"><i class="bi bi-person-fill"></i></a>
                                                     <ul>
-                                                        <li><a href="<c:url value="/user/profile.do"/>">View profile</a></li>
+                                                        <li><a href="<c:url value="/user/profile.do?AID=${user.AID}"/>">View profile</a></li>
                                                         <li><a href="<c:url value="/order/myorder.do?aid=${user.AID}"/>">My Orders</a></li>
                                                         <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
                                                     </ul>
@@ -366,7 +366,7 @@
 
                 <div class="logo-box">
                     <a href="<c:url value="/home/index.do"/>" aria-label="logo image"><img src="${pageContext.request.contextPath}/assets/images/resources/logo-1.png" width="89"
-                                                                      alt="" /></a>
+                                                                                           alt="" /></a>
                 </div>
                 <!-- /.logo-box -->
                 <div class="mobile-nav__container"></div>
@@ -417,6 +417,9 @@
         <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
 
         <!-- Js Plugins -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/jquery/jquery-3.6.0.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/jquery/jquery-migrate-3.3.2.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -445,7 +448,7 @@
         <script src="${pageContext.request.contextPath}/assets/vendors/order/order.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/home/home.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendors/contact/modernizr-3.11.2.min.js"></script>
-        
+
         <!-- template js -->
         <script src="${pageContext.request.contextPath}/assets/js/brote.js"></script>
     </body>
