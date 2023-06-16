@@ -110,20 +110,19 @@
                 <div class="col-lg-5">
                     <div class="row">
                         <!--Cart Total -->
-                        <c:forEach var="item" items="${sessionScope.cart.items}">
                         <div class="col-12 mb-40">
                             <h4 class="checkout-title">Cart Total</h4>
                             <div class="checkout-cart-total">
                                 <h4>Product <span>Total</span></h4>
-                                <ul>
-                                    <li>${item.service.name}<span>$<fmt:formatNumber value="${item.service.getLowerPrice()}" pattern="##.#"/></span></li>
-                                </ul>
+                                <c:forEach var="item" items="${sessionScope.cart.items}">
+                                    <ul>
+                                        <li style="padding-top: 15px">${item.service.name}<span>$<fmt:formatNumber value="${(item.service.getLowerPrice() + item.service.getUpperPrice()) / 2}" pattern="##.#"/></span></li>
+                                    </ul>
+                                </c:forEach>
                                 <p>Sub Total <span>$<fmt:formatNumber value="${cart.getTotalMoney()}" pattern="##.#"/></span></p>
-                                <p>Shipping Fee <span>$0</span></p>
                                 <h4>Grand Total <span>$<fmt:formatNumber value="${cart.getTotalMoney()}" pattern="##.#"/></span></h4>
                             </div>
                         </div>
-                        </c:forEach>
                         <div class="col-6 mb-40" style="display: flex; justify-content: flex-start">
                             <a href="<c:url value="/cart/cart.do" />" class="btn btn-primary mt-10">Cancel</a>
                         </div>

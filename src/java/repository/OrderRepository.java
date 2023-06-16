@@ -119,8 +119,7 @@ public class OrderRepository {
             od.setOrderHeaderId(rs.getInt("orderHeaderId"));
             od.setServiceId(rs.getInt("serviceId"));
             od.setCategoryId(rs.getInt("categoryId"));
-            od.setMinPrice(rs.getInt("min_price"));
-            od.setMaxPrice(rs.getInt("max_price"));
+            od.setPrice(rs.getInt("price"));
             list.add(od);
         }
         con.close();
@@ -143,8 +142,7 @@ public class OrderRepository {
             od.setOrderHeaderId(rs.getInt("orderHeaderId"));
             od.setServiceId(rs.getInt("serviceId"));
             od.setCategoryId(rs.getInt("categoryId"));
-            od.setMinPrice(rs.getInt("min_price"));
-            od.setMaxPrice(rs.getInt("max_price"));
+            od.setPrice(rs.getInt("price"));
             String name = rs.getString("name");
             list.put(od, name);
         }
@@ -443,7 +441,7 @@ public class OrderRepository {
                 stm2.setInt(1, oid);
                 stm2.setInt(2, item.getService().getServiceID());
                 stm2.setInt(3, item.getService().getCategoryID());
-                stm2.setDouble(4, item.getPrice());
+                stm2.setDouble(4, ((item.getLowerPrice() + item.getUpperPrice()) / 2 ));
                 stm2.executeUpdate();
             }
         }

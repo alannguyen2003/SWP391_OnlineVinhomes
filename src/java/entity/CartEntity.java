@@ -49,16 +49,28 @@ public class CartEntity {
         }
     }
     
-    public double getTotalMoney() {
-        double t= 0;
-        for(ItemEntity item : items) {
-            t += item.getPrice();
+    public double getMinTotal() {
+        int minTotal = 0;
+
+        for (ItemEntity od : items) {
+            minTotal += od.getLowerPrice();
         }
-        return t;
+        return minTotal;
     }
-    /*
+
+    public double getMaxTotal() {
+        int maxTotal = 0;
+
+        for (ItemEntity od : items) {
+            maxTotal += od.getUpperPrice();
+        }
+
+        return maxTotal;
+    }
     
-    
-    
-    */
+    public double getTotalMoney() {
+        double maxTotal = getMaxTotal();
+        double minTotal = getMinTotal();
+        return (( maxTotal + minTotal ) / 2);
+    }
 }

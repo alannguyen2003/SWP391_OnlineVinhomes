@@ -4,7 +4,6 @@
  */
 package service;
 
-
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -49,6 +48,7 @@ public class GmailService {
 
     Gmail service;
     private final String FROM_EMAIL = "johnnypewds123@gmail.com";
+
     public GmailService() throws Exception {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
@@ -56,14 +56,12 @@ public class GmailService {
 
     }
 
-    
-
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, GsonFactory jsonFactory)
             throws IOException {
         // Load client secrets.
         Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\FPTU2022_2025\\SECOND YEAR\\SUMMER2023\\SWP391\\Project\\SWP391_OnlineVinhomes\\SWP391_OnlineVinhomes\\client_secret_483758738967-ft14o2oc0j25n8g1n59hte79uebr822n.apps.googleusercontent.com.json"));
         GoogleClientSecrets clientSecrets
-                = GoogleClientSecrets.load(jsonFactory,  clientSecretReader);
+                = GoogleClientSecrets.load(jsonFactory, clientSecretReader);
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -77,7 +75,7 @@ public class GmailService {
         return credential;
 
     }
-    
+
     public String getRandomCode() {
 
         // choose a Character random from this String
@@ -103,7 +101,6 @@ public class GmailService {
 
         return sb.toString();
     }
-    
 
     public void sendEmail(String subject, String message, String toEmail) throws GeneralSecurityException, IOException, AddressException, MessagingException {
 
@@ -140,18 +137,16 @@ public class GmailService {
             }
         }
     }
-    
-    public static boolean isValidEmail(String email) {
+
+    public boolean isValidEmail(String email) {
 
         try {
 
             Content content = Request.Get(
-            "https://emailvalidation.abstractapi.com/v1/?api_key=887d421a032a4a13b47dec623ae6ccee&email=" + email)
+                    "https://emailvalidation.abstractapi.com/v1/?api_key=887d421a032a4a13b47dec623ae6ccee&email=" + email)
+                    .execute().returnContent();
 
-                      
-            .execute().returnContent();
-            
-            if(content.asString().contains("UNDELIVERABLE")) {
+            if (content.asString().contains("UNDELIVERABLE")) {
                 return false;
             }
         } catch (IOException error) {
@@ -162,7 +157,8 @@ public class GmailService {
 
     public static void main(String[] args) throws Exception {
         GmailService gmailer = new GmailService();
-        gmailer.sendEmail("Test", "Cho Quang loz", "quangnvse172928@fpt.edu.vn");
+
+//        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
+        System.out.println(gmailer.isValidEmail("asd@asdadsas.com"));
     }
 }
-

@@ -10,11 +10,13 @@ package entity;
  */
 public class ItemEntity {
     private ServiceEntity service;
-    private double price;
+    private double lowerPrice;
+    private double upperPrice;
     
-    public ItemEntity(ServiceEntity service, double price){
+    public ItemEntity(ServiceEntity service, double lowerPrice, double upperPrice){
         this.service = service;
-        this.price = price;
+        this.lowerPrice = lowerPrice;
+        this.upperPrice = upperPrice;
     }
 
     public ServiceEntity getService() {
@@ -25,11 +27,21 @@ public class ItemEntity {
         this.service = service;
     }
 
-    public double getPrice() {
-        return price;
+    public double getLowerPrice() {
+        return lowerPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setLowerPrice(double lowerPrice) {
+        this.lowerPrice = lowerPrice;
     }
+
+    public double getUpperPrice() {
+        return upperPrice;
+    }
+
+    public void setUpperPrice(double upperPrice) {
+        this.upperPrice = upperPrice;
+    }
+
+    
 }

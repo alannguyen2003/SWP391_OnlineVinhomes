@@ -146,7 +146,7 @@ public class UserController extends HttpServlet {
             GmailService gs = new GmailService();
             boolean validateEmail = gs.isValidEmail(email);
             boolean check = userService.addNewResident(entity);
-            if (validateEmail) {
+//            if (validateEmail) {
                 if (check) {
                     request.setAttribute("message", "Please login again.");
                     request.getRequestDispatcher("/user/login.do").forward(request, response);
@@ -154,10 +154,10 @@ public class UserController extends HttpServlet {
                     request.setAttribute("message", "Email exist, please try again.");
                     request.getRequestDispatcher("/user/signup.do").forward(request, response);
                 }
-            }else{
-                request.setAttribute("message", "Invalid email.");
-                request.getRequestDispatcher("/user/signup.do").forward(request, response);
-            }
+//            }else{
+//                request.setAttribute("message", "Invalid email.");
+//                request.getRequestDispatcher("/user/signup.do").forward(request, response);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

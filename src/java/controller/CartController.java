@@ -130,7 +130,7 @@ public class CartController extends HttpServlet {
         String serviceID = request.getParameter("id");
         CartService cs = new CartService();
         ServiceEntity se = cs.getServiceById(Integer.parseInt(serviceID));
-        ItemEntity item = new ItemEntity(se, se.getLowerPrice());
+        ItemEntity item = new ItemEntity(se, se.getLowerPrice(), se.getUpperPrice());
         cart.addItem(item);
         List<ItemEntity> list = cart.getItems();
         session.setAttribute("cart", cart);
