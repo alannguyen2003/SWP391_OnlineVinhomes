@@ -83,7 +83,7 @@ public class OrderRepository {
         List<MyOrderEntity> list = null;
         Connection con = DBConfig.getConnection();
 
-        PreparedStatement stm = con.prepareStatement("select * from Orders where AID = ? order by OID desc");
+        PreparedStatement stm = con.prepareStatement("select * from Orders where UID = ? order by OID ASC");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         list = new ArrayList<>();
@@ -119,8 +119,7 @@ public class OrderRepository {
             od.setOrderHeaderId(rs.getInt("orderHeaderId"));
             od.setServiceId(rs.getInt("serviceId"));
             od.setCategoryId(rs.getInt("categoryId"));
-            od.setMinPrice(rs.getInt("min_price"));
-            od.setMaxPrice(rs.getInt("max_price"));
+            od.setPrice(rs.getInt("price"));
             list.add(od);
         }
         con.close();
@@ -140,11 +139,10 @@ public class OrderRepository {
         while (rs.next()) {
             OrderDetailEntity od = new OrderDetailEntity();
             od.setId(rs.getInt("id"));
-            od.setOrderHeaderId(rs.getInt("orderHeaderId"));
-            od.setServiceId(rs.getInt("serviceId"));
-            od.setCategoryId(rs.getInt("categoryId"));
-            od.setMinPrice(rs.getInt("min_price"));
-            od.setMaxPrice(rs.getInt("max_price"));
+            od.setOrderHeaderId(rs.getInt("orderHeader_id"));
+            od.setServiceId(rs.getInt("service_id"));
+            od.setCategoryId(rs.getInt("category_id"));
+            od.setPrice(rs.getInt("price"));
             String name = rs.getString("name");
             list.put(od, name);
         }
