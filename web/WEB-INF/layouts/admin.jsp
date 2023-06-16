@@ -41,6 +41,7 @@
         <link href="${pageContext.request.contextPath}/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/order.css" />
 
         <!-- Template Main CSS File -->
         <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">

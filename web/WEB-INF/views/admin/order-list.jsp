@@ -25,7 +25,7 @@
             </div>
             <div class="row">
                 <div class="card-header py-3">
-                    
+
 
                 </div>
             </div>
@@ -51,7 +51,12 @@
                                         <td>${o.residentName}</td>
                                         <td>${o.employeeName}</td>
                                         <td>${o.date}</td>
-                                        <td>${o.status}</td>
+                                        <c:if test="${o.status == 'Pending'}">
+                                            <td><span class="bage bage-warning">${o.status}</span></td>
+                                            </c:if>
+                                            <c:if test="${o.status != 'Pending'}">
+                                            <td><span class="bage bage-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span></td>
+                                            </c:if>
                                         <td>${o.note}</td>
                                         <td><a class="btn btn-outline-primary" href="<c:url value="/admin/resident-detail.do?AID=${o.uid}"/>">View <i class="bi bi-gear"></i></a></td>
                                     </tr>

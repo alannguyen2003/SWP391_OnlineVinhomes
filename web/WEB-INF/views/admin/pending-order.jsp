@@ -46,13 +46,18 @@
                             </thead>
                             <c:forEach var="o" items="${list}" varStatus="loop">
                                 <c:if test="${o.eid == '' && o.status == 'Pending'}">
-                                        <tbody>
+                                    <tbody>
                                         <tr>
                                             <td>${o.id}</td>
                                             <td>${o.residentName}</td>
                                             <td>${o.employeeName}</td>
                                             <td>${o.date}</td>
-                                            <td>${o.status}</td>
+                                            <c:if test="${o.status == 'Pending'}">
+                                                <td><span class="bage bage-warning">${o.status}</span></td>
+                                                </c:if>
+                                                <c:if test="${o.status != 'Pending'}">
+                                                <td><span class="bage bage-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span></td>
+                                                </c:if>
                                             <td>${o.note}</td>
                                             <td><a class="btn btn-outline-primary" href="<c:url value="/admin/order-detail.do?OID=${o.id}"/>">View <i class="bi bi-gear"></i></a></td>
                                         </tr>
