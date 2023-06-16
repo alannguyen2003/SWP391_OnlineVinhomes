@@ -330,12 +330,19 @@
 
                 <li class="nav-heading">Pages</li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="<c:url value="/user/profile.do"/>">
+                <li class="nav-item ${activeTab == "profile" ? "active" : ""}">
+                    <a class="nav-link1 collapsed" href="<c:url value="/user/profile.do"/>">
                         <i class="bi bi-person"></i>
                         <span>Profile</span>
                     </a>
                 </li><!-- End Profile Page Nav -->
+                
+                <li class="nav-item ${activeTab == "pendingOrder" ? "active" : ""}">
+                    <a class="nav-link1 collapsed" href="<c:url value="/admin/pending-order.do?op=getall"/>">
+                        <i class="bi bi-list-check"></i>
+                        <span>Pending Order</span>
+                    </a>
+                </li><!-- End Pending Order Page Nav -->
             </ul>
 
         </aside><!-- End Sidebar-->

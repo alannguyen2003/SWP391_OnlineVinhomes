@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import payload.request.EmployeeOrderRequest;
 import payload.request.OrderHeaderRequest;
 import service.UserService;
 
@@ -77,6 +78,25 @@ public class OrderRepository {
         }
         con.close();
         return list;
+    }
+    
+    public OrderHeaderEntity getOne(int id) throws SQLException {
+        OrderHeaderEntity order = new OrderHeaderEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("SELECT * FROM Orders WHERE OID = ?");
+        pstm.setInt(1, id);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            order.setId(rs.getInt(1));
+            order.setDate(rs.getDate(2));
+            order.setStatus(rs.getString(3));
+            order.setResidentId(rs.getInt(4));
+            order.setEmployeeId(rs.getInt(5));
+            order.setNote(rs.getString(6));
+        }
+        con.close();
+        return order;
     }
 
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
@@ -455,7 +475,7 @@ public class OrderRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select o.OID, a.name, o.time, o.status, o.note from Orders o\n"
+            String query = "select o.OID, a.AID, a.name, o.time, o.status, o.note from Orders o\n"
                     + "left join Account a\n"
                     + "on o.UID = a.AID";
             pst = cn.prepareStatement(query);
@@ -465,23 +485,24 @@ public class OrderRepository {
             while (rs.next()) {
                 OrderHeaderRequest entity = new OrderHeaderRequest();
                 entity.setId(rs.getInt(1));
-                entity.setResidentName(rs.getNString(2));
-                entity.setDate(rs.getDate(3));
-                entity.setStatus(rs.getString(4));
-                entity.setNote(rs.getString(5));
+                entity.setUid(rs.getInt(2));
+                entity.setResidentName(rs.getNString(3));
+                entity.setDate(rs.getDate(4));
+                entity.setStatus(rs.getString(5));
+                entity.setNote(rs.getString(6));
                 list.add(entity);
             }
         }
         return list;
     }
 
-    public ArrayList<String> getEmployeeListForOrderList() throws Exception {
-        ArrayList<String> list = new ArrayList<>();
+    public ArrayList<EmployeeOrderRequest> getEmployeeListForOrderList() throws Exception {
+        ArrayList<EmployeeOrderRequest> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select a.name from Orders o \n"
+            String query = "select a.aid, a.name from Orders o \n"
                     + "left join Account a\n"
                     + "on o.EID = a.AID";
             pst = cn.prepareStatement(query);
@@ -489,8 +510,10 @@ public class OrderRepository {
         }
         if (rs != null) {
             while (rs.next()) {
-                String name = rs.getString(1);
-                list.add(name);
+                EmployeeOrderRequest entity = new EmployeeOrderRequest();
+                entity.setAid(rs.getInt(1));
+                entity.setName(rs.getString(2));
+                list.add(entity);
             }
         }
         return list;
@@ -498,7 +521,7 @@ public class OrderRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        for (String request : op.getEmployeeListForOrderList()) {
+        for (EmployeeOrderRequest request : op.getEmployeeListForOrderList()) {
             System.out.println(request);
         }
     }

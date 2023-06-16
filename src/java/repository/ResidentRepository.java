@@ -4,6 +4,7 @@
  */
 package repository;
 
+import entity.ResidentEntity;
 import entity.*;
 import java.sql.Connection;
 import java.sql.SQLException;

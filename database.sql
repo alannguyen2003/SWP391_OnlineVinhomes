@@ -138,7 +138,7 @@ alter table ServiceResourceNeeded
 	foreign key (RID) references Resource(RID)
 
 insert into Role(role_name) values 
-('Resident'), ('None'), ('Manager'), ('Admin')
+('Resident'), ('None'), ('Employee'), ('Admin')
 
 insert into Category(name) values 
 ('Cleaning'), ('Maintenance'), ('Security'), ('Pest Control')
@@ -271,8 +271,9 @@ insert into Service(name, lower_price, upper_price, description, category_id, su
 ('Electrical Repair', 70, 140, 'We repair wiring, outlets, switches, and other electrical problems.', 2, 3),
 ('Security Guard', 100, 200, 'We provied trained security guards for your building.', 3, 6)
 
-	INSERT INTO dbo.Orders(time, status, UID, EID, note)
+INSERT INTO dbo.Orders(time, status, UID, EID, note)
 VALUES
+
 	('2019-01-29', 'Pending', 13, 1, NULL),
 	('2019-04-01', 'Pending', 15, 3, NULL),
 	('2019-01-29', 'Pending', 16, 4, NULL),
@@ -285,17 +286,13 @@ VALUES
 	('2019-04-01', 'Failed', 27, 6, NULL)
     GO
 
-	INSERT INTO dbo.Orders(time, status, UID, EID, note)
+INSERT INTO dbo.Orders(time, status, UID, EID, note)
 VALUES
 	('2023-01-01', 'Completed', 13, 1, NULL),
 	('2023-02-01', 'Completed', 15, 3, NULL),
 	('2023-03-01', 'Completed', 16, 4, NULL),
 	('2023-04-01', 'Completed', 18, 6, NULL),
-	('2023-05-01', 'Completed', 19, 7, NULL)
-	GO
-    
-INSERT INTO dbo.Orders(time, status, UID, EID, note)
-VALUES
+	('2023-05-01', 'Completed', 19, 7, NULL),
 	('2019-01-29', 'Pending', 13, 1, NULL),
 	('2019-04-01', 'Pending', 15, 3, NULL),
 	('2019-01-29', 'Pending', 16, 4, NULL),
@@ -306,17 +303,19 @@ VALUES
 	('2019-01-29', 'Failed', 22, 12, NULL),
 	('2019-04-01', 'Failed', 24, 10, NULL),
 	('2019-01-29', 'Failed', 25, 3, NULL),
-	('2019-04-01', 'Failed', 27, 6, NULL)
-    GO
-
-	INSERT INTO dbo.Orders(time, status, UID, EID, note)
-VALUES
+	('2019-04-01', 'Failed', 27, 6, NULL),
 	('2023-01-01', 'Completed', 13, 1, NULL),
 	('2023-02-01', 'Completed', 15, 3, NULL),
 	('2023-03-01', 'Completed', 16, 4, NULL),
 	('2023-04-01', 'Completed', 18, 6, NULL),
-	('2023-05-01', 'Completed', 19, 7, NULL)
-	go
+	('2023-05-01', 'Completed', 19, 7, NULL),
+
+	('2023-01-01', 'Pending', 13, NULL, NULL),
+	('2023-02-01', 'Pending', 15, NULL, NULL),
+	('2023-03-01', 'Pending', 16, NULL, NULL),
+	('2023-04-01', 'Pending', 18, NULL, NULL),
+	('2023-05-01', 'Pending', 19, NULL, NULL)
+	GO
 
 INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) 
 VALUES 

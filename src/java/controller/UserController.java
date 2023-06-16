@@ -112,6 +112,7 @@ public class UserController extends HttpServlet {
                     } else {
                         admindashboard(request, response);
                         request.setAttribute("blockList", blockList);
+                        request.setAttribute("activeTab", "profile");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                     }
 

@@ -53,7 +53,7 @@
                                         <td>${o.date}</td>
                                         <td>${o.status}</td>
                                         <td>${o.note}</td>
-                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/resident-detail.do?AID=${r.AID}"/>">View <i class="bi bi-gear"></i></a></td>
+                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/resident-detail.do?AID=${o.uid}"/>">View <i class="bi bi-gear"></i></a></td>
                                     </tr>
                                 </tbody>
                             </c:forEach>

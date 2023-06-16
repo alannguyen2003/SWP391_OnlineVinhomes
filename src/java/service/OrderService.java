@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import payload.request.EmployeeOrderRequest;
 import payload.request.OrderHeaderRequest;
 import repository.OrderRepository;
 
@@ -25,6 +26,10 @@ public class OrderService {
     public List<OrderHeaderEntity> selectAll() throws SQLException {
         return orderRepository.selectAll();
     }
+    
+     public OrderHeaderEntity getOne(int id) throws SQLException {
+         return  orderRepository.getOne(id);
+     }
 
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         return orderRepository.selectMyOrders(id);
@@ -85,9 +90,10 @@ public class OrderService {
     
     public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
         ArrayList<OrderHeaderRequest> list = orderRepository.getAllOrders();
-        ArrayList<String> listEmployee = orderRepository.getEmployeeListForOrderList();
+        ArrayList<EmployeeOrderRequest> listEmployee = orderRepository.getEmployeeListForOrderList();
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).setEmployeeName(listEmployee.get(i));
+            list.get(i).setEid(listEmployee.get(i).getAid());
+            list.get(i).setEmployeeName(listEmployee.get(i).getName());
         }
         return list;
     }

@@ -5,6 +5,7 @@
 package controller;
 
 import entity.BlockVinEntity;
+import entity.EmployeeEntity;
 import entity.UserEntity;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -76,6 +77,7 @@ public class AdminController extends HttpServlet {
         UserEntity user = (UserEntity) adminSession.getAttribute("user");
         if (user != null && (user.getRoleID() == 4 || user.getRoleID() == 3)) {
             try {
+                List<BlockVinEntity> blockList = bs.getAllBlock();
                 switch (action) {
                     case "admin-dashboard":
                         load_Admindashboard(request, response);
@@ -88,6 +90,8 @@ public class AdminController extends HttpServlet {
                         int AID = Integer.parseInt(request.getParameter("AID"));
                         UserEntity u = rs.getOne(AID);
                         request.setAttribute("u", u);
+                        request.setAttribute("userBlockId", user.getBID());
+                        request.setAttribute("blockList", blockList);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "service-list":
@@ -128,6 +132,20 @@ public class AdminController extends HttpServlet {
                         break;
                     case "order-list":
                         loadOrderList(request, response);
+                        break;
+                    case "pending-order":
+                        loadOrderList(request, response);
+                        break;
+                    case "order-detail":
+                        int OID = Integer.parseInt(request.getParameter("OID"));
+                        OrderHeaderEntity oh = os.getOne(OID);
+                        List<UserEntity> empList = us.getEmployee();
+                        request.setAttribute("oh", oh);
+                        request.setAttribute("empList", empList);
+                        request.setAttribute("blockList", blockList);
+                        request.setAttribute("userBlockId", user.getBID());
+                        request.setAttribute("activeTab", "pendingOrder");
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                 }
             } catch (Exception ex) {
@@ -186,7 +204,9 @@ public class AdminController extends HttpServlet {
                     break;
             }
             // Cắt danh sách dữ liệu theo phân trang            
-            request.setAttribute("activeTab", "order");
+            
+            if (request.getAttribute("action").equals("pending-order")) request.setAttribute("activeTab", "pendingOrder");  
+            else request.setAttribute("activeTab", "order");
             request.setAttribute("op", op);
             request.setAttribute("list", list);
             request.setAttribute("totalPages", totalPages);

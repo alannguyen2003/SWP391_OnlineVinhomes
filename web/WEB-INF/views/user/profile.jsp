@@ -112,7 +112,7 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
-                                    <label class="label">Block ID</label>
+                                    <label class="label">Block</label>
                                     <select name="bid" class="w-100 form-control">
                                         <c:forEach var="bl" items="${blockList}">
                                             <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
