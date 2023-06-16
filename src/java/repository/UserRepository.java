@@ -7,6 +7,7 @@ package repository;
 import config.DBConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -202,6 +203,21 @@ public class UserRepository {
             entity.setRoom(rs.getString(9));
             entity.setStatus(rs.getInt(10));
             list.add(entity);
+        }
+        return list;
+    }
+    
+    public ArrayList<String> getStatus() throws SQLException{
+        ArrayList<String> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "SELECT DISTINCT status FROM dbo.Orders";
+            Statement stm = cn.createStatement();
+            rs = stm.executeQuery(query);
+        }
+        while (rs.next()) {
+            list.add(rs.getString(1));
         }
         return list;
     }

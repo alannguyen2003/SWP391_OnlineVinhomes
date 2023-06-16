@@ -43,18 +43,22 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="status" type="hidden" class="form-control" id="status" value="${oh.status}">
-                        <input name="status" type="text" class="form-control" id="status" value="${oh.status}" disabled="">
-                    </div>
-                </div>
-
-                <div class="row mb-3">
                     <label for="ResidentID" class="col-md-4 col-lg-3 col-form-label">Resident ID</label>
                     <div class="col-md-8 col-lg-9">
                         <input name="residentId" type="hidden" class="form-control" id="Phone" value="${oh.residentId}">
                         <input name="residentId" type="text" class="form-control" id="Phone" value="${oh.residentId}" disabled="">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
+                    <div class="col-md-8 col-lg-9">
+                        <select name="status" class="w-100 form-control">
+                            <c:forEach var="status" items="${statusList}">
+                                <option value="${status}" ${status == oh.status ? "selected" : ""}>${status}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                 </div>
 

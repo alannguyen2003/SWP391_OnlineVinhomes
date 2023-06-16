@@ -140,9 +140,11 @@ public class AdminController extends HttpServlet {
                         int OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
                         List<UserEntity> empList = us.getEmployee();
+                        List<String> statusList = us.getStatus();
                         request.setAttribute("oh", oh);
                         request.setAttribute("empList", empList);
                         request.setAttribute("blockList", blockList);
+                        request.setAttribute("statusList", statusList);
                         request.setAttribute("userBlockId", user.getBID());
                         request.setAttribute("activeTab", "pendingOrder");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);

@@ -39,6 +39,10 @@ public class UserService {
         return userRepo.getAllUserByName(name);
     }
     
+    public ArrayList<String> getStatus() throws SQLException{
+        return userRepo.getStatus();
+    }
+    
     public ArrayList<UserEntity> getEmployee() throws Exception {
         return userRepo.getEmployee();
     }
