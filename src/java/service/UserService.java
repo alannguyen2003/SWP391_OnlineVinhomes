@@ -66,7 +66,7 @@ public class UserService {
         return true;
     }
     
-    public UserEntity getUser(String aid) throws SQLException {
+    public UserEntity getUser(int aid) throws SQLException {
         return userRepo.getUser(aid);
     }
     
@@ -76,6 +76,10 @@ public class UserService {
     
     public void updateInfo(String username, String gender, int bid, String phone, int aid) throws SQLException{
         userRepo.updateProfile(username, gender, bid, phone, aid);
+    }
+    
+    public String getUserSalt(String email) throws SQLException {
+        return userRepo.getUserSalt(email);
     }
     
     public static void main(String[] args) throws Exception {

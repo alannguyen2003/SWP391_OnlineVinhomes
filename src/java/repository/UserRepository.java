@@ -4,6 +4,7 @@
  */
 package repository;
 
+import Utils.Hasher;
 import config.DBConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,7 +40,7 @@ public class UserRepository {
             connect = new DBConfig().getConnection();
             ps = connect.prepareStatement(query);
             ps.setString(1, email);
-            ps.setString(2, password);
+            ps.setString(2, Hasher.doHashing(password, getUserSalt(email)));
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new UserEntity(rs.getInt(1),
@@ -100,11 +101,12 @@ public class UserRepository {
     }
 
     public void changePass(String aid, String password) throws SQLException {
+        createSaltForUser(Integer.parseInt(aid));
         String query = "update Account set password = ? where aid = ?";
         connect = DBConfig.getConnection();
         ps = connect.prepareStatement(query);
         ps.setString(2, aid);
-        ps.setString(1, password);
+        ps.setString(1, Hasher.doHashing(password, getUserSalt(getUser(Integer.parseInt(aid)).getEmail())));
         ps.executeUpdate();
         connect.close();
 
@@ -303,24 +305,27 @@ public class UserRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "insert into Account(phone, email, password, name, BID, roleId)\n"
-                    + "values (?, ?, ?, ?, ?, 1)";
+            String salt = Hasher.createSalt();
+            String saltedHashPassword = Hasher.doHashing(userEntity.getPassword(), salt);
+            String query = "insert into Account(phone, email, password, name, BID, roleId, salt)\n"
+                    + "values (?, ?, ?, ?, ?, 1, ?)";
             pst = cn.prepareStatement(query);
             pst.setString(1, userEntity.getPhone());
             pst.setString(2, userEntity.getEmail());
-            pst.setString(3, userEntity.getPassword());
+            pst.setString(3, saltedHashPassword);
             pst.setNString(4, userEntity.getName());
             pst.setInt(5, userEntity.getBID());
+            pst.setString(6, salt);
             pst.executeUpdate();
         }
     }
 
-    public UserEntity getUser(String aid) throws SQLException {
+    public UserEntity getUser(int aid) throws SQLException {
         UserEntity user = new UserEntity();
 
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("select * from account where  AID = ?");
-        pstm.setString(1, aid);
+        pstm.setInt(1, aid);
         ResultSet rs = pstm.executeQuery();
         if (rs.next()) {
             user.setAID(rs.getInt(1));
@@ -363,11 +368,74 @@ public class UserRepository {
 
         con.close();
     }
-
+    
+    public String getUserSalt(String email) throws SQLException {
+        String salt = "";
+        Connection con = DBConfig.getConnection();
+        String query = "select salt from Account where email = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, email);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            salt += rs.getString("salt");
+        }
+        con.close();
+        return salt.trim();
+    }
+    
+    public void createSaltForUser(int aId) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        String query = "update Account set salt = ? where aid = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, Hasher.createSalt());
+        stm.setInt(2, aId);
+        int count = stm.executeUpdate();
+        con.close();
+    }
+    //Code from here is to update database
+    public void createSaltForDatabase(int aId) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        String query = "update Account set salt = ? where aid = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, Hasher.createSalt());
+        stm.setInt(2, aId);
+        int count = stm.executeUpdate();
+        con.close();
+    }
+    
+    
+    public String getUserSaltForDatabase(int aid) throws SQLException {
+        String salt = "";
+        Connection con = DBConfig.getConnection();
+        String query = "select salt from Account where aid = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, aid);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            salt += rs.getString("salt");
+        }
+        con.close();
+        return salt.trim();
+    }
+    
+    
+    public void generateSaltedHashPasswordForDatabase(int id) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        String query = "update Account set password = ? where aid = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, Hasher.doHashing("123456", getUserSaltForDatabase(id)));
+        stm.setInt(2, id);
+        stm.executeUpdate();
+        con.close();
+    }
+    
+    //Chạy hàm main này để update database
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
-        for(UserEntity user : rep.getAllUser())
-        System.out.println(user);        
+        for(int i = 1; i <= 58; i++) {
+            rep.createSaltForDatabase(i);
+            rep.generateSaltedHashPasswordForDatabase(i);
+        }
     }
 
 }
