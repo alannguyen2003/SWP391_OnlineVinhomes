@@ -1,17 +1,17 @@
 package entity;
+
 public class OrderDetailEntity {
-    
+
     private int id;
     private int orderHeaderId;
     private int serviceId;
     private int categoryId;
-    private double price;
-
+    private int price;
 
     public OrderDetailEntity() {
     }
 
-    public OrderDetailEntity(int id, int orderHeaderId, int serviceId, int categoryId, double price) {
+    public OrderDetailEntity(int id, int orderHeaderId, int serviceId, int categoryId, int price) {
         this.id = id;
         this.orderHeaderId = orderHeaderId;
         this.serviceId = serviceId;
@@ -51,11 +51,12 @@ public class OrderDetailEntity {
         this.categoryId = categoryId;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
+
 }

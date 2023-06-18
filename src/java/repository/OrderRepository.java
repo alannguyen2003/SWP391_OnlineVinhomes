@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import payload.request.EmployeeOrderRequest;
 import payload.request.OrderHeaderRequest;
 import service.UserService;
 
@@ -79,11 +80,49 @@ public class OrderRepository {
         return list;
     }
 
+    public OrderHeaderEntity getOne(int id) throws SQLException {
+        OrderHeaderEntity order = new OrderHeaderEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("SELECT * FROM Orders WHERE OID = ?");
+        pstm.setInt(1, id);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            order.setId(rs.getInt(1));
+            order.setDate(rs.getDate(2));
+            order.setStatus(rs.getString(3));
+            order.setResidentId(rs.getInt(4));
+            order.setEmployeeId(rs.getInt(5));
+            order.setNote(rs.getString(6));
+        }
+        con.close();
+        return order;
+    }
+    
+    public OrderHeaderEntity getOrderEmployee(int id) throws SQLException {
+        OrderHeaderEntity order = new OrderHeaderEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("SELECT * FROM Orders WHERE EID = ?");
+        pstm.setInt(1, id);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            order.setId(rs.getInt(1));
+            order.setDate(rs.getDate(2));
+            order.setStatus(rs.getString(3));
+            order.setResidentId(rs.getInt(4));
+            order.setEmployeeId(rs.getInt(5));
+            order.setNote(rs.getString(6));
+        }
+        con.close();
+        return order;
+    }
+
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         List<MyOrderEntity> list = null;
         Connection con = DBConfig.getConnection();
 
-        PreparedStatement stm = con.prepareStatement("select * from Orders where AID = ? order by OID desc");
+        PreparedStatement stm = con.prepareStatement("select * from Orders where UID = ? order by OID ASC");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         list = new ArrayList<>();
@@ -100,6 +139,75 @@ public class OrderRepository {
 
             MyOrderEntity fo = new MyOrderEntity(oh, map);
             list.add(fo);
+        }
+        con.close();
+        return list;
+    }
+    
+    public List<MyOrderEntity> selectEmployeeOrders(int id) throws SQLException {
+        List<MyOrderEntity> list = null;
+        Connection con = DBConfig.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("select * from Orders where EID = ? order by OID ASC");
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        list = new ArrayList<>();
+        while (rs.next()) {
+            OrderHeaderEntity oh = new OrderHeaderEntity();
+            oh.setId(rs.getInt("OID"));
+            oh.setDate(rs.getDate("time"));
+            oh.setResidentId(rs.getInt("UID"));
+            oh.setEmployeeId(rs.getInt("EID"));
+            oh.setStatus(rs.getString("status"));
+            oh.setNote(rs.getString("note"));
+
+            HashMap<OrderDetailEntity, String> map = this.selectEmployeeOrderlWithName(rs.getInt("OID"));
+
+            MyOrderEntity fo = new MyOrderEntity(oh, map);
+            list.add(fo);
+        }
+        con.close();
+        return list;
+    }
+    
+    public List<OrderDetailEntity> selectEmployeeOrderDetail(int id) throws SQLException {
+        List<OrderDetailEntity> list = null;
+        Connection con = DBConfig.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("select * from OrderDetail where orderheader_id = ? ");
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        list = new ArrayList<>();
+        while (rs.next()) {
+            OrderDetailEntity od = new OrderDetailEntity();
+            od.setId(rs.getInt("id"));
+            od.setOrderHeaderId(rs.getInt("orderHeaderId"));
+            od.setServiceId(rs.getInt("serviceId"));
+            od.setCategoryId(rs.getInt("categoryId"));
+            od.setPrice(rs.getInt("price"));
+            list.add(od);
+        }
+        con.close();
+        return list;
+    }
+    
+    public HashMap<OrderDetailEntity, String> selectEmployeeOrderlWithName(int orderHeaderId) throws SQLException {
+        HashMap<OrderDetailEntity, String> list = null;
+        Connection con = DBConfig.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("select od.*, a.[name]  from Orders o, OrderDetail od, account a where  o.OID = od.orderHeader_id and a.AID = o.EID  and od.orderHeader_id = ?");
+        stm.setInt(1, orderHeaderId);
+        ResultSet rs = stm.executeQuery();
+        list = new HashMap<>();
+        while (rs.next()) {
+            OrderDetailEntity od = new OrderDetailEntity();
+            od.setId(rs.getInt("id"));
+            od.setOrderHeaderId(rs.getInt("orderHeader_id"));
+            od.setServiceId(rs.getInt("service_id"));
+            od.setCategoryId(rs.getInt("category_id"));
+            od.setPrice(rs.getInt("price"));
+            String name = rs.getString("name");
+            list.put(od, name);
         }
         con.close();
         return list;
@@ -139,9 +247,10 @@ public class OrderRepository {
         while (rs.next()) {
             OrderDetailEntity od = new OrderDetailEntity();
             od.setId(rs.getInt("id"));
-            od.setOrderHeaderId(rs.getInt("orderHeaderId"));
-            od.setServiceId(rs.getInt("serviceId"));
-            od.setCategoryId(rs.getInt("categoryId"));
+
+            od.setOrderHeaderId(rs.getInt("orderHeader_id"));
+            od.setServiceId(rs.getInt("service_id"));
+            od.setCategoryId(rs.getInt("category_id"));
             od.setPrice(rs.getInt("price"));
             String name = rs.getString("name");
             list.put(od, name);
@@ -441,7 +550,7 @@ public class OrderRepository {
                 stm2.setInt(1, oid);
                 stm2.setInt(2, item.getService().getServiceID());
                 stm2.setInt(3, item.getService().getCategoryID());
-                stm2.setDouble(4, ((item.getLowerPrice() + item.getUpperPrice()) / 2 ));
+                stm2.setDouble(4, ((item.getLowerPrice() + item.getUpperPrice()) / 2));
                 stm2.executeUpdate();
             }
         }
@@ -455,7 +564,7 @@ public class OrderRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select o.OID, a.name, o.time, o.status, o.note from Orders o\n"
+            String query = "select o.OID, a.AID, a.name, o.time, o.status, o.note from Orders o\n"
                     + "left join Account a\n"
                     + "on o.UID = a.AID";
             pst = cn.prepareStatement(query);
@@ -465,23 +574,24 @@ public class OrderRepository {
             while (rs.next()) {
                 OrderHeaderRequest entity = new OrderHeaderRequest();
                 entity.setId(rs.getInt(1));
-                entity.setResidentName(rs.getNString(2));
-                entity.setDate(rs.getDate(3));
-                entity.setStatus(rs.getString(4));
-                entity.setNote(rs.getString(5));
+                entity.setUid(rs.getInt(2));
+                entity.setResidentName(rs.getNString(3));
+                entity.setDate(rs.getDate(4));
+                entity.setStatus(rs.getString(5));
+                entity.setNote(rs.getString(6));
                 list.add(entity);
             }
         }
         return list;
     }
 
-    public ArrayList<String> getEmployeeListForOrderList() throws Exception {
-        ArrayList<String> list = new ArrayList<>();
+    public ArrayList<EmployeeOrderRequest> getEmployeeListForOrderList() throws Exception {
+        ArrayList<EmployeeOrderRequest> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select a.name from Orders o \n"
+            String query = "select a.aid, a.name from Orders o \n"
                     + "left join Account a\n"
                     + "on o.EID = a.AID";
             pst = cn.prepareStatement(query);
@@ -489,8 +599,10 @@ public class OrderRepository {
         }
         if (rs != null) {
             while (rs.next()) {
-                String name = rs.getString(1);
-                list.add(name);
+                EmployeeOrderRequest entity = new EmployeeOrderRequest();
+                entity.setAid(rs.getInt(1));
+                entity.setName(rs.getString(2));
+                list.add(entity);
             }
         }
         return list;
@@ -498,7 +610,7 @@ public class OrderRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        for (String request : op.getEmployeeListForOrderList()) {
+        for (EmployeeOrderRequest request : op.getEmployeeListForOrderList()) {
             System.out.println(request);
         }
     }

@@ -5,6 +5,8 @@
 package controller;
 
 import entity.BlockResourceEntity;
+import entity.BlockVinEntity;
+import entity.ResourceEntity;
 import entity.UserEntity;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,8 +17,8 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import service.BlockVinService;
 import service.ResourceService;
 
 /**
@@ -54,6 +56,12 @@ public class AdminResourceController extends HttpServlet {
                     case "update-resource-handler":
                         updateResourceHandler(request, response);
                         break;
+                    case "add-resource":
+                        addResource(request, response, user);
+                        break;
+                    case "add-resource-handler":
+                        addResourceHandler(request, response, user);
+                        break;
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -64,116 +72,73 @@ public class AdminResourceController extends HttpServlet {
 
     }
 
+    protected void addResource(HttpServletRequest request, HttpServletResponse response, UserEntity user) throws ServletException, IOException, SQLException {
+        ResourceService rService = new ResourceService();
+        BlockVinService blockVinService = new BlockVinService();
+        BlockVinEntity block = blockVinService.getBlock(user.getBID());
+        List<ResourceEntity> list = rService.getUnassginedResourcesOfBlock(user.getBID());
+        request.setAttribute("block", block);
+        if (!list.isEmpty()) {
+            request.setAttribute("listResource", list);
+        }
+
+        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+    }
+
+    protected void addResourceHandler(HttpServletRequest request, HttpServletResponse response, UserEntity user) throws ServletException, IOException, SQLException {
+        String op = (String) request.getParameter("op");
+        ResourceService rService = new ResourceService();
+        switch (op) {
+            case "add":
+                String blockId = (String) request.getParameter("blockId");
+                String resourceId = (String) request.getParameter("resourceId");
+                String resourceName = (String) request.getParameter("resourceName");
+                String quantity = (String) request.getParameter("quantity");
+                if (quantity.isBlank()) {
+                    request.setAttribute("message", "The quantity is not entered");
+                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                } else {
+                    boolean check = rService.addResource(Integer.parseInt(blockId), Integer.parseInt(resourceId), Integer.parseInt(quantity));
+                    String message = "";
+                    if (check) {
+                        message = "Added successfully";
+                    } else {
+                        message = "Added failed";
+                    }
+                    request.setAttribute("message", message);
+                    request.setAttribute("action", "add-resource");
+                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                }
+                break;
+            case "cancel":
+                response.sendRedirect(request.getContextPath() + "/admin-resource/table-resource.do?op=getAll");
+                break;
+        }
+
+    }
+
     protected void tableResource(HttpServletRequest request, HttpServletResponse response, UserEntity user) throws ServletException, IOException, SQLException {
 
         ResourceService rService = new ResourceService();
         String op = (String) request.getParameter("op");
-        String indexPage = request.getParameter("page");
         HttpSession session = request.getSession();
         int userBlockId = user.getBID();
-        if (indexPage == null) {
-            indexPage = "1";
-        }
-        int page = Integer.parseInt(indexPage);
-        List<BlockResourceEntity> list = new ArrayList<>();
         List<BlockResourceEntity> list1 = new ArrayList<>();
         int endPage;
         int numberOfEntitiesInLastPage;
         switch (op) {
             case "getAll":
                 list1 = rService.getAllResource(userBlockId);
-                endPage = list1.size() / 10;
-                if (list1.size() % 10 != 0) {
-                    endPage++;
-                }
-                numberOfEntitiesInLastPage = list1.size() % 10;
-                if (page == endPage) {
-                    for (int i = 0 + 10 * (page - 1); i < (10 * page) - (10 - numberOfEntitiesInLastPage); i++) {
-                        list.add(list1.get(i));
-                    }
-                } else {
-                    for (int i = 0 + 10 * (page - 1); i < 10 * page; i++) {
-                        list.add(list1.get(i));
-                    }
-                }
                 break;
             case "search":
                 String searchValue = (String) request.getParameter("txtSearch");
                 list1 = rService.getResourceBySearched(searchValue, userBlockId);
-                String isSortedSearch = "";
-                isSortedSearch += (String) request.getParameter("isSortedSearch");
-                String searchOption = (String) request.getParameter("searchOption");
-                if (isSortedSearch.equals("on")) {
-                    if (!list1.isEmpty()) {
-                        if (searchOption.equals("quantityAsc")) {
-                            Collections.sort(list1, (e1, e2) -> {
-                                return e1.getQuantity() - e2.getQuantity();
-                            });
-                        } else {
-                            Collections.sort(list1, (e1, e2) -> {
-                                return e2.getQuantity() - e1.getQuantity();
-                            });
-                        }
-                    }
-                }
-                endPage = list1.size() / 10;
-                if (list1.size() % 10 != 0) {
-                    endPage++;
-                }
-                numberOfEntitiesInLastPage = list1.size() % 10;
-                if (page == endPage) {
-                    for (int i = 0 + 10 * (page - 1); i < (10 * page) - (10 - numberOfEntitiesInLastPage); i++) {
-                        list.add(list1.get(i));
-                    }
-                } else {
-                    for (int i = 0 + 10 * (page - 1); i < 10 * page; i++) {
-                        list.add(list1.get(i));
-                    }
-                }
-
                 request.setAttribute("searchValue", searchValue);
-                request.setAttribute("searchOption", searchOption);
                 break;
-            case "filter":
-                String filterOption = (String) request.getParameter("optionQuantity");
-                list1 = rService.getAllResource(userBlockId);
-
-                if (filterOption.equals("quantityAsc")) {
-                    Collections.sort(list1, (e1, e2) -> {
-                        return e1.getQuantity() - e2.getQuantity();
-                    });
-                } else {
-                    Collections.sort(list1, (e1, e2) -> {
-                        return e2.getQuantity() - e1.getQuantity();
-                    });
-                }
-                endPage = list1.size() / 10;
-                if (list1.size() % 10 != 0) {
-                    endPage++;
-                }
-                numberOfEntitiesInLastPage = list1.size() % 10;
-                if (page == endPage) {
-                    for (int i = 0 + 10 * (page - 1); i < (10 * page) - (10 - numberOfEntitiesInLastPage); i++) {
-                        list.add(list1.get(i));
-                    }
-                } else {
-                    for (int i = 0 + 10 * (page - 1); i < 10 * page; i++) {
-                        list.add(list1.get(i));
-                    }
-                }
-                request.setAttribute("optionQuantity", filterOption);
-                break;
-        }
-        endPage = list1.size() / 10;
-        //Lay tong so luong san pham trong db
-        if (list1.size() % 10 != 0) {
-            endPage++;
         }
 
         request.setAttribute("op", op);
-        request.setAttribute("page", page - 1);
-        request.setAttribute("list", list);
-        request.setAttribute("endP", endPage);
+        request.setAttribute("list", list1);
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
 
     }

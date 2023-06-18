@@ -12,20 +12,24 @@ import java.util.Date;
  */
 public class OrderHeaderRequest {
     private int id;
+    private int uid;
     private String residentName;
     private Date date;
     private String status;
+    private int eid;
     private String employeeName;
     private String note;
 
     public OrderHeaderRequest() {
     }
 
-    public OrderHeaderRequest(int id, String residentName, Date date, String status, String employeeName, String note) {
+    public OrderHeaderRequest(int id, int uid, String residentName, Date date, String status, int eid, String employeeName, String note) {
         this.id = id;
+        this.uid = uid;
         this.residentName = residentName;
         this.date = date;
         this.status = status;
+        this.eid = eid;
         this.employeeName = employeeName;
         this.note = note;
     }
@@ -36,6 +40,14 @@ public class OrderHeaderRequest {
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public int getUid(){
+        return uid;
+    }
+    
+    public void setUid(int uid){
+        this.uid = uid;
     }
 
     public String getResidentName() {
@@ -62,6 +74,14 @@ public class OrderHeaderRequest {
         this.status = status;
     }
 
+    public int getEid() {
+        return eid;
+    }
+
+    public void setEid(int eid) {
+        this.eid = eid;
+    }
+    
     public String getEmployeeName() {
         return employeeName;
     }

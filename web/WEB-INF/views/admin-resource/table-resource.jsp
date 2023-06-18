@@ -31,36 +31,21 @@
                         <input type="text" class="form-control" id="exampleInputEmail1" name = "txtSearch" value="${searchValue}" aria-describedby="emailHelp" placeholder="Enter resource name">
                     </div>
                     <br/>
-                    <input type="checkbox" name="isSortedSearch" id="isSortedSearch"/> Sorted by Quantity
-                    <br/>
-                    <select class="form-select" hidden id="sortedSearchOption" aria-label="Default select example" name="searchOption">
-                        <option ${searchOption=="quantityAsc"?"selected":""} value="quantityAsc">Order by quantity ascending</option>
-                        <option ${searchOption=="quantityDesc"?"selected":""} value="quantityDesc">Order by quantity descending</option>
-                    </select>
-                    <br/>
                     <button type="submit" class="btn btn-primary" name = "op" value="search">Search</button>
                 </form>
 
             </div>
-            <div class="card-header py-3 col-md-6">
-                <form class="pt-3">
-                    <select class="form-select" aria-label="Default select example" name="optionQuantity">
-                        <option ${optionQuantity=="quantityAsc"?"selected":""} value="quantityAsc">Order by quantity ascending</option>
-                        <option ${optionQuantity=="quantityDesc"?"selected":""} value="quantityDesc">Order by quantity descending</option>
-                    </select>
-                    <br/>
-                    <button type="submit" class="btn btn-primary" name = "op" value="filter">Filter</button>
-                </form>
-            </div>
             <div class="card-header py-3">
                 <a href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>" class="btn btn-primary">Reset table</a>
+                <a href="<c:url value="/admin-resource/add-resource.do"/>" class="btn btn-primary">Create</a>
+
             </div>
 
             <div class="card-body">
 
                 <div class="table-responsive">
                     ${message}
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-borderless datatable" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -88,22 +73,3 @@
     </div>
 </section>
 
-<nav aria-label="Page navigation example" class="col-lg-12" style="display: flex; justify-content: center">
-    <ul class="pagination">
-        <c:forEach var="i" begin="1" end="${endP}">
-            <li class="page-item"><a class="page-link" href="<c:url value="/admin-resource/table-resource.do?endP=${endP}&page=${i}&op=${op}&txtSearch=${searchValue}&optionQuantity=${optionQuantity}&searchOption=${searchOption}" />">${i}</a></li>
-            </c:forEach>
-    </ul>
-</nav>
-
-<script>
-    var checkbox = document.querySelector("input[name=isSortedSearch]");
-
-    checkbox.addEventListener('change', function () {
-        if (this.checked) {
-            document.getElementById("sortedSearchOption").hidden = false;
-        } else {
-            document.getElementById("sortedSearchOption").hidden = true;
-        }
-    });
-</script>

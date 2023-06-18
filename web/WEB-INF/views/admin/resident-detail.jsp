@@ -21,7 +21,7 @@
     <div class="card shadow mb-4">
         <div class="card-body mt-4">
             <div class="card-header py-3 mb-3">
-                <h6 class="m-0 font-weight-bold text-primary">Resident Detail</h6>
+                <h5 class="m-0 font-weight-bold text-primary">Resident Detail</h5>
             </div>
             <!-- Account details card-->
 
@@ -59,25 +59,23 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Room</label>
+                    <label for="Room" class="col-md-4 col-lg-3 col-form-label">Room</label>
                     <div class="col-md-8 col-lg-9">
                         <input name="room" type="text" class="form-control" id="Address" value="${u.room}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Block ID</label>
+                    <label for="BID" class="col-md-4 col-lg-3 col-form-label">Block</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="BID" type="text" class="form-control" id="Address" value="${u.BID}">
+                        <select name="bid" class="w-100 form-control">
+                            <c:forEach var="bl" items="${blockList}">
+                                <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Status</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="status" type="text" class="form-control" id="Address" value="${u.status}">
-                    </div>
-                </div>
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">

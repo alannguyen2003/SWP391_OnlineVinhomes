@@ -52,7 +52,12 @@
                                 <div class="form-group mb-3">
                                     <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
                                     <label class="label" style="color: #7b7d83;" for="bid">BLOCK ID</label>
-                                    <input type="number" class="form-control" name="bid" placeholder="Block ID" value="" required>
+                                    <br/>
+                                    <select name="bid" class="w-100 form-control">
+                                        <c:forEach var="bl" items="${blockList}">
+                                            <option value="${bl.BID}">${bl.name}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                                 
 

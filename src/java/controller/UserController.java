@@ -5,6 +5,7 @@
  */
 package controller;
 
+import entity.BlockVinEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,13 +20,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import entity.UserEntity;
 import repository.UserRepository;
-import entity.ResidentEntity;
-import entity.EmployeeEntity;
 import entity.ToastEntity;
+import java.util.List;
 import service.ResidentService;
-import service.EmployeeService;
 import org.apache.tomcat.jni.SSLContext;
 import service.GmailService;
+import service.BlockVinService;
+import service.RoleService;
 import service.UserService;
 
 /**
@@ -36,8 +37,9 @@ import service.UserService;
 public class UserController extends HttpServlet {
 
     private ResidentService residentService = new ResidentService();
-    private EmployeeService employeeService = new EmployeeService();
+    private RoleService roleService = new RoleService();
     private UserService userService = new UserService();
+    private BlockVinService blockVinService = new BlockVinService();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,6 +49,7 @@ public class UserController extends HttpServlet {
             String action = (String) request.getAttribute("action");
             HttpSession session = request.getSession();
             UserEntity user = (UserEntity) session.getAttribute("user");
+            List<BlockVinEntity> blockList = blockVinService.getAllBlock();
             switch (action) {
                 case "login":
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
@@ -58,6 +61,7 @@ public class UserController extends HttpServlet {
                     logout_handler(request, response);
                     break;
                 case "signup":
+                    request.setAttribute("blockList", blockList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
 
@@ -102,9 +106,13 @@ public class UserController extends HttpServlet {
                     if (user.getRoleID() == 1) {
                         user = userService.getUser(aid);
                         request.setAttribute("res", user);
+                        request.setAttribute("userBlockId", user.getBID());
+                        request.setAttribute("blockList", blockList);
                         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     } else {
                         admindashboard(request, response);
+                        request.setAttribute("blockList", blockList);
+                        request.setAttribute("activeTab", "profile");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                     }
 
@@ -191,7 +199,7 @@ public class UserController extends HttpServlet {
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    if (user.getRoleID() == 4 || user.getRoleID() == 3) {
+                    if (user.getRoleID() == 4 || user.getRoleID() == 3 || user.getRoleID() == 2) {
                         response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/home/index.do");
@@ -306,7 +314,7 @@ public class UserController extends HttpServlet {
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
         String aid = Integer.toString(user.getAID());
-        if (user.getRoleID() == 4 || user.getRoleID() == 3) {
+        if (user.getRoleID() == 4 || user.getRoleID() == 3 || user.getRoleID() == 2) {
             UserEntity entity;
             entity = userService.getUser(aid);
             request.setAttribute("user", entity);

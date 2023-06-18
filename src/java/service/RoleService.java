@@ -5,6 +5,7 @@
 package service;
 
 import entity.RoleEntity;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import repository.RoleRepository;
 
@@ -17,5 +18,9 @@ public class RoleService {
     
     public ArrayList<RoleEntity> getAllRole() throws Exception {
         return rp.getAllRole();
+    }
+    
+    public RoleEntity getRoleByRoleId(int bid) throws SQLException {
+        return rp.getRoleByRoleId(bid);
     }
 }

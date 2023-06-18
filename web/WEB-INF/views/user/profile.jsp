@@ -77,14 +77,8 @@
                     <c:if test="${user.roleID != 1}">
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-cash"></i></div>
-                            <label class="label">Your salary</label>
-                            <div class="card-subtitle mb-4"><fmt:formatNumber value="${emp.salary}" type="currency"/></div>
-                        </div>
-
-                        <div class="mb-4 form-group">
-                            <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-command"></i></div>
-                            <label class="label">Your Manager_ID</label>
-                            <div class="card-subtitle mb-4">${emp.manager_id}</div>
+                            <label class="label">Your Role</label>
+                            <div class="card-subtitle mb-4">${userRole}</div>
                         </div>
                     </c:if>
                 </div>
@@ -118,8 +112,12 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
-                                    <label class="label">Block ID</label>
-                                    <input class="w-100 form-control" name="bid" value="${user.BID}">
+                                    <label class="label">Block</label>
+                                    <select name="bid" class="w-100 form-control">
+                                        <c:forEach var="bl" items="${blockList}">
+                                            <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
                             <!-- Form Group (phone)-->

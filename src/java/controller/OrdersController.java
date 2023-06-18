@@ -22,6 +22,7 @@ import service.OrderService;
 public class OrdersController extends HttpServlet {
 
     private OrderService orderService = new OrderService();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -34,6 +35,7 @@ public class OrdersController extends HttpServlet {
                 case "myorder":
                     //Processing code here
                     int uId = Integer.parseInt(request.getParameter("aid"));
+                    System.out.println(uId);
                     List<MyOrderEntity> myOrderList = orderService.selectMyOrders(uId);
                     request.setAttribute("myOrderlist", myOrderList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);

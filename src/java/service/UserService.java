@@ -30,6 +30,7 @@ public class UserService {
 //    public void createAccount(String phone, String email, String password, String name, int blockId, int roleId) throws SQLException{
 //        userRepo.createAccount(phone, email, password, name, blockId, roleId);
 //    }
+    
     public ArrayList<UserEntity> getAllUser() throws Exception{
         return userRepo.getAllUser();
     }
@@ -37,6 +38,15 @@ public class UserService {
     public ArrayList<UserEntity> getAllUserByName(String name) throws Exception{
         return userRepo.getAllUserByName(name);
     }
+    
+    public ArrayList<String> getStatus() throws SQLException{
+        return userRepo.getStatus();
+    }
+    
+    public ArrayList<UserEntity> getEmployee() throws Exception {
+        return userRepo.getEmployee();
+    }
+    
     public String getUserForChart() throws SQLException {
         return userRepo.getTopUserJsArray();
     }

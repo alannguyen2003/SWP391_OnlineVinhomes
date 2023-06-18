@@ -5,6 +5,8 @@
 package controller;
 
 import entity.BlockVinEntity;
+import entity.EmployeeEntity;
+import entity.MyOrderEntity;
 import entity.UserEntity;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -74,8 +76,9 @@ public class AdminController extends HttpServlet {
         String action = (String) request.getAttribute("action");
         HttpSession adminSession = request.getSession(true);
         UserEntity user = (UserEntity) adminSession.getAttribute("user");
-        if (user != null && (user.getRoleID() == 4 || user.getRoleID() == 3)) {
+        if (user != null && (user.getRoleID() == 4 || user.getRoleID() == 3 || user.getRoleID() == 2)) {
             try {
+                List<BlockVinEntity> blockList = bs.getAllBlock();
                 switch (action) {
                     case "admin-dashboard":
                         load_Admindashboard(request, response);
@@ -88,6 +91,8 @@ public class AdminController extends HttpServlet {
                         int AID = Integer.parseInt(request.getParameter("AID"));
                         UserEntity u = rs.getOne(AID);
                         request.setAttribute("u", u);
+                        request.setAttribute("userBlockId", user.getBID());
+                        request.setAttribute("blockList", blockList);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "service-list":
@@ -129,6 +134,28 @@ public class AdminController extends HttpServlet {
                     case "order-list":
                         loadOrderList(request, response);
                         break;
+                    case "pending-order":
+                        loadOrderList(request, response);
+                        break;
+                    case "updateOrder":
+                        updateOrder(request, response);
+                        break;
+                    case "employee-order":
+                        loadEmployeeOrderList(request, response);
+                        break;
+                    case "order-detail":
+                        int OID = Integer.parseInt(request.getParameter("OID"));
+                        OrderHeaderEntity oh = os.getOne(OID);
+                        List<UserEntity> empList = us.getEmployee();
+                        List<String> statusList = us.getStatus();
+                        request.setAttribute("oh", oh);
+                        request.setAttribute("empList", empList);
+                        request.setAttribute("blockList", blockList);
+                        request.setAttribute("statusList", statusList);
+                        request.setAttribute("userBlockId", user.getBID());
+                        request.setAttribute("activeTab", "pendingOrder");
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -149,6 +176,7 @@ public class AdminController extends HttpServlet {
         List<SaleEntity> listSale = os.recentSale();
         List<SaleEntity> cateTra = os.cateTraffic();
         List<SaleEntity> topsell = os.topsell();
+        request.setAttribute("activeTab", "dashboard");
         request.setAttribute("list", orderList);
         request.setAttribute("count", count);
         request.setAttribute("income", revenue);
@@ -158,7 +186,7 @@ public class AdminController extends HttpServlet {
         request.setAttribute("topsell", topsell);
 
     }
-    
+
 //  ----------------------------------------
 //  Orders Function
 //  ----------------------------------------
@@ -185,7 +213,12 @@ public class AdminController extends HttpServlet {
                     break;
             }
             // Cắt danh sách dữ liệu theo phân trang            
-            request.setAttribute("activeTab", "order");
+
+            if (request.getAttribute("action").equals("pending-order")) {
+                request.setAttribute("activeTab", "pendingOrder");
+            } else {
+                request.setAttribute("activeTab", "order");
+            }
             request.setAttribute("op", op);
             request.setAttribute("list", list);
             request.setAttribute("totalPages", totalPages);
@@ -194,6 +227,54 @@ public class AdminController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    protected void loadEmployeeOrderList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        try {
+            String op = (String) request.getParameter("op");
+            String indexPage = request.getParameter("page");
+            HttpSession session = request.getSession();
+            int currentPage = 1;
+            if (indexPage != null) {
+                currentPage = Integer.parseInt(indexPage);
+            }
+            List<MyOrderEntity> empOrderList = new ArrayList<>();
+            int eId = Integer.parseInt(request.getParameter("AID"));
+            int totalItems = 0;
+            int totalPages = 0;
+            int pageSize = 10;
+            switch (op) {
+                case "getAll":
+                    
+                    empOrderList = os.selectEmployeeOrders(eId);
+                    // Calculate the total number of pages
+                    totalItems = empOrderList.size();
+                    totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                    break;
+            }
+            // Cắt danh sách dữ liệu theo phân trang            
+
+            request.setAttribute("activeTab", "employeeOrder");
+            request.setAttribute("op", op);
+            request.setAttribute("empOrderList", empOrderList);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", currentPage);
+            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void updateOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int orderId = Integer.parseInt(request.getParameter("OID"));
+        String status = request.getParameter("status");
+        int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+        os.updateStatus(orderId, employeeId, status);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/order-detail.do?OID=" + orderId).forward(request, response);
+
     }
 
 //  ----------------------------------------
@@ -423,7 +504,7 @@ public class AdminController extends HttpServlet {
         }
         return searchResults;
     }
-    
+
     private ArrayList<OrderHeaderRequest> paginateListOrders(ArrayList<OrderHeaderRequest> list, int currentPage, int pageSize) {
         int startIndex = (currentPage - 1) * pageSize;
         int endIndex = Math.min(startIndex + pageSize, list.size());
@@ -446,7 +527,7 @@ public class AdminController extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/resident-detail.do?AID=" + AID).forward(request, response);
     }
-    
+
     protected void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String room = request.getParameter("room");
         int BID = Integer.parseInt(request.getParameter("BID"));
@@ -819,14 +900,14 @@ public class AdminController extends HttpServlet {
         int endIndex = Math.min(startIndex + pageSize, list.size());
         return list.subList(startIndex, endIndex);
     }
-    
+
     private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String aid = request.getParameter("AID");
 
-        UserEntity user = us.getUser(aid); 
-       
+        UserEntity user = us.getUser(aid);
+
         request.setAttribute("u", user);
-        
+
     }
 
     //é đù ăng seng //m quay ha
