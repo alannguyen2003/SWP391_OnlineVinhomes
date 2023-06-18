@@ -904,8 +904,8 @@ public class AdminController extends HttpServlet {
     private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String aid = request.getParameter("AID");
 
-        UserEntity user = us.getUser(aid);
-
+        UserEntity user = us.getUser(Integer.parseInt(aid)); 
+       
         request.setAttribute("u", user);
 
     }

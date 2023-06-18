@@ -30,7 +30,6 @@
                     <!-- General Form Elements -->
                     <form id="addResourceForm" action="<c:url value="/admin-resource/add-resource-handler.do"/>">
                         <input type="text" hidden name="blockId" value="${block.BID}"/>
-                        <input type="text" hidden name="resourceId" value="${resource.id}"/>
                         <div class="row mb-3">
                             <label for="inputText" class="col-sm-2 col-form-label" >Block Name</label>
                             <div class="col-sm-10">
@@ -40,7 +39,7 @@
                         <div class="row mb-3">
                             <label for="resource" class="col-sm-2 col-form-label" >Resource Name</label>
                             <div class="col-sm-10">
-                                <select ${requestScope.listResource!=null?"":"disabled"} name="resource" id="resource" class="form-select" aria-label="Default select example">
+                                <select ${requestScope.listResource!=null?"":"disabled"} name="resourceId" id="resource" class="form-select" aria-label="Default select example">
                                     <c:forEach var="resource" items="${listResource}">
                                         <option value="${resource.id}">${resource.name}</option>
                                     </c:forEach>

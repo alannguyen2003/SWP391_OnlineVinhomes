@@ -5,6 +5,7 @@
  */
 package controller;
 
+import Utils.Hasher;
 import entity.BlockVinEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,23 +76,25 @@ public class UserController extends HttpServlet {
                     String password = request.getParameter("password");
                     String newPassword = request.getParameter("newPassword");
                     String confirmPassword = request.getParameter("confirmPassword");
-
-                    if (!user.getPassword().equals(password)) {
-                        if (newPassword != null) {
-                            message = "Current password does not correct!";
-                            toast = new ToastEntity("Current password does not correct!", "failed");
+                    if (password != null) {
+                        if (!user.getPassword().equals(Hasher.doHashing(password, userService.getUserSalt(user.getEmail())))) {
+                            if (newPassword != null) {
+                                message = "Current password does not correct!";
+                                toast = new ToastEntity("Current password does not correct!", "failed");
+                            }
+                        } else if (!newPassword.equals(confirmPassword)) {
+                            message = "Confirmation is differ from new password";
+                            toast = new ToastEntity("Confirmation is differ from new password", "failed");
+                        } else {
+                            String aid = Integer.toString(user.getAID());
+                            userService.changePass(aid, newPassword);
+                            user.setPassword(Hasher.doHashing(newPassword, userService.getUserSalt(user.getEmail())));
+                            session.setAttribute("user", user);
+                            message = "Changed password successfully";
+                            toast = new ToastEntity("Changed password successfully", "success");
                         }
-                    } else if (!newPassword.equals(confirmPassword)) {
-                        message = "Confirmation is differ from new password";
-                        toast = new ToastEntity("Confirmation is differ from new password", "failed");
-                    } else {
-                        String aid = Integer.toString(user.getAID());
-                        userService.changePass(aid, newPassword);
-                        user.setPassword(newPassword);
-                        session.setAttribute("user", user);
-                        message = "Changed password successfully";
-                        toast = new ToastEntity("Changed password successfully", "success");
                     }
+
                     if (message != null) {
                         request.setAttribute("message", message);
                     }
@@ -102,9 +105,8 @@ public class UserController extends HttpServlet {
                 break;
                 case "profile":
                     try {
-                    String aid = Integer.toString(user.getAID());
                     if (user.getRoleID() == 1) {
-                        user = userService.getUser(aid);
+                        user = userService.getUser(user.getAID());
                         request.setAttribute("res", user);
                         request.setAttribute("userBlockId", user.getBID());
                         request.setAttribute("blockList", blockList);
@@ -154,7 +156,7 @@ public class UserController extends HttpServlet {
             GmailService gs = new GmailService();
             boolean validateEmail = gs.isValidEmail(email);
             boolean check = userService.addNewResident(entity);
-//            if (validateEmail) {
+            if (validateEmail) {
                 if (check) {
                     request.setAttribute("message", "Please login again.");
                     request.getRequestDispatcher("/user/login.do").forward(request, response);
@@ -162,10 +164,11 @@ public class UserController extends HttpServlet {
                     request.setAttribute("message", "Email exist, please try again.");
                     request.getRequestDispatcher("/user/signup.do").forward(request, response);
                 }
-//            }else{
-//                request.setAttribute("message", "Invalid email.");
-//                request.getRequestDispatcher("/user/signup.do").forward(request, response);
-//            }
+
+            } else {
+                request.setAttribute("message", "Invalid email.");
+                request.getRequestDispatcher("/user/signup.do").forward(request, response);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -293,7 +296,7 @@ public class UserController extends HttpServlet {
                 userService.updateInfo(name, gender, bid, phone, id);
 
                 HttpSession session = request.getSession();
-                UserEntity user = userService.getUser(id + "");
+                UserEntity user = userService.getUser(id);
                 session.setAttribute("user", user);
                 // Lưu thông tin vào session
                 response.sendRedirect(request.getContextPath() + "/user/profile.do?AID=" + id);
@@ -313,10 +316,12 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
-        String aid = Integer.toString(user.getAID());
         if (user.getRoleID() == 4 || user.getRoleID() == 3 || user.getRoleID() == 2) {
             UserEntity entity;
-            entity = userService.getUser(aid);
+            entity = userService.getUser(user.getAID());
+            request.setAttribute("userRole", roleService.getRoleByRoleId(entity.getRoleID()).getName());
+            request.setAttribute("userBlockId", entity.getBID());
+
             request.setAttribute("user", entity);
         } else {
             response.sendRedirect(request.getContextPath() + "/user/login.do");
