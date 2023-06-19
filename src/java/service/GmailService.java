@@ -59,7 +59,7 @@ public class GmailService {
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, GsonFactory jsonFactory)
             throws IOException {
         // Load client secrets.
-        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\FPTU2022_2025\\SECOND YEAR\\SUMMER2023\\SWP391\\Project\\SWP391_OnlineVinhomes\\SWP391_OnlineVinhomes\\client_secret_483758738967-ft14o2oc0j25n8g1n59hte79uebr822n.apps.googleusercontent.com.json"));
+        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\Semester 5\\SWP391\\SWP391_OnlineVinhomes\\client_secret_483758738967-ft14o2oc0j25n8g1n59hte79uebr822n.apps.googleusercontent.com.json"));
         GoogleClientSecrets clientSecrets
                 = GoogleClientSecrets.load(jsonFactory, clientSecretReader);
 

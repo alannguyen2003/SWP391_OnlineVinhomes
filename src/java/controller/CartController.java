@@ -62,6 +62,9 @@ public class CartController extends HttpServlet {
                     removeFromCart(request, response);
                     break;
                 case "cart-contact":
+                    HttpSession session = request.getSession();
+                    CartEntity cartEntity = (CartEntity) session.getAttribute("cart");
+                    System.out.println(cartEntity);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "cart-completion":
