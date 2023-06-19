@@ -7,6 +7,7 @@ package controller;
 import entity.BlockVinEntity;
 import entity.EmployeeEntity;
 import entity.MyOrderEntity;
+import entity.OrderDetailEntity;
 import entity.UserEntity;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -25,11 +26,13 @@ import entity.SaleEntity;
 import entity.ServiceEntity;
 import entity.SupplierEntity;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import payload.request.OrderHeaderRequest;
+import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
 import service.RoleService;
@@ -79,6 +82,7 @@ public class AdminController extends HttpServlet {
         if (user != null && (user.getRoleID() == 4 || user.getRoleID() == 3 || user.getRoleID() == 2)) {
             try {
                 List<BlockVinEntity> blockList = bs.getAllBlock();
+                int OID = 0;
                 switch (action) {
                     case "admin-dashboard":
                         load_Admindashboard(request, response);
@@ -143,8 +147,8 @@ public class AdminController extends HttpServlet {
                     case "employee-order":
                         loadEmployeeOrderList(request, response);
                         break;
-                    case "order-detail":
-                        int OID = Integer.parseInt(request.getParameter("OID"));
+                    case "add-employee-order":
+                        OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
                         List<UserEntity> empList = us.getEmployee();
                         List<String> statusList = us.getStatus();
@@ -153,9 +157,22 @@ public class AdminController extends HttpServlet {
                         request.setAttribute("blockList", blockList);
                         request.setAttribute("statusList", statusList);
                         request.setAttribute("userBlockId", user.getBID());
+                        request.setAttribute("OID", OID);
                         request.setAttribute("activeTab", "pendingOrder");
+                        request.setAttribute("activation", "add-employee-order");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
+                    
+                    case "add-price-order":
+                        OID = Integer.parseInt(request.getParameter("OID"));
+                        List<UpdateOrderServicePriceRequest> list = os.selectOrderDetailWithNameService(OID);
+                        request.setAttribute("list", list);
+                        request.setAttribute("OID", OID);
+                        request.setAttribute("activeTab", "pendingOrder");
+                        request.setAttribute("activation", "add-price-order");
+                        request.getRequestDispatcher("WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -246,7 +263,7 @@ public class AdminController extends HttpServlet {
             int pageSize = 10;
             switch (op) {
                 case "getAll":
-                    
+
                     empOrderList = os.selectEmployeeOrders(eId);
                     // Calculate the total number of pages
                     totalItems = empOrderList.size();
@@ -904,8 +921,8 @@ public class AdminController extends HttpServlet {
     private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String aid = request.getParameter("AID");
 
-        UserEntity user = us.getUser(Integer.parseInt(aid)); 
-       
+        UserEntity user = us.getUser(Integer.parseInt(aid));
+
         request.setAttribute("u", user);
 
     }

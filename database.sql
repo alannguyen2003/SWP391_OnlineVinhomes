@@ -119,9 +119,12 @@ CREATE TABLE [dbo].[OrderDetail](
 	[orderHeader_id] [int] references Orders(OID) NOT NULL,
 	[service_id] [int] references dbo.Service(service_id) NOT NULL,
 	[category_id] [INT] NOT NULL,
-	[price] [int] NOT NULL
+	[price] [int]
 )
+GO
 
+ALTER TABLE Account ADD salt nvarchar(50);
+GO
 
 alter table BlockResource 
 	add foreign key (BID) references BlockVin(BID),
@@ -136,9 +139,10 @@ alter table Feedback
 alter table ServiceResourceNeeded
 	add foreign key (SID) references Service(service_id),
 	foreign key (RID) references Resource(RID)
+GO
 
 insert into Role(role_name) values 
-('Resident'), ('Employee'), ('Manager'), ('Admin')
+('Resident'), ('None'), ('Employee'), ('Admin')
 
 insert into Category(name) values 
 ('Cleaning'), ('Maintenance'), ('Security'), ('Pest Control')
@@ -193,9 +197,12 @@ insert into Account(email, phone, password, name, BID, roleId, room) values
 ('sarachen@email.com', '0956789012', '123456',N'Sara Chen', 3, 3, 'MA03B0156'),
 ('tomchen@email.com', '0912345678', '123456',N'Tom Chen', 2, 3, 'MA03B0156'),
 ('nguyenvanan@email.com', '0912345678', '123456',N'Nguyễn Văn An', 7, 3, 'MA03B0156'),
-('buihuong@email.com', '0987654321', '123456', N'Bùi Thị Hương',6,3, 'MA03B0156'),
-('employee01@email.com', '0912345121','123456', N'Faker', 2, 2, 'MA03B0156'),
-('employee02@email.com', '0912345141','123456', N'Gumayusi', 2, 2, 'MA03B0156'),
+('buihuong@email.com', '0987654321', '123456', N'Bùi Thị Hương', 6, 3, 'MA03B0156'),
+('johnsmith@gmail.com', '0901234567', '123456', N'John Smith', 4, 2, 'MA01A0123'),
+('sarahjohnson@gmail.com', '0912345678', '123456', N'Sarah Johnson', 7, 2, 'MA02B0345'),
+('davidmiller@gmail.com', '0923456789', '123456', N'David Miller', 2, 2, 'MA03C0567'),
+('emilydavis@gmail.com', '0934567890', '123456', N'Emily Davis', 10, 2, 'MA01A0123'),
+('michaelwilson@gmail.com', '0945678901', '123456', N'Michael Wilson', 6, 2, 'MA02B0345'),
 ('thu1@gmail.com', '0987654321', '123456',N'Nguyễn Thị Thu', 3, 1, 'MA03B0156'),
 ('tung@gmail.com', '0912345678', '123456', N'Trần Thanh Tùng', 2, 1, 'OR11B0332'),
 ('tuan@gmail.com','0934567890', '123456',N'Vũ Anh Tuấn',3, 1, 'GP14B2073'),
@@ -320,7 +327,7 @@ VALUES
 	GO
 
 INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) 
-VALUES 
+VALUES
 (1, 3, 2, 120),
 (1, 2, 1, 70),
 (1, 5, 3, 150),
@@ -345,7 +352,11 @@ VALUES
 
 (16, 12, 1, 100),
 (16, 5, 3, 200),
-(16, 15, 3, 200)
+(16, 15, 3, 200),
+
+(36, 3, 2, 120),
+(36, 2, 1, 70),
+(36, 5, 3, 150)
 GO
 
 SET NOCOUNT OFF

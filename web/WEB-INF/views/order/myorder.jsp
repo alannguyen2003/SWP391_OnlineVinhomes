@@ -83,7 +83,9 @@
                                             <c:if test="${fo.oh.status != 'Pending'}">
                                             <div class="col"><span class="bage bage-${fo.oh.status == "Completed" ? "success" : "danger"}">${fo.oh.status}</span></div>
                                             </c:if>
-                                        <div class="col"><strong><fmt:formatNumber value="${fo.total}" type="currency" /></strong></div>
+                                            <c:if test="${fo.total != 0}">
+                                            <div class="col"><strong><fmt:formatNumber value="${fo.total}" type="currency" /></strong></div>
+                                                </c:if>
                                         <div class="toggle-button" data-toggle="collapse1" data-target="#demo-${fo.oh.id}"><i class="fa fa-chevron-down"></i></div>
                                     </div>
                                 </div>
@@ -109,10 +111,13 @@
                                                             <h6 style="font-size: 19px; height: 100%">${od.value}</h6>
                                                         </div>
                                                     </td>
-                                                    <td style="padding-left: 25rem" class="cart__price"><fmt:formatNumber value="${od.key.price}" type="currency" /></td>
+                                                    <c:if test="${od.key.price != 0}">
+                                                        <td style="padding-left: 25rem" class="cart__price"><fmt:formatNumber value="${od.key.price}" type="currency" /></td>
+                                                    </c:if>
+
                                                 </tr>
                                             </c:forEach>
-                                        
+
                                         </tbody>
                                     </table>
                                     <div style="text-align: right;">
