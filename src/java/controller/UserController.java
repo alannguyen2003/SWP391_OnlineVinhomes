@@ -115,6 +115,8 @@ public class UserController extends HttpServlet {
                         admindashboard(request, response);
                         request.setAttribute("blockList", blockList);
                         request.setAttribute("activeTab", "profile");
+                        request.setAttribute("controller", "admin");
+                        request.setAttribute("action", "admin-profile");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                     }
 

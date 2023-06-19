@@ -19,11 +19,12 @@
 
 <div class="col-xl-8">
     <div class="card shadow mb-4">
-        <div class="card-body mt-4">
-            <div class="card-header py-3 mb-3">
-                <h5 class="m-0 font-weight-bold text-primary">Order Details</h5>
-            </div>
-            <!-- Account details card-->
+        <div class="card-body mt-4" style="margin-bottom: 2rem">
+            <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">
+                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-employee-order.do?OID=${OID}' />" class="${activation == 'add-employee-order' ? 'active' : ''}"><i class="bi bi-person-fill-add"></i><span>Add Employee</span></a></li>
+                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-price-order.do?OID=${OID}' />" class="${activation == 'add-price-order' ? 'active' : ''}"><i class="bi bi-cash-coin"></i><span>Add Price</span></a></li>
+            </ul>
+
 
             <form action="<c:url value="/admin/updateOrder.do" />" method="post">
                 <div class="row mb-3">
@@ -54,7 +55,7 @@
                 <div class="row mb-3">
                     <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
                     <div class="col-md-8 col-lg-9">
-                        <select name="status" class="w-100 form-control">
+                        <select name="status" class="w-100 form-control"> 
                             <c:forEach var="status" items="${statusList}">
                                 <option value="${status}" ${status == oh.status ? "selected" : ""}>${status}</option>
                             </c:forEach>
@@ -85,7 +86,7 @@
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
-                        <input id="updateOrder" type="submit" name="op" value="" hidden>
+                        <input id="updateOrder" type="submit" name="op" value="update" hidden>
                     </div>
                 </div>
             </form>
@@ -105,16 +106,8 @@
             <div class="modal-body">Select "Update" below if you are ready to update this order.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a id="updateOrderLink" onclick="updateOrder()" class="btn btn-primary"/>Update</a>
+                <a class="btn btn-success" href="<c:url value="/cart/cart-completion.do"/>">Yes</a>
             </div>
         </div>
     </div>
 </div>   
-<script>
-    function updateOrder() {
-        var form = document.getElementById("updateOrderForm");
-        var submitOp = document.getElementById("updateOrder");
-        submitOp.value = 'update';
-        submitOp.click();
-    }
-</script>

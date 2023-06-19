@@ -196,8 +196,9 @@ public class CartController extends HttpServlet {
             HttpSession session = request.getSession();
             CartEntity cart = (CartEntity) session.getAttribute("cart");
             UserEntity user = (UserEntity) session.getAttribute("user");
+            String note = request.getParameter("note");
             OrderService oService = new OrderService();
-            oService.addOrder(user, cart);
+            oService.addOrder(user, cart, note);
             String itemNeeded = "";
             ServiceService sService = new ServiceService();
             SupplierService supService = new SupplierService();

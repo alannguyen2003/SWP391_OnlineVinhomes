@@ -19,18 +19,8 @@
 </div><!-- End Page Title -->
 <section class="section">
     <div class="row">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Orders Tables</h6>
-            </div>
-            <div class="row">
-                <div class="card-header py-3">
-
-
-                </div>
-            </div>
             <div class="card shadow mb-4">
-                <div class="card-body">
+                <div class="card-body" style="margin-bottom: 0px;">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
@@ -58,7 +48,7 @@
                                             <td><span class="bage bage-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span></td>
                                             </c:if>
                                         <td>${o.note}</td>
-                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/resident-detail.do?AID=${o.uid}"/>">View <i class="bi bi-gear"></i></a></td>
+                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/add-employee-order.do?OID=${o.id}"/>">View <i class="bi bi-gear"></i></a></td>
                                     </tr>
                                 </tbody>
                             </c:forEach>
@@ -67,7 +57,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </section>
 
 <nav>

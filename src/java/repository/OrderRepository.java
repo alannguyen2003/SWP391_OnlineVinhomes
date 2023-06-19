@@ -24,10 +24,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import payload.request.EmployeeOrderRequest;
 import payload.request.OrderHeaderRequest;
+import payload.request.UpdateOrderServicePriceRequest;
 import service.UserService;
 
 public class OrderRepository {
-
+    
     public List<RevenueEntity> getRevenue(String datePart, String[] timeSelect) throws SQLException {
         List<RevenueEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -48,7 +49,7 @@ public class OrderRepository {
                         timeSelect[0], timeSelect[1]);
                 break;
         }
-
+        
         Statement stm = con.createStatement(); //Thực thi lệnh sql
 
         ResultSet rs = stm.executeQuery(sql);
@@ -58,11 +59,11 @@ public class OrderRepository {
         }
         return list;
     }
-
+    
     public List<OrderHeaderEntity> selectAll() throws SQLException {
         List<OrderHeaderEntity> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select * from Orders order by OID desc");
         list = new ArrayList<>();
@@ -79,10 +80,10 @@ public class OrderRepository {
         con.close();
         return list;
     }
-
+    
     public OrderHeaderEntity getOne(int id) throws SQLException {
         OrderHeaderEntity order = new OrderHeaderEntity();
-
+        
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("SELECT * FROM Orders WHERE OID = ?");
         pstm.setInt(1, id);
@@ -101,7 +102,7 @@ public class OrderRepository {
     
     public OrderHeaderEntity getOrderEmployee(int id) throws SQLException {
         OrderHeaderEntity order = new OrderHeaderEntity();
-
+        
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("SELECT * FROM Orders WHERE EID = ?");
         pstm.setInt(1, id);
@@ -117,11 +118,11 @@ public class OrderRepository {
         con.close();
         return order;
     }
-
+    
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         List<MyOrderEntity> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         PreparedStatement stm = con.prepareStatement("select * from Orders where UID = ? order by OID ASC");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
@@ -134,9 +135,9 @@ public class OrderRepository {
             oh.setEmployeeId(rs.getInt("EID"));
             oh.setStatus(rs.getString("status"));
             oh.setNote(rs.getString("note"));
-
+            
             HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithName(rs.getInt("OID"));
-
+            
             MyOrderEntity fo = new MyOrderEntity(oh, map);
             list.add(fo);
         }
@@ -147,7 +148,7 @@ public class OrderRepository {
     public List<MyOrderEntity> selectEmployeeOrders(int id) throws SQLException {
         List<MyOrderEntity> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         PreparedStatement stm = con.prepareStatement("select * from Orders where EID = ? order by OID ASC");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
@@ -160,9 +161,9 @@ public class OrderRepository {
             oh.setEmployeeId(rs.getInt("EID"));
             oh.setStatus(rs.getString("status"));
             oh.setNote(rs.getString("note"));
-
+            
             HashMap<OrderDetailEntity, String> map = this.selectEmployeeOrderlWithName(rs.getInt("OID"));
-
+            
             MyOrderEntity fo = new MyOrderEntity(oh, map);
             list.add(fo);
         }
@@ -173,7 +174,7 @@ public class OrderRepository {
     public List<OrderDetailEntity> selectEmployeeOrderDetail(int id) throws SQLException {
         List<OrderDetailEntity> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         PreparedStatement stm = con.prepareStatement("select * from OrderDetail where orderheader_id = ? ");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
@@ -194,7 +195,7 @@ public class OrderRepository {
     public HashMap<OrderDetailEntity, String> selectEmployeeOrderlWithName(int orderHeaderId) throws SQLException {
         HashMap<OrderDetailEntity, String> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         PreparedStatement stm = con.prepareStatement("select od.*, a.[name]  from Orders o, OrderDetail od, account a where  o.OID = od.orderHeader_id and a.AID = o.EID  and od.orderHeader_id = ?");
         stm.setInt(1, orderHeaderId);
         ResultSet rs = stm.executeQuery();
@@ -212,11 +213,11 @@ public class OrderRepository {
         con.close();
         return list;
     }
-
+    
     public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
         List<OrderDetailEntity> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         PreparedStatement stm = con.prepareStatement("select * from OrderDetail where orderheader_id = ? ");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
@@ -233,11 +234,34 @@ public class OrderRepository {
         con.close();
         return list;
     }
-
+    
+    public List<UpdateOrderServicePriceRequest> selectOrderDetailWithNameService(int OID) throws SQLException {
+        List<UpdateOrderServicePriceRequest> list = new ArrayList<>();
+        
+        Connection con = DBConfig.getConnection();
+        
+        PreparedStatement stm = con.prepareStatement(" select o.service_id, s.name, s.lower_price, s.upper_price \n"
+                                                     + "FROM OrderDetail o INNER JOIN dbo.Service s\n"
+                                                     + "ON s.service_id = o.service_id \n"
+                                                     + "WHERE orderheader_id = ?");
+        stm.setInt(1, OID);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()){
+            UpdateOrderServicePriceRequest osr = new UpdateOrderServicePriceRequest();
+            osr.setServiceID(rs.getInt(1));
+            osr.setName(rs.getString(2));
+            osr.setMinPrice(rs.getInt(3));
+            osr.setMaxPrice(rs.getInt(4));
+            
+            list.add(osr);
+        }
+        return list;
+    }
+    
     public HashMap<OrderDetailEntity, String> selectOrderDetailWithName(int orderHeaderId) throws SQLException {
         HashMap<OrderDetailEntity, String> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         PreparedStatement stm = con.prepareStatement("select o.*, s.[name]\n"
                 + "from orderdetail o, service s\n"
                 + "where o.orderHeader_Id = ? and o.service_Id = s.service_id");
@@ -247,7 +271,7 @@ public class OrderRepository {
         while (rs.next()) {
             OrderDetailEntity od = new OrderDetailEntity();
             od.setId(rs.getInt("id"));
-
+            
             od.setOrderHeaderId(rs.getInt("orderHeader_id"));
             od.setServiceId(rs.getInt("service_id"));
             od.setCategoryId(rs.getInt("category_id"));
@@ -258,7 +282,7 @@ public class OrderRepository {
         con.close();
         return list;
     }
-
+    
     public void updateStatus(int oId, int eId, String status) throws SQLException {
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("update Orders set EID = ?, status = ? where OID = ?");
@@ -266,14 +290,14 @@ public class OrderRepository {
         pstm.setString(2, status);
         pstm.setInt(3, oId);
         int count = pstm.executeUpdate();
-
+        
         con.close();
     }
-
+    
     public List<SaleEntity> recentOrder() throws SQLException {
         List<SaleEntity> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select top 5 Orders.OID, Orders.time, Orders.status, Service.name from Orders \n"
                 + "left join OrderDetail on Orders.OID = OrderDetail.orderHeader_id \n"
@@ -291,51 +315,51 @@ public class OrderRepository {
         con.close();
         return list;
     }
-
+    
     public int completeOrder() throws SQLException {
         int count = 0;
         Connection con = DBConfig.getConnection();
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select count (orders.OID) as CountOrders from Orders where orders.status = 'Completed'");
-
+        
         while (rs.next()) {
             count = rs.getInt(1);
         }
         con.close();
         return count;
     }
-
+    
     public int Revenue() throws SQLException {
         int rev = 0;
         Connection con = DBConfig.getConnection();
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select sum(OrderDetail.price) "
                 + "as Revenue from OrderDetail left join Orders on OrderDetail.orderHeader_Id = Orders.OID where Orders.status='Completed'");
-
+        
         while (rs.next()) {
             rev = rs.getInt(1);
         }
         con.close();
         return rev;
     }
-
+    
     public int countAcc() throws SQLException {
         int count = 0;
         Connection con = DBConfig.getConnection();
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select count (Account.AID) as accCount from Account where roleId = '1'");
-
+        
         while (rs.next()) {
             count = rs.getInt(1);
         }
         con.close();
         return count;
     }
-
+    
     public List<SaleEntity> recentSale() throws SQLException {
         List list = null;
         Connection con = DBConfig.getConnection();
-
+        
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select Orders.OID, Account.name, Service.name, OrderDetail.price, Orders.status \n"
                 + "	from Orders left join Account on Orders.UID = Account.AID  \n"
@@ -349,17 +373,17 @@ public class OrderRepository {
             sa.setServicename(rs.getString(3));
             sa.setPrice(rs.getDouble(4));
             sa.setStatus(rs.getString(5));
-
+            
             list.add(sa);
         }
         con.close();
         return list;
     }
-
+    
     public List<SaleEntity> cateTraffic() throws SQLException {
         List list = null;
         Connection con = DBConfig.getConnection();
-
+        
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select Category.name, COUNT(OrderDetail.category_Id) "
                 + "as CountService from OrderDetail "
@@ -370,17 +394,17 @@ public class OrderRepository {
             SaleEntity sa = new SaleEntity();
             sa.setCatename(rs.getString(1));
             sa.setCountcate(rs.getInt(2));
-
+            
             list.add(sa);
         }
         con.close();
         return list;
     }
-
+    
     public List<SaleEntity> topsell() throws SQLException {
         List<SaleEntity> list = null;
         Connection con = DBConfig.getConnection();
-
+        
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select top 5 Orders.OID, Service.name, OrderDetail.price ,COUNT(service.service_id) as Sold, Sum(OrderDetail.price) as Revenue\n"
                 + "from Orders left join OrderDetail ON Orders.OID = OrderDetail.orderHeader_id \n"
@@ -450,12 +474,12 @@ public class OrderRepository {
         }
         return result;
     }
-
+    
     public String getJsMonthArray(List<Integer> l) {
         String result = "";
-
+        
         String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-
+        
         for (int i = 0; i < l.size(); i++) {
             if (i == 0) {
                 result += "['" + months[l.get(i) - 1] + "',";
@@ -467,7 +491,7 @@ public class OrderRepository {
         }
         return result;
     }
-
+    
     public List<Double> getTotalMoneyInMonth() {
         List<Double> l = new ArrayList<Double>();
         for (int i = 0; i < 12; i++) {
@@ -496,10 +520,10 @@ public class OrderRepository {
         }
         return result;
     }
-
+    
     public String getJsTotalMoneyArray(List<Double> l) {
         String result = "";
-
+        
         for (int i = 0; i < l.size(); i++) {
             if (l.get(i) != 0.0) {
                 if (i == 0) {
@@ -513,7 +537,7 @@ public class OrderRepository {
         }
         return result;
     }
-
+    
     public int getTotalMoneyOfOrder(int oId) throws SQLException {
         String query = "select SUM(od.price) as totalMoney from Orders as o join OrderDetail as od on o.OID = od.orderHeader_Id where o.OID = ? and o.status = 'Completed'";
         int result = 0;
@@ -524,20 +548,20 @@ public class OrderRepository {
         if (rs.next()) {
             result += rs.getInt("totalMoney");
         }
-
+        
         return result;
     }
-
-    public void addOrder(UserEntity user, CartEntity cart) throws SQLException {
+    
+    public void addOrder(UserEntity user, CartEntity cart, String note) throws SQLException {
         LocalDate curDate = java.time.LocalDate.now();
         String date = curDate.toString();
         UserService uService = new UserService();
         Connection con = DBConfig.getConnection();
-        String sql = "insert into Orders values(?, 'Pending',?, ?, null)";
+        String sql = "insert into Orders values(?, 'Pending',?, null, ?)";
         PreparedStatement stm = con.prepareStatement(sql);
         stm.setString(1, date);
         stm.setInt(2, user.getAID());
-        stm.setInt(3, uService.getManagerOfBlock(user.getBID()).getAID());
+        stm.setString(3, note);
         stm.executeUpdate();
         String sql1 = "select top 1 oid from Orders order by oid desc";
         PreparedStatement stm1 = con.prepareStatement(sql1);
@@ -545,19 +569,18 @@ public class OrderRepository {
         while (rs.next()) {
             int oid = rs.getInt("oid");
             for (ItemEntity item : cart.getItems()) {
-                String sql2 = "insert into OrderDetail values(?, ?, ?, ?)";
+                String sql2 = "insert into OrderDetail values(?, ?, ?, null)";
                 PreparedStatement stm2 = con.prepareStatement(sql2);
                 stm2.setInt(1, oid);
                 stm2.setInt(2, item.getService().getServiceID());
                 stm2.setInt(3, item.getService().getCategoryID());
-                stm2.setDouble(4, ((item.getLowerPrice() + item.getUpperPrice()) / 2));
                 stm2.executeUpdate();
             }
         }
         con.close();
-
+        
     }
-
+    
     public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
         ArrayList<OrderHeaderRequest> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
@@ -584,7 +607,7 @@ public class OrderRepository {
         }
         return list;
     }
-
+    
     public ArrayList<EmployeeOrderRequest> getEmployeeListForOrderList() throws Exception {
         ArrayList<EmployeeOrderRequest> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
@@ -607,7 +630,7 @@ public class OrderRepository {
         }
         return list;
     }
-
+    
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
         for (EmployeeOrderRequest request : op.getEmployeeListForOrderList()) {
