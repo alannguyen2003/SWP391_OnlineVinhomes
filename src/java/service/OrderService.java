@@ -64,7 +64,10 @@ public class OrderService {
     public void updateStatus(int oId, int eId, String status) throws SQLException {
         orderRepository.updateStatus(oId, eId, status);
     }
-
+    
+    public void updatePrice(int id, double price) throws SQLException {
+        orderRepository.updatePrice(id, price);
+    }
     
     public List<SaleEntity> recentOrder() throws SQLException {
         return orderRepository.recentOrder();
@@ -118,8 +121,6 @@ public class OrderService {
     
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();
-        for (MyOrderEntity entity : orderService.selectEmployeeOrders(12)) {
-            System.out.println(entity);
-        }
+        orderService.updatePrice(25, 70);
     }
 }

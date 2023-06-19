@@ -240,7 +240,7 @@ public class OrderRepository {
         
         Connection con = DBConfig.getConnection();
         
-        PreparedStatement stm = con.prepareStatement(" select o.service_id, s.name, s.lower_price, s.upper_price \n"
+        PreparedStatement stm = con.prepareStatement(" select o.id, o.service_id, s.name, s.lower_price, s.upper_price \n"
                                                      + "FROM OrderDetail o INNER JOIN dbo.Service s\n"
                                                      + "ON s.service_id = o.service_id \n"
                                                      + "WHERE orderheader_id = ?");
@@ -248,10 +248,11 @@ public class OrderRepository {
         ResultSet rs = stm.executeQuery();
         while (rs.next()){
             UpdateOrderServicePriceRequest osr = new UpdateOrderServicePriceRequest();
-            osr.setServiceID(rs.getInt(1));
-            osr.setName(rs.getString(2));
-            osr.setMinPrice(rs.getInt(3));
-            osr.setMaxPrice(rs.getInt(4));
+            osr.setId(rs.getInt(1));
+            osr.setServiceID(rs.getInt(2));
+            osr.setName(rs.getString(3));
+            osr.setMinPrice(rs.getInt(4));
+            osr.setMaxPrice(rs.getInt(5));
             
             list.add(osr);
         }
@@ -602,10 +603,25 @@ public class OrderRepository {
                 entity.setDate(rs.getDate(4));
                 entity.setStatus(rs.getString(5));
                 entity.setNote(rs.getString(6));
+                
+                HashMap<OrderDetailEntity, String> map = this.selectEmployeeOrderlWithName(rs.getInt("OID"));
+                
+                entity.setOd(map);
+                
                 list.add(entity);
             }
         }
         return list;
+    }
+    
+    public void updatePrice(int id, double price) throws SQLException{
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update OrderDetail set price = ? where id = ?");
+        pstm.setDouble(1, price);
+        pstm.setInt(2, id);
+        int count = pstm.executeUpdate();
+        
+        con.close();
     }
     
     public ArrayList<EmployeeOrderRequest> getEmployeeListForOrderList() throws Exception {
@@ -633,8 +649,6 @@ public class OrderRepository {
     
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        for (EmployeeOrderRequest request : op.getEmployeeListForOrderList()) {
-            System.out.println(request);
-        }
+        System.out.println(op.selectOrderDetailWithNameService(38));
     }
 }

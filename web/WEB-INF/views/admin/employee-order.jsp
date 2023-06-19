@@ -138,7 +138,7 @@
                                         <td>${e.total}</td>
                                         <td>${e.oh.note}</td>
                                         <td>
-                                            <a class="btn btn-outline-primary" href="<c:url value="/admin/employee-order-datail.do?OID=${e.oh.id}"/>">View <i class="bi bi-gear"></i></a>
+                                            <a class="btn btn-outline-primary" href="<c:url value="/admin/employee-order-detail.do?OID=${e.oh.id}"/>">View <i class="bi bi-gear"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

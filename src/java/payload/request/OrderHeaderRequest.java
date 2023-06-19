@@ -4,7 +4,9 @@
  */
 package payload.request;
 
+import entity.OrderDetailEntity;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
@@ -19,11 +21,12 @@ public class OrderHeaderRequest {
     private int eid;
     private String employeeName;
     private String note;
-
+    HashMap<OrderDetailEntity, String> od;
+    
     public OrderHeaderRequest() {
     }
 
-    public OrderHeaderRequest(int id, int uid, String residentName, Date date, String status, int eid, String employeeName, String note) {
+    public OrderHeaderRequest(int id, int uid, String residentName, Date date, String status, int eid, String employeeName, String note, HashMap<OrderDetailEntity, String> od) {
         this.id = id;
         this.uid = uid;
         this.residentName = residentName;
@@ -32,6 +35,8 @@ public class OrderHeaderRequest {
         this.eid = eid;
         this.employeeName = employeeName;
         this.note = note;
+        this.od = od;
+
     }
     
     public int getId() {
@@ -96,6 +101,23 @@ public class OrderHeaderRequest {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public HashMap<OrderDetailEntity, String> getOd() {
+        return od;
+    }
+
+    public void setOd(HashMap<OrderDetailEntity, String> od) {
+        this.od = od;
+    }
+    
+    public double getTotal() {
+        int total = 0;
+
+        for (OrderDetailEntity od : this.od.keySet()) {
+            total += od.getPrice();
+        }
+        return total;
     }
 
     @Override

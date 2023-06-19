@@ -9,6 +9,7 @@ package payload.request;
  * @author Quoc
  */
 public class UpdateOrderServicePriceRequest {
+    private int id;
     private int serviceID;
     private String name;
     private int minPrice;
@@ -17,11 +18,20 @@ public class UpdateOrderServicePriceRequest {
     public UpdateOrderServicePriceRequest() {
     }
 
-    public UpdateOrderServicePriceRequest(int serviceID, String name, int minPrice, int maxPrice) {
+    public UpdateOrderServicePriceRequest(int id, int serviceID, String name, int minPrice, int maxPrice) {
+        this.id = id;
         this.serviceID = serviceID;
         this.name = name;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getServiceID() {
@@ -55,7 +65,9 @@ public class UpdateOrderServicePriceRequest {
     public void setMaxPrice(int maxPrice) {
         this.maxPrice = maxPrice;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "UpdateOrderServicePriceRequest{" + "id=" + id + ", serviceID=" + serviceID + ", name=" + name + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + '}';
+    }
 }

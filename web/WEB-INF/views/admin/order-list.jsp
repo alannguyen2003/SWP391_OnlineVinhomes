@@ -31,6 +31,7 @@
                                     <th>Date</th>
                                     <th>Status</th>
                                     <th>Note</th>
+                                    <th>Price</th>
                                     <th>Operation</th>
                                 </tr>
                             </thead>
@@ -48,6 +49,7 @@
                                             <td><span class="bage bage-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span></td>
                                             </c:if>
                                         <td>${o.note}</td>
+                                        <td>${o.total}</td>
                                         <td><a class="btn btn-outline-primary" href="<c:url value="/admin/add-employee-order.do?OID=${o.id}"/>">View <i class="bi bi-gear"></i></a></td>
                                     </tr>
                                 </tbody>

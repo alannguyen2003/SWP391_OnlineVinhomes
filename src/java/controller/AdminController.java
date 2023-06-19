@@ -141,12 +141,33 @@ public class AdminController extends HttpServlet {
                     case "pending-order":
                         loadOrderList(request, response);
                         break;
-                    case "updateOrder":
-                        updateOrder(request, response);
+                    case "updateOrderPending":
+                        updateOrderPending(request, response);
                         break;
+                    case "updateEmployeeOrder":
+                        updateEmployeeOrder(request, response);
+                        break;
+                    case "updatePrice":
+                        updatePrice(request, response);
                     case "employee-order":
                         loadEmployeeOrderList(request, response);
                         break;
+                    case "employee-order-detail": {
+                        OID = Integer.parseInt(request.getParameter("OID"));
+                        OrderHeaderEntity oh = os.getOne(OID);
+                        List<UserEntity> empList = us.getEmployee();
+                        List<String> statusList = us.getStatus();
+                        request.setAttribute("oh", oh);
+                        request.setAttribute("empList", empList);
+                        request.setAttribute("blockList", blockList);
+                        request.setAttribute("statusList", statusList);
+                        request.setAttribute("userBlockId", user.getBID());
+                        request.setAttribute("OID", OID);
+                        request.setAttribute("activeTab", "employeeOrder");
+                        request.setAttribute("activation", "employee-order-detail");
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    }
                     case "add-employee-order":
                         OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
@@ -162,17 +183,17 @@ public class AdminController extends HttpServlet {
                         request.setAttribute("activation", "add-employee-order");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
-                    
+
                     case "add-price-order":
                         OID = Integer.parseInt(request.getParameter("OID"));
                         List<UpdateOrderServicePriceRequest> list = os.selectOrderDetailWithNameService(OID);
                         request.setAttribute("list", list);
                         request.setAttribute("OID", OID);
-                        request.setAttribute("activeTab", "pendingOrder");
+                        request.setAttribute("activeTab", "employeeOrder");
                         request.setAttribute("activation", "add-price-order");
                         request.getRequestDispatcher("WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
-                    
+
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -271,7 +292,7 @@ public class AdminController extends HttpServlet {
                     break;
             }
             // Cắt danh sách dữ liệu theo phân trang            
-            
+
             request.setAttribute("activeTab", "employeeOrder");
             request.setAttribute("op", op);
             request.setAttribute("empOrderList", empOrderList);
@@ -283,15 +304,44 @@ public class AdminController extends HttpServlet {
         }
     }
 
-    private void updateOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void updateOrderPending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("OID"));
         String status = request.getParameter("status");
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
         os.updateStatus(orderId, employeeId, status);
         String message = "Update successfully";
         request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/order-detail.do?OID=" + orderId).forward(request, response);
+        request.getRequestDispatcher("/admin/add-employee-order.do?OID=" + orderId).forward(request, response);
 
+    }
+    
+    private void updateEmployeeOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int orderId = Integer.parseInt(request.getParameter("OID"));
+        String status = request.getParameter("status");
+        int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+        os.updateStatus(orderId, employeeId, status);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
+
+    }
+
+    private void updatePrice(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int orderId = Integer.parseInt(request.getParameter("OID"));
+
+        // Retrieve the list of order details with name and service information
+        List<UpdateOrderServicePriceRequest> orderDetails = os.selectOrderDetailWithNameService(orderId);
+
+        // Loop through each order detail to get the updated price and update it in the database
+        for (UpdateOrderServicePriceRequest od : orderDetails) {
+            int id = od.getId();
+            double price = Double.parseDouble(request.getParameter("price_" + id));
+            os.updatePrice(id, price);
+        }
+
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
     }
 
 //  ----------------------------------------

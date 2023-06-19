@@ -22,18 +22,20 @@
     <div class="card shadow mb-4">
         <div class="card-body mt-4">
             <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">
-                <li class="sub-nav__item" label="Billing"><a href="<c:url value="/admin/add-employee-order.do?OID=${OID}" />" class="${activation == 'add-employee-order'} ? 'active' : ''"><i class="bi bi-person-fill-add"></i><span>Add Employee</span></a></li>
+                <li class="sub-nav__item" label="Billing"><a href="<c:url value="/admin/employee-order-detail.do?OID=${OID}" />" class="${activation == 'employee-order-detail'} ? 'active' : ''"><i class="bi bi-person-fill-add"></i><span>Employee Order</span></a></li>
                 <li class="sub-nav__item" label="Billing"><a href="<c:url value="/admin/add-price-order.do?OID=${OID}" />" class="${activation == 'add-price-order'} ? 'active' : ''"><i class="bi bi-cash-coin"></i><span>Add Price</span></a></li>
             </ul>
             <!-- Account details card-->
 
-            <form action="<c:url value="/admin/updateOrder.do" />" method="post">
+            <form action="<c:url value="/admin/updatePrice.do" />" method="">
+                <input type="hidden" name="OID" value="${OID}">
                 <div id="${OID}">
                     <hr />
                     <div class="custom-table">
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th>Detail ID</th>
                                     <th>Service ID</th>
                                     <th>Name</th>
                                     <th>Min Price - Max Price</th>
@@ -44,6 +46,10 @@
                                 <!-- Nội dung OrderDetail -->
                                 <c:forEach var="od" items="${list}">
                                     <tr>
+                                        <td class="cart__product__item">
+                                            <input name="id" type="hidden" class="form-control cart__product__item__title" id="AID" value="${od.id}" size="3">
+                                            <input name="id" type="text" class="form-control cart__product__item__title" id="AID" value="${od.id}" size="3" disabled>
+                                        </td>
                                         <td class="cart__product__item">
                                             <div class="cart__product__item__title">
                                                 <h6>${od.serviceID}</h6>
@@ -60,7 +66,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <input name="price" type="number" class="form-control" id="price" placeholder="Input price here">
+                                            <input name="price_${od.id}" type="number" class="form-control" id="price" placeholder="Input price here">
                                         </td>
                                     </tr>
                                 </c:forEach>
