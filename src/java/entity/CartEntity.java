@@ -73,4 +73,11 @@ public class CartEntity {
         double minTotal = getMinTotal();
         return (( maxTotal + minTotal ) / 2);
     }
+
+    @Override
+    public String toString() {
+        return "CartEntity{" + "items=" + items + '}';
+    }
+    
+    
 }

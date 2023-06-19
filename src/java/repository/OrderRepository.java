@@ -569,7 +569,7 @@ public class OrderRepository {
         while (rs.next()) {
             int oid = rs.getInt("oid");
             for (ItemEntity item : cart.getItems()) {
-                String sql2 = "insert into OrderDetail values(?, ?, ?, null)";
+                String sql2 = "insert into OrderDetail values(?, ?, ?, 0)";
                 PreparedStatement stm2 = con.prepareStatement(sql2);
                 stm2.setInt(1, oid);
                 stm2.setInt(2, item.getService().getServiceID());
