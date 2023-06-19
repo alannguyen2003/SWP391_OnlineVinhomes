@@ -18,7 +18,7 @@
     </nav>
 </div><!-- End Page Title -->
 
-<!-- Recent Sales -->
+<!-- Service List -->
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
         <div class="card-body">
@@ -89,10 +89,11 @@
                 </tbody>
 
             </table>
-
+            <a href="<c:url value="/admin/service-create.do" />" class="btn btn-primary mt-2">Create</a>
         </div>
 
     </div>
+
 </div><!-- End Service List -->
 
 <!--JS tại chỗ-->

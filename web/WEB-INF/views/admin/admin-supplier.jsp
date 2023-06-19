@@ -17,7 +17,7 @@
         </ol>
     </nav>
 </div><!-- End Page Title -->
-<section class="section">
+<%--<section class="section">
     <div class="row">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -99,6 +99,55 @@
             <li class="page-item"><a class="page-link" href="<c:url value="/admin/resident-tables.do?page=${currentPage + 1}&op=${op}&txtSearch=${searchValue}&optionBlock=${optionBlock}" />">Next</a></li>
             </c:if>
     </ul>
-</nav>
+</nav>--%>
+
+
+<!-- Supplier Table -->
+<div class="col-12">
+    <div class="card recent-sales overflow-auto">
+
+        <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+            <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+
+            <table class="table table-borderless datatable">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items = "${list}" var ="s">
+                        <tr>
+                            <th scope="row"><a href="#">${s.id}</a></th>
+                            <td>${s.name}</td>
+                            <td>${s.phone}</td>
+                            <td>${s.email}</td>
+                            <td>${s.address}</td>
+                            <td><a class="btn btn-outline-primary" href="<c:url value="/admin/supplier-detail.do?AID=${s.id}"/>">View <i class="bi bi-gear"></i></a></td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><!-- End Supplier Table -->
 
 
