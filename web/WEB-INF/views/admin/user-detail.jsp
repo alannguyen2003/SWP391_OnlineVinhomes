@@ -37,32 +37,32 @@
                 <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="name" type="hidden" class="form-control" id="name" value="${u.name}">
-                        <input name="name" type="text" class="form-control" id="name" value="${u.name}" disabled="">
+                        <input name="" type="hidden" class="form-control" id="name" value="${u.name}">
+                        <input name="" type="text" class="form-control" id="name" value="${u.name}" disabled="">
                     </div>
                 </div>
                     
                 <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Gender</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="gender" type="hidden" class="form-control" id="gender" value="${u.gender}">
-                        <input name="gender" type="text" class="form-control" id="gender" value="${u.gender}" disabled="">
+                        <input name="" type="hidden" class="form-control" id="gender" value="${u.gender}">
+                        <input name="" type="text" class="form-control" id="gender" value="${u.gender}" disabled="">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="email" type="hidden" class="form-control" id="Email" value="${u.email}">
-                        <input name="email" type="email" class="form-control" id="Email" value="${u.email}" disabled="">
+                        <input name="" type="hidden" class="form-control" id="Email" value="${u.email}">
+                        <input name="" type="email" class="form-control" id="Email" value="${u.email}" disabled="">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="hidden" class="form-control" id="Phone" value="${u.phone}">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="${u.phone}" disabled="">
+                        <input name="" type="hidden" class="form-control" id="Phone" value="${u.phone}">
+                        <input name="" type="text" class="form-control" id="Phone" value="${u.phone}" disabled="">
                     </div>
                 </div>
 

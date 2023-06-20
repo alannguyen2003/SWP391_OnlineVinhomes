@@ -117,6 +117,9 @@ public class AdminController extends HttpServlet {
                         user_detail(request, response);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
+                    case "updateUser":
+                        updateUser(request, response);
+                        break;
 //                    case "accountCreate":
 //                        create(request, response);
 //                        break;
@@ -314,7 +317,7 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/admin/add-employee-order.do?OID=" + orderId).forward(request, response);
 
     }
-    
+
     private void updateEmployeeOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("OID"));
         String status = request.getParameter("status");
@@ -447,68 +450,39 @@ public class AdminController extends HttpServlet {
         int totalItems = 0;
         int totalPages = 0;
         int pageSize = 10;
+        int filterValue = 0;
         switch (op) {
             case "getAll":
                 list = rs.getAllResident();
                 // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
                 break;
-            case "generate":
+            case "filterBlock":
                 list = rs.getAllResident();
-                String filterOption = request.getParameter("filterOption");
-                int filterValue1 = Integer.parseInt(request.getParameter("filterValue1"));
-                int filterValue2 = Integer.parseInt(request.getParameter("filterValue2"));
-                String searchOption = request.getParameter("searchOption");
-                String searchValue = request.getParameter("searchValue");
-                String sortOption = request.getParameter("sortOption");
-                String sortType = request.getParameter("sortType");
-
-                list = filterSearchSortResident(list, filterOption, filterValue1, filterValue2, searchOption, searchValue, sortOption, sortType);
-
-                totalItems = list.size();
-                totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
-                request.setAttribute("filterOption", filterOption);
-                request.setAttribute("filterValue1", filterValue1);
-                request.setAttribute("filterValue2", filterValue2);
-                request.setAttribute("searchOption", searchOption);
-                request.setAttribute("searchValue", searchValue);
-                request.setAttribute("sortOption", sortOption);
-                request.setAttribute("sortType", sortType);
+                filterValue = Integer.parseInt(request.getParameter("filterValue"));
+                list = filterListResident(list, "block", filterValue, 0);
+                request.setAttribute("filterOption", "block");
+                break;
+            case "filterStatus":
+                list = rs.getAllResident();
+                filterValue = Integer.parseInt(request.getParameter("filterValue"));
+                list = filterListResident(list, "status", 0, filterValue);
+                request.setAttribute("filterOption", "status");
                 break;
         }
         // Cắt danh sách dữ liệu theo phân trang
-        List<UserEntity> subList = paginateListResident(list, currentPage, pageSize);
+//        List<UserEntity> subList = paginateListResident(list, currentPage, pageSize);
 
         request.setAttribute("activeTab", "resident");
         request.setAttribute("op", op);
+        request.setAttribute("filterOption", request.getParameter("filterOption"));
+        request.setAttribute("filterValue", filterValue);
         request.setAttribute("blockList", bs.getAllBlock());
-        request.setAttribute("list", subList);
+        request.setAttribute("list", list);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-    }
-
-    private List<UserEntity> filterSearchSortResident(List<UserEntity> list, String filterOption, int filterValue1, int filterValue2, String searchOption,
-            String searchValue, String sortOption, String sortType) {
-        // Lọc dữ liệu nếu có yêu cầu
-        if (filterOption != null && !filterOption.isEmpty()) {
-            list = filterListResident(list, filterOption, filterValue1, filterValue2);
-        }
-
-        // Tìm kiếm dữ liệu nếu có yêu cầu
-        if (searchOption != null && !searchOption.isEmpty() && searchValue != null && !searchValue.isEmpty()) {
-            list = searchInListResident(list, searchOption, searchValue);
-        }
-
-        // Sắp xếp dữ liệu nếu có yêu cầu
-        if (sortOption != null && !sortOption.isEmpty() && sortType != null && !sortType.isEmpty()) {
-            list = sortListResident(list, sortOption, sortType);
-        }
-
-        return list;
     }
 
     private List<UserEntity> filterListResident(List<UserEntity> list, String filterOption, int filterValue1, int filterValue2) {
@@ -528,61 +502,6 @@ public class AdminController extends HttpServlet {
         return filteredList;
     }
 
-// Phương thức sắp xếp danh sách dữ liệu
-    private List<UserEntity> sortListResident(List<UserEntity> list, String sortOption, String sortType) {
-        List<UserEntity> sortedList = new ArrayList<>(list);
-        switch (sortOption) {
-            case "name":
-                sortedList.sort((e1, e2) -> e1.getName().compareTo(e2.getName()));
-                break;
-            case "status":
-                sortedList.sort(Comparator.comparingInt(UserEntity::getStatus));
-                break;
-            case "email":
-                sortedList.sort((e1, e2) -> e1.getEmail().compareTo(e2.getEmail()));
-                break;
-            case "phone":
-                sortedList.sort((e1, e2) -> e1.getPhone().compareTo(e2.getPhone()));
-                break;
-        }
-        if (sortType.equals("Descending")) {
-            Collections.reverse(sortedList);
-        }
-        return sortedList;
-    }
-
-    private List<UserEntity> searchInListResident(List<UserEntity> list, String searchOption, String searchValue) {
-        List<UserEntity> searchResults = new ArrayList<>();
-        System.out.println(searchValue);
-        for (UserEntity user : list) {
-            if (searchOption.equals("name")) {
-                if (user.getName().toLowerCase().contains(searchValue.toLowerCase())) {
-                    searchResults.add(user);
-                }
-            } else if (searchOption.equals("email")) {
-                if (user.getEmail().toLowerCase().contains(searchValue.toLowerCase())) {
-                    searchResults.add(user);
-                }
-            } else if (searchOption.equals("phone")) {
-                if (user.getPhone().toLowerCase().contains(searchValue.toLowerCase())) {
-                    searchResults.add(user);
-                }
-            }
-        }
-        return searchResults;
-    }
-
-    private ArrayList<OrderHeaderRequest> paginateListOrders(ArrayList<OrderHeaderRequest> list, int currentPage, int pageSize) {
-        int startIndex = (currentPage - 1) * pageSize;
-        int endIndex = Math.min(startIndex + pageSize, list.size());
-        return (ArrayList<OrderHeaderRequest>) list.subList(startIndex, endIndex);
-    }
-
-    private List<UserEntity> paginateListResident(List<UserEntity> list, int currentPage, int pageSize) {
-        int startIndex = (currentPage - 1) * pageSize;
-        int endIndex = Math.min(startIndex + pageSize, list.size());
-        return list.subList(startIndex, endIndex);
-    }
 
     protected void updateResident(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String room = request.getParameter("room");
@@ -595,16 +514,7 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/admin/resident-detail.do?AID=" + AID).forward(request, response);
     }
 
-    protected void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        String room = request.getParameter("room");
-        int BID = Integer.parseInt(request.getParameter("BID"));
-        int status = Integer.parseInt(request.getParameter("status"));
-        int AID = Integer.parseInt(request.getParameter("AID"));
-        rs.updateResident(room, BID, status, AID);
-        String message = "Update successfully";
-        request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/resident-detail.do?AID=" + AID).forward(request, response);
-    }
+    
 
     /*
     -------------------------------------------------------------------------------------------------------------------------------
@@ -632,7 +542,7 @@ public class AdminController extends HttpServlet {
                 list = filterList(list, "category", filterValue, 0);
                 request.setAttribute("filterOption", "category");
                 break;
-                
+
             case "filterSupplier":
                 list = ss.getAllService();
                 filterValue = Integer.parseInt(request.getParameter("filterValue"));
@@ -651,7 +561,6 @@ public class AdminController extends HttpServlet {
         request.setAttribute("list", list);
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
-
 
     private List<ServiceEntity> filterList(List<ServiceEntity> list, String filterOption, int filterValue1, int filterValue2) {
         List<ServiceEntity> filteredList = new ArrayList<>();
@@ -736,6 +645,8 @@ public class AdminController extends HttpServlet {
         int totalItems = 0;
         int totalPages = 0;
         int pageSize = 10;
+        int filterValue = 0;
+        String filterValue1 = "";
         switch (op) {
             case "getAll":
                 list = us.getAllUser();
@@ -744,63 +655,39 @@ public class AdminController extends HttpServlet {
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
                 break;
-            case "generate":
+            case "filterGender":
                 list = us.getAllUser();
-                String filterOption = request.getParameter("filterOption");
-                String filterValue1 = request.getParameter("filterValue1");
-                int filterValue2 = Integer.parseInt(request.getParameter("filterValue2"));
-                int filterValue3 = Integer.parseInt(request.getParameter("filterValue3"));
-                String searchOption = request.getParameter("searchOption");
-                String searchValue = request.getParameter("searchValue");
-                String sortOption = request.getParameter("sortOption");
-                String sortType = request.getParameter("sortType");
-
-                list = filterSearchSortUser(list, filterOption, filterValue1, filterValue2, filterValue3, searchOption, searchValue, sortOption, sortType);
-
-                totalItems = list.size();
-                totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
-                request.setAttribute("filterOption", filterOption);
-                request.setAttribute("filterValue1", filterValue1);
-                request.setAttribute("filterValue2", filterValue2);
-                request.setAttribute("filterValue3", filterValue3);
-                request.setAttribute("searchOption", searchOption);
-                request.setAttribute("searchValue", searchValue);
-                request.setAttribute("sortOption", sortOption);
-                request.setAttribute("sortType", sortType);
+                filterValue1 = request.getParameter("filterValue1");
+                list = filterListUser(list, "gender", filterValue1, 0, 0);
+                request.setAttribute("filterOption", "gender");
+                break;
+            case "filterRole":
+                list = us.getAllUser();
+                filterValue = Integer.parseInt(request.getParameter("filterValue"));
+                list = filterListUser(list, "role", "", filterValue, 0);
+                request.setAttribute("filterOption", "role");
+                break;
+            case "filterStatus":
+                list = us.getAllUser();
+                filterValue = Integer.parseInt(request.getParameter("filterValue"));
+                list = filterListUser(list, "status", "", 0, filterValue);
+                request.setAttribute("filterOption", "status");
                 break;
         }
-        // Cắt danh sách dữ liệu theo phân trang
-        List<UserEntity> subList = paginateListUser(list, currentPage, pageSize);
 
         request.setAttribute("activeTab", "user");
         request.setAttribute("op", op);
+        request.setAttribute("filterOption", request.getParameter("filterOption"));
+        request.setAttribute("filterValue", filterValue);
+        request.setAttribute("filterValue1", filterValue1);
         request.setAttribute("roleList", rss.getAllRole());
-        request.setAttribute("list", subList);
+        request.setAttribute("list", list);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
 
-    private List<UserEntity> filterSearchSortUser(List<UserEntity> list, String filterOption, String filterValue1, int filterValue2, int filterValue3, String searchOption,
-            String searchValue, String sortOption, String sortType) {
-        // Lọc dữ liệu nếu có yêu cầu
-        if (filterOption != null && !filterOption.isEmpty()) {
-            list = filterListUser(list, filterOption, filterValue1, filterValue2, filterValue3);
-        }
-
-        // Tìm kiếm dữ liệu nếu có yêu cầu
-        if (searchOption != null && !searchOption.isEmpty() && searchValue != null && !searchValue.isEmpty()) {
-            list = searchInListUser(list, searchOption, searchValue);
-        }
-
-        // Sắp xếp dữ liệu nếu có yêu cầu
-        if (sortOption != null && !sortOption.isEmpty() && sortType != null && !sortType.isEmpty()) {
-            list = sortListUser(list, sortOption, sortType);
-        }
-
-        return list;
-    }
+    
 
     private List<UserEntity> filterListUser(List<UserEntity> list, String filterOption, String filterValue1, int filterValue2, int filterValue3) {
         List<UserEntity> filteredList = new ArrayList<>();
@@ -825,65 +712,6 @@ public class AdminController extends HttpServlet {
         return filteredList;
     }
 
-// Phương thức sắp xếp danh sách dữ liệu
-    private List<UserEntity> sortListUser(List<UserEntity> list, String sortOption, String sortType) {
-        List<UserEntity> sortedList = new ArrayList<>(list);
-        switch (sortOption) {
-            case "id":
-                sortedList.sort(Comparator.comparingInt(UserEntity::getAID));
-                break;
-            case "name":
-                sortedList.sort((e1, e2) -> e1.getName().compareTo(e2.getName()));
-                break;
-            case "gender":
-                sortedList.sort((e1, e2) -> e1.getGender().compareTo(e2.getGender()));
-                break;
-            case "email":
-                sortedList.sort((e1, e2) -> e1.getEmail().compareTo(e2.getEmail()));
-                break;
-            case "phone":
-                sortedList.sort((e1, e2) -> e1.getPhone().compareTo(e2.getPhone()));
-                break;
-            case "role":
-                sortedList.sort(Comparator.comparingInt(UserEntity::getRoleID));
-                break;
-            case "status":
-                sortedList.sort(Comparator.comparingInt(UserEntity::getStatus));
-                break;
-        }
-        if (sortType.equals("Descending")) {
-            Collections.reverse(sortedList);
-        }
-        return sortedList;
-    }
-
-    private List<UserEntity> searchInListUser(List<UserEntity> list, String searchOption, String searchValue) {
-        List<UserEntity> searchResults = new ArrayList<>();
-        System.out.println(searchValue);
-        for (UserEntity user : list) {
-            if (searchOption.equals("name")) {
-                if (user.getName().toLowerCase().contains(searchValue.toLowerCase())) {
-                    searchResults.add(user);
-                }
-            } else if (searchOption.equals("email")) {
-                if (user.getEmail().toLowerCase().contains(searchValue.toLowerCase())) {
-                    searchResults.add(user);
-                }
-            } else if (searchOption.equals("phone")) {
-                if (user.getPhone().toLowerCase().contains(searchValue.toLowerCase())) {
-                    searchResults.add(user);
-                }
-            }
-        }
-        return searchResults;
-    }
-
-    private List<UserEntity> paginateListUser(List<UserEntity> list, int currentPage, int pageSize) {
-        int startIndex = (currentPage - 1) * pageSize;
-        int endIndex = Math.min(startIndex + pageSize, list.size());
-        return list.subList(startIndex, endIndex);
-    }
-
     private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String aid = request.getParameter("AID");
 
@@ -891,6 +719,17 @@ public class AdminController extends HttpServlet {
 
         request.setAttribute("u", user);
 
+    }
+    
+    protected void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String room = request.getParameter("room");
+        int BID = Integer.parseInt(request.getParameter("BID"));
+        int status = Integer.parseInt(request.getParameter("status"));
+        int AID = Integer.parseInt(request.getParameter("AID"));
+        rs.updateResident(room, BID, status, AID);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
     }
 
     //é đù ăng seng //m quay ha

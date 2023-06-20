@@ -136,7 +136,7 @@
                 <tbody>
                     <c:forEach items = "${list}" var ="s">
                         <tr>
-                            <th scope="row"><a href="#">${s.id}</a></th>
+                            <th scope="row">${s.id}</a></th>
                             <td>${s.name}</td>
                             <td>${s.phone}</td>
                             <td>${s.email}</td>
