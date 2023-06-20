@@ -154,7 +154,7 @@
                                             <c:if test="${user == null}">
                                                 <!-- Neu user chua login -->
                                                 <!--                                                <li style="margin-left: 27rem">-->
-                                                <li style="margin-left: 45%">
+                                                <li style="margin-left: 27rem">
                                                     <a href="<c:url value="/user/login.do" />">Sign In </a>
                                                 </li>
                                                 <li style="margin-left: 4px"><div style="color: #b1c2f5;">/</div></li>
@@ -178,11 +178,11 @@
                                                     </ul>
                                                 </li>
                                             </c:if>  
-                                                <li>
-                                                    <a href="<c:url value="/service/list.do"/>"
-                                                       class="main-menu-two__search search-toggler icon-magnifying-glass" style="color: #b1c2f5;">
-                                                    </a>
-                                                </li>
+                                            <li>
+                                                <a href="<c:url value="/service/list.do"/>"
+                                                   class="bi bi-search search-toggler" style="color: #b1c2f5;">
+                                                </a>
+                                            </li>
                                             <li>
                                                 <a href="<c:url value="/cart/cart.do" />">
                                                     <i style="color: #b1c2f5;margin-right:5px" class="bi bi-cart"></i>
@@ -199,7 +199,7 @@
             </header>
             <div class="search-popup">
                 <div class="search-popup__overlay search-toggler"></div>
-                
+
                 <div class="search-popup__content">
                     <form method="post" action="<c:url value="/service/list.do"/>">
                         <label for="search" class="sr-only">search here</label>
@@ -209,7 +209,7 @@
                         </button>
                     </form>
                 </div>
-                
+
             </div>
 
             <div class="stricky-header stricked-menu main-menu">
@@ -414,7 +414,7 @@
         </div>
         <!-- /.mobile-nav__wrapper -->
 
-        
+
 
         <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
 
