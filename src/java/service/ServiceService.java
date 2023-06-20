@@ -8,6 +8,7 @@ import entity.ServiceEntity;
 import config.DBConfig;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import repository.ServiceRepository;
 /**
  *
@@ -46,6 +47,10 @@ public class ServiceService {
     
     public String checkResource(ServiceEntity service, int blockId) throws SQLException {
         return serviceRepository.checkResource(service, blockId);
+    }
+    
+    public ArrayList<ServiceEntity> searchByName(String search) {
+        return (ArrayList<ServiceEntity>) serviceRepository.searchByName(search);
     }
     
     public static void main(String[] args) throws Exception {

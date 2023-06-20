@@ -79,6 +79,9 @@ public class ServiceController extends HttpServlet {
                 case "addFeedback":
                     addFeedback(request, response);
                     break;
+                case "list":
+                    searchByName(request, response);
+                    break;
             }
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -170,5 +173,18 @@ public class ServiceController extends HttpServlet {
         request.setAttribute("cate", cate);
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
+    
+    private void searchByName(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
+        String txtSearch = request.getParameter("txt"); 
+        ServiceService service = new ServiceService();
+        ArrayList<ServiceEntity> listS = service.searchByName(txtSearch);
+        
+        request.setAttribute("listS", listS);
+        request.setAttribute("txtSearch", txtSearch);
+        
+        
+        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+    }
+    
 
 }

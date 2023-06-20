@@ -25,7 +25,7 @@
         <link
             href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap"
             rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/animate/animate.min.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/animate/custom-animate.css" />
@@ -153,7 +153,8 @@
                                             </li>
                                             <c:if test="${user == null}">
                                                 <!-- Neu user chua login -->
-                                                <li style="margin-left: 27rem">
+                                                <!--                                                <li style="margin-left: 27rem">-->
+                                                <li style="margin-left: 45%">
                                                     <a href="<c:url value="/user/login.do" />">Sign In </a>
                                                 </li>
                                                 <li style="margin-left: 4px"><div style="color: #b1c2f5;">/</div></li>
@@ -177,9 +178,11 @@
                                                     </ul>
                                                 </li>
                                             </c:if>  
-                                            <li>
-                                                <a href="/vsos/cart/cart.do"><i style="color: #b1c2f5;" class="bi bi-search"></i></a>
-                                            </li>
+                                                <li>
+                                                    <a href="<c:url value="/service/list.do"/>"
+                                                       class="main-menu-two__search search-toggler icon-magnifying-glass" style="color: #b1c2f5;">
+                                                    </a>
+                                                </li>
                                             <li>
                                                 <a href="<c:url value="/cart/cart.do" />">
                                                     <i style="color: #b1c2f5;margin-right:5px" class="bi bi-cart"></i>
@@ -194,11 +197,24 @@
                     </div>
                 </nav>
             </header>
-
+            <div class="search-popup">
+                <div class="search-popup__overlay search-toggler"></div>
+                
+                <div class="search-popup__content">
+                    <form method="post" action="<c:url value="/service/list.do"/>">
+                        <label for="search" class="sr-only">search here</label>
+                        <input type="text" name="txt" placeholder="Search Here..." />
+                        <button type="submit" name="action" value="txt" aria-label="search submit" class="thm-btn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                
+            </div>
 
             <div class="stricky-header stricked-menu main-menu">
-                <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
-            </div><!-- /.stricky-header -->
+                <div class="sticky-header__content"></div> 
+            </div>
 
             <!-- View -->
 
@@ -398,21 +414,7 @@
         </div>
         <!-- /.mobile-nav__wrapper -->
 
-        <div class="search-popup">
-            <div class="search-popup__overlay search-toggler"></div>
-            <!-- /.search-popup__overlay -->
-            <div class="search-popup__content">
-                <form action="#">
-                    <label for="search" class="sr-only">search here</label><!-- /.sr-only -->
-                    <input type="text" id="search" placeholder="Search Here..." />
-                    <button type="submit" aria-label="search submit" class="thm-btn">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </form>
-            </div>
-            <!-- /.search-popup__content -->
-        </div>
-        <!-- /.search-popup -->
+        
 
         <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
 
