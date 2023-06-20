@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import payload.request.EmployeeOrderRequest;
 import payload.request.OrderHeaderRequest;
+import payload.request.UpdateOrderServicePriceRequest;
 import repository.OrderRepository;
 
 public class OrderService {
@@ -38,11 +39,16 @@ public class OrderService {
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         return orderRepository.selectMyOrders(id);
     }
+    
 
     public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
         return orderRepository.selectOrderDetail(id);
     }
 
+    public List<UpdateOrderServicePriceRequest> selectOrderDetailWithNameService(int OID) throws SQLException {
+        return orderRepository.selectOrderDetailWithNameService(OID);
+    }
+    
     public HashMap<OrderDetailEntity, String> selectOrderDetailWithName(int orderHeaderId) throws SQLException {
         return orderRepository.selectOrderDetailWithName(orderHeaderId);
     }
@@ -58,7 +64,10 @@ public class OrderService {
     public void updateStatus(int oId, int eId, String status) throws SQLException {
         orderRepository.updateStatus(oId, eId, status);
     }
-
+    
+    public void updatePrice(int id, double price) throws SQLException {
+        orderRepository.updatePrice(id, price);
+    }
     
     public List<SaleEntity> recentOrder() throws SQLException {
         return orderRepository.recentOrder();
@@ -96,8 +105,8 @@ public class OrderService {
         return orderRepository.getJsMonthArray(orderRepository.getValidatedMonth());
 
     }
-    public void addOrder(UserEntity user, CartEntity cart) throws SQLException {
-        orderRepository.addOrder(user, cart);
+    public void addOrder(UserEntity user, CartEntity cart, String note) throws SQLException {
+        orderRepository.addOrder(user, cart, note);
     }
     
     public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
@@ -112,8 +121,6 @@ public class OrderService {
     
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();
-        for (MyOrderEntity entity : orderService.selectEmployeeOrders(12)) {
-            System.out.println(entity);
-        }
+        orderService.updatePrice(25, 70);
     }
 }

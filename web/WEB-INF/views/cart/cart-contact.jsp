@@ -37,72 +37,23 @@
                         <div class="row">
                             <div class="col-12 mb-5">
                                 <label>Full Name*</label>
-                                <input type="text" placeholder="Full Name" value="${sessionScope.user.name}">
+                                <input type="text" placeholder="Full Name" value="${sessionScope.user.name}" disabled>
                             </div>
                             <div class="col-md-6 col-12 mb-5">
                                 <label>Email Address*</label>
-                                <input type="email" placeholder="Email Address" value="${sessionScope.user.email}">
+                                <input type="email" placeholder="Email Address" value="${sessionScope.user.email}" disabled>
                             </div>
                             <div class="col-md-6 col-12 mb-5">
                                 <label>Phone*</label>
-                                <input type="text" placeholder="Phone number" value="${sessionScope.user.phone}">
+                                <input type="text" placeholder="Phone number" value="${sessionScope.user.phone}" disabled>
                             </div>
                             <div class="col-md-12 col-12 mb-5">
                                 <label>Address*</label>
-                                <input type="text" placeholder="Address line 1" value="${sessionScope.user.room}">
+                                <input type="text" placeholder="Address line 1" value="${sessionScope.user.room}" disabled>
                             </div>
                             <div class="col-md-12 col-12 mb-5">
                                 <label>Note</label>
-                                <input type="text" placeholder="Resident Note">
-                            </div>
-                        </div>
-                    </div>
-                    <!--Shipping Address -->
-                    <div id="shipping-form" class="mb-20">
-                        <h4 class="checkout-title">Shipping Address</h4>
-                        <div class="row">
-                            <div class="col-12 mb-5">
-                                <label>Full Name*</label>
-                                <input type="text" placeholder="Full Name">
-                            </div>
-                            <div class="col-md-6 col-12 mb-5">
-                                <label>Email Address*</label>
-                                <input type="email" placeholder="Email Address">
-                            </div>
-                            <div class="col-md-6 col-12 mb-5">
-                                <label>Phone no*</label>
-                                <input type="text" placeholder="Phone number">
-                            </div>
-                            <div class="col-12 mb-5">
-                                <label>Company Name</label>
-                                <input type="text" placeholder="Company Name">
-                            </div>
-                            <div class="col-12 mb-5">
-                                <label>Address*</label>
-                                <input type="text" placeholder="Address line 1">
-                                <input type="text" placeholder="Address line 2">
-                            </div>
-                            <div class="col-md-6 col-12 mb-5">
-                                <label>Country*</label>
-                                <select class="nice-select">
-                                    <option>Bangladesh</option>
-                                    <option>China</option>
-                                    <option>country</option>
-                                    <option>India</option>
-                                    <option>Japan</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 col-12 mb-5">
-                                <label>Town/City*</label>
-                                <input type="text" placeholder="Town/City">
-                            </div>
-                            <div class="col-md-6 col-12 mb-5">
-                                <label>State*</label>
-                                <input type="text" placeholder="State">
-                            </div>
-                            <div class="col-md-6 col-12 mb-5">
-                                <label>Zip Code*</label>
-                                <input type="text" placeholder="Zip Code">
+                                <input type="text" name="note" placeholder="Resident Note">
                             </div>
                         </div>
                     </div>

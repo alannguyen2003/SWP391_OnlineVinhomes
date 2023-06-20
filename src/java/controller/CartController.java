@@ -62,6 +62,9 @@ public class CartController extends HttpServlet {
                     removeFromCart(request, response);
                     break;
                 case "cart-contact":
+                    HttpSession session = request.getSession();
+                    CartEntity cartEntity = (CartEntity) session.getAttribute("cart");
+                    System.out.println(cartEntity);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "cart-completion":
@@ -196,8 +199,9 @@ public class CartController extends HttpServlet {
             HttpSession session = request.getSession();
             CartEntity cart = (CartEntity) session.getAttribute("cart");
             UserEntity user = (UserEntity) session.getAttribute("user");
+            String note = request.getParameter("note");
             OrderService oService = new OrderService();
-            oService.addOrder(user, cart);
+            oService.addOrder(user, cart, note);
             String itemNeeded = "";
             ServiceService sService = new ServiceService();
             SupplierService supService = new SupplierService();

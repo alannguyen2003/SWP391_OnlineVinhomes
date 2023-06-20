@@ -7,6 +7,7 @@ package controller;
 import entity.BlockVinEntity;
 import entity.EmployeeEntity;
 import entity.MyOrderEntity;
+import entity.OrderDetailEntity;
 import entity.UserEntity;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -25,11 +26,13 @@ import entity.SaleEntity;
 import entity.ServiceEntity;
 import entity.SupplierEntity;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import payload.request.OrderHeaderRequest;
+import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
 import service.RoleService;
@@ -79,6 +82,7 @@ public class AdminController extends HttpServlet {
         if (user != null && (user.getRoleID() == 4 || user.getRoleID() == 3 || user.getRoleID() == 2)) {
             try {
                 List<BlockVinEntity> blockList = bs.getAllBlock();
+                int OID = 0;
                 switch (action) {
                     case "admin-dashboard":
                         load_Admindashboard(request, response);
@@ -137,14 +141,19 @@ public class AdminController extends HttpServlet {
                     case "pending-order":
                         loadOrderList(request, response);
                         break;
-                    case "updateOrder":
-                        updateOrder(request, response);
+                    case "updateOrderPending":
+                        updateOrderPending(request, response);
                         break;
+                    case "updateEmployeeOrder":
+                        updateEmployeeOrder(request, response);
+                        break;
+                    case "updatePrice":
+                        updatePrice(request, response);
                     case "employee-order":
                         loadEmployeeOrderList(request, response);
                         break;
-                    case "order-detail":
-                        int OID = Integer.parseInt(request.getParameter("OID"));
+                    case "employee-order-detail": {
+                        OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
                         List<UserEntity> empList = us.getEmployee();
                         List<String> statusList = us.getStatus();
@@ -153,9 +162,38 @@ public class AdminController extends HttpServlet {
                         request.setAttribute("blockList", blockList);
                         request.setAttribute("statusList", statusList);
                         request.setAttribute("userBlockId", user.getBID());
-                        request.setAttribute("activeTab", "pendingOrder");
+                        request.setAttribute("OID", OID);
+                        request.setAttribute("activeTab", "employeeOrder");
+                        request.setAttribute("activation", "employee-order-detail");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
+                    }
+                    case "add-employee-order":
+                        OID = Integer.parseInt(request.getParameter("OID"));
+                        OrderHeaderEntity oh = os.getOne(OID);
+                        List<UserEntity> empList = us.getEmployee();
+                        List<String> statusList = us.getStatus();
+                        request.setAttribute("oh", oh);
+                        request.setAttribute("empList", empList);
+                        request.setAttribute("blockList", blockList);
+                        request.setAttribute("statusList", statusList);
+                        request.setAttribute("userBlockId", user.getBID());
+                        request.setAttribute("OID", OID);
+                        request.setAttribute("activeTab", "pendingOrder");
+                        request.setAttribute("activation", "add-employee-order");
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+
+                    case "add-price-order":
+                        OID = Integer.parseInt(request.getParameter("OID"));
+                        List<UpdateOrderServicePriceRequest> list = os.selectOrderDetailWithNameService(OID);
+                        request.setAttribute("list", list);
+                        request.setAttribute("OID", OID);
+                        request.setAttribute("activeTab", "employeeOrder");
+                        request.setAttribute("activation", "add-price-order");
+                        request.getRequestDispatcher("WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -246,7 +284,7 @@ public class AdminController extends HttpServlet {
             int pageSize = 10;
             switch (op) {
                 case "getAll":
-                    
+
                     empOrderList = os.selectEmployeeOrders(eId);
                     // Calculate the total number of pages
                     totalItems = empOrderList.size();
@@ -266,15 +304,44 @@ public class AdminController extends HttpServlet {
         }
     }
 
-    private void updateOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void updateOrderPending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("OID"));
         String status = request.getParameter("status");
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
         os.updateStatus(orderId, employeeId, status);
         String message = "Update successfully";
         request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/order-detail.do?OID=" + orderId).forward(request, response);
+        request.getRequestDispatcher("/admin/add-employee-order.do?OID=" + orderId).forward(request, response);
 
+    }
+    
+    private void updateEmployeeOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int orderId = Integer.parseInt(request.getParameter("OID"));
+        String status = request.getParameter("status");
+        int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+        os.updateStatus(orderId, employeeId, status);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
+
+    }
+
+    private void updatePrice(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int orderId = Integer.parseInt(request.getParameter("OID"));
+
+        // Retrieve the list of order details with name and service information
+        List<UpdateOrderServicePriceRequest> orderDetails = os.selectOrderDetailWithNameService(orderId);
+
+        // Loop through each order detail to get the updated price and update it in the database
+        for (UpdateOrderServicePriceRequest od : orderDetails) {
+            int id = od.getId();
+            double price = Double.parseDouble(request.getParameter("price_" + id));
+            os.updatePrice(id, price);
+        }
+
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
     }
 
 //  ----------------------------------------
@@ -550,81 +617,41 @@ public class AdminController extends HttpServlet {
 
         String indexPage = request.getParameter("page");
         HttpSession session = request.getSession();
-        int currentPage = 1;
-
-        if (indexPage != null) {
-            currentPage = Integer.parseInt(indexPage);
-        }
         List<ServiceEntity> list = new ArrayList<>();
-        int totalPages = 0;
-        int totalItems = 0;
-        int pageSize = 10;
-
         // Lấy tất cả dữ liệu Service ban đầu
         // Xử lý dữ liệu nếu có yêu cầu
         String op = (String) request.getParameter("op");
+        int filterValue = 0;
         switch (op) {
             case "getAll":
                 list = ss.getAllService();
-                totalItems = list.size();
-                totalPages = (int) Math.ceil((double) totalItems / pageSize);
                 break;
-            case "generate":
+            case "filterCategory":
                 list = ss.getAllService();
-                String filterOption = request.getParameter("filterOption");
-                int filterValue1 = Integer.parseInt(request.getParameter("filterValue1"));
-                int filterValue2 = Integer.parseInt(request.getParameter("filterValue2"));
-                String searchOption = request.getParameter("searchOption");
-                String searchValue = request.getParameter("searchValue");
-                String sortOption = request.getParameter("sortOption");
-                String sortType = request.getParameter("sortType");
-
-                list = filterSearchSort(list, filterOption, filterValue1, filterValue2, searchOption, searchValue, sortOption, sortType);
-
-                totalItems = list.size();
-                totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
-                request.setAttribute("filterOption", filterOption);
-                request.setAttribute("filterValue1", filterValue1);
-                request.setAttribute("filterValue2", filterValue2);
-                request.setAttribute("searchOption", searchOption);
-                request.setAttribute("searchValue", searchValue);
-                request.setAttribute("sortOption", sortOption);
-                request.setAttribute("sortType", sortType);
+                filterValue = Integer.parseInt(request.getParameter("filterValue"));
+                list = filterList(list, "category", filterValue, 0);
+                request.setAttribute("filterOption", "category");
+                break;
+                
+            case "filterSupplier":
+                list = ss.getAllService();
+                filterValue = Integer.parseInt(request.getParameter("filterValue"));
+                list = filterList(list, "supplier", 0, filterValue);
+                request.setAttribute("filterOption", "supplier");
                 break;
         }
         // Cắt danh sách dữ liệu theo phân trang
-        List<ServiceEntity> subList = paginateList(list, currentPage, pageSize);
 
         request.setAttribute("activeTab", "service");
         request.setAttribute("op", op);
+        request.setAttribute("filterOption", request.getParameter("filterOption"));
+        request.setAttribute("filterValue", filterValue);
         request.setAttribute("categoryList", cs.getAllCategory());
         request.setAttribute("supplierList", supplierService.getAllSupplier());
-        request.setAttribute("list", subList);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("list", list);
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
 
-    private List<ServiceEntity> filterSearchSort(List<ServiceEntity> list, String filterOption, int filterValue1, int filterValue2, String searchOption,
-            String searchValue, String sortOption, String sortType) {
-        // Lọc dữ liệu nếu có yêu cầu
-        if (filterOption != null && !filterOption.isEmpty()) {
-            list = filterList(list, filterOption, filterValue1, filterValue2);
-        }
-
-        // Tìm kiếm dữ liệu nếu có yêu cầu
-        if (searchOption != null && !searchOption.isEmpty() && searchValue != null && !searchValue.isEmpty()) {
-            list = searchInList(list, searchOption, searchValue);
-        }
-
-        // Sắp xếp dữ liệu nếu có yêu cầu
-        if (sortOption != null && !sortOption.isEmpty() && sortType != null && !sortType.isEmpty()) {
-            list = sortList(list, sortOption, sortType);
-        }
-
-        return list;
-    }
 
     private List<ServiceEntity> filterList(List<ServiceEntity> list, String filterOption, int filterValue1, int filterValue2) {
         List<ServiceEntity> filteredList = new ArrayList<>();
@@ -641,50 +668,6 @@ public class AdminController extends HttpServlet {
         }
         // Trả về danh sách đã lọc
         return filteredList;
-    }
-
-// Phương thức sắp xếp danh sách dữ liệu
-    private List<ServiceEntity> sortList(List<ServiceEntity> list, String sortOption, String sortType) {
-        List<ServiceEntity> sortedList = new ArrayList<>(list);
-        switch (sortOption) {
-            case "name":
-                sortedList.sort((e1, e2) -> e1.getName().compareTo(e2.getName()));
-                break;
-            case "category":
-                sortedList.sort(Comparator.comparingInt(ServiceEntity::getCategoryID));
-                break;
-            case "minPrice":
-            case "maxPrice":
-                sortedList.sort((e1, e2) -> Double.compare(e1.getLowerPrice(), e2.getLowerPrice()));
-                break;
-        }
-        if (sortType.equals("Descending")) {
-            Collections.reverse(sortedList);
-        }
-        return sortedList;
-    }
-
-    private List<ServiceEntity> searchInList(List<ServiceEntity> list, String searchOption, String searchValue) {
-        List<ServiceEntity> searchResults = new ArrayList<>();
-        System.out.println(searchValue);
-        for (ServiceEntity service : list) {
-            if (searchOption.equals("name")) {
-                if (service.getName().toLowerCase().contains(searchValue.toLowerCase())) {
-                    searchResults.add(service);
-                }
-            } else if (searchOption.equals("description")) {
-                if (service.getDescription().toLowerCase().contains(searchValue.toLowerCase())) {
-                    searchResults.add(service);
-                }
-            }
-        }
-        return searchResults;
-    }
-
-    private List<ServiceEntity> paginateList(List<ServiceEntity> list, int currentPage, int pageSize) {
-        int startIndex = (currentPage - 1) * pageSize;
-        int endIndex = Math.min(startIndex + pageSize, list.size());
-        return list.subList(startIndex, endIndex);
     }
 
     private void updateService(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -904,8 +887,8 @@ public class AdminController extends HttpServlet {
     private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String aid = request.getParameter("AID");
 
-        UserEntity user = us.getUser(Integer.parseInt(aid)); 
-       
+        UserEntity user = us.getUser(Integer.parseInt(aid));
+
         request.setAttribute("u", user);
 
     }
