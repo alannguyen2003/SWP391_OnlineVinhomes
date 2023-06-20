@@ -8,6 +8,7 @@ import config.DBConfig;
 import entity.ServiceEntity;
 import java.util.ArrayList;
 import java.sql.*;
+import java.util.List;
 
 /**
  *
@@ -195,7 +196,7 @@ public class ServiceRepository {
         stm.executeUpdate();
         con.close();
     }
-    
+
     public String checkResource(ServiceEntity service, int blockId) throws SQLException {
         String needed = "";
         String query = """
@@ -213,17 +214,49 @@ public class ServiceRepository {
         stm.setInt(1, blockId);
         stm.setInt(2, service.getServiceID());
         ResultSet rs = stm.executeQuery();
-        while(rs.next()) {
-            if(rs.getInt("needed") > 0) {
+        while (rs.next()) {
+            if (rs.getInt("needed") > 0) {
                 needed += rs.getString("name") + ":" + " " + rs.getInt("needed") + "\n";
             }
         }
         return needed;
     }
 
+    public List<ServiceEntity> searchByName(String txtSearch) {
+        List<ServiceEntity> list = new ArrayList<>();
+        String query = "select * from Service\n"
+                + "where [name] like ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = new DBConfig().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + txtSearch + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ServiceEntity service = new ServiceEntity();
+                service.setServiceID(rs.getInt("service_id"));
+                service.setName(rs.getString("name"));
+                service.setDescription(rs.getString("description"));
+                service.setLowerPrice(rs.getDouble("lower_price"));
+                service.setUpperPrice(rs.getDouble("upper_price"));
+                service.setRated(rs.getDouble("rated"));
+                service.setSupplierID(rs.getInt("supplier_id"));
+                service.setCategoryID(rs.getInt("category_id"));
+                list.add(service);
+            }
+            conn.close();
+            
+        } catch (Exception e) {
+        }
+        
+        return list;
+    }
+
     public static void main(String[] args) throws Exception {
         ServiceRepository repository = new ServiceRepository();
-        repository.addService("", "", 50, 100, 1, 1, 1);
+        System.out.println(repository.searchByName("c"));
     }
 
 }
