@@ -16,6 +16,8 @@
         </ol>
     </nav>
 </div><!-- End Page Title -->
+
+<%--
 <section class="section">
     <div class="row">
         <div class="card shadow mb-4">
@@ -38,7 +40,7 @@
                                 <div class="form-group pb-2" id="filterGenderDiv">
                                     <label class="p-1" for="filterCategory">Value:</label>
                                     <select class="form-select" aria-label="Default select example" name="filterValue1" id="filterGender">
-                                        <!-- Các option của combobox gender -->
+                                         Các option của combobox gender 
                                         <option value="${user.getGender()}" ${filterValue1 == user.getGender() ? "selected" : ""}>Male</option>
                                         <option value="${user.getGender()}" ${filterValue1 == user.getGender() ? "selected" : ""}>Female</option>
                                     </select>
@@ -47,7 +49,7 @@
                                 <div class="form-group pb-2" id="filterRoleDiv">
                                     <label class="p-1" for="filterCategory">Value:</label>
                                     <select class="form-select" aria-label="Default select example" name="filterValue2" id="filterRole">
-                                        <!-- Các option của combobox role -->
+                                         Các option của combobox role 
                                         <c:forEach var="r" items="${roleList}">
                                             <option value="${r.id}" ${r.id == filterValue2 ? "selected" : ""}>${r.name}</option>
                                         </c:forEach>
@@ -57,7 +59,7 @@
                                 <div class="form-group pb-2" id="filterStatusDiv">
                                     <label class="p-1" for="filterSupplier">Value:</label>
                                     <select class="form-select" aria-label="Default select example" name="filterValue3" id="filterStatus">
-                                        <!-- Các option của combobox status -->
+                                         Các option của combobox status 
                                         <option value="1" ${filterValue3 == 1 ? "selected" : ""}>Active</option>
                                         <option value="0" ${filterValue3 == 0 ? "selected" : ""}>Inactive</option>
                                     </select>
@@ -228,6 +230,65 @@
             </li>
         </c:if>
     </ul>
-</nav>
+</nav>--%>
 
 <!<!-- Easter Egg lol dasdjahkdjhadjka -->
+
+
+<!-- Recent Sales -->
+<div class="col-12">
+    <div class="card recent-sales overflow-auto">
+
+        <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+            <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+
+            <table class="table table-borderless datatable">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Room</th>
+                        <th scope="col">Block</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items = "${list}" var ="r">
+                        <tr>
+                            <th scope="row"><a href="#">${r.AID}</a></th>
+                            <td>${r.name}</td>
+                            <td>${r.gender}</td>
+                            <td>${r.email}</td>
+                            <td>${r.phone}</td>
+                            <td>${r.room}</td>
+                            <td>${r.BID}</td>
+                            <td>${r.roleID}</td>
+                            <td>${r.status}</td>
+                            <td>
+                                <a class="btn btn-outline-primary" href="<c:url value="/admin/user-detail.do?AID=${r.AID}"/>">View <i class="bi bi-gear"></i></a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div><!-- End Recent Sales -->
