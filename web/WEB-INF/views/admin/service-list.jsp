@@ -8,12 +8,12 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <div class="pagetitle">
-    <h1>Resident Tables</h1>
+    <h1>Service Tables</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/admin/admin-dashboard.do" />">Home</a></li>
             <li class="breadcrumb-item">Tables</li>
-            <li class="breadcrumb-item active">Resident Tables</li>
+            <li class="breadcrumb-item active">Service Tables</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -75,9 +75,9 @@
                 <tbody>
                     <c:forEach items = "${requestScope.list}" var ="listService">
                         <tr>
-                            <th scope="row"><a href="#">${listService.serviceID}</a></th>
+                            <th scope="row">${listService.serviceID}</a></th>
                             <td>${listService.name}</td>
-                            <td><a href="#" class="text-primary">${listService.description}</a></td>
+                            <td>${listService.description}</a></td>
                             <td>${listService.lowerPrice}</td>
                             <td>${listService.upperPrice}</td>
                             <td>${listService.rated}</td>

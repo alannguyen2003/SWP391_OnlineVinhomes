@@ -31,6 +31,19 @@ public class ServiceEntity {
         this.categoryID = categoryID;
         this.rated = rated;
     }
+    
+    public ServiceEntity(int serviceID, String name, String description, double lowerPrice, double upperPrice, double rated, int supplierID, int categoryID) {
+        this.serviceID = serviceID;
+        this.name = name;
+        this.description = description;
+        this.lowerPrice = lowerPrice;
+        this.upperPrice = upperPrice;
+        this.rated = rated;
+        this.supplierID = supplierID;
+        this.categoryID = categoryID;
+    }
+    
+    
 
     public int getServiceID() {
         return serviceID;
