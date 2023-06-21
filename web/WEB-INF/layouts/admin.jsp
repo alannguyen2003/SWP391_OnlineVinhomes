@@ -43,7 +43,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/order.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/admin-profile/admin-profile.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        
+
 
         <!-- Template Main CSS File -->
         <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
@@ -62,14 +62,6 @@
             </div>
             <i class="bi bi-list toggle-sidebar-btn"></i>
             <!-- End Logo -->
-
-            <div style="margin-left: 20rem;" class="search-bar">
-                <form class="search-form d-flex align-items-center" method="POST" action="#">
-                    <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-                    <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-                </form>
-            </div><!-- End Search Bar -->
-
             <nav class="header-nav ms-auto">
                 <ul class="d-flex align-items-center">
 
@@ -283,27 +275,35 @@
                         <i class="bi bi-grid"></i>
                         <span>Dashboard</span>
                     </a>
-                </li><!-- End Dashboard -->
+                </li>
+                <!-- End Dashboard -->
 
-                <li class="nav-item ${activeTab == "service" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/service-list.do?op=getAll" />">
-                        <i class="bi bi-gear-fill"></i>
-                        <span>Manage Service</span>
-                    </a>
-                </li><!-- End Manage Service -->
-                <li class="nav-item ${activeTab == "supplier" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/admin-supplier.do?op=getall" />">
-                        <i class="bi bi-building-up"></i>
-                        <span>Manage Suppiler</span>
-                    </a>
-                </li><!-- End Suppiler Nav -->
-                <li class="nav-item ${activeTab == "resident" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/resident-tables.do?op=getAll" />">
-                        <i class="bi bi-people-fill"></i>
-                        <span>Manage Resident</span>
-                    </a>
-                </li><!-- End Resident Nav -->
-                <c:if test="${user.roleID == 4}">
+                <c:if test="${sessionScope.user.roleID == 4}">
+                    <li class="nav-item ${activeTab == "service" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/service-list.do?op=getAll" />">
+                            <i class="bi bi-gear-fill"></i>
+                            <span>Manage Service</span>
+                        </a>
+                    </li><!-- End Manage Service -->
+
+                    <li class="nav-item ${activeTab == "supplier" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/admin-supplier.do?op=getall" />">
+                            <i class="bi bi-building-up"></i>
+                            <span>Manage Suppiler</span>
+                        </a>
+                    </li><!-- End Suppiler Nav -->
+                </c:if>
+                <c:if test="${sessionScope.user.roleID != 2}">
+                    <li class="nav-item ${activeTab == "resident" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/resident-tables.do?op=getAll" />">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Manage Resident</span>
+                        </a>
+                    </li>
+                    <!-- End Resident Nav -->
+                </c:if>
+
+                <c:if test="${sessionScope.user.roleID == 4}">
                     <li class="nav-item ${activeTab == "user" ? "active" : ""}">
                         <a class="nav-link1" href="<c:url value="/admin/user-tables.do?op=getAll" />">
                             <i class="bi bi-person-vcard-fill"></i>
@@ -311,34 +311,49 @@
                         </a>
                     </li><!-- End User Nav -->
                 </c:if>
-                <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>">
-                        <i class="bi bi-box-fill"></i>
-                        <span>Manage Resouces</span>
-                    </a>
-                </li><!-- End Resouces Nav -->
-                <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin-sales/dashboard.do"/>">
-                        <i class="bi bi-cash-coin"></i>
-                        <span>Revenue</span>
-                    </a>
-                </li><!-- End Revenue Nav -->
-                <li class="nav-item ${activeTab == "order" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/order-list.do?op=getall"/>">
-                        <i class="bi bi-clipboard-fill"></i>
-                        <span>Order List</span>
-                    </a>
-                </li>
+                <c:if test="${user.roleID != 2}">
+                    <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>">
+                            <i class="bi bi-box-fill"></i>
+                            <span>Manage Resouces</span>
+                        </a>
+                    </li><!-- End Resouces Nav -->
+                </c:if>
+                <c:if test="${user.roleID == 4}">
+                    <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin-sales/dashboard.do"/>">
+                            <i class="bi bi-cash-coin"></i>
+                            <span>Revenue</span>
+                        </a>
+                    </li><!-- End Revenue Nav -->
+                </c:if>
+                <c:if test="${user.roleID != 2}">
+                    <li class="nav-item ${activeTab == "order" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/order-list.do?op=getall"/>">
+                            <i class="bi bi-clipboard-fill"></i>
+                            <span>Order List</span>
+                        </a>
+                    </li>
+                </c:if>
                 <c:if test="${user.roleID == 2}">
-                <li class="nav-item ${activeTab == "employeeOrder" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/employee-order.do?op=getAll&AID=${sessionScope.user.AID}"/>">
-                        <i class="bi bi-clipboard-fill"></i>
-                        <span>Employee Order List</span>
-                    </a>
-                </li>
+                    <li class="nav-item ${activeTab == "employeeOrder" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/employee-order.do?op=getAll&AID=${sessionScope.user.AID}"/>">
+                            <i class="bi bi-clipboard-fill"></i>
+                            <span>Employee Order List</span>
+                        </a>
+                    </li>
                 </c:if>
                 <!-- End Orderlist Nav -->
 
+                <c:if test="${user.roleID != 4}">
+                    <li class="nav-item ${activeTab == "pendingOrder" ? "active" : ""}">
+                        <a class="nav-link1 collapsed" href="<c:url value="/admin/pending-order.do?op=getall"/>">
+                            <i class="bi bi-list-check"></i>
+                            <span>Pending Order</span>
+                        </a>
+                    </li>
+                </c:if>
+                <!-- End Pending Order Page Nav -->
 
                 <li class="nav-heading">Pages</li>
 
@@ -347,14 +362,11 @@
                         <i class="bi bi-person"></i>
                         <span>Profile</span>
                     </a>
-                </li><!-- End Profile Page Nav -->
-                
-                <li class="nav-item ${activeTab == "pendingOrder" ? "active" : ""}">
-                    <a class="nav-link1 collapsed" href="<c:url value="/admin/pending-order.do?op=getall"/>">
-                        <i class="bi bi-list-check"></i>
-                        <span>Pending Order</span>
-                    </a>
-                </li><!-- End Pending Order Page Nav -->
+                </li>
+                <!-- End Profile Page Nav -->
+
+
+
             </ul>
 
         </aside><!-- End Sidebar-->
@@ -381,7 +393,7 @@
         <script src="${pageContext.request.contextPath}/assets/vendor/simple-datatables/simple-datatables.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/tinymce/tinymce.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/php-email-form/validate.js"></script>
-        
+
 
         <!-- Template Main JS File -->
         <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>

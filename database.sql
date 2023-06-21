@@ -142,7 +142,7 @@ alter table ServiceResourceNeeded
 GO
 
 insert into Role(role_name) values 
-('Resident'), ('None'), ('Employee'), ('Admin')
+('Resident'), ('Employee'), ('Manager'), ('Admin')
 
 insert into Category(name) values 
 ('Cleaning'), ('Maintenance'), ('Security'), ('Pest Control')

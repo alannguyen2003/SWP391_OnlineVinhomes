@@ -77,9 +77,9 @@ public class AdminController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-        HttpSession adminSession = request.getSession(true);
-        UserEntity user = (UserEntity) adminSession.getAttribute("user");
-        if (user != null && (user.getRoleID() == 4 || user.getRoleID() == 3 || user.getRoleID() == 2)) {
+        HttpSession session = request.getSession();
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        if (user != null && (user.getRoleID() != 1)) {
             try {
                 List<BlockVinEntity> blockList = bs.getAllBlock();
                 int OID = 0;
@@ -89,9 +89,15 @@ public class AdminController extends HttpServlet {
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "resident-tables":
+                        if (user.getRoleID() == 2) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         residentTables(request, response);
                         break;
                     case "resident-detail":
+                        if (user.getRoleID() == 2) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         int AID = Integer.parseInt(request.getParameter("AID"));
                         UserEntity u = rs.getOne(AID);
                         request.setAttribute("u", u);
@@ -100,60 +106,116 @@ public class AdminController extends HttpServlet {
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "service-list":
-                        serviceList(request, response);
+                        if (user.getRoleID() == 4) {
+                            serviceList(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "service-detail":
-                        int serviceID = Integer.parseInt(request.getParameter("serviceID"));
-                        ServiceEntity se = ss.getServiceById(serviceID);
-                        request.setAttribute("se", se);
-                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        if (user.getRoleID() == 4) {
+                            int serviceID = Integer.parseInt(request.getParameter("serviceID"));
+                            ServiceEntity se = ss.getServiceById(serviceID);
+                            request.setAttribute("se", se);
+                            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "user-tables":
-                        userTables(request, response);
+                        if (user.getRoleID() == 4) {
+                            userTables(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
+                        break;
                     case "account-create":
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "user-detail":
-                        user_detail(request, response);
-                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        if (user.getRoleID() == 4) {
+                            user_detail(request, response);
+                            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "updateUser":
-                        updateUser(request, response);
+                        if (user.getRoleID() == 4) {
+                            updateUser(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
 //                    case "accountCreate":
 //                        create(request, response);
 //                        break;
                     case "service-create":
-                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        if (user.getRoleID() == 4) {
+                            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "serviceCreate":
                         serviceCreate(request, response);
                         break;
                     case "updateResident":
+                        if (user.getRoleID() == 2) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         updateResident(request, response);
                         break;
                     case "updateService":
-                        updateService(request, response);
+                        if (user.getRoleID() == 4) {
+                            updateService(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "admin-supplier":
-                        loadSupplierList(request, response);
+                        if (user.getRoleID() == 4) {
+                            loadSupplierList(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "order-list":
+                        if (user.getRoleID() == 2) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         loadOrderList(request, response);
                         break;
                     case "pending-order":
+                        if (user.getRoleID() == 4) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         loadOrderList(request, response);
                         break;
                     case "updateOrderPending":
+                        if (user.getRoleID() != 3) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         updateOrderPending(request, response);
                         break;
                     case "updateEmployeeOrder":
+                        if (user.getRoleID() != 2) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         updateEmployeeOrder(request, response);
                         break;
                     case "updatePrice":
+                        if (user.getRoleID() == 4) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         updatePrice(request, response);
+                        break;
                     case "employee-order":
-                        loadEmployeeOrderList(request, response);
+                        if (user.getRoleID() == 2) {
+                            loadEmployeeOrderList(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "employee-order-detail": {
                         OID = Integer.parseInt(request.getParameter("OID"));
@@ -172,6 +234,9 @@ public class AdminController extends HttpServlet {
                         break;
                     }
                     case "add-employee-order":
+                        if (user.getRoleID() != 3) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
                         List<UserEntity> empList = us.getEmployee();
@@ -188,6 +253,9 @@ public class AdminController extends HttpServlet {
                         break;
 
                     case "add-price-order":
+                        if (user.getRoleID() == 4) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         OID = Integer.parseInt(request.getParameter("OID"));
                         List<UpdateOrderServicePriceRequest> list = os.selectOrderDetailWithNameService(OID);
                         request.setAttribute("list", list);
@@ -202,7 +270,12 @@ public class AdminController extends HttpServlet {
                 ex.printStackTrace();
             }
         } else {
-            response.sendRedirect(request.getContextPath() + "/user/login.do");
+            if (user != null) {
+                response.sendRedirect(request.getContextPath() + "/home/index.do");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/user/login.do");
+            }
+
         }
 
     }
@@ -502,7 +575,6 @@ public class AdminController extends HttpServlet {
         return filteredList;
     }
 
-
     protected void updateResident(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String room = request.getParameter("room");
         int BID = Integer.parseInt(request.getParameter("BID"));
@@ -513,8 +585,6 @@ public class AdminController extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/resident-detail.do?AID=" + AID).forward(request, response);
     }
-
-    
 
     /*
     -------------------------------------------------------------------------------------------------------------------------------
@@ -687,8 +757,6 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
 
-    
-
     private List<UserEntity> filterListUser(List<UserEntity> list, String filterOption, String filterValue1, int filterValue2, int filterValue3) {
         List<UserEntity> filteredList = new ArrayList<>();
 
@@ -720,7 +788,7 @@ public class AdminController extends HttpServlet {
         request.setAttribute("u", user);
 
     }
-    
+
     protected void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String room = request.getParameter("room");
         int BID = Integer.parseInt(request.getParameter("BID"));
