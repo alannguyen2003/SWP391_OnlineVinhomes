@@ -50,8 +50,8 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6>${count}</h6>
-<!--                                    <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                        class="text-muted small pt-2 ps-1">increase</span>-->
+                                    <!--                                    <span class="text-success small pt-1 fw-bold">12%</span> <span
+                                                                            class="text-muted small pt-2 ps-1">increase</span>-->
 
                                 </div>
                             </div>
@@ -87,8 +87,8 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6>${income}</h6>
-<!--                                    <span class="text-success small pt-1 fw-bold">8%</span> <span
-                                        class="text-muted small pt-2 ps-1">increase</span>-->
+                                    <!--                                    <span class="text-success small pt-1 fw-bold">8%</span> <span
+                                                                            class="text-muted small pt-2 ps-1">increase</span>-->
 
                                 </div>
                             </div>
@@ -124,8 +124,8 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6>${countacc}</h6>
-<!--                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                                        class="text-muted small pt-2 ps-1">decrease</span>-->
+                                    <!--                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                                                                            class="text-muted small pt-2 ps-1">decrease</span>-->
 
                                 </div>
                             </div>
@@ -236,7 +236,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-                            
+
                             <table class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -249,13 +249,24 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items = "${requestScope.listSale}" var ="listSale">
-                                    <tr>
-                                        <th scope="row"><a href="#">${listSale.id}</a></th>
-                                        <td>${listSale.name}</td>
-                                        <td><a href="#" class="text-primary">${listSale.servicename}</a></td>
-                                        <td>${listSale.price}</td>
-                                        <td><span class="badge bg-success">${listSale.status}</span></td>
-                                    </tr>
+                                        <tr>
+                                            <th scope="row"><a href="#">${listSale.id}</a></th>
+                                            <td>${listSale.name}</td>
+                                            <td><a href="#" class="text-primary">${listSale.servicename}</a></td>
+                                            <td>${listSale.price}</td>
+                                            <c:if test="${listSale.status == 'Completed'}">
+                                                <td><span class="badge bg-success">${listSale.status}</span></td>
+                                                </c:if>
+                                                <c:if test="${listSale.status == 'Pending'}">
+                                                <td>
+                                                    <span class="badge" style=" --bs-bg-opacity: 1; background-color: #ffc107!important; color: #212529;">${listSale.status}</span>
+                                                </td>
+                                                </c:if>
+                                                <c:if test="${listSale.status == 'Failed'}">
+                                                <td><span class="badge bg-danger">${listSale.status}</span></td>
+                                                </c:if>
+
+                                        </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
@@ -295,42 +306,42 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.topsell}" var="topsell">
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">${topsell.servicename}</a></td>
-                                        <td>${topsell.price}</td>
-                                        <td class="fw-bold">${topsell.sold}</td>
-                                        <td>${topsell.revenue}</td>
-                                    </tr>
+                                        <tr>
+                                            <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
+                                            <td><a href="#" class="text-primary fw-bold">${topsell.servicename}</a></td>
+                                            <td>${topsell.price}</td>
+                                            <td class="fw-bold">${topsell.sold}</td>
+                                            <td>${topsell.revenue}</td>
+                                        </tr>
                                     </c:forEach>
-<!--                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                                        <td>$46</td>
-                                        <td class="fw-bold">98</td>
-                                        <td>$4,508</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                                        <td>$59</td>
-                                        <td class="fw-bold">74</td>
-                                        <td>$4,366</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                                        <td>$32</td>
-                                        <td class="fw-bold">63</td>
-                                        <td>$2,016</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-                                        <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                                        <td>$79</td>
-                                        <td class="fw-bold">41</td>
-                                        <td>$3,239</td>
-                                    </tr>-->
+                                    <!--                                    <tr>
+                                                                            <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
+                                                                            <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
+                                                                            <td>$46</td>
+                                                                            <td class="fw-bold">98</td>
+                                                                            <td>$4,508</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
+                                                                            <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
+                                                                            <td>$59</td>
+                                                                            <td class="fw-bold">74</td>
+                                                                            <td>$4,366</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
+                                                                            <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
+                                                                            <td>$32</td>
+                                                                            <td class="fw-bold">63</td>
+                                                                            <td>$2,016</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
+                                                                            <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
+                                                                            <td>$79</td>
+                                                                            <td class="fw-bold">41</td>
+                                                                            <td>$3,239</td>
+                                                                        </tr>-->
                                 </tbody>
                             </table>
 
@@ -513,7 +524,7 @@
                     <h5 class="card-title">Website Traffic <span>| Today</span></h5>
 
                     <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-                    
+
                     <script>
                         document.addEventListener("DOMContentLoaded", () => {
                             echarts.init(document.querySelector("#trafficChart")).setOption({
@@ -543,14 +554,14 @@
                                         labelLine: {
                                             show: false
                                         },
-                                        
+
                                         data: [
-                                            <c:forEach items="${requestScope.cateTra}" var="cateTra">
+                        <c:forEach items="${requestScope.cateTra}" var="cateTra">
                                             {
                                                 value: ${cateTra.countcate},
                                                 name: '${cateTra.catename}'
                                             },
-                                            </c:forEach>
+                        </c:forEach>
 //                                            ,
 //                                            {
 //                                                value: 735,
@@ -569,12 +580,12 @@
 //                                                name: 'Video Ads'
 //                                            }
                                         ]
-                                                                            
+
                                     }]
                             });
                         });
                     </script>
-                   
+
                 </div>
             </div><!-- End Website Traffic -->
 

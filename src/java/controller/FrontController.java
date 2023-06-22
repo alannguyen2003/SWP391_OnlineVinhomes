@@ -20,7 +20,7 @@ public class FrontController extends HttpServlet {
         String url=request.getServletPath();
         String controller=url.substring(0, url.lastIndexOf("/"));
         String action=url.substring(url.lastIndexOf("/")+1,url.lastIndexOf("."));
-
+        
         //Luu ten controller & action vao request
         request.setAttribute("controller", controller);
         request.setAttribute("action", action);

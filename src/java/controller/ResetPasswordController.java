@@ -55,16 +55,18 @@ public class ResetPasswordController extends HttpServlet {
         }
 
     }
-
+    
     protected void resetPassHandler(HttpServletRequest request, HttpServletResponse response) throws SQLException, Exception {
         UserService userService = new UserService();
         request.setAttribute("action", "reset-pass");
         String email = (String) request.getParameter("email");
+        String message;
+        
         if (userService.checkEmailExist(email) != null) {
             int index = email.indexOf("@");
+            ResetPassCodeEntity rsCode = new ResetPassCodeEntity();
             GmailService gmailer = new GmailService();
             String code = gmailer.getRandomCode();
-            ResetPassCodeEntity rsCode = new ResetPassCodeEntity();
             rsCode.setCode(code);
             String emailName = email.substring(0, index);
             HttpSession session = request.getSession();
@@ -73,14 +75,13 @@ public class ResetPasswordController extends HttpServlet {
             String subject = "This is automated email. Do not response.";
             String body = "Click this link to reset your account password: " + link;
             gmailer.sendEmail(subject, body, email);
-            String message = "We have sent you a link in your email account. Please check your Email.";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+            message = "We have sent you a link in your email account. Please check your Email.";
         } else {
-            String message = "Email does not exist.";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+            message = "Email does not exist.";
         }
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+
     }
 
     protected void resetPassCommit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

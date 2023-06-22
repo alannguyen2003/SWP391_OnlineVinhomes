@@ -83,7 +83,7 @@
                             <td>${listService.rated}</td>
                             <td>${listService.supplierID}</td>
                             <td>${listService.categoryID}</td>
-                            <td><a class="btn btn-outline-primary" href="<c:url value="/admin/service-detail.do?serviceID=${s.serviceID}"/>">View <i class="bi bi-gear"></i></a></td>
+                            <td><a class="btn btn-outline-primary" href="<c:url value="/admin/service-detail.do?serviceID=${listService.serviceID}"/>">View <i class="bi bi-gear"></i></a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -94,7 +94,8 @@
 
     </div>
 
-</div><!-- End Service List -->
+</div>
+<!-- End Service List -->
 
 <!--JS tại chỗ-->
 <c:if test="${filterOption == 'category'}">

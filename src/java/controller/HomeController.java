@@ -34,13 +34,13 @@ public class HomeController extends HttpServlet {
         String action = (String) request.getAttribute("action");
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
-        if (user == null || user.getRoleID() != 4) {
         try {
             switch (action) {
                 case "index":
                     //Processing code here
                     ArrayList<CategoryEntity> categoryList = hs.getTopCategory();
                     request.setAttribute("list", categoryList);
+                    session.setAttribute("user", user);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "aboutus":
@@ -60,9 +60,6 @@ public class HomeController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ServiceController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
         }
 
 //            default:
