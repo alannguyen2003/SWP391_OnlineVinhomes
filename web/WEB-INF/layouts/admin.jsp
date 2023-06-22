@@ -311,13 +311,21 @@
                         </a>
                     </li><!-- End User Nav -->
                 </c:if>
-                <c:if test="${user.roleID != 2}">
+                <c:if test="${user.roleID == 3}">
                     <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
                         <a class="nav-link1" href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>">
                             <i class="bi bi-box-fill"></i>
-                            <span>Manage Resouces</span>
+                            <span>Manage Block Resources</span>
                         </a>
                     </li><!-- End Resouces Nav -->
+                </c:if>
+                <c:if test="${user.roleID == 4}">
+                    <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/resource/resource-list.do"/>">
+                            <i class="bi bi-box-fill"></i>
+                            <span>Manage Resources</span>
+                        </a>
+                    </li>
                 </c:if>
                 <c:if test="${user.roleID == 4}">
                     <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
