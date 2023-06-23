@@ -59,7 +59,6 @@
                     </div>
                 </div>
 
-
                 <div class="row mb-3">
                     <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
                     <div class="col-md-8 col-lg-9">
@@ -82,7 +81,7 @@
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
-                        <input id="updateOrder" type="submit" name="op" value="update" hidden>
+                        <input data-toggle="modal" data-target="#updateOrderModal" id="updateOrder" type="submit" name="op" value="update" hidden>
                     </div>
                 </div>
             </form>
