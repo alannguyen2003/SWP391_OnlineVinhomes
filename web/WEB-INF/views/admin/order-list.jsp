@@ -50,7 +50,7 @@
                                             <td><span class="bage bage-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span></td>
                                             </c:if>
                                         <td>${o.note}</td>
-                                        <td>${o.total}</td>
+                                        <td>${o.total}$</td>
                                         <td><a class="btn btn-outline-primary" href="<c:url value="/admin/add-employee-order.do?OID=${o.id}"/>">View <i class="bi bi-gear"></i></a></td>
                                     </tr>
                                 </tbody>
@@ -118,7 +118,7 @@
             </c:choose>
         </c:forEach>
         <c:if test="${currentPage < totalPages}">
-            <c:url var="nextPageUrl" value="/admin/resident-tables.do">
+            <c:url var="nextPageUrl" value="/admin/order-list.do">
                 <c:param name="page" value="${currentPage + 1}" />
                 <c:param name="op" value="${op}" />
                 <c:param name="filterOption" value="${filterOption}" />
