@@ -119,8 +119,8 @@ public class UserRepository {
         if (cn != null) {
             String salt = Hasher.createSalt();
             String saltedHashPassword = Hasher.doHashing(userEntity.getPassword(), salt);
-            String query = "insert into Account(phone, email, password, name, gender,BID, roleId, salt)\n"
-                    + "values (?, ?, ?, ?, ?, 2, ?)";
+            String query = "insert into Account(phone, email, password, name,BID, roleId,status ,salt)\n"
+                    + "values (?, ?, ?, ?, ?, 2, 1,?)";
             pst = cn.prepareStatement(query);
             pst.setString(1, userEntity.getPhone());
             pst.setString(2, userEntity.getEmail());

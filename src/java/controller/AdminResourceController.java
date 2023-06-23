@@ -44,7 +44,7 @@ public class AdminResourceController extends HttpServlet {
         String action = (String) request.getAttribute("action");
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
-        if (user.getRoleID() == 4) {
+        if (user.getRoleID() == 3) {
             try {
                 switch (action) {
                     case "table-resource":
@@ -98,7 +98,7 @@ public class AdminResourceController extends HttpServlet {
                     request.setAttribute("message", "The quantity is not entered");
                     request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 } else {
-                    boolean check = rService.addResource(Integer.parseInt(blockId), Integer.parseInt(resourceId), Integer.parseInt(quantity));
+                    boolean check = rService.addBlockResource(Integer.parseInt(blockId), Integer.parseInt(resourceId), Integer.parseInt(quantity));
                     String message = "";
                     if (check) {
                         message = "Added successfully";
@@ -128,7 +128,7 @@ public class AdminResourceController extends HttpServlet {
         int numberOfEntitiesInLastPage;
         switch (op) {
             case "getAll":
-                list1 = rService.getAllResource(userBlockId);
+                list1 = rService.getAllBlockResource(userBlockId);
                 break;
             case "search":
                 String searchValue = (String) request.getParameter("txtSearch");
@@ -172,7 +172,7 @@ public class AdminResourceController extends HttpServlet {
                 } else {
                     BlockResourceEntity br = new BlockResourceEntity(Integer.parseInt(bId), bName, Integer.parseInt(rId), rName, Integer.parseInt(quantity));
                     ResourceService rService = new ResourceService();
-                    rService.updateResource(br);
+                    rService.updateBlockResource(br);
                     message = "Updated Successfully";
                 }
                 response.sendRedirect(request.getContextPath() + String.format("/admin-resource/table-resource.do?op=getAll&message=%s", message));

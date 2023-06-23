@@ -47,7 +47,7 @@ import org.apache.http.client.fluent.*;
 public class GmailService {
 
     Gmail service;
-    private final String FROM_EMAIL = "johnnypewds123@gmail.com";
+    private final String FROM_EMAIL = "autoemail62@gmail.com";
 
     public GmailService() throws Exception {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -59,17 +59,17 @@ public class GmailService {
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, GsonFactory jsonFactory)
             throws IOException {
         // Load client secrets.
-        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\Semester 5\\SWP391\\SWP391_OnlineVinhomes\\client_secret_483758738967-ft14o2oc0j25n8g1n59hte79uebr822n.apps.googleusercontent.com.json"));
+        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\SWP391\\SWP391_OnlineVinhomes\\client_secret_483758738967-ullacsoj80gfntejhnfeo0b0ocabed33.apps.googleusercontent.com.json"));
         GoogleClientSecrets clientSecrets
                 = GoogleClientSecrets.load(jsonFactory, clientSecretReader);
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
-                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("token").toFile()))
+                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("toloz").toFile()))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8080).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(-1).build();
         Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
         //returns an authorized Credential object.
         return credential;
@@ -158,7 +158,7 @@ public class GmailService {
     public static void main(String[] args) throws Exception {
         GmailService gmailer = new GmailService();
 
-//        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
-        System.out.println(gmailer.isValidEmail("asd@asdadsas.com"));
+        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
+//        System.out.println(gmailer.isValidEmail("asd@asdadsas.com"));
     }
 }

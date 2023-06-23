@@ -20,6 +20,22 @@ import java.util.List;
  */
 public class ResourceRepository {
     
+    public List<ResourceEntity> getResourceList() throws SQLException {
+        List<ResourceEntity> list = new ArrayList<>();
+        Connection con = DBConfig.getConnection();
+        String query = "select * from Resource";
+        PreparedStatement stm = con.prepareStatement(query);
+        ResultSet rs = stm.executeQuery();
+        while(rs.next()) {
+            ResourceEntity resource = new ResourceEntity();
+            resource.setId(rs.getInt("rid"));
+            resource.setName(rs.getString("name"));
+            list.add(resource);
+        }
+        return list;
+    }
+    
+    
     public List<BlockResourceEntity> getBlockResourceList(int blockId) throws SQLException {
         List<BlockResourceEntity> list = new ArrayList<>();
         Connection con = DBConfig.getConnection();
@@ -76,7 +92,22 @@ public class ResourceRepository {
         return list;
     }
 
-
+    public ResourceEntity getResourceEntity(int id) throws SQLException {
+        ResourceEntity entity = new ResourceEntity();
+        Connection con = DBConfig.getConnection();
+        String query = """
+                       select * from Resource where rid = ?""";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()) {
+            entity.setId(rs.getInt("rid"));
+            entity.setName(rs.getString("name"));
+        }
+        return entity;
+    }
+    
+    
     public BlockResourceEntity getBlockResourceEntity(int bId, int rId) throws SQLException {
         BlockResourceEntity e = new BlockResourceEntity();
         Connection con = DBConfig.getConnection();
@@ -100,7 +131,21 @@ public class ResourceRepository {
         return e;
     }
     
-    public boolean addResource(int blockId, int resourceId, int quantity) throws SQLException {
+    public boolean addResource(String name) throws SQLException {
+         boolean check = false;
+        Connection con = DBConfig.getConnection();
+        String query = "insert into Resource values(?)";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, name);
+        int count = stm.executeUpdate();
+        if(count != 0) {
+            check = true;
+        }
+        con.close();
+        return check;
+    }
+    
+    public boolean addBlockResource(int blockId, int resourceId, int quantity) throws SQLException {
         boolean check = false;
         Connection con = DBConfig.getConnection();
         String query = "insert into BlockResource values(?, ?, ?)";
@@ -116,7 +161,25 @@ public class ResourceRepository {
         return check;
     }
     
-    public boolean updateResource(BlockResourceEntity br) throws SQLException {
+    public boolean updateResource(int rid, String name) throws SQLException {
+        boolean check = false;
+        Connection con = DBConfig.getConnection();
+        String query = """
+                       update Resource 
+                       set name = ?
+                       where Resource.rid = ?""";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, name);
+        stm.setInt(2, rid);
+        int count = stm.executeUpdate();
+        if (count != 0) {
+            check = true;
+        }
+        con.close();
+        return check;
+    }
+    
+    public boolean updateBlockResource(BlockResourceEntity br) throws SQLException {
         boolean check = false;
         Connection con = DBConfig.getConnection();
         String query = """
@@ -159,5 +222,7 @@ public class ResourceRepository {
     public static void main(String[] args) throws SQLException {
         BlockResourceEntity br = new BlockResourceEntity(1, "Toa cc", 17, "cc", 20);
         System.out.println(new ResourceRepository().getBlockResourceEntity(7,1).getResourceName());
+        ResourceRepository r = new ResourceRepository();
+        r.updateResource(1, "Air Conditioninggggg");
     }
 }

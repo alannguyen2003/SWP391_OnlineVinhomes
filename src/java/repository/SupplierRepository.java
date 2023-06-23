@@ -36,6 +36,26 @@ public class SupplierRepository {
         }
         return list;
     }
+    
+    public SupplierEntity getSupplier(int sid) throws Exception {
+        
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("select * from Supplier where SID = ?");
+        pstm.setInt(1, sid);
+        ResultSet rs = pstm.executeQuery();
+        
+        SupplierEntity supplierEntity = new SupplierEntity();
+        
+        if (rs.next()) {
+            supplierEntity.setId(rs.getInt(1));
+            supplierEntity.setName(rs.getString(2));
+            supplierEntity.setPhone(rs.getString(3));
+            supplierEntity.setEmail(rs.getString(4));
+            supplierEntity.setAddress(rs.getString(5));
+            
+        }
+        return supplierEntity;
+    }
 
     public ArrayList<SupplierEntity> searchByName(String name) throws Exception {
         ArrayList<SupplierEntity> list = new ArrayList<>();

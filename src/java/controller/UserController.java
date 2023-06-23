@@ -204,7 +204,7 @@ public class UserController extends HttpServlet {
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    if (user.getRoleID() == 4 || user.getRoleID() == 3 || user.getRoleID() == 2) {
+                    if (user.getRoleID() != 1) {
                         response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/home/index.do");
@@ -223,7 +223,7 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         //xoa session
         HttpSession session = request.getSession();
-        session.invalidate();
+        session.removeAttribute("user");
         //quay ve home
         response.sendRedirect(request.getContextPath() + "/home/index.do");
     }

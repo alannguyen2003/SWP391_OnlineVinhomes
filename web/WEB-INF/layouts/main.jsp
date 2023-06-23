@@ -151,21 +151,12 @@
                                             <li>
                                                 <a href="<c:url value="/home/contact.do" />">Contact </a>
                                             </li>
-                                            <c:if test="${user == null}">
-                                                <!-- Neu user chua login -->
-                                                <!--                                                <li style="margin-left: 27rem">-->
-                                                <li style="margin-left: 27rem">
-                                                    <a href="<c:url value="/user/login.do" />">Sign In </a>
-                                                </li>
-                                                <li style="margin-left: 4px"><div style="color: #b1c2f5;">/</div></li>
-                                                <li style="margin-left: 4px">
-                                                    <a href="<c:url value="/user/signup.do" />"> Register</a>
-                                                </li>
-                                            </c:if>
 
-                                            <c:if test="${user != null}">
-                                                <!-- Neu user da login -->
-                                                <li style="margin-left: 18rem">
+                                            <c:if test="${sessionScope.user.roleID != 1 && sessionScope.user != null}">
+                                                <li style="padding-right: 10px;">
+                                                    <a href="<c:url value="/admin/admin-dashboard.do"/>">Admin Page</a>
+                                                </li>
+                                                <li style="margin-left: 10rem">
                                                     <a href="<c:url value="/user/profile.do?AID=${user.AID}" />">Hello, ${user.email}</a>
                                                 </li>
 
@@ -177,7 +168,34 @@
                                                         <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
                                                     </ul>
                                                 </li>
-                                            </c:if>  
+                                                
+                                            </c:if>
+                                                
+                                            <c:if test="${user == null}">
+                                                <li style="margin-left: 28rem">
+                                                    <a href="<c:url value="/user/login.do" />">Sign In </a>
+                                                </li>
+                                                <li style="margin-left: 4px"><div style="color: #b1c2f5;">/</div></li>
+                                                <li style="margin-left: 4px">
+                                                    <a href="<c:url value="/user/signup.do" />"> Register</a>
+                                                </li>
+                                            </c:if>
+
+                                            <c:if test="${sessionScope.user.roleID == 1 && user != null}">
+                                                <!-- Neu user da login -->
+                                                <li style="margin-left: 22rem">
+                                                    <a href="<c:url value="/user/profile.do?AID=${user.AID}" />">Hello, ${user.email}</a>
+                                                </li>
+
+                                                <li class="dropdown">
+                                                    <a href="#"><i class="bi bi-person-fill"></i></a>
+                                                    <ul>
+                                                        <li><a href="<c:url value="/user/profile.do?AID=${user.AID}"/>">View profile</a></li>
+                                                        <li><a href="<c:url value="/order/myorder.do?aid=${user.AID}"/>">My Orders</a></li>
+                                                        <li><a href="<c:url value="/user/logout.do" />">Log Out</a></li>
+                                                    </ul>
+                                                </li>
+                                            </c:if>
                                             <li>
                                                 <a href="<c:url value="/service/list.do"/>"
                                                    class="bi bi-search search-toggler" style="color: #b1c2f5;">

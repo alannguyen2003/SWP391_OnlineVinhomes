@@ -18,22 +18,39 @@ public class ResourceService {
 
     private final ResourceRepository resourceRepo = new ResourceRepository();
 
+    
+    public List<ResourceEntity> getResourceList() throws SQLException {
+        return resourceRepo.getResourceList();
+    }
+    
     public List<BlockResourceEntity> getResourceBySearched(String searched, int blockId) throws SQLException {
         return resourceRepo.getBlockResourceListByResourceName(searched, blockId);
     }
 
-    public boolean addResource(int blockId, int resourceId, int quantity) throws SQLException {
-        return resourceRepo.addResource(blockId, resourceId, quantity);
+    public boolean addResource(String name) throws SQLException {
+        return resourceRepo.addResource(name);
     }
     
-    public boolean updateResource(BlockResourceEntity entity) throws SQLException {
-        return resourceRepo.updateResource(entity);
+    public boolean addBlockResource(int blockId, int resourceId, int quantity) throws SQLException {
+        return resourceRepo.addBlockResource(blockId, resourceId, quantity);
+    }
+    
+    public boolean updateResource(int id, String name) throws SQLException {
+        return resourceRepo.updateResource(id, name);
+    }
+    
+    public boolean updateBlockResource(BlockResourceEntity entity) throws SQLException {
+        return resourceRepo.updateBlockResource(entity);
     }
 
-    public List<BlockResourceEntity> getAllResource(int blockId) throws SQLException {
+    public List<BlockResourceEntity> getAllBlockResource(int blockId) throws SQLException {
         return resourceRepo.getBlockResourceList(blockId);
     }
 
+    public ResourceEntity getResource(int id) throws SQLException {
+        return resourceRepo.getResourceEntity(id);
+    }
+    
     public BlockResourceEntity getBlockResource(int bId, int rId) throws SQLException {
         return resourceRepo.getBlockResourceEntity(bId, rId);
     }
@@ -45,6 +62,8 @@ public class ResourceService {
     
     public static void main(String[] args) throws SQLException {
         System.out.println(new ResourceService().getUnassginedResourcesOfBlock(1).size());
+        System.out.println(new ResourceService().getResourceList().size());
+        new ResourceService().updateResource(1, "Air Conditioning");
     }
 
     
