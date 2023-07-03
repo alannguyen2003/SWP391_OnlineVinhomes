@@ -29,7 +29,6 @@ public class OrdersController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
         HttpSession session = request.getSession();
-//        UserEntity user = (UserEntity) session.getAttribute("acc");
         try {
             switch (action) {
                 case "myorder":
