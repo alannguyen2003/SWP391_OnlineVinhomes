@@ -290,7 +290,6 @@ public class UserController extends HttpServlet {
                 HashMap<String, String> map = new HashMap<>();
                 for (Part part : request.getParts()) {
                     String partName = part.getName();
-                    System.out.println(partName);
                     if (!partName.equals("avatar")) {
                         String partValue = convertISToString(part.getInputStream());
                         map.put(partName, partValue);
