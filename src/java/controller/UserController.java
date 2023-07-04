@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import Utils.Hasher;
@@ -22,6 +17,14 @@ import jakarta.servlet.http.HttpSession;
 import entity.UserEntity;
 import repository.UserRepository;
 import entity.ToastEntity;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import service.ResidentService;
 import org.apache.tomcat.jni.SSLContext;
@@ -30,11 +33,8 @@ import service.BlockVinService;
 import service.RoleService;
 import service.UserService;
 
-/**
- *
- * @author vsngh
- */
 @WebServlet(name = "UserController", urlPatterns = {"/user"})
+@MultipartConfig
 public class UserController extends HttpServlet {
 
     private ResidentService residentService = new ResidentService();
@@ -254,6 +254,9 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+        response.setDateHeader("Expires", 0); // Proxies.
         processRequest(request, response);
     }
 
@@ -280,28 +283,31 @@ public class UserController extends HttpServlet {
         switch (op) {
             case "comfirm":
                 try {
-                // Đọc dữ liệu từ client gửi lên
-                int id = Integer.parseInt(request.getParameter("aid"));
-                String name = request.getParameter("username");
-                String gender = request.getParameter("gender");
-                int bid = Integer.parseInt(request.getParameter("bid"));
-                String phone = request.getParameter("phone");
-//                    if (id == null && name == null && gender == null && phone == null && bid == null) {
-//                        //Nếu nhập chưa đúng newpass và repass thì cho nhập lại       
-//                        //trả về câu lệnh báo lỗi vào request
-//                        request.setAttribute("message", "You must fill all boxes");
-//                        //quay ve home page
-//                        request.getRequestDispatcher("/auth/edit.do").forward(request, response);
-//                    } else {
-                // Cập nhật dữ liệu vào db
-
-                userService.updateInfo(name, gender, bid, phone, id);
-
                 HttpSession session = request.getSession();
-                UserEntity user = userService.getUser(id);
+                UserEntity user = (UserEntity) session.getAttribute("user");
+                String sid = Integer.toString(user.getAID());
+                int aid = user.getAID();
+                HashMap<String, String> map = new HashMap<>();
+                for (Part part : request.getParts()) {
+                    String partName = part.getName();
+                    System.out.println(partName);
+                    if (!partName.equals("avatar")) {
+                        String partValue = convertISToString(part.getInputStream());
+                        map.put(partName, partValue);
+                    } else {
+                        if (part.getContentType().startsWith("image/")) {
+                            String newFileName = "avatar-" + sid + ".jpg";
+                            String savePath = getServletContext().getRealPath("/assets/img/account/" + File.separator + newFileName);
+                            savePath = savePath.replace("\\build", "");
+                            part.write(savePath);
+                        }
+                    }
+                }
+                userService.updateInfo(map.get("username"), map.get("gender"), Integer.parseInt(map.get("bid")), map.get("phone"), aid);
+                user = userService.getUser(aid);
                 session.setAttribute("user", user);
                 // Lưu thông tin vào session
-                response.sendRedirect(request.getContextPath() + "/user/profile.do?AID=" + id);
+                response.sendRedirect(request.getContextPath() + "/user/profile.do?AID=" + aid);
 //                    }
 //                    // Hiển thị danh sách các mẫu tin của table user
 //                    response.sendRedirect(request.getContextPath() + "/user/login.do");
@@ -328,6 +334,17 @@ public class UserController extends HttpServlet {
         } else {
             response.sendRedirect(request.getContextPath() + "/user/login.do");
         }
+    }
+
+    public String convertISToString(InputStream is) throws IOException {
+        int bufferSize = 1024;
+        char[] buffer = new char[bufferSize];
+        StringBuilder out = new StringBuilder();
+        Reader in = new InputStreamReader(is, StandardCharsets.UTF_8);
+        for (int numRead; (numRead = in.read(buffer, 0, buffer.length)) > 0;) {
+            out.append(buffer, 0, numRead);
+        }
+        return out.toString();
     }
 
 }

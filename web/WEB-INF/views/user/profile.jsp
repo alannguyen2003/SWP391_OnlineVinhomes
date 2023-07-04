@@ -1,9 +1,3 @@
-<%-- 
-    Document   : resident
-    Created on : May 27, 2023, 9:18:55 PM
-    Author     : vsngh
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <%@taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -25,8 +19,6 @@
     </div>
 </section>
 <!--Page Header End-->
-
-
 
 <div style="margin-bottom: 5rem; margin-top: 5px;" class="container-xl p-5">
     <!-- Tab bar navigation-->
@@ -90,7 +82,7 @@
                 <div style="margin: 0px!important;" class="card-body p-5">
                     <div class="card-title">Account Details</div>
                     <div class="card-subtitle mb-4">Review and update your account information below.</div>
-                    <form method="post" action="<c:url value="/user/updateInfo.do" />">
+                    <form method="post" action="<c:url value="/user/updateInfo.do" />" enctype="multipart/form-data">
                         <!-- Form Group (username)-->
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>
@@ -99,7 +91,6 @@
                         </div>
 
                         <!-- Form Group (address)-->
-
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
                             <label class="label">Gender</label>
@@ -129,20 +120,17 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" class="form-control" name="aid" id="id" value="${user.AID}">       
+                        <input type="hidden" class="form-control" name="aid" id="id" value="${user.AID}">
                         <input id="avatar" name="avatar" type="file" accept="image/*" style="display: none" />
                         <input type="hidden" name="isAvaChange" value="false">
                         <!-- Save changes button-->
                         <div class="text-end"><button class="btn btn-primary" name="op" value="comfirm" type="submit">Save changes</button></div>
                     </form>
-
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
 
 
 <script>
@@ -156,4 +144,3 @@
     })
 
 </script>
-
