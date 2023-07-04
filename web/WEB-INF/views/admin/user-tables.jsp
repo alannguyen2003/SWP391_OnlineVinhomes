@@ -233,7 +233,14 @@
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
         <div class="card-body">
+<<<<<<< HEAD
             <h5 class="card-title">User Tables</h5>
+=======
+            <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+            <div>
+                <a class="btn btn-outline-primary" href="<c:url value="/admin/user-create.do"/>">Add <i class="bi bi-person-plus"></i></a>
+            </div>
+>>>>>>> 21463809d0ca0fa4e539d26bd3cf07cced953247
             <div class="filter">
                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-funnel-fill"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -247,6 +254,7 @@
                     <li><a class="dropdown-item" href="<c:url value="/admin/user-tables.do?op=getAll&filterOption=status" />">Status</a></li>
                 </ul>
             </div>
+                
             <c:if test="${filterOption == 'gender'}">
                 <div class="form-group pb-2" id="filterGender">
                     <label class="p-1" for="filterGender">Value:</label>

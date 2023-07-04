@@ -32,7 +32,7 @@
     <!-- Tab bar navigation-->
     <ul class="sub-nav" style="margin-bottom: -1px" activeindex="2">
         <li class="sub-nav__item" label="Billing"><a href="<c:url value="/user/profile.do" />" class="active"><i class="bi bi-info-lg"></i><span>Information</span></a></li>
-        <li class="sub-nav__item" label="Billing"><a href="<c:url value="/user/change-password.do" />"><i class="bi bi-lock-fill"></i><span>Security</span></a></li>
+<!--        <li class="sub-nav__item" label="Billing"><a href="<c:url value="/user/change-password.do" />"><i class="bi bi-lock-fill"></i><span>Security</span></a></li>-->
     </ul>
     <!-- Divider-->
     <hr class="mt-0 mb-5">

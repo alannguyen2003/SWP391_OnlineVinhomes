@@ -29,6 +29,10 @@ public class SupplierService {
         return supplierRepo.getSupplierEmail(id);
     }
     
+    public SupplierEntity getSupplier(int sid) throws SQLException, Exception {
+        return supplierRepo.getSupplier(sid);
+    }
+    
     public static void main(String[] args) throws Exception {
         SupplierService service = new SupplierService();
         for (SupplierEntity entity : service.searchByName("home")) {

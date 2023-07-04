@@ -123,13 +123,21 @@ public class AdminController extends HttpServlet {
                         }
                         break;
                     case "user-tables":
+
+                        userTables(request, response);
+
                         if (user.getRoleID() == 4) {
                             userTables(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         break;
+                    case "user-create":
+                        request.setAttribute("blockList", blockList);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
                     case "account-create":
+
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "user-detail":
@@ -147,9 +155,9 @@ public class AdminController extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         break;
-//                    case "accountCreate":
-//                        create(request, response);
-//                        break;
+                    case "create":
+                        create(request, response);
+                        break;
                     case "service-create":
                         if (user.getRoleID() == 4) {
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
@@ -263,6 +271,10 @@ public class AdminController extends HttpServlet {
                         request.setAttribute("activeTab", "employeeOrder");
                         request.setAttribute("activation", "add-price-order");
                         request.getRequestDispatcher("WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "supplier-detail":
+                        supplier_detail(request, response);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
 
                 }
@@ -692,17 +704,25 @@ public class AdminController extends HttpServlet {
     
     -------------------------------------------------------------------------------------------------------------------------------
      */
-    //    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-//        String name = request.getParameter("name");
-//        String email = request.getParameter("email");
-//        String password = request.getParameter("password");
-//        String phone = request.getParameter("phone");
-//        int blockId = Integer.parseInt(request.getParameter("blockId"));
-//        int roleId = Integer.parseInt(request.getParameter("roleId"));
-//        us.createAccount(phone, email, password, name, blockId, roleId);
-//        request.setAttribute("message", "Account has been added!");
-//        response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
-//    }
+    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        int blockId = Integer.parseInt(request.getParameter("bid"));
+        UserEntity entity = new UserEntity();
+        entity.setEmail(email);
+        entity.setName(name);
+        entity.setPhone(phone);
+        entity.setBID(blockId);
+        entity.setPassword(password);
+
+        us.createAccount(entity);
+        request.setAttribute("message", "Account has been added!");
+        response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+    }
+
     private void userTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String op = (String) request.getParameter("op");
         String indexPage = request.getParameter("page");
@@ -786,6 +806,15 @@ public class AdminController extends HttpServlet {
         UserEntity user = us.getUser(Integer.parseInt(aid));
 
         request.setAttribute("u", user);
+
+    }
+    
+    private void supplier_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
+        String sid = request.getParameter("SID");
+
+        SupplierEntity supplier = supplierService.getSupplier(Integer.parseInt(sid));
+
+        request.setAttribute("u", supplier);
 
     }
 

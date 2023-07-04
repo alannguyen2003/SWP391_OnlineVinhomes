@@ -141,7 +141,7 @@
                             <td>${s.phone}</td>
                             <td>${s.email}</td>
                             <td>${s.address}</td>
-                            <td><a class="btn btn-outline-primary" href="<c:url value="/admin/supplier-detail.do?AID=${s.id}"/>">View <i class="bi bi-gear"></i></a></td>
+                            <td><a class="btn btn-outline-primary" href="<c:url value="/admin/supplier-detail.do?SID=${s.id}"/>">View <i class="bi bi-gear"></i></a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
