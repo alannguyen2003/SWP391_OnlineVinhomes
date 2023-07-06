@@ -71,6 +71,7 @@ public class ServiceController extends HttpServlet {
                     int categoryId = Integer.parseInt(request.getParameter("id"));
                     ArrayList<ServiceEntity> serviceList = serviceService.getServiceByCategory(categoryId);
                     request.setAttribute("list", serviceList);
+                    request.setAttribute("cid", request.getParameter("id"));
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;
                 case "service-detail":
