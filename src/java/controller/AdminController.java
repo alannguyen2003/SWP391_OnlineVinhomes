@@ -828,6 +828,4 @@ public class AdminController extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
     }
-
-    //é đù ăng seng //m quay ha
 }
