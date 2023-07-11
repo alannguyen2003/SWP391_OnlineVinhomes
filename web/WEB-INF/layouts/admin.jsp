@@ -265,7 +265,7 @@
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
                 class="bi bi-arrow-up-short"></i></a>
 
-        
+        <input type="text" hidden id="block" value="${user.BID}">
         <!--JS SSE-->
         <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/sse/sse_uo1.js"></script>
         <!-- Vendor JS Files -->

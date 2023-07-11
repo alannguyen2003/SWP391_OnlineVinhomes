@@ -33,10 +33,10 @@ public class sse1 extends HttpServlet {
 //            ex.printStackTrace();
 //        }
             OrderService oService = new OrderService();
-            int numberOfPeningOrders = oService.getPendingOrders(1);
-            String statement1 = "";
-            statement1 += numberOfPeningOrders;
-//            String statement2 = getCelebrityMood();
+            String blockId = (String) request.getParameter("bId");
+            int numberOfPeningOrders = oService.getPendingOrders(Integer.parseInt(blockId));
+            String statement1 = "" + numberOfPeningOrders;
+//            String statement2 = ""+blockId;
             // content type must be set to text/event-stream
             resp.setContentType("text/event-stream");
 

@@ -126,5 +126,6 @@ public class OrderService {
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();
         orderService.updatePrice(25, 70);
+        System.out.println(orderService.getPendingOrders(2));
     }
 }
