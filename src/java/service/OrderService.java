@@ -109,6 +109,10 @@ public class OrderService {
         orderRepository.addOrder(user, cart, note);
     }
     
+    public int getPendingOrders(int blockId) throws SQLException {
+        return orderRepository.getPendingOrders(blockId);
+    }
+    
     public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
         ArrayList<OrderHeaderRequest> list = orderRepository.getAllOrders();
         ArrayList<EmployeeOrderRequest> listEmployee = orderRepository.getEmployeeListForOrderList();
