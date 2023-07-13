@@ -407,10 +407,10 @@ public class OrderRepository {
         Connection con = DBConfig.getConnection();
         
         Statement stm = con.createStatement();
-        ResultSet rs = stm.executeQuery("select top 5 Orders.OID, Service.name, OrderDetail.price ,COUNT(service.service_id) as Sold, Sum(OrderDetail.price) as Revenue\n"
+        ResultSet rs = stm.executeQuery("select top 4 Orders.OID, Service.name, OrderDetail.price ,COUNT(service.service_id) as Sold, Sum(OrderDetail.price) as Revenue\n"
                 + "from Orders left join OrderDetail ON Orders.OID = OrderDetail.orderHeader_id \n"
                 + "left join Service on Service.service_id = OrderDetail.service_id where Orders.status = 'Completed' \n"
-                + "GROUP BY Orders.OID, Service.name, OrderDetail.price");
+                + "GROUP BY Orders.OID, Service.name, OrderDetail.price Order By Revenue DESC");
         list = new ArrayList<>();
         while (rs.next()) {
             SaleEntity oh = new SaleEntity();

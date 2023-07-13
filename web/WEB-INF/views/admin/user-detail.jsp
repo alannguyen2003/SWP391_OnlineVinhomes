@@ -25,9 +25,9 @@
             </div>
             <!-- Account details card-->
 
-            <form action="<c:url value="/admin/updateUser.do" />">
+            <form id="updateUserForm" method="post" action="<c:url value="/admin/updateUser.do" />">
                 <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">ID</label>
+                    <label for="aid" class="col-md-4 col-lg-3 col-form-label">ID</label>
                     <div class="col-md-8 col-lg-9">
                         <input name="AID" type="hidden" class="form-control" id="AID" value="${u.AID}">
                         <input name="AID" type="text" class="form-control" id="AID" value="${u.AID}" disabled="">
@@ -43,7 +43,7 @@
                 </div>
                     
                 <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                    <label for="Gender" class="col-md-4 col-lg-3 col-form-label">Gender</label>
                     <div class="col-md-8 col-lg-9">
                         <input name="" type="hidden" class="form-control" id="gender" value="${u.gender}">
                         <input name="" type="text" class="form-control" id="gender" value="${u.gender}" disabled="">
@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Status</label>
+                    <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
                     <div class="col-md-8 col-lg-9">
                         <input name="status" type="text" class="form-control" id="Address" value="${u.status}">
                     </div>
@@ -89,8 +89,8 @@
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#updateResourceModal">Save change</button>
-                        <input id="updateResident" type="submit" name="op" value="" hidden>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUserModal">Save change</button>
+                        <input id="updateUser" type="submit" name="op" value="" hidden>
                     </div>
                 </div>
             </form>
@@ -102,15 +102,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this resident information?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this User information?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Update" below if you are ready to update this resident.</div>
+            <div class="modal-body">Select "Update" below if you are ready to update this User.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a id="updateResidentLink" onclick="updateUser()" class="btn btn-primary"/>Update</a>
+                <a id="updateUserLink" onclick="updateUser()" class="btn btn-primary">Update</a>
             </div>
         </div>
     </div>

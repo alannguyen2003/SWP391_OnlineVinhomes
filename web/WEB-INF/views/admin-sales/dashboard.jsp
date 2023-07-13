@@ -6,12 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="pagetitle">
-    <h1>Chart.js</h1>
+    <h1>Revenue</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
             <li class="breadcrumb-item">Charts</li>
-            <li class="breadcrumb-item active">Chart.js</li>
+            <li class="breadcrumb-item active">Revenue</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->

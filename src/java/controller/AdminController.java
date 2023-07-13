@@ -276,6 +276,13 @@ public class AdminController extends HttpServlet {
                         supplier_detail(request, response);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
+                    case "updateSupplier":
+                        if (user.getRoleID() == 4) {
+                            updateSupplier(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
+                        break;
 
                 }
             } catch (Exception ex) {
@@ -827,5 +834,17 @@ public class AdminController extends HttpServlet {
         String message = "Update successfully";
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
+    }
+    
+    protected void updateSupplier(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String address = request.getParameter("address");
+        int SID = Integer.parseInt(request.getParameter("SID"));
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        String name = request.getParameter("name");
+        supplierService.updateSupplier(address, SID, name, phone, email);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/supplier-detail.do?SID=" + SID).forward(request, response);
     }
 }

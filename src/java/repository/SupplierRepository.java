@@ -97,9 +97,22 @@ public class SupplierRepository {
         return email;
     }
     
+    public void updateSupplier(String address, int sid, String name, String phone, String email) throws SQLException{
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Supplier set address = ?, name = ?, phone = ?, email = ? where SID = ?");
+        pstm.setString(1, address);
+        pstm.setString(2, name);
+        pstm.setString(3, phone);
+        pstm.setString(4, email);
+        pstm.setInt(5, sid);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+    
     public static void main(String[] args) throws Exception {
         SupplierRepository repository = new SupplierRepository();
-        for (SupplierEntity entity : repository.searchByName("home")) System.out.println(entity);
+        repository.updateSupplier("HCM", 1, "Test", "1234567891", "test@gmail.com");
     }
 
 }

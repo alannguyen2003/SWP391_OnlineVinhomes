@@ -33,6 +33,10 @@ public class SupplierService {
         return supplierRepo.getSupplier(sid);
     }
     
+    public void updateSupplier(String address, int sid, String name, String phone, String email) throws SQLException{
+        supplierRepo.updateSupplier(address, sid, name, phone, email);
+    }
+    
     public static void main(String[] args) throws Exception {
         SupplierService service = new SupplierService();
         for (SupplierEntity entity : service.searchByName("home")) {
