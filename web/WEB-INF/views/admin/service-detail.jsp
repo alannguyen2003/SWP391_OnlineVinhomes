@@ -25,7 +25,7 @@
             </div>
             <!-- Services details card-->
 
-            <form action="<c:url value="/admin/updateService.do" />">
+            <form id="updateServiceForm" action="<c:url value="/admin/updateService.do" />" method="post">
                 <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">ServiceID</label>
                     <div class="col-md-8 col-lg-9">
@@ -65,9 +65,10 @@
                 <div class="row mb-3">
                     <label for="rated" class="col-md-4 col-lg-3 col-form-label">Rated Star</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="rated" type="number" step="0.5" max="5" class="form-control" id="rated" value="${se.rated}">
+                        <input name="rated" type="text" class="form-control" id="rated" value="${se.rated}">
                     </div>
                 </div>
+
 
                 <div class="row mb-3">
                     <label for="supplierId" class="col-md-4 col-lg-3 col-form-label">Supplier ID</label>
@@ -85,7 +86,7 @@
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#updateServiceModal">Save change</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateServiceModal">Save change</button>
                         <input id="updateService" type="submit" name="op" value="" hidden>
                     </div>
                 </div>

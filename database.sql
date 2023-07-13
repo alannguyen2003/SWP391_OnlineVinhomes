@@ -73,9 +73,9 @@ create table Service (
 	service_id int identity(1,1),
 	name nvarchar(255),
 	description nvarchar(255),
-	lower_price int,
-	upper_price int,
-	rated decimal(1,1),
+	lower_price decimal(10,2),
+	upper_price decimal(10,2),
+	rated decimal(3,1),
 	supplier_id int,
 	category_id int,
 	primary key (service_id)
