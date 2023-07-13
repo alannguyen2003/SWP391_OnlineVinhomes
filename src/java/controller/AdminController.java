@@ -524,31 +524,34 @@ public class AdminController extends HttpServlet {
     -------------------------------------------------------------------------------------------------------------------------------
      */
     protected void residentTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String op = (String) request.getParameter("op");
+        String op = request.getParameter("op");
         String indexPage = request.getParameter("page");
         HttpSession session = request.getSession();
         int currentPage = 1;
         if (indexPage != null) {
             currentPage = Integer.parseInt(indexPage);
         }
+
         List<UserEntity> list = new ArrayList<>();
         int totalItems = 0;
         int totalPages = 0;
         int pageSize = 10;
         int filterValue = 0;
+
         switch (op) {
             case "getAll":
                 list = rs.getAllResident();
-                // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
                 break;
+
             case "filterBlock":
                 list = rs.getAllResident();
                 filterValue = Integer.parseInt(request.getParameter("filterValue"));
                 list = filterListResident(list, "block", filterValue, 0);
                 request.setAttribute("filterOption", "block");
                 break;
+
             case "filterStatus":
                 list = rs.getAllResident();
                 filterValue = Integer.parseInt(request.getParameter("filterValue"));
@@ -556,8 +559,6 @@ public class AdminController extends HttpServlet {
                 request.setAttribute("filterOption", "status");
                 break;
         }
-        // Cắt danh sách dữ liệu theo phân trang
-//        List<UserEntity> subList = paginateListResident(list, currentPage, pageSize);
 
         request.setAttribute("activeTab", "resident");
         request.setAttribute("op", op);
@@ -573,7 +574,6 @@ public class AdminController extends HttpServlet {
     private List<UserEntity> filterListResident(List<UserEntity> list, String filterOption, int filterValue1, int filterValue2) {
         List<UserEntity> filteredList = new ArrayList<>();
 
-        // Lọc dữ liệu dựa trên filterOption và dữ liệu lọc
         if (filterOption.equals("block")) {
             filteredList = list.stream()
                     .filter(resident -> resident.getBID() == filterValue1)
@@ -583,7 +583,7 @@ public class AdminController extends HttpServlet {
                     .filter(resident -> resident.getStatus() == filterValue2)
                     .collect(Collectors.toList());
         }
-        // Trả về danh sách đã lọc
+
         return filteredList;
     }
 
@@ -724,39 +724,42 @@ public class AdminController extends HttpServlet {
     }
 
     private void userTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String op = (String) request.getParameter("op");
+        String op = request.getParameter("op");
         String indexPage = request.getParameter("page");
         HttpSession session = request.getSession();
         int currentPage = 1;
         if (indexPage != null) {
             currentPage = Integer.parseInt(indexPage);
         }
+
         List<UserEntity> list = new ArrayList<>();
         int totalItems = 0;
         int totalPages = 0;
         int pageSize = 10;
         int filterValue = 0;
         String filterValue1 = "";
+
         switch (op) {
             case "getAll":
                 list = us.getAllUser();
-                // Calculate the total number of pages
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
-
                 break;
+
             case "filterGender":
                 list = us.getAllUser();
                 filterValue1 = request.getParameter("filterValue1");
                 list = filterListUser(list, "gender", filterValue1, 0, 0);
                 request.setAttribute("filterOption", "gender");
                 break;
+
             case "filterRole":
                 list = us.getAllUser();
                 filterValue = Integer.parseInt(request.getParameter("filterValue"));
                 list = filterListUser(list, "role", "", filterValue, 0);
                 request.setAttribute("filterOption", "role");
                 break;
+
             case "filterStatus":
                 list = us.getAllUser();
                 filterValue = Integer.parseInt(request.getParameter("filterValue"));
@@ -780,23 +783,20 @@ public class AdminController extends HttpServlet {
     private List<UserEntity> filterListUser(List<UserEntity> list, String filterOption, String filterValue1, int filterValue2, int filterValue3) {
         List<UserEntity> filteredList = new ArrayList<>();
 
-        // Lọc dữ liệu dựa trên filterOption và dữ liệu lọc
         if (filterOption.equals("gender")) {
             filteredList = list.stream()
-                    .filter(service -> service.getGender().equalsIgnoreCase(filterValue1))
+                    .filter(user -> user.getGender().equalsIgnoreCase(filterValue1))
                     .collect(Collectors.toList());
-        } else if (filterOption.equals(
-                "role")) {
+        } else if (filterOption.equals("role")) {
             filteredList = list.stream()
                     .filter(user -> user.getRoleID() == filterValue2)
                     .collect(Collectors.toList());
-        } else if (filterOption.equals(
-                "status")) {
+        } else if (filterOption.equals("status")) {
             filteredList = list.stream()
                     .filter(user -> user.getStatus() == filterValue3)
                     .collect(Collectors.toList());
         }
-        // Trả về danh sách đã lọc
+
         return filteredList;
     }
 
@@ -808,7 +808,7 @@ public class AdminController extends HttpServlet {
         request.setAttribute("u", user);
 
     }
-    
+
     private void supplier_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String sid = request.getParameter("SID");
 
