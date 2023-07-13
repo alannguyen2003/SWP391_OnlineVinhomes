@@ -302,8 +302,7 @@
                                 <div class="footer-widget__column footer-widget__about">
                                     <h3 class="footer-widget__title">Explore</h3>
                                     <div class="footer-widget__about-text-box">
-                                        <p class="footer-widget__about-text">Tincidunt elit magnis nulla facilisis sagittis
-                                            maecenas. Sapien nunced amet dolores.</p>
+                                        <p class="footer-widget__about-text">Look for us on social media platforms~</p>
                                     </div>
                                     <div class="site-footer__social">
                                         <a href="#"><i class="fab fa-twitter"></i></a>
