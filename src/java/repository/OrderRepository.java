@@ -647,6 +647,23 @@ public class OrderRepository {
         return list;
     }
     
+    public int getPendingOrders(int bId) throws SQLException {
+        int result = 0;
+        Connection cn = DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select * from Orders as o join Account as a on o.EID = a.AID where o.status = 'Pending' and a.BID = ?";
+            pst = cn.prepareStatement(query);
+            pst.setInt(1, bId);
+            rs = pst.executeQuery();
+        }
+        while(rs.next()) {
+            result++;
+        }
+        return result;
+    }
+    
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
         System.out.println(op.selectOrderDetailWithNameService(38));
