@@ -106,7 +106,7 @@
                             <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-5.png" alt="">
                         </div>
                         <div class="main-slider-two-bubble-6 float-bob-y">
-                            <img src${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-6.png" alt="">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-6.png" alt="">
                         </div>
                         <div class="main-slider-two-bubble-7 float-bob-x">
                             <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-7.png" alt="">
