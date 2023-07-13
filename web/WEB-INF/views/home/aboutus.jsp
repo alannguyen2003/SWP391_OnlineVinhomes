@@ -29,9 +29,11 @@
                         <span class="section-title__tagline">Company Benefits</span>
                         <h2 class="section-title__title">Get to Know About Our Brote Company</h2>
                     </div>
-                    <p class="get-to-know__text">Lorem ipsum is simply free text dolor sit am adipi we help you
-                        ensure everyone. Tincidunt elit magnis nulla facilisis sagittis maecenas. Sapien nunced
-                        amet dolores sit ipsum velit purus aliq massa fringilla leo.</p>
+                    <p class="get-to-know__text">Vinhomes is the number 1 real estate development and management company in Vietnam, 
+                        recognized for its outstanding scale, fast execution speed and high quality of service. 
+                        We provide cleaning and repair services for Vinhomes Residential Area. 
+                        In addition, we also provide other services such as laundry, tree planting, water equipment repair and replacement.
+                        If you need any other information, feel free to contact us.</p>
                     <div class="get-to-know__points-box">
                         <ul class="list-unstyled get-to-know__points">
                             <li>
@@ -57,7 +59,7 @@
                                     <span class="icon-tick"></span>
                                 </div>
                                 <div class="text">
-                                    <p>We are Committed</p>
+                                    <p>Good price</p>
                                 </div>
                             </li>
                             <li>
@@ -65,7 +67,7 @@
                                     <span class="icon-tick"></span>
                                 </div>
                                 <div class="text">
-                                    <p>Highly Rated Cleaning</p>
+                                    <p>Friendly Attitude</p>
                                 </div>
                             </li>
                         </ul>

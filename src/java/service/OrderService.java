@@ -39,7 +39,7 @@ public class OrderService {
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         return orderRepository.selectMyOrders(id);
     }
-    
+  
 
     public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
         return orderRepository.selectOrderDetail(id);
