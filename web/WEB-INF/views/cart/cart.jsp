@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2" style="display: flex; justify-content: flex-end">
-                                <div >
+                                <div>
                                     <p class="small text-muted mb-4 pb-2 d-flex justify-content-end">Min Price</p>
                                     <p class="lead fw-normal mb-0">$<fmt:formatNumber value="${item.service.getLowerPrice()}" pattern="##.#"/></p>
                                 </div>
