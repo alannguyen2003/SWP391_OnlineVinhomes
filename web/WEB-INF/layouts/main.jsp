@@ -157,7 +157,7 @@
                                                     <a href="<c:url value="/admin/admin-dashboard.do"/>">Admin Page</a>
                                                 </li>
                                                 <li style="margin-left: 10rem">
-                                                    <a href="<c:url value="/user/profile.do?AID=${user.AID}" />">Hello, ${user.email}</a>
+                                                    <a href="<c:url value="/user/profile.do?AID=${user.AID}" />">Hello, ${user.name}</a>
                                                 </li>
 
                                                 <li class="dropdown">
@@ -184,7 +184,7 @@
                                             <c:if test="${sessionScope.user.roleID == 1 && user != null}">
                                                 <!-- Neu user da login -->
                                                 <li style="margin-left: 22rem">
-                                                    <a href="<c:url value="/user/profile.do?AID=${user.AID}" />">Hello, ${user.email}</a>
+                                                    <a href="<c:url value="/user/profile.do?AID=${user.AID}" />">Hello, ${user.name}</a>
                                                 </li>
 
                                                 <li class="dropdown">

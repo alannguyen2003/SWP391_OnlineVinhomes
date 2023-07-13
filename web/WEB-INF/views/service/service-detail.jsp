@@ -197,11 +197,11 @@
                                                 Vote from 1 to 5 for this service
                                             </h4>
                                             <span class="star-rating">
-                                                <input type="radio" name="rated" value="1"><i></i>
-                                                <input type="radio" name="rated" value="2"><i></i>
-                                                <input type="radio" name="rated" value="3"><i></i>
-                                                <input type="radio" name="rated" value="4"><i></i>
-                                                <input type="radio" name="rated" value="5"><i></i>
+                                                <input type="radio" name="rate" value="1"><i></i>
+                                                <input type="radio" name="rate" value="2"><i></i>
+                                                <input type="radio" name="rate" value="3"><i></i>
+                                                <input type="radio" name="rate" value="4"><i></i>
+                                                <input type="radio" name="rate" value="5"><i></i>
                                             </span>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <p class="small mb-0" style="color: #1D38A5;">
@@ -220,7 +220,7 @@
                                 <div class="card-body">
                                     <div class="d-flex flex-start">
                                         <img class="rounded-circle shadow-1-strong me-3"
-                                             src="<c:url value="/img/user.png"/>" alt="avatar" width="40"
+                                             src="<c:url value="${pageContext.request.contextPath}/assets/img/account/user-avatar.png"/>" alt="avatar" width="40"
                                              height="40" />
                                         <div class="w-100">
                                             <div class="d-flex justify-content-between align-items-center mb-3">
