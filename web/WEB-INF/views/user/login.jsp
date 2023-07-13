@@ -38,13 +38,13 @@
                                 </div>
 
                                 <p style="color:red">${message}</p>
-                                
+
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" name="rem" id="flexCheckDefault" ${cookie.cRem.value!=null?"checked":""}>
                                     <label class="form-check-label" for="flexCheckDefault">Remember Me </label>
                                 </div>
-                                    
-                                <button class="btn btn-primary text-center mt-2" name="op" value="submit_login" type="submit">
+
+                                <button id="login" class="btn btn-primary text-center mt-2" name="op" value="submit_login" type="submit">
                                     Log In
                                 </button>
                                 <p class="text-center mb-5">
@@ -56,7 +56,7 @@
                         </form>
                     </div>
                 </div>
-                                
+
             </div>
         </div>
     </div>

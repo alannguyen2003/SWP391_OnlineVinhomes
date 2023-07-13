@@ -31,28 +31,28 @@ public class FeedbackRepository {
             fb.setFID(rs.getInt("fid"));
             fb.setDID(rs.getInt("did"));
             fb.setUID(rs.getInt("uid"));
+            fb.setRated(rs.getDouble("rate"));
             fb.setMessage(rs.getString("message"));
             fb.setName(rs.getString("name"));
             fb.setContactNumber(rs.getString("contact_number"));
             fb.setEmail(rs.getString("email"));
-            fb.setRated(rs.getDouble("rated"));
             result.add(fb);
         }
         con.close();
         return result;
     }
     
-    public void addFeedback(int UID, int DID, String message, String name, String contact, String email, double rated) throws SQLException{
+    public void addFeedback(int UID, int DID, double rate,String message, String name, String contact, String email) throws SQLException{
         String query = "insert into Feedback values (?,?,?,?,?,?,?)";
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, UID);
         stm.setInt(2, DID);
-        stm.setString(3, message);
-        stm.setString(4, name);
-        stm.setString(5, contact);
-        stm.setString(6, email);
-        stm.setDouble(7, rated);
+        stm.setDouble(3, rate);
+        stm.setString(4, message);
+        stm.setString(5, name);
+        stm.setString(6, contact);
+        stm.setString(7, email);
         stm.executeUpdate();
         con.close();
     }
@@ -79,7 +79,7 @@ public class FeedbackRepository {
     }
     public static void main(String[] args) throws SQLException {
         FeedbackRepository repo = new FeedbackRepository();
-        repo.addFeedback(1, 1, "Test", "test", "0898980731", "a@gmail.com", 5);
+        repo.addFeedback(1, 1, 5, "Test", "test", "0898980731", "a@gmail.com");
         for(FeedbackEntity entity : repo.getFeedbackOfService(1)){
             System.out.println(entity);
         }
