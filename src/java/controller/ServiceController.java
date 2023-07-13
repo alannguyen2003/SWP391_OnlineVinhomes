@@ -171,6 +171,7 @@ public class ServiceController extends HttpServlet {
         request.setAttribute("noFeedbacks", listFeedback.size());
         request.setAttribute("feedbacks", listFeedback);     
         request.setAttribute("service", service);
+        request.setAttribute("cid", request.getParameter("cid"));
         request.setAttribute("cate", cate);
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
