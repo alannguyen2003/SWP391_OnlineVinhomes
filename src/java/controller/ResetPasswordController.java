@@ -104,7 +104,7 @@ public class ResetPasswordController extends HttpServlet {
 
                     if (newPassword.equals(reEnter)) {
                         UserService userService = new UserService();
-                        userService.resetPass(email, newPassword);
+                        userService.resetPass(email, newPassword, userService.getUserSalt(email));
                         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     } else {
                         request.setAttribute("action", "reset-pass-handler");
