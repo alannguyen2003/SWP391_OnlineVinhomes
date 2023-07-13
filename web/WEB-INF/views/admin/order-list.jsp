@@ -18,124 +18,58 @@
     </nav>
 </div><!-- End Page Title -->
 
-<section class="section">
-    <div class="row">
-            <div class="card shadow mb-4">
-                <div class="card-body" style="margin-bottom: 0px;">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Resident</th>
-                                    <th>Employee</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Note</th>
-                                    <th>Price</th>
-                                    <th>Operation</th>
-                                </tr>
-                            </thead>
-                            <c:forEach var="o" items="${list}" varStatus="loop">
-                                <tbody>
-                                    <tr>
-                                        <td>${o.id}</td>
-                                        <td>${o.residentName}</td>
-                                        <td>${o.employeeName}</td>
-                                        <td>${o.date}</td>
-                                        <c:if test="${o.status == 'Pending'}">
-                                            <td><span class="bage bage-warning">${o.status}</span></td>
-                                            </c:if>
-                                            <c:if test="${o.status != 'Pending'}">
-                                            <td><span class="bage bage-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span></td>
-                                            </c:if>
-                                        <td>${o.note}</td>
-                                        <td>${o.total}$</td>
-                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/add-employee-order.do?OID=${o.id}"/>">View <i class="bi bi-gear"></i></a></td>
-                                    </tr>
-                                </tbody>
-                            </c:forEach>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-</section>
-
-<nav>
-    <ul class="pagination justify-content-center">
-        <c:if test="${currentPage > 1}">
-            <c:url var="previousPageUrl" value="/admin/resident-tables.do">
-                <c:param name="page" value="${currentPage - 1}" />
-                <c:param name="op" value="${op}" />
-                <c:param name="filterOption" value="${filterOption}" />
-                <c:param name="filterValue1" value="${filterValue1}" />
-                <c:param name="filterValue2" value="${filterValue2}" />
-                <c:param name="searchOption" value="${searchOption}" />
-                <c:param name="searchValue" value="${searchValue}" />
-                <c:param name="sortOption" value="${sortOption}" />
-                <c:param name="sortType" value="${sortType}" />
-            </c:url>
-            <li class="page-item">
-                <a class="page-link" href="${previousPageUrl}">Previous</a>
-            </li>
-        </c:if>
-        <c:forEach var="i" begin="1" end="${totalPages}">
-            <c:choose>
-                <c:when test="${i == currentPage}">
-                    <li class="page-item active">
-                        <a class="page-link" href="#"><c:out value="${i}" /></a>
+<!-- Resident Table -->
+<div class="col-12">
+    <div class="card recent-sales overflow-auto">
+        <div class="card-body">
+            <h5 class="card-title">Orders Tables</h5>
+            <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-funnel-fill"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                        <h6>Filter</h6>
                     </li>
-                </c:when>
-                <c:otherwise>
-                    <c:if test="${i <= 3 || i >= totalPages - 2 || (i >= currentPage - 1 && i <= currentPage + 1)}">
-                        <c:url var="pageUrl" value="/admin/resident-tables.do">
-                            <c:param name="page" value="${i}" />
-                            <c:param name="op" value="${op}" />
-                            <c:param name="filterOption" value="${filterOption}" />
-                            <c:param name="filterValue1" value="${filterValue1}" />
-                            <c:param name="filterValue2" value="${filterValue2}" />
-                            <c:param name="searchOption" value="${searchOption}" />
-                            <c:param name="searchValue" value="${searchValue}" />
-                            <c:param name="sortOption" value="${sortOption}" />
-                            <c:param name="sortType" value="${sortType}" />
-                        </c:url>
-                        <li class="page-item">
-                            <a class="page-link" href="${pageUrl}"><c:out value="${i}" /></a>
-                        </li>
-                    </c:if>
-                    <c:if test="${i == 4 && currentPage > 5}">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">...</a>
-                        </li>
-                    </c:if>
-                    <c:if test="${i == totalPages - 3 && currentPage < totalPages - 4}">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">...</a>
-                        </li>
-                    </c:if>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-        <c:if test="${currentPage < totalPages}">
-            <c:url var="nextPageUrl" value="/admin/order-list.do">
-                <c:param name="page" value="${currentPage + 1}" />
-                <c:param name="op" value="${op}" />
-                <c:param name="filterOption" value="${filterOption}" />
-                <c:param name="filterValue1" value="${filterValue1}" />
-                <c:param name="filterValue2" value="${filterValue2}" />
-                <c:param name="searchOption" value="${searchOption}" />
-                <c:param name="searchValue" value="${searchValue}" />
-                <c:param name="sortOption" value="${sortOption}" />
-                <c:param name="sortType" value="${sortType}" />
-            </c:url>
-            <li class="page-item">
-                <a class="page-link" href="${nextPageUrl}">Next</a>
-            </li>
-        </c:if>
-    </ul>
-</nav>
+                    <li><a class="dropdown-item" href="<c:url value="/admin/order-list.do?op=getall" />">All Orders</a></li>
+                    <li><a class="dropdown-item" href="<c:url value="/admin/order-list.do?op=getall&filterOption=status" />">Status</a></li>
+                </ul>
+            </div>
 
 
-
+            <table id="myTable" class="table table-borderless datatable">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Resident</th>
+                        <th scope="col">Employee</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Note</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items = "${list}" var ="r">
+                        <tr>
+                            <th scope="row">${r.id}</a></th>
+                            <td>${r.residentName}</td>
+                            <td>${r.employeeName}</td>
+                            <td>${r.date}</td>
+                            <c:if test="${r.status == 'Pending'}">
+                                <td><span class="bage bage-warning">${r.status}</span></td>
+                                </c:if>
+                                <c:if test="${r.status != 'Pending'}">
+                                <td><span class="bage bage-${r.status == "Completed" ? "success" : "danger"}">${r.status}</span></td>
+                                </c:if>
+                            <td>${r.note}</td>
+                            <td>${r.total == 0? "" : r.total}</td>
+                            <td>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
