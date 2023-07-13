@@ -89,12 +89,12 @@ public class UserRepository {
         return null;
     }
 
-    public void resetPass(String email, String password) throws SQLException {
+    public void resetPass(String email, String password, String salt) throws SQLException {
         String query = "update Account set password = ? where email = ?";
         connect = DBConfig.getConnection();
         ps = connect.prepareStatement(query);
         ps.setString(2, email);
-        ps.setString(1, password);
+        ps.setString(1, Hasher.doHashing(password, salt));
         ps.executeUpdate();
         connect.close();
 
