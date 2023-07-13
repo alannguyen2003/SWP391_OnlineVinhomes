@@ -89,8 +89,12 @@
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
+<<<<<<< HEAD
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUserModal">Save change</button>
                         <input id="updateUser" type="submit" name="op" value="" hidden>
+=======
+                        <button type="submit" id="updateResident" class="btn btn-primary" data-toggle="modal" data-target="#updateUserModal">Save change</button>
+>>>>>>> 5686e949bfc7682260745b1741f4a5f07d90681b
                     </div>
                 </div>
             </form>

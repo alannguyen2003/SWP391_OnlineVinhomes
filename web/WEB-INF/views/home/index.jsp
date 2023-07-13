@@ -66,8 +66,7 @@
                             <div class="main-slider-two__content">
                                 <p class="main-slider-two__sub-title">We’re Best Cleaning Company</p>
                                 <h2 class="main-slider-two__title">Providing Best <br> Cleaning Services</h2>
-                                <p class="main-slider-two__text">Lorem ipsum is simply free text dolor sit am
-                                    adipi we help <br> simply free text in the you ensure everyone. </p>
+                                <p class="main-slider-two__text">We provide the services that suit your needs at the right price <br> and meet the criteria you require. </p>
                                 <div class="main-slider-two__btn-box">
                                     <a href="<c:url value="/home/index.do"/>" class="thm-btn main-slider-two__btn">Discover more <i
                                             class="fa fa-angle-right"></i></a>
@@ -106,7 +105,7 @@
                             <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-5.png" alt="">
                         </div>
                         <div class="main-slider-two-bubble-6 float-bob-y">
-                            <img src${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-6.png" alt="">
+                            <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-6.png" alt="">
                         </div>
                         <div class="main-slider-two-bubble-7 float-bob-x">
                             <img src="${pageContext.request.contextPath}/assets/images/shapes/main-slider-two-bubble-7.png" alt="">
@@ -308,9 +307,8 @@
                         <span class="section-title__tagline">Best Experts in Cleaning</span>
                         <h2 class="section-title__title">We’re Cleaning for you Since 1987</h2>
                     </div>
-                    <p class="we-cleaning__text-1">Lorem ipsum is simply free text dolor sit am adipi we help
-                        you ensure everyone. Tincidunt elit magnis nulla facilisis sagittis maecenas. Sapien
-                        nunced amet dolores sit ipsum velit purus aliq massa fringilla leo.</p>
+                    <p class="we-cleaning__text-1">We provide cleaning and repair services for Vinhomes Residential Area. 
+                                                    If you need any other information, feel free to contact us.</p>
                     <div class="we-cleaning__points-box">
                         <ul class="list-unstyled we-cleaning__points clearfix">
                             <li>
@@ -319,8 +317,7 @@
                                 </div>
                                 <div class="we-cleaning__text-box">
                                     <h4 class="we-cleaning__title">Residential Cleaning <br> Services</h4>
-                                    <p class="we-cleaning__text-2">Tincidunt elit magnis nulla sit <br>
-                                        facilisis sagittis maecenas.</p>
+                                    <p class="we-cleaning__text-2">Services for residential rooms.</p>
                                 </div>
                             </li>
                             <li>
@@ -329,13 +326,12 @@
                                 </div>
                                 <div class="we-cleaning__text-box">
                                     <h4 class="we-cleaning__title">Commercial Cleaning <br> Services</h4>
-                                    <p class="we-cleaning__text-2">Tincidunt elit magnis nulla sit <br>
-                                        facilisis sagittis maecenas.</p>
+                                    <p class="we-cleaning__text-2">Services for make a profit.</p>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                    <a href="about.html" class="thm-btn we-cleaning__btn">Discover more <i
+                    <a href="<c:url value="/home/aboutus.do" />" class="thm-btn we-cleaning__btn">Discover more <i
                             class="fa fa-angle-right"></i></a>
                 </div>
             </div>
@@ -365,7 +361,7 @@
                     <div class="services-two__single">
                         <div class="services-two__img-box">
                             <div class="services-two__img">
-                                <img src="${pageContext.request.contextPath}/assets/images/services/services-2-1.jpg" alt="">
+                                <img src="${pageContext.request.contextPath}/assets/images/services/services-${o.id}.jpg" alt="" style="width: 370px; height: 267px;">
                             </div>
                             <div class="services-two__icon">
                                 <span class="icon-plumbing"></span>
@@ -380,49 +376,7 @@
                     </div>
                 </div>
             </c:forEach>
-            <!--Services Two single End-->
-            <!--            Services Two single Start
-                        <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="200ms">
-                            <div class="services-two__single">
-                                <div class="services-two__img-box">
-                                    <div class="services-two__img">
-                                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-2.jpg" alt="">
-                                    </div>
-                                    <div class="services-two__icon">
-                                        <span class="icon-laundry"></span>
-                                    </div>
-                                </div>
-                                <div class="services-two__content">
-                                    <h3 class="services-two__title"><a href="${pageContext.request.contextPath}/laundry-services.html">Laundry Services</a>
-                                    </h3>
-                                    <p class="services-two__text">Lorem ipsum is simply free text dolor sit am adipi we help
-                                        you ensure everyone.</p>
-                                    <a href="${pageContext.request.contextPath}/laundry-services.html" class="services-two__btn">read more</a>
-                                </div>
-                            </div>
-                        </div>
-                        Services Two single End
-                        Services Two single Start
-                        <div class="col-xl-4 col-lg-4 wow fadeInUp" data-wow-delay="300ms">
-                            <div class="services-two__single">
-                                <div class="services-two__img-box">
-                                    <div class="services-two__img">
-                                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-3.jpg" alt="">
-                                    </div>
-                                    <div class="services-two__icon">
-                                        <span class="icon-washing-plate"></span>
-                                    </div>
-                                </div>
-                                <div class="services-two__content">
-                                    <h3 class="services-two__title"><a href="${pageContext.request.contextPath}/kitchen-cleaning.html">Kitchen Cleaning</a>
-                                    </h3>
-                                    <p class="services-two__text">Lorem ipsum is simply free text dolor sit am adipi we help
-                                        you ensure everyone.</p>
-                                    <a href="${pageContext.request.contextPath}/kitchen-cleaning.html" class="services-two__btn">read more</a>
-                                </div>
-                            </div>
-                        </div>
-                        Services Two single End-->
+
         </div>
     </div>
 </section>
@@ -502,64 +456,6 @@
 </section>
 <!--Brand One End-->
 
-<!--FAQ One Start-->
-<section class="faq-one">
-    <div class="faq-one-bg" style="background-image: url(${pageContext.request.contextPath}/assets/images/backgrounds/faq-one-bg.jpg);"></div>
-    <div class="faq-one-shape-1 float-bob-x"
-         style="background-image: url(${pageContext.request.contextPath}/assets/images/shapes/faq-one-shape-1.png);"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-8 col-lg-9">
-                <div class="faq-one__left">
-                    <div class="section-title text-left">
-                        <span class="section-title__tagline">Our Company FAQs</span>
-                        <h2 class="section-title__title">Frequently Asked Question from Our Clients</h2>
-                    </div>
-                    <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
-                        <div class="accrodion active">
-                            <div class="accrodion-title">
-                                <h4>Nulla eu purus scelerisque, dignissim diam.</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                        veniam.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                        <div class="accrodion">
-                            <div class="accrodion-title">
-                                <h4>Proin imperdiet mi id urna egestas dictum.</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                        veniam.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                        <div class="accrodion last-chiled">
-                            <div class="accrodion-title">
-                                <h4>Cras ultrices elit eget ex pulvinar, ac imperdiet leo lacinia.</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                        veniam.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--FAQ One End-->
-
 <!--Project One Start-->
 <section class="project-one">
     <div class="project-one__top">
@@ -568,16 +464,14 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="project-one__left">
                         <div class="section-title text-left">
-                            <span class="section-title__tagline">Complete Projects</span>
-                            <h2 class="section-title__title">Keep Eye on Our New Projects</h2>
+                            <span class="section-title__tagline">Complete Services</span>
+                            <h2 class="section-title__title">Keep Eye on Our New Services</h2>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6">
                     <div class="project-one__right">
-                        <p class="project-one__text-1">Lorem ipsum dolor sit amet elit, sed do eiusmod tempor
-                            incidut labore et dolore magna for aliqua. Cum sociis natoque penatibus et mages.
-                            Aene an massa.</p>
+                        <p class="project-one__text-1">These are services that are prepared to be available to customers at any time. Call us whenever you need</p>
                     </div>
                 </div>
             </div>
@@ -612,14 +506,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-1.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-1-1.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">House Cleaning</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=1" />">Carpet Cleaning</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Cleaning Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-1.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-1-1.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -628,14 +522,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-2.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-1-2.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Outdoor Service</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=2" />">Window Cleaning</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Cleaning Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-2.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-1-2.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -644,14 +538,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-3.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-3.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Plumber Service</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=3" />">Plumbing Repair</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Maintenance Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-3.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-2-3.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -660,14 +554,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-4.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-4.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Window Cleaning</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=4" />">Electrical Repair</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Maintenance Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-4.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-2-4.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -676,14 +570,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-1.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-3-5.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">House Cleaning</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=5" />">Security Guard</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Security Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-1.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-3-5.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -692,14 +586,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-2.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-3-6.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Outdoor Service</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=6" />">CCTV Installation</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Security Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-2.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-3-6.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -708,14 +602,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-3.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-4-7.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Plumber Service</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=7" />">Lawn Mowing</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Pest Control Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-3.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-4-7.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -724,14 +618,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-4.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-4-8.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Window Cleaning</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=8" />">Tree Pruning</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Pest Control Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-4.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-4-8.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -740,14 +634,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-1.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-4-9.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">House Cleaning</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=9" />">Termite Treatment</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Pest Control Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-1.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-4-9.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -756,14 +650,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-2.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-1-10.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Outdoor Service</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=10" />">Carpet Cleaning</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Cleaning Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-2.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-1-10.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -772,14 +666,14 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-3.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-1-11.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Plumber Service</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=11" />">Upholstery Cleaning</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Cleaning Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-3.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-1-11.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -788,14 +682,206 @@
                 <!--Project One Single Start-->
                 <div class="project-one__single">
                     <div class="project-one__img">
-                        <img src="${pageContext.request.contextPath}/assets/images/project/project-1-4.jpg" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-1-12.jpg" alt="" style="width: 500px; height: 450px;">
                         <div class="project-one__content">
-                            <h4 class="project-one__title"><a href="portfolio-details.html">Window Cleaning</a>
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=12" />">Floor Waxing</a>
                             </h4>
-                            <p class="project-one__sub-title">Cleaning Project</p>
+                            <p class="project-one__sub-title">Cleaning Services</p>
                         </div>
                         <div class="project-one__arrow">
-                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/project/project-1-4.jpg"><i
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-1-12.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-13.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=13" />">HVAC Repair</a>
+                            </h4>
+                            <p class="project-one__sub-title">Maintenance Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-2-13.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-14.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=14" />">Painting Service</a>
+                            </h4>
+                            <p class="project-one__sub-title">Maintenance Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-2-14.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-3-15.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=15" />">Alarm System</a>
+                            </h4>
+                            <p class="project-one__sub-title">Security Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-3-15.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-3-16.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=16" />">Fire Safety</a>
+                            </h4>
+                            <p class="project-one__sub-title">Security Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-3-16.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-4-17.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=17" />">Garden Design</a>
+                            </h4>
+                            <p class="project-one__sub-title">Pest Control Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-4-17.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-4-18.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=18" />">Snow Removal</a>
+                            </h4>
+                            <p class="project-one__sub-title">Pest Control Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-4-18.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-3-19.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=19" />">Rodent Control</a>
+                            </h4>
+                            <p class="project-one__sub-title">Security Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-3-19.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-1-20.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=20" />">Rodent Control</a>
+                            </h4>
+                            <p class="project-one__sub-title">Cleaning Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-1-20.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-1-21.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=21" />">Window Cleaning</a>
+                            </h4>
+                            <p class="project-one__sub-title">Cleaning Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-1-21.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-22.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=22" />">Plumbing Repair</a>
+                            </h4>
+                            <p class="project-one__sub-title">Maintenance Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-2-22.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-2-23.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=23" />">Electrical Repair</a>
+                            </h4>
+                            <p class="project-one__sub-title">Maintenance Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-2-23.jpg"><i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Project One Single End-->
+                <!--Project One Single Start-->
+                <div class="project-one__single">
+                    <div class="project-one__img">
+                        <img src="${pageContext.request.contextPath}/assets/images/services/services-3-24.jpg" alt="" style="width: 500px; height: 450px;">
+                        <div class="project-one__content">
+                            <h4 class="project-one__title"><a href="<c:url value="/service/service-detail.do?id=24" />">Security Guard</a>
+                            </h4>
+                            <p class="project-one__sub-title">Security Services</p>
+                        </div>
+                        <div class="project-one__arrow">
+                            <a class="img-popup" href="${pageContext.request.contextPath}/assets/images/services/services-2-24.jpg"><i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -833,8 +919,7 @@
                         </div>
                         <div class="process__content">
                             <h3 class="process__title"><a href="team.html">Look for Our <br> Experts</a></h3>
-                            <p class="process__text">Lorem ipsum is simply free text dolor sit am adipi we help
-                                you ensure everyone.</p>
+                            <p class="process__text">Are you looking for a suitable service for the apartment you are looking for?</p>
                         </div>
                     </div>
                 </div>
@@ -854,8 +939,7 @@
                         <div class="process__content">
                             <h3 class="process__title"><a href="services-page-1.html">Choose Our <br>
                                     Services</a></h3>
-                            <p class="process__text">Lorem ipsum is simply free text dolor sit am adipi we help
-                                you ensure everyone.</p>
+                            <p class="process__text">Choose the services you want according to the necessary information and criteria</p>
                         </div>
                     </div>
                 </div>
@@ -875,8 +959,7 @@
                         <div class="process__content">
                             <h3 class="process__title"><a href="contact-page-1.html">Book an <br>
                                     Appointment</a></h3>
-                            <p class="process__text">Lorem ipsum is simply free text dolor sit am adipi we help
-                                you ensure everyone.</p>
+                            <p class="process__text">Make an appointment and wait for the staff to come and do it!</p>
                         </div>
                     </div>
                 </div>
@@ -948,9 +1031,9 @@
                             </div>
                             <div class="text">
                                 <h4>100% Your Satisfaction</h4>
-                                <p>Lorem ipsum is simply free text dolor sit am adipi we help you ensure
-                                    everyone. Tincidunt elit magnis nulla facilisis sagittis maecenas massa
-                                    fringilla leo.</p>
+                                <p>All of our services are geared towards your absolute satisfaction. 
+                                    Always put customer criteria first and ready to serve with your requirements. 
+                                    Improve and evolve to be able to serve you better every day</p>
                             </div>
                         </li>
                         <li>
@@ -959,9 +1042,8 @@
                             </div>
                             <div class="text">
                                 <h4>Cost Effective Services</h4>
-                                <p>Lorem ipsum is simply free text dolor sit am adipi we help you ensure
-                                    everyone. Tincidunt elit magnis nulla facilisis sagittis maecenas massa
-                                    fringilla leo.</p>
+                                <p>Bringing you the best quality services at the most affordable prices. 
+                                    Always listen and sincerely modify to update appropriate market prices</p>
                             </div>
                         </li>
                     </ul>
@@ -970,12 +1052,7 @@
         </div>
     </div>
 </section>
-<!--Why Choose One End-->
-<%--<c:if test="${orderMessage != null}">
-    <script type="text/javascript">
-        window.alert(${orderMessage});
-    </script>
-</c:if>--%>
+
 
 
 

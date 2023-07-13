@@ -256,7 +256,7 @@ public class ServiceRepository {
 
     public static void main(String[] args) throws Exception {
         ServiceRepository repository = new ServiceRepository();
-        System.out.println(repository.searchByName("c"));
+        repository.updateService(1, "Carpet Cleaning", "We clean carpets using steam and eco-friendly products.", 50, 100, 4.5, 1, 1);
     }
 
 }

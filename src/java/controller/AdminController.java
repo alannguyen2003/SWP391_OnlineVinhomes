@@ -25,6 +25,7 @@ import entity.OrderHeaderEntity;
 import entity.SaleEntity;
 import entity.ServiceEntity;
 import entity.SupplierEntity;
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -677,6 +678,11 @@ public class AdminController extends HttpServlet {
         double rated = Double.parseDouble(request.getParameter("rated"));
         int supplierId = Integer.parseInt(request.getParameter("supplierID"));
         int categoryId = Integer.parseInt(request.getParameter("categoryID"));
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.#");
+        String formattedRated = decimalFormat.format(rated);
+        rated = Double.parseDouble(formattedRated.replace(',', '.')); // Replace comma with dot for decimal separator
+
         ss.updateService(service_id, name, description, lowerPrice, upperPrice, rated, supplierId, categoryId);
         String message = "Update successfully";
         request.setAttribute("message", message);

@@ -136,7 +136,7 @@
                     <div class="col-xl-8 col-lg-7">
                         <div class="service-details__right">
                             <div class="service-details__img">
-                                <img src="<c:url value="/assets/images/services/services-details-img-4.jpg" />" alt="">
+                                <img src="<c:url value="/assets/images/services/services-${requestScope.cid}-${service.serviceID}.jpg" />" alt="">
                             </div>
 
                             <div class="service-details__content">
@@ -152,7 +152,7 @@
                                             <span class="icon-household"></span>
                                         </div>
                                         <div class="service-details__points-content">
-                                            <p>Mang đến cho bạn dịch vụ tốt nhất</p>
+                                            <p>Bring you the best service</p>
                                         </div>
                                     </li>
                                     <li>
@@ -160,7 +160,7 @@
                                             <span class="icon-broom"></span>
                                         </div>
                                         <div class="service-details__points-content">
-                                            <p>Tận tâm <br> Tận tụy<br> Tận phòng.</p>
+                                            <p>Dedication <br> Devotion<br> Agile</p>
                                         </div>
                                     </li>
                                 </ul>

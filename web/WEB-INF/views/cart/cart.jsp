@@ -32,11 +32,11 @@
         <div class="col">
             <p class="" style="margin-bottom: 10px"><h2 class="section-title__title">Service Cart </h2><h4 class="text mb-2 mt-1">(${size} item in your cart)</h4></p>
             <div class="card mb-4">
-                <div class="card-body">
+                <div class="card-body" style="margin-bottom: 0px;">
                     <c:forEach var="item" items="${sessionScope.cart.items}" varStatus="loop">
                         <div class="row align-items-center">
                             <div  style="animation-delay: 0.5s"class="col-md-2">
-                                <img src="" class="img-fluid " alt="">
+                                <img src="${pageContext.request.contextPath}/assets/images/services/services-${item.service.categoryID}-${item.service.serviceID}.jpg" class="img-fluid " alt="" style="width: 165px; height: 110px;">
                             </div>
                             <div class="col-md-2" style="display: flex; justify-content: flex-start">
                                 <div>
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2" style="display: flex; justify-content: flex-end">
-                                <div >
+                                <div>
                                     <p class="small text-muted mb-4 pb-2 d-flex justify-content-end">Min Price</p>
                                     <p class="lead fw-normal mb-0">$<fmt:formatNumber value="${item.service.getLowerPrice()}" pattern="##.#"/></p>
                                 </div>
@@ -79,7 +79,7 @@
             </div>
 
             <div class="card mb-5">
-                <div class="card-body p-4">
+                <div class="card-body p-4" style="margin-bottom: 0px;">
 
                     <div class="float-end">
                         <p class="mb-0 me-5 d-flex align-items-center">
@@ -97,7 +97,7 @@
                     <a href="<c:url value="/service/service.do"/>" class="btn btn-primary btn-lg me-2" role="button">Continue shopping</a>
 
                     <c:if test="${cart.items == null || user == null}"><a class="btn btn-primary btn-lg me-2">Check Out</a></c:if>
-                    <c:if test="${cart.items != null && user != null}"><a href="<c:url value="/cart/cart-contact.do"/>" class="btn btn-primary btn-lg me-2" style="">Check Out</a></c:if>
+                    <c:if test="${cart.items != null && user != null}"><a href="<c:url value="/cart/cart-contact.do"/>" class="btn btn-primary btn-lg me-2">Check Out</a></c:if>
                     </div>
                 </div>
                 <p style="color:red">${noItem}</p>
