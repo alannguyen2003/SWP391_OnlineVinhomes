@@ -440,7 +440,7 @@ public class UserRepository {
     public static void main(String[] args) throws SQLException, Exception {
         UserRepository rep = new UserRepository();
 
-        for (int i = 1; i <= 58; i++) {
+        for (int i = 1; i <= 46; i++) {
             rep.createSaltForDatabase(i);
             rep.generateSaltedHashPasswordForDatabase(i);
         }
