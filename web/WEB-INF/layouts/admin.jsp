@@ -81,7 +81,7 @@
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                             <li class="dropdown-header">
                                 You have <span class="noti">0 </span> "Pending" orders
-                                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                                <a  href="<c:url value="/admin/order-list.do?op=getall"/>"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                             </li>
                         </ul><!-- End Notification Dropdown Items -->
 
