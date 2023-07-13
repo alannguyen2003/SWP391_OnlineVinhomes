@@ -75,13 +75,13 @@
 
                         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                             <i class="bi bi-bell"></i>
-                            <span class="badge bg-primary badge-number noti" id="noti">4</span>
+                            <span class="badge bg-primary badge-number noti">0</span>
                         </a><!-- End Notification Icon -->
 
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                             <li class="dropdown-header">
-                                You have <span class="noti">4</span> new notifications
-                                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                                You have <span class="noti">0 </span> "Pending" orders
+                                <a  href="<c:url value="/admin/order-list.do?op=getall"/>"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                             </li>
                         </ul><!-- End Notification Dropdown Items -->
 
