@@ -191,3 +191,7 @@
     letter-spacing: 0.0125em;
     margin-bottom: 0;
 }
+
+a:not([href]):not([tabindex]) {
+    color: #fff!important;
+}

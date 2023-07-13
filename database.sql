@@ -243,7 +243,7 @@ insert into BlockResource(BID, RID, quantity) values
 (7, 11, 8), (7, 3, 12), (7, 2, 3), (7, 1, 3)
 
 insert into Supplier(name, email, phone, address) values 
-('Sparkling Homes Cleaning Service', 'sparklinghomes@gmail.com', '0283123456', N'123 Đường Trường Sinh, Phường Hiệp Phú, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
+('VinHomes Cleaning Service', 'vinhomes@gmail.com', '0283123456', N' Vinhomes Grandpark, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
 ('Clean & Fix Home Services', 'cleanfixhomes@gmail.com', '0283123457', N'456 Nguyễn Duy Trinh, Phường Linh Chiểu, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
 ('Fresh Living Home Solution', 'freshlivingsolution@gmail.com', '0283123458', N'789 Phạm Văn Đồng, Phường Bình Thọ, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),
 ('Neat & Tidy Home Care', 'neattidyhomes@gmail.com', '0283123459', N'321 Bung Ông Thoàn, Phường Tam Bình, Thành phố Thủ Ðức, Thành phố Hồ Chí Minh'),

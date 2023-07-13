@@ -66,8 +66,7 @@
                             <div class="main-slider-two__content">
                                 <p class="main-slider-two__sub-title">We’re Best Cleaning Company</p>
                                 <h2 class="main-slider-two__title">Providing Best <br> Cleaning Services</h2>
-                                <p class="main-slider-two__text">Lorem ipsum is simply free text dolor sit am
-                                    adipi we help <br> simply free text in the you ensure everyone. </p>
+                                <p class="main-slider-two__text">We provide the services that suit your needs at the right price <br> and meet the criteria you require. </p>
                                 <div class="main-slider-two__btn-box">
                                     <a href="<c:url value="/home/index.do"/>" class="thm-btn main-slider-two__btn">Discover more <i
                                             class="fa fa-angle-right"></i></a>
