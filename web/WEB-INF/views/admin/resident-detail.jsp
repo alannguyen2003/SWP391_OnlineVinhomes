@@ -25,7 +25,7 @@
             </div>
             <!-- Account details card-->
 
-            <form action="<c:url value="/admin/updateResident.do" />">
+            <form id="updateResidentForm" action="<c:url value="/admin/updateResident.do" />" method="post">
                 <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">ID</label>
                     <div class="col-md-8 col-lg-9">
@@ -37,7 +37,6 @@
                 <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="name" type="hidden" class="form-control" id="name" value="${u.name}">
                         <input name="name" type="text" class="form-control" id="name" value="${u.name}" disabled="">
                     </div>
                 </div>
@@ -45,7 +44,6 @@
                 <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="email" type="hidden" class="form-control" id="Email" value="${u.email}">
                         <input name="email" type="email" class="form-control" id="Email" value="${u.email}" disabled="">
                     </div>
                 </div>
@@ -53,7 +51,6 @@
                 <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="hidden" class="form-control" id="Phone" value="${u.phone}">
                         <input name="phone" type="text" class="form-control" id="Phone" value="${u.phone}" disabled="">
                     </div>
                 </div>
@@ -68,7 +65,7 @@
                 <div class="row mb-3">
                     <label for="BID" class="col-md-4 col-lg-3 col-form-label">Block</label>
                     <div class="col-md-8 col-lg-9">
-                        <select name="bid" class="w-100 form-control">
+                        <select name="BID" class="w-100 form-control">
                             <c:forEach var="bl" items="${blockList}">
                                 <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
                             </c:forEach>
@@ -77,39 +74,42 @@
                 </div>
 
                 <div class="row mb-3">
+                    <label for="Room" class="col-md-4 col-lg-3 col-form-label">Status</label>
+                    <div class="col-md-8 col-lg-9">
+                        <input name="status" type="number" max="1" min="0" class="form-control" id="Status" value="${u.status}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#updateResourceModal">Save change</button>
-                        <input id="updateResident" type="submit" name="op" value="" hidden>
+                        <button type="button" class="btn btn-primary" id="updateResident" data-toggle="modal" data-target="#updateResidentModal">Save change</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<div class="modal fade" id="updateResidentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="updateResidentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this resident information?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this resident?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Update" below if you are ready to update this resident.</div>
+            <div class="modal-body">Select "Update" below if you are ready to update this information.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a id="updateResidentLink" onclick="updateResident()" class="btn btn-primary"/>Update</a>
+                <button class="btn btn-success" onclick="submitUpdateForm()">Update</button>
             </div>
         </div>
     </div>
-</div>   
+</div>
+
 <script>
-    function updateResident() {
-        var form = document.getElementById("updateResidentForm");
-        var submitOp = document.getElementById("updateResident");
-        submitOp.value = 'update';
-        submitOp.click();
+    function submitUpdateForm() {
+        document.getElementById("updateResidentForm").submit();
     }
 </script>
