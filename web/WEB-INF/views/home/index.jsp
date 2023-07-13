@@ -318,7 +318,7 @@
                                 </div>
                                 <div class="we-cleaning__text-box">
                                     <h4 class="we-cleaning__title">Residential Cleaning <br> Services</h4>
-                                    <p class="we-cleaning__text-2">Services for residential rooms in Vinhomes.</p>
+                                    <p class="we-cleaning__text-2">Services for residential rooms.</p>
                                 </div>
                             </li>
                             <li>
@@ -327,7 +327,7 @@
                                 </div>
                                 <div class="we-cleaning__text-box">
                                     <h4 class="we-cleaning__title">Commercial Cleaning <br> Services</h4>
-                                    <p class="we-cleaning__text-2">Services for the whole Vinhomes make a profit.</p>
+                                    <p class="we-cleaning__text-2">Services for make a profit.</p>
                                 </div>
                             </li>
                         </ul>
