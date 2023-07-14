@@ -282,6 +282,12 @@
         <script src="${pageContext.request.contextPath}/assets/vendor/tinymce/tinymce.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/php-email-form/validate.js"></script>
 
+        <script>
+            document.querySelector("#avatar-preview").addEventListener("error", (e) => {
+                e.target.src = "<c:url value="/assets/img/user-avatar.png" />";
+            })
+
+        </script>
         <!-- Template Main JS File -->
         <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
 
