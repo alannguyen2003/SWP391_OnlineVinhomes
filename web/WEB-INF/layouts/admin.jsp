@@ -92,7 +92,7 @@
                     <li class="nav-item dropdown pe-3">
 
                         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                            <img src="<c:url value='/assets/img/account/avatar-${sessionScope.user.AID}.jpg' />" alt="Profile" class="rounded-circle">
+                            <img id="avatar-preview" src="<c:url value='/assets/img/account/avatar-${sessionScope.user.AID}.jpg' />" alt="Profile" class="rounded-circle">
                             <span class="d-none d-md-block dropdown-toggle ps-2">${sessionScope.user.name}</span>
                         </a><!-- End Profile Iamge Icon -->
 
@@ -281,7 +281,6 @@
         <script src="${pageContext.request.contextPath}/assets/vendor/simple-datatables/simple-datatables.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/tinymce/tinymce.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/php-email-form/validate.js"></script>
-
 
         <!-- Template Main JS File -->
         <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
