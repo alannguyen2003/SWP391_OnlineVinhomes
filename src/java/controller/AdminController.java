@@ -196,7 +196,7 @@ public class AdminController extends HttpServlet {
                         loadOrderList(request, response);
                         break;
                     case "pending-order":
-                        if (user.getRoleID() == 4) {
+                        if (user.getRoleID() != 3) {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         loadOrderList(request, response);

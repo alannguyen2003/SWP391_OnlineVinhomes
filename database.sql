@@ -1,5 +1,5 @@
 ﻿/*Chạy nguyên cái database*/
-RAISERROR('Creating PerfumeStore database....',0,1)
+RAISERROR('Creating Vinhomes 4 database....',0,1)
 SET NOCOUNT ON
 GO
 

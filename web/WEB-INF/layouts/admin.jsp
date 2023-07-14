@@ -230,7 +230,7 @@
                 </c:if>
                 <!-- End Orderlist Nav -->
 
-                <c:if test="${user.roleID != 4}">
+                <c:if test="${user.roleID == 3}">
                     <li class="nav-item ${activeTab == "pendingOrder" ? "active" : ""}">
                         <a class="nav-link1 collapsed" href="<c:url value="/admin/pending-order.do?op=getall"/>">
                             <i class="bi bi-list-check"></i>
