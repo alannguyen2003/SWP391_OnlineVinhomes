@@ -119,8 +119,8 @@
                             <div class="main-slider-two__content">
                                 <p class="main-slider-two__sub-title">We’re Best Cleaning Company</p>
                                 <h2 class="main-slider-two__title">Providing Best <br> Cleaning Services</h2>
-                                <p class="main-slider-two__text">Lorem ipsum is simply free text dolor sit am
-                                    adipi we help <br> simply free text in the you ensure everyone. </p>
+                                <p class="main-slider-two__text">Our quick and efficient cleaning service 
+                                    <br> ensures a spotless environment in no time. </p>
                                 <div class="main-slider-two__btn-box">
                                     <a href="<c:url value="/home/index.do"/>" class="thm-btn main-slider-two__btn">Discover more <i
                                             class="fa fa-angle-right"></i></a>
@@ -205,7 +205,7 @@
                     </div>
                     <div class="feature-two__content">
                         <h3 class="feature-two__title"><a href="${pageContext.request.contextPath}/about.html">Outdoor Service</a></h3>
-                        <p class="feature-two__text">Lorem ipsum dolor sit amet, etur adipisicing elit.</p>
+                        <p class="feature-two__text">We provide services that allow outdoor cleaning.</p>
                     </div>
                     <div class="feature-two__star-1">
                         <img src="${pageContext.request.contextPath}/assets/images/shapes/feature-two-star-1.png" alt="">
@@ -227,7 +227,7 @@
                     </div>
                     <div class="feature-two__content">
                         <h3 class="feature-two__title"><a href="${pageContext.request.contextPath}/about.html">House Cleaning</a></h3>
-                        <p class="feature-two__text">Lorem ipsum dolor sit amet, etur adipisicing elit.</p>
+                        <p class="feature-two__text">Great services to help clean your home.</p>
                     </div>
                     <div class="feature-two__star-1">
                         <img src="${pageContext.request.contextPath}/assets/images/shapes/feature-two-star-1.png" alt="">
@@ -249,7 +249,7 @@
                     </div>
                     <div class="feature-two__content">
                         <h3 class="feature-two__title"><a href="${pageContext.request.contextPath}/plumbing-services.html">Plumber Service</a></h3>
-                        <p class="feature-two__text">Lorem ipsum dolor sit amet, etur adipisicing elit.</p>
+                        <p class="feature-two__text">Fast, compact, cheap plumbing repair for everyone.</p>
                     </div>
                     <div class="feature-two__star-1">
                         <img src="${pageContext.request.contextPath}/assets/images/shapes/feature-two-star-1.png" alt="">
