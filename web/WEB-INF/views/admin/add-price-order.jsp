@@ -27,7 +27,7 @@
             </ul>
             <!-- Account details card-->
 
-            <form action="<c:url value="/admin/updatePrice.do" />" method="">
+            <form id="updateOrderForm" action="<c:url value="/admin/updatePrice.do" />" method="post">
                 <input type="hidden" name="OID" value="${OID}">
                 <div id="${OID}">
                     <hr />
@@ -78,7 +78,8 @@
                 <div class="row mb-3">
                     <div class="col-md-6 text-success">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
+                        <input id="updateOrder" type="submit" hidden>
                     </div>
                 </div>
             </form>
@@ -91,27 +92,27 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this order information?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this Order information?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Update" below if you are ready to update this order.</div>
+            <div class="modal-body">Select "Update" below if you are ready to update this Order.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-success" href="<c:url value="/cart/cart-completion.do"/>">Yes</a>
+                <a id="updateOrderLink" onclick="updateOrder()" class="btn btn-primary">Update</a>
             </div>
         </div>
     </div>
 </div>   
 <script>
     function updateOrder() {
-        var form = document.getElementById("updateOrderForm");
+        var form = document.getElementById("updateORderForm");
         var submitOp = document.getElementById("updateOrder");
         submitOp.value = 'update';
         submitOp.click();
     }
-</script>
+</script> 
 
 
 

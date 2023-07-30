@@ -161,6 +161,8 @@ public class AdminController extends HttpServlet {
                         break;
                     case "service-create":
                         if (user.getRoleID() == 4) {
+                            request.setAttribute("categoryList", cs.getAllCategory());
+                            request.setAttribute("supplierList", supplierService.getAllSupplier());
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
@@ -689,7 +691,7 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/admin/service-detail.do?serviceID=" + service_id).forward(request, response);
     }
 
-    private void serviceCreate(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+    private void serviceCreate(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, Exception {
         String op = request.getParameter("op");
         switch (op) {
             case "create":
@@ -707,6 +709,7 @@ public class AdminController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/service-list.do?op=getAll");
                 break;
         }
+
     }
 
 
@@ -841,7 +844,7 @@ public class AdminController extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
     }
-    
+
     protected void updateSupplier(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String address = request.getParameter("address");
         int SID = Integer.parseInt(request.getParameter("SID"));

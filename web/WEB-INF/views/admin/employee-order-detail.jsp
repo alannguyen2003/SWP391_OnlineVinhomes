@@ -26,7 +26,7 @@
             </ul>
 
 
-            <form action="<c:url value="/admin/updateEmployeeOrder.do" />" method="">
+            <form action="<c:url value="/admin/updateEmployeeOrder.do" />" method="post">
                 <div class="row mb-3">
                     <label for="OID" class="col-md-4 col-lg-3 col-form-label">Order ID</label>
                     <div class="col-md-8 col-lg-9">

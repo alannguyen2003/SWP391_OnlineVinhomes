@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Create Service</h5>
                     <!-- General Form Elements -->
-                    <form action="<c:url value="/admin/create.do" />" class="signin-form">
+                    <form action="<c:url value="/admin/create.do" />" class="signin-form" method="post">
                             <div class="p-4">
                                 <div class="form-group mb-3">
                                     <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>

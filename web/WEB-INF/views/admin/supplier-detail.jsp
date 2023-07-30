@@ -25,7 +25,7 @@
             </div>
             <!-- Account details card-->
 
-            <form id="updateSupplierForm" action="<c:url value="/admin/updateSupplier.do" />">
+            <form id="updateSupplierForm" action="<c:url value="/admin/updateSupplier.do" />" method="post">
                 <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">ID</label>
                     <div class="col-md-8 col-lg-9">
