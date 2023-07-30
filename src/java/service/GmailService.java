@@ -66,7 +66,7 @@ public class GmailService {
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
-                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokenns").toFile()))
+                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokennss").toFile()))
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(-1).build();
