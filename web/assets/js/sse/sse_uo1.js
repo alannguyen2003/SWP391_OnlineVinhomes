@@ -12,7 +12,7 @@ eventSource.onmessage = function (event) {
     const eventData = event.data;
     // Handle the received data
 //    var notiBadge = document.getElementById("noti").innerHTML = eventData;
-    
+    console.log(eventData);
     var noti = document.getElementsByClassName("noti");
     for(let i = 0; i < noti.length; i++) {
         noti[i].innerHTML = eventData;
