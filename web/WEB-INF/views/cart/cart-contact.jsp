@@ -52,6 +52,10 @@
                                 <input type="text" placeholder="Address line 1" value="${sessionScope.user.room}" disabled>
                             </div>
                             <div class="col-md-12 col-12 mb-5">
+                                <label>Delivery time*</label>
+                                <input type="date" placeholder="Address line 1">
+                            </div>
+                            <div class="col-md-12 col-12 mb-5">
                                 <label>Note</label>
                                 <input type="text" name="note" placeholder="Resident Note">
                             </div>
