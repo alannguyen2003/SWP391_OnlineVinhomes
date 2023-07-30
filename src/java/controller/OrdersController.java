@@ -5,6 +5,7 @@
 package controller;
 
 import entity.MyOrderEntity;
+import entity.OrderHeaderEntity;
 import entity.UserEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 import service.OrderService;
+import java.util.Date;
 
 @WebServlet(name = "OrdersController", urlPatterns = {"/order"})
 public class OrdersController extends HttpServlet {
@@ -34,7 +36,6 @@ public class OrdersController extends HttpServlet {
                 case "myorder":
                     //Processing code here
                     int uId = Integer.parseInt(request.getParameter("aid"));
-                    System.out.println(uId);
                     List<MyOrderEntity> myOrderList = orderService.selectMyOrders(uId);
                     request.setAttribute("myOrderlist", myOrderList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
@@ -43,6 +44,28 @@ public class OrdersController extends HttpServlet {
                     //Processing code here
                     //Forward request & response to the main layout
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    break;
+                case "cancel-order":
+                    int oid = Integer.parseInt(request.getParameter("oid"));
+                    OrderHeaderEntity oh = orderService.getOne(oid);
+
+                    // oh.getDate() trả về một đối tượng Date
+                    Date date = oh.getDelivery_time();
+
+                    // Lấy thời điểm hiện tại
+                    Date now = new Date();
+
+                    // Tính khoảng thời gian giữa hai thời điểm theo giờ
+                    long millisecondsDifference = now.getTime() - date.getTime();
+                    long hoursDifference = millisecondsDifference / (60 * 60 * 1000);
+                    System.out.println(hoursDifference);
+                    if (hoursDifference >= 6) {
+                        orderService.cancelOrder(oid);
+                        response.sendRedirect(request.getContextPath()+ "/order/myorder.do?aid=" + request.getParameter("aid"));
+                    } else {
+                        request.setAttribute("message", "The Difference hour must be larger than or equal 6 hours");
+                        response.sendRedirect(request.getContextPath()+ "/order/myorder.do?aid=" + request.getParameter("aid"));
+                    }
                     break;
                 default:
                     //Show error page

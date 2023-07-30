@@ -108,7 +108,8 @@ create table Feedback (
 
 create table Orders(
 	OID int identity(1,1) PRIMARY KEY NOT NULL,
-	time datetime, 
+	time datetime,
+	delivery_time DATETIME,
 	[status] [varchar](30) NOT NULL default('Pending'),
 	UID INT REFERENCES dbo.Account(AID), 
 	EID INT REFERENCES dbo.Account(AID), 
@@ -280,51 +281,25 @@ insert into Service(name, lower_price, upper_price, description, category_id, su
 ('Electrical Repair', 70, 140, 'We repair wiring, outlets, switches, and other electrical problems.', 2, 3),
 ('Security Guard', 100, 200, 'We provied trained security guards for your building.', 3, 6)
 
-INSERT INTO dbo.Orders(time, status, UID, EID, note)
+INSERT INTO dbo.Orders(time, delivery_time, status, UID, EID, note)
 VALUES
+    ('2023-01-29 08:00:00', '2023-01-29 15:00:00', 'Pending', 18, 1, 'Order pending'),
+    ('2023-04-01 09:30:00', '2023-04-01 16:30:00', 'Pending', 19, 3, 'Waiting for confirmation'),
+    ('2023-01-29 10:15:00', '2023-01-29 17:15:00', 'Pending', 20, 4, 'Order processing'),
+    ('2023-04-01 11:45:00', '2023-04-01 18:45:00', 'Pending', 22, 6, NULL),
+    ('2023-01-29 12:30:00', '2023-01-29 19:30:00', 'Pending', 19, 7, NULL),
+    ('2023-04-01 14:00:00', '2023-04-01 21:00:00', 'Pending', 25, 9, NULL),
+    ('2023-01-29 15:45:00', '2023-01-29 22:45:00', 'Failed', 26, 12, 'Delivery failed'),
+    ('2023-04-01 16:30:00', '2023-04-01 23:30:00', 'Failed', 28, 10, NULL),
+    ('2023-01-29 17:00:00', '2023-01-30 00:00:00', 'Failed', 25, 3, NULL),
+    ('2023-04-01 18:15:00', '2023-04-01 01:15:00', 'Failed', 18, 6, 'Item out of stock'),
+    ('2023-01-29 19:30:00', '2023-01-30 02:30:00', 'Completed', 19, 1, 'Order delivered on time'),
+    ('2023-04-02 10:00:00', '2023-04-02 17:00:00', 'Completed', 20, 3, 'Customer satisfied with the product'),
+    ('2023-01-30 11:15:00', '2023-01-30 18:15:00', 'Completed', 22, 4, 'Positive feedback received'),
+    ('2023-04-02 14:45:00', '2023-04-02 21:45:00', 'Completed', 18, 6, 'Great service provided'),
+    ('2023-01-30 17:30:00', '2023-01-31 00:30:00', 'Completed', 18, 7, 'Order completed successfully');
+	   	 
 
-	('2019-01-29', 'Pending', 13, 1, NULL),
-	('2019-04-01', 'Pending', 15, 3, NULL),
-	('2019-01-29', 'Pending', 16, 4, NULL),
-	('2019-04-01', 'Pending', 18, 6, NULL),
-	('2019-01-29', 'Pending', 19, 7, NULL),
-	('2019-04-01', 'Pending', 21, 9, NULL),
-	('2019-01-29', 'Failed', 22, 12, NULL),
-	('2019-04-01', 'Failed', 24, 10, NULL),
-	('2019-01-29', 'Failed', 25, 3, NULL),
-	('2019-04-01', 'Failed', 27, 6, NULL)
-    GO
-
-INSERT INTO dbo.Orders(time, status, UID, EID, note)
-VALUES
-	('2023-01-01', 'Completed', 13, 1, NULL),
-	('2023-02-01', 'Completed', 15, 3, NULL),
-	('2023-03-01', 'Completed', 16, 4, NULL),
-	('2023-04-01', 'Completed', 18, 6, NULL),
-	('2023-05-01', 'Completed', 19, 7, NULL),
-	('2019-01-29', 'Pending', 13, 1, NULL),
-	('2019-04-01', 'Pending', 15, 3, NULL),
-	('2019-01-29', 'Pending', 16, 4, NULL),
-	('2019-04-01', 'Pending', 18, 6, NULL),
-	('2019-01-29', 'Pending', 19, 7, NULL),
-	('2019-04-01', 'Pending', 21, 9, NULL),
-	('2019-01-29', 'Failed', 13, 12, NULL),
-	('2019-01-29', 'Failed', 22, 12, NULL),
-	('2019-04-01', 'Failed', 24, 10, NULL),
-	('2019-01-29', 'Failed', 25, 3, NULL),
-	('2019-04-01', 'Failed', 27, 6, NULL),
-	('2023-01-01', 'Completed', 13, 1, NULL),
-	('2023-02-01', 'Completed', 15, 3, NULL),
-	('2023-03-01', 'Completed', 16, 4, NULL),
-	('2023-04-01', 'Completed', 18, 6, NULL),
-	('2023-05-01', 'Completed', 19, 7, NULL),
-
-	('2023-01-01', 'Pending', 13, NULL, NULL),
-	('2023-02-01', 'Pending', 15, NULL, NULL),
-	('2023-03-01', 'Pending', 16, NULL, NULL),
-	('2023-04-01', 'Pending', 18, NULL, NULL),
-	('2023-05-01', 'Pending', 19, NULL, NULL)
-	GO
 
 INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price) 
 VALUES
@@ -339,6 +314,7 @@ VALUES
 (6, 3, 2, 120),
 (6, 5, 3, 200),
 (6, 2, 1, 80),
+
 (7, 4, 2, 140),
 (8, 8, 4, 100),
 (9, 6, 3, 300),
@@ -347,16 +323,15 @@ VALUES
 (11, 7, 4, 60),
 (11, 7, 4, 40),
 (11, 8, 4, 90),
-
 (12, 9, 4, 400),
 
-(16, 12, 1, 100),
-(16, 5, 3, 200),
-(16, 15, 3, 200),
+(14, 3, 2, 120),
+(14, 5, 3, 200),
+(14, 2, 1, 80),
 
-(36, 3, 2, 120),
-(36, 2, 1, 70),
-(36, 5, 3, 150)
+(15, 2, 1, 80),
+(15, 4, 2, 140),
+(15, 8, 4, 100)
 GO
 
 SET NOCOUNT OFF

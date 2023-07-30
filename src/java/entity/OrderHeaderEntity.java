@@ -7,6 +7,7 @@ import java.util.Date;
 public class OrderHeaderEntity {
     private int id;
     private Date date;
+    private Date delivery_time;
     private String status;
     private int residentId;
     private int employeeId;
@@ -15,9 +16,10 @@ public class OrderHeaderEntity {
     public OrderHeaderEntity() {
     }
 
-    public OrderHeaderEntity(int id, Date date, String status, int residentId, int employeeId, String note) {
+    public OrderHeaderEntity(int id, Date date, Date delivery_time, String status, int residentId, int employeeId, String note) {
         this.id = id;
         this.date = date;
+        this.delivery_time = delivery_time;
         this.status = status;
         this.residentId = residentId;
         this.employeeId = employeeId;
@@ -40,6 +42,14 @@ public class OrderHeaderEntity {
         this.date = date;
     }
 
+    public Date getDelivery_time() {
+        return delivery_time;
+    }
+
+    public void setDelivery_time(Date delivery_time) {
+        this.delivery_time = delivery_time;
+    }
+    
     public String getStatus() {
         return status;
     }

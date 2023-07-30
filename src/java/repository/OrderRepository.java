@@ -90,11 +90,12 @@ public class OrderRepository {
         ResultSet rs = pstm.executeQuery();
         if (rs.next()) {
             order.setId(rs.getInt(1));
-            order.setDate(rs.getDate(2));
-            order.setStatus(rs.getString(3));
-            order.setResidentId(rs.getInt(4));
-            order.setEmployeeId(rs.getInt(5));
-            order.setNote(rs.getString(6));
+            order.setDate(rs.getTimestamp(2));
+            order.setDelivery_time(rs.getDate(3));
+            order.setStatus(rs.getString(4));
+            order.setResidentId(rs.getInt(5));
+            order.setEmployeeId(rs.getInt(6));
+            order.setNote(rs.getString(7));
         }
         con.close();
         return order;
@@ -130,12 +131,12 @@ public class OrderRepository {
         while (rs.next()) {
             OrderHeaderEntity oh = new OrderHeaderEntity();
             oh.setId(rs.getInt("OID"));
-            oh.setDate(rs.getDate("time"));
+            oh.setDate(rs.getTimestamp("time"));
+            oh.setDelivery_time(rs.getTimestamp("delivery_time"));
             oh.setResidentId(rs.getInt("UID"));
             oh.setEmployeeId(rs.getInt("EID"));
             oh.setStatus(rs.getString("status"));
             oh.setNote(rs.getString("note"));
-
             HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithName(rs.getInt("OID"));
 
             MyOrderEntity fo = new MyOrderEntity(oh, map);
@@ -290,6 +291,15 @@ public class OrderRepository {
         pstm.setInt(1, eId);
         pstm.setString(2, status);
         pstm.setInt(3, oId);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+    
+    public void cancelOrder(int oId) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Orders set status = 'Failed' where OID = ?");
+        pstm.setInt(1, oId);
         int count = pstm.executeUpdate();
 
         con.close();
@@ -664,9 +674,9 @@ public class OrderRepository {
         }
         return result;
     }
+    
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        System.out.println(op.selectOrderDetailWithNameService(38));
     }
 }

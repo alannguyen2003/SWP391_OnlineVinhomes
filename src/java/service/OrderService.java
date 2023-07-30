@@ -40,7 +40,6 @@ public class OrderService {
         return orderRepository.selectMyOrders(id);
     }
   
-
     public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
         return orderRepository.selectOrderDetail(id);
     }
@@ -63,6 +62,10 @@ public class OrderService {
 
     public void updateStatus(int oId, int eId, String status) throws SQLException {
         orderRepository.updateStatus(oId, eId, status);
+    }
+    
+    public void cancelOrder(int oId) throws SQLException {
+        orderRepository.cancelOrder(oId);
     }
     
     public void updatePrice(int id, double price) throws SQLException {

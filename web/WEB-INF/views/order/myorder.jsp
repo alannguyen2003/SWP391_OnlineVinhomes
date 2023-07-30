@@ -65,10 +65,10 @@
                             <div class="d-flex align-items-center">
                                 <div class="col"><strong>ID</strong></div>
                                 <div class="col"><strong>Date</strong></div>
+                                <div class="col"><strong>Delivery Time</strong></div>
                                 <div class="col"><strong>Status</strong></div>
                                 <div class="col"><strong>Price</strong></div>
                             </div>
-
                         </div>
                         <c:forEach var="fo" items="${myOrderlist}">
                             <div class="card-body">
@@ -76,7 +76,8 @@
                                 <div class="order-header">
                                     <div class="d-flex align-items-center">
                                         <div class="col">${fo.oh.id}</div>
-                                        <div class="col"><fmt:formatDate value="${fo.oh.date}" pattern="dd/MM/yyyy" /></div>
+                                        <div class="col"><fmt:formatDate value="${fo.oh.date}" pattern="dd/MM/yyyy HH:mm:ss" /></div>
+                                        <div class="col"><fmt:formatDate value="${fo.oh.delivery_time}" pattern="dd/MM/yyyy HH:mm:ss" /></div>
                                         <c:if test="${fo.oh.status == 'Pending'}">
                                             <div class="col"><span class="bage bage-warning">${fo.oh.status}</span></div>
                                             </c:if>
@@ -117,12 +118,12 @@
 
                                                 </tr>
                                             </c:forEach>
-
                                         </tbody>
                                     </table>
-                                    <div style="text-align: right;">
-                                        <a href="<c:url value="/home/index.do"/>" style="display: inline-block; text-decoration: none; border-bottom: linear; transition: border-bottom 0.3s;">View More</a>
+                                    <div style="text-align: right; margin: 10px 10px;">
+                                        <a class="btn btn-outline-primary" style="font-weight: bold; background-color: #dc3545; color: #fff; border-color: #fff; border-radius: .5rem;" href="<c:url value="/order/cancel-order.do?oid=${fo.oh.id}&aid=${user.AID}"/>"> Cancel <i class="bi bi-x-square"></i></a>
                                     </div>
+                                     <p style="color:red">${message}</p>
                                     <div class="card-footer">Note: ${fo.oh.note} </div>
                                 </div>
                                 <!-- OrderDetails Information Table -->
@@ -135,7 +136,6 @@
     </div>
 </section>
 <!--Contact Page Two End-->
-
 
 <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
 
