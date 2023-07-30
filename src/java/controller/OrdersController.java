@@ -56,14 +56,13 @@ public class OrdersController extends HttpServlet {
                     Date now = new Date();
 
                     // Tính khoảng thời gian giữa hai thời điểm theo giờ
-                    long millisecondsDifference = now.getTime() - date.getTime();
+                    long millisecondsDifference = date.getTime() - now.getTime() ;
                     long hoursDifference = millisecondsDifference / (60 * 60 * 1000);
-                    System.out.println(hoursDifference);
-                    if (hoursDifference >= 6) {
+                    if (hoursDifference >= 6 && oh.getStatus() == "Pending") {
                         orderService.cancelOrder(oid);
                         response.sendRedirect(request.getContextPath()+ "/order/myorder.do?aid=" + request.getParameter("aid"));
                     } else {
-                        request.setAttribute("message", "The Difference hour must be larger than or equal 6 hours");
+                        request.setAttribute("message", "The Difference hour must be larger than or equal 6 hours and Status must be Pending");
                         response.sendRedirect(request.getContextPath()+ "/order/myorder.do?aid=" + request.getParameter("aid"));
                     }
                     break;

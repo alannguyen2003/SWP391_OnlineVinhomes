@@ -70,12 +70,12 @@
                                 <div class="col"><strong>Price</strong></div>
                             </div>
                         </div>
-                        <c:forEach var="fo" items="${myOrderlist}">
+                        <c:forEach var="fo" items="${myOrderlist}" varStatus="loop">
                             <div class="card-body">
                                 <!-- OrderHeaders Information -->
                                 <div class="order-header">
                                     <div class="d-flex align-items-center">
-                                        <div class="col">${fo.oh.id}</div>
+                                        <div class="col">${loop.count}</div>
                                         <div class="col"><fmt:formatDate value="${fo.oh.date}" pattern="dd/MM/yyyy HH:mm:ss" /></div>
                                         <div class="col"><fmt:formatDate value="${fo.oh.delivery_time}" pattern="dd/MM/yyyy HH:mm:ss" /></div>
                                         <c:if test="${fo.oh.status == 'Pending'}">
