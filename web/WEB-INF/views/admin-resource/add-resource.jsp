@@ -8,7 +8,7 @@
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 
 <div class="pagetitle">
-    <h1>Form Elements</h1>
+    <h1>Add Resources</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -23,7 +23,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Update Resource</h5>
+                    <h5 class="card-title">Add Resource</h5>
                     <div class="row p-2">
                         ${listResource!=null?"":"There is no unassigned resource to be added"}
                     </div>
@@ -54,7 +54,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-10">
-                                <button type="button" class="btn btn-primary" ${listResource!=null?"":"disabled"} data-toggle="modal" data-target="#addResourceModal">Update</button>
+                                <button type="button" class="btn btn-primary" ${listResource!=null?"":"disabled"} data-toggle="modal" data-target="#addResourceModal">Create</button>
                                 <input id="addResource" type="submit" name="op" value="" hidden>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancelAddResourceModal">Cancel</button>
                             </div>
