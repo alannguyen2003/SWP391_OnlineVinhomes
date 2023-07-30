@@ -672,9 +672,8 @@ public class OrderRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select * from Orders as o join Account as a on o.UID = a.AID where o.status = 'Pending' and a.BID = ?";
+            String query = "select * from Orders where status = 'Pending'";
             pst = cn.prepareStatement(query);
-            pst.setInt(1, bId);
             rs = pst.executeQuery();
         }
         while (rs.next()) {

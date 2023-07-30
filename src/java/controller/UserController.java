@@ -206,7 +206,9 @@ public class UserController extends HttpServlet {
                     session.setAttribute("user", user);
                     if (user.getRoleID() != 1) {
                         response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
-                    } else {
+                    } else if (user.getRoleID() == 2){
+                        response.sendRedirect(request.getContextPath() + "/admin/employee-order.do?op=getAll&AID=" + user.getAID());
+                    } else{
                         response.sendRedirect(request.getContextPath() + "/home/index.do");
                     }
                 } else {
