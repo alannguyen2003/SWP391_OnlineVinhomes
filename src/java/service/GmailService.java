@@ -66,7 +66,7 @@ public class GmailService {
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
-                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokenns").toFile()))
+                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokennss").toFile()))
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(-1).build();
@@ -158,7 +158,7 @@ public class GmailService {
     public static void main(String[] args) throws Exception {
         GmailService gmailer = new GmailService();
 
-        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
-//        System.out.println(gmailer.isValidEmail("asd@asdadsas.com"));
+//        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
+        System.out.println(gmailer.isValidEmail("asd@asdadsas.com"));
     }
 }

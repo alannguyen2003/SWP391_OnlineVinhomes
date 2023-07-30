@@ -118,11 +118,6 @@ public class OrderService {
     
     public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
         ArrayList<OrderHeaderRequest> list = orderRepository.getAllOrders();
-        ArrayList<EmployeeOrderRequest> listEmployee = orderRepository.getEmployeeListForOrderList();
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).setEid(listEmployee.get(i).getAid());
-            list.get(i).setEmployeeName(listEmployee.get(i).getName());
-        }
         return list;
     }
     

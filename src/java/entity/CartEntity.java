@@ -5,6 +5,7 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
  */
 public class CartEntity {
     private List<ItemEntity> items;
+    private String deliveryTime;
     
     public CartEntity(){
         this.items = new ArrayList<>();
@@ -33,6 +35,14 @@ public class CartEntity {
             }
         }
         return null;
+    }
+
+    public String getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
     }
     
     public void addItem(ItemEntity item){
