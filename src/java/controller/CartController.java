@@ -203,21 +203,21 @@ public class CartController extends HttpServlet {
             UserEntity user = (UserEntity) session.getAttribute("user");
             String deliveryDate = (String) request.getParameter("deliver-time");
             System.out.println(deliveryDate);
-            if (deliveryDate.length()==0) {
+            if (deliveryDate.length() == 0) {
                 request.setAttribute("action", "cart-contact");
                 request.setAttribute("message", "Enter delivery time.");
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
             } else {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                deliveryDate = deliveryDate.replace("T", " ");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date deliver = formatter.parse(deliveryDate);
                 Date now = new Date();
                 long millisecondsDifference = deliver.getTime() - now.getTime();
                 long hoursDifference = millisecondsDifference / (60 * 60 * 1000);
-                System.out.println(millisecondsDifference);
-                System.out.println(hoursDifference);
                 String note = request.getParameter("note");
                 if (hoursDifference >= 8) {
-                    cart.setDeliveryTime(deliveryDate);
+                    System.out.println(deliver.toString());
+                    cart.setDeliveryTime(deliver.toString());
                     OrderService oService = new OrderService();
                     oService.addOrder(user, cart, note);
                     String itemNeeded = "";
