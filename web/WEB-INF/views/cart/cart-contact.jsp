@@ -69,7 +69,7 @@
                         <div class="col-12 mb-40">
                             <h4 class="checkout-title">Cart Total</h4>
                             <div class="checkout-cart-total">
-                                <h4>Product <span>Total</span></h4>
+                                <h4>Product <span>Total (estimate)</span></h4>
                                 <c:forEach var="item" items="${sessionScope.cart.items}">
                                     <ul>
                                         <li style="padding-top: 15px">${item.service.name}<span>$<fmt:formatNumber value="${(item.service.getLowerPrice() + item.service.getUpperPrice()) / 2}" pattern="##.#"/></span></li>

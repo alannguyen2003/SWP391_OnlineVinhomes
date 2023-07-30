@@ -599,9 +599,11 @@ public class OrderRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select o.OID, a.AID, a.name, o.time, o.delivery_time, o.status, o.note from Orders o\n"
+            String query = "select o.OID, a.AID, a.name, o.EID, e.name, o.time, o.delivery_time, o.status, o.note from Orders o\n"
                     + "left join Account a\n"
                     + "on o.UID = a.AID\n"
+                    + "LEFT JOIN Account e\n"
+                    + "ON e.AID = o.EID\n"
                     + "order by o.time DESC";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
@@ -612,16 +614,20 @@ public class OrderRepository {
                 entity.setId(rs.getInt(1));
                 entity.setUid(rs.getInt(2));
                 entity.setResidentName(rs.getNString(3));
-                entity.setDate(rs.getTimestamp(4));
-                entity.setDelivery_time(rs.getTimestamp(5));
-                entity.setStatus(rs.getString(6));
-                entity.setNote(rs.getString(7));
-
+                entity.setEid(rs.getInt(4));
+                entity.setEmployeeName(rs.getNString(5));
+                entity.setDate(rs.getTimestamp(6));
+                entity.setDelivery_time(rs.getTimestamp(7));
+                entity.setStatus(rs.getString(8));
+                entity.setNote(rs.getString(9));
+                
                 HashMap<OrderDetailEntity, String> map = this.selectEmployeeOrderlWithName(rs.getInt("OID"));
 
                 entity.setOd(map);
 
                 list.add(entity);
+                
+                System.out.println(entity);
             }
         }
         return list;
@@ -680,5 +686,6 @@ public class OrderRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
+        op.getAllOrders();
     }
 }
