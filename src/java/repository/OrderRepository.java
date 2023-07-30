@@ -568,11 +568,12 @@ public class OrderRepository {
         String date = curDate.toString();
         UserService uService = new UserService();
         Connection con = DBConfig.getConnection();
-        String sql = "insert into Orders values(?, 'Pending',?, null, ?)";
+        String sql = "insert into Orders values(?,? ,'Pending' ,? , null, ?)";
         PreparedStatement stm = con.prepareStatement(sql);
         stm.setString(1, date);
-        stm.setInt(2, user.getAID());
-        stm.setString(3, note);
+        stm.setString(2, cart.getDeliveryTime());
+        stm.setInt(3, user.getAID());
+        stm.setString(4, note);
         stm.executeUpdate();
         String sql1 = "select top 1 oid from Orders order by oid desc";
         PreparedStatement stm1 = con.prepareStatement(sql1);
@@ -665,7 +666,7 @@ public class OrderRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select * from Orders as o join Account as a on o.EID = a.AID where o.status = 'Pending' and a.BID = ?";
+            String query = "select * from Orders as o join Account as a on o.UID = a.AID where o.status = 'Pending' and a.BID = ?";
             pst = cn.prepareStatement(query);
             pst.setInt(1, bId);
             rs = pst.executeQuery();

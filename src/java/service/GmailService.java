@@ -158,7 +158,7 @@ public class GmailService {
     public static void main(String[] args) throws Exception {
         GmailService gmailer = new GmailService();
 
-        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
-//        System.out.println(gmailer.isValidEmail("asd@asdadsas.com"));
+//        gmailer.sendEmail("Automated Email", "CC J Z TROI", "johnnypewds123@gmail.com");
+        System.out.println(gmailer.isValidEmail("asd@asdadsas.com"));
     }
 }

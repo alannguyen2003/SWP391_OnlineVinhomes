@@ -17,7 +17,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -199,27 +201,49 @@ public class CartController extends HttpServlet {
             HttpSession session = request.getSession();
             CartEntity cart = (CartEntity) session.getAttribute("cart");
             UserEntity user = (UserEntity) session.getAttribute("user");
-            String note = request.getParameter("note");
-            OrderService oService = new OrderService();
-            oService.addOrder(user, cart, note);
-            String itemNeeded = "";
-            ServiceService sService = new ServiceService();
-            SupplierService supService = new SupplierService();
-            for(ItemEntity item : cart.getItems()) {
-               itemNeeded = sService.checkResource(item.getService(), user.getBID());
-               if(!itemNeeded.isBlank()) {
-                   String email = supService.getSupplierEmail(item.getService().getSupplierID());
-                   GmailService gmailer = new GmailService();
-                   String body = "Short in Resource";
-                   String message = "We are running out of the following resources:\n" + itemNeeded + "Please gather these resources for us. Best regard."; 
-                   gmailer.sendEmail(body, message, email);
-               }
-               itemNeeded = "";
+            String deliveryDate = (String) request.getParameter("deliver-time");
+            System.out.println(deliveryDate);
+            if (deliveryDate.length()==0) {
+                request.setAttribute("action", "cart-contact");
+                request.setAttribute("message", "Enter delivery time.");
+                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+            } else {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date deliver = formatter.parse(deliveryDate);
+                Date now = new Date();
+                long millisecondsDifference = deliver.getTime() - now.getTime();
+                long hoursDifference = millisecondsDifference / (60 * 60 * 1000);
+                System.out.println(millisecondsDifference);
+                System.out.println(hoursDifference);
+                String note = request.getParameter("note");
+                if (hoursDifference >= 8) {
+                    cart.setDeliveryTime(deliveryDate);
+                    OrderService oService = new OrderService();
+                    oService.addOrder(user, cart, note);
+                    String itemNeeded = "";
+                    ServiceService sService = new ServiceService();
+                    SupplierService supService = new SupplierService();
+                    for (ItemEntity item : cart.getItems()) {
+                        itemNeeded = sService.checkResource(item.getService(), user.getBID());
+                        if (!itemNeeded.isBlank()) {
+                            String email = supService.getSupplierEmail(item.getService().getSupplierID());
+                            GmailService gmailer = new GmailService();
+                            String body = "Short in Resource";
+                            String message = "We are running out of the following resources:\n" + itemNeeded + "Please gather these resources for us. Best regard.";
+                            gmailer.sendEmail(body, message, email);
+                        }
+                        itemNeeded = "";
+                    }
+                    session.removeAttribute("cart");
+                    session.removeAttribute("size");
+                    request.setAttribute("orderMessage", "Thank you for your supporting. Our employee will contact you via Phone soon.");
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("action", "cart-contact");
+                    request.setAttribute("message", "The delivery time must be at least 8 hours ahead from current time.");
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                }
             }
-            session.removeAttribute("cart");
-            session.removeAttribute("size");
-            request.setAttribute("orderMessage", "Thank you for your supporting. Our employee will contact you via Phone soon.");
-            request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
