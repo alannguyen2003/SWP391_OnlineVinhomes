@@ -58,7 +58,7 @@ public class OrdersController extends HttpServlet {
                     // Tính khoảng thời gian giữa hai thời điểm theo giờ
                     long millisecondsDifference = date.getTime() - now.getTime() ;
                     long hoursDifference = millisecondsDifference / (60 * 60 * 1000);
-                    if (hoursDifference >= 6 && oh.getStatus() == "Pending") {
+                    if (hoursDifference >= 6 && oh.getStatus().equals("Pending")) {
                         orderService.cancelOrder(oid);
                         response.sendRedirect(request.getContextPath()+ "/order/myorder.do?aid=" + request.getParameter("aid"));
                     } else {

@@ -146,13 +146,14 @@
         <aside id="sidebar" class="sidebar">
 
             <ul class="sidebar-nav" id="sidebar-nav">
-
-                <li class="nav-item ${activeTab == "dashboard" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/admin-dashboard.do"/>">
-                        <i class="bi bi-grid"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
+                <c:if test="${sessionScope.user.roleID != 2}">
+                    <li class="nav-item ${activeTab == "dashboard" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/admin-dashboard.do"/>">
+                            <i class="bi bi-grid"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li> 
+                </c:if>
                 <!-- End Dashboard -->
 
                 <c:if test="${sessionScope.user.roleID == 4}">

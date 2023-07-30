@@ -22,6 +22,7 @@ import java.util.Collections;
 import service.ResidentService;
 import service.OrderService;
 import entity.OrderHeaderEntity;
+import entity.RoleEntity;
 import entity.SaleEntity;
 import entity.ServiceEntity;
 import entity.SupplierEntity;
@@ -83,6 +84,7 @@ public class AdminController extends HttpServlet {
         if (user != null && (user.getRoleID() != 1)) {
             try {
                 List<BlockVinEntity> blockList = bs.getAllBlock();
+                List<RoleEntity> rolelist = rss.get2Role();
                 int OID = 0;
                 switch (action) {
                     case "admin-dashboard":
@@ -135,6 +137,7 @@ public class AdminController extends HttpServlet {
                         break;
                     case "user-create":
                         request.setAttribute("blockList", blockList);
+                        request.setAttribute("roleID", rolelist);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "account-create":
@@ -717,23 +720,25 @@ public class AdminController extends HttpServlet {
     
     -------------------------------------------------------------------------------------------------------------------------------
      */
-    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
         int blockId = Integer.parseInt(request.getParameter("bid"));
+        int roleid = Integer.parseInt(request.getParameter("role"));
         UserEntity entity = new UserEntity();
         entity.setEmail(email);
         entity.setName(name);
         entity.setPhone(phone);
         entity.setBID(blockId);
         entity.setPassword(password);
+        entity.setRoleID(roleid);
 
         us.createAccount(entity);
         request.setAttribute("message", "Account has been added!");
-        response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+        request.getRequestDispatcher("/admin/user-create.do").forward(request, response);
     }
 
     private void userTables(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -815,9 +820,9 @@ public class AdminController extends HttpServlet {
 
     private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String aid = request.getParameter("AID");
-
+        List<BlockVinEntity> blockList = bs.getAllBlock();
         UserEntity user = us.getUser(Integer.parseInt(aid));
-
+        request.setAttribute("blockList", blockList);
         request.setAttribute("u", user);
 
     }

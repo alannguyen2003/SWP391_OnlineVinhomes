@@ -5,10 +5,12 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div class="container h-100" style="margin-bottom: 20%">
-    <div class="row d-flex justify-content-center align-items-center h-100 ">
-        <div class="col mb-5 text-center">
-            <div class = "fs-1">Reset Password Successfully!</div>
+<section class="ftco-section">
+    <div class="container h-100 mt-50">
+        <div class="row d-flex justify-content-center align-items-center h-100 ">
+            <div class="col mb-5 text-center">
+                <div class = "fs-1 text-primary">Reset Password Successfully!</div>
+            </div>
         </div>
     </div>
-</div>
+</section>
