@@ -17,6 +17,7 @@ public class OrderHeaderRequest {
     private int uid;
     private String residentName;
     private Date date;
+    private Date delivery_time;
     private String status;
     private int eid;
     private String employeeName;
@@ -26,11 +27,12 @@ public class OrderHeaderRequest {
     public OrderHeaderRequest() {
     }
 
-    public OrderHeaderRequest(int id, int uid, String residentName, Date date, String status, int eid, String employeeName, String note, HashMap<OrderDetailEntity, String> od) {
+    public OrderHeaderRequest(int id, int uid, String residentName, Date date, Date delivery_time, String status, int eid, String employeeName, String note, HashMap<OrderDetailEntity, String> od) {
         this.id = id;
         this.uid = uid;
         this.residentName = residentName;
         this.date = date;
+        this.delivery_time = delivery_time;
         this.status = status;
         this.eid = eid;
         this.employeeName = employeeName;
@@ -71,6 +73,14 @@ public class OrderHeaderRequest {
         this.date = date;
     }
 
+    public Date getDelivery_time() {
+        return delivery_time;
+    }
+
+    public void setDelivery_time(Date delivery_time) {
+        this.delivery_time = delivery_time;
+    }
+    
     public String getStatus() {
         return status;
     }

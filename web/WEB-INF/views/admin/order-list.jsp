@@ -42,6 +42,7 @@
                         <th scope="col">Resident</th>
                         <th scope="col">Employee</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Delivery Time</th>
                         <th scope="col">Status</th>
                         <th scope="col">Note</th>
                         <th scope="col">Price</th>
@@ -55,6 +56,7 @@
                             <td>${r.residentName}</td>
                             <td>${r.employeeName}</td>
                             <td>${r.date}</td>
+                            <td>${r.delivery_time}</td>
                             <c:if test="${r.status == 'Pending'}">
                                 <td><span class="bage bage-warning">${r.status}</span></td>
                                 </c:if>

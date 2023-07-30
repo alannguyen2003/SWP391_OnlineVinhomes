@@ -598,7 +598,7 @@ public class OrderRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select o.OID, a.AID, a.name, o.time, o.status, o.note from Orders o\n"
+            String query = "select o.OID, a.AID, a.name, o.time, o.delivery_time, o.status, o.note from Orders o\n"
                     + "left join Account a\n"
                     + "on o.UID = a.AID\n"
                     + "order by o.time DESC";
@@ -611,9 +611,10 @@ public class OrderRepository {
                 entity.setId(rs.getInt(1));
                 entity.setUid(rs.getInt(2));
                 entity.setResidentName(rs.getNString(3));
-                entity.setDate(rs.getDate(4));
-                entity.setStatus(rs.getString(5));
-                entity.setNote(rs.getString(6));
+                entity.setDate(rs.getTimestamp(4));
+                entity.setDelivery_time(rs.getTimestamp(5));
+                entity.setStatus(rs.getString(6));
+                entity.setNote(rs.getString(7));
 
                 HashMap<OrderDetailEntity, String> map = this.selectEmployeeOrderlWithName(rs.getInt("OID"));
 
