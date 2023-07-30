@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md-12 col-12 mb-5">
                                 <label>Delivery time*</label>
-                                <input type="date" placeholder="Address line 1">
+                                <input type="datetime-local" placeholder="Address line 1">
                             </div>
                             <div class="col-md-12 col-12 mb-5">
                                 <label>Note</label>
@@ -68,7 +68,7 @@
                         <div class="col-12 mb-40">
                             <h4 class="checkout-title">Cart Total</h4>
                             <div class="checkout-cart-total">
-                                <h4>Product <span>Total</span></h4>
+                                <h4>Product <span>Total (estimate)</span></h4>
                                 <c:forEach var="item" items="${sessionScope.cart.items}">
                                     <ul>
                                         <li style="padding-top: 15px">${item.service.name}<span>$<fmt:formatNumber value="${(item.service.getLowerPrice() + item.service.getUpperPrice()) / 2}" pattern="##.#"/></span></li>
