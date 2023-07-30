@@ -74,10 +74,12 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Block ID</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="BID" type="text" class="form-control" id="Address" value="${u.BID}">
-                    </div>
+                    <label class="col-md-4 col-lg-3 col-form-label" for="bid">BLOCK ID</label>
+                    <select name="bid" class="w-100 form-control">
+                        <c:forEach var="bl" items="${blockList}">
+                            <option value="${bl.BID}">${bl.name}</option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="row mb-3">

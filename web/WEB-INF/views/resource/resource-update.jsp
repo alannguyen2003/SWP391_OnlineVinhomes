@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Update Resource</h5>
                     <!-- General Form Elements -->
-                    <form id="updateResourceForm" action="<c:url value="/resource/resource-update-handler.do"/>">
+                    <form id="updateResourceForm" action="<c:url value="/resource/resource-update-handler.do"/>" method="post">
                         <input type="text" class="form-control" hidden name="id" value="${resource.id}">
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">Resource ID</label>

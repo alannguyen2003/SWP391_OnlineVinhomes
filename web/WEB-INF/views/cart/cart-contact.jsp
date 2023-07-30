@@ -29,7 +29,7 @@
     <div class="container">
         <!--Checkout Forms-->
         <p style="color:red">${message}</p>
-        <form action="<c:url value="/cart/cart-completion.do"/>" class="checkout-form">
+        <form action="<c:url value="/cart/cart-completion.do"/>" class="checkout-form" method="post">
             <div class="row row-50 mbn-40">
                 <div class="col-lg-7">
                     <!--Billing Address -->

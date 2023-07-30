@@ -12,7 +12,7 @@
             <div class="col mb-5 text-center">
                 <div class = "fs-1 text-primary">Please enter your email</div>
                 <div class = "mt-50">
-                    <form action="<c:url value="/reset-pass/reset-pass-handler.do"/>" class="">
+                    <form action="<c:url value="/reset-pass/reset-pass-handler.do"/>" class="" method="post">
                         <input class="form-control" style="width: 300px;height: 50px" type="text" name="email"/>
                         <div class="mt-5 mb-5">
                             ${message}

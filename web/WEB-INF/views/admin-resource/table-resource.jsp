@@ -24,21 +24,9 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             </div>
-            <div class="card-header py-3 col-md-12">
-                <form>
-                    <div class="form-group pb-2">
-                        <label  class="p-1" for="exampleInputEmail1">Search</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" name = "txtSearch" value="${searchValue}" aria-describedby="emailHelp" placeholder="Enter resource name">
-                    </div>
-                    <br/>
-                    <button type="submit" class="btn btn-primary" name = "op" value="search">Search</button>
-                </form>
-
-            </div>
             <div class="card-header py-3">
                 <a href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>" class="btn btn-primary">Reset table</a>
                 <a href="<c:url value="/admin-resource/add-resource.do"/>" class="btn btn-primary">Create</a>
-
             </div>
 
             <div class="card-body">

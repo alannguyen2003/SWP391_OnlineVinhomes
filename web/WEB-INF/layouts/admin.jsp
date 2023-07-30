@@ -71,21 +71,24 @@
                         </a>
                     </li><!-- End Search Icon-->
 
-                    <li class="nav-item dropdown">
+                    <c:if test="${sessionScope.user.roleID == 3}">
+                        <li class="nav-item dropdown">
 
-                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-bell"></i>
-                            <span class="badge bg-primary badge-number noti">0</span>
-                        </a><!-- End Notification Icon -->
+                            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell"></i>
+                                <span class="badge bg-primary badge-number noti">0</span>
+                            </a><!-- End Notification Icon -->
 
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                            <li class="dropdown-header">
-                                You have <span class="noti">0 </span> "Pending" orders
-                                <a  href="<c:url value="/admin/order-list.do?op=getall"/>"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                            </li>
-                        </ul><!-- End Notification Dropdown Items -->
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                                <li class="dropdown-header">
+                                    You have <span class="noti">0 </span> "Pending" orders
+                                    <a  href="<c:url value="/admin/order-list.do?op=getall"/>"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                                </li>
+                            </ul><!-- End Notification Dropdown Items -->
 
-                    </li><!-- End Notification Nav -->
+                        </li><!-- End Notification Nav -->
+                    </c:if>
+
 
 
 
@@ -146,13 +149,14 @@
         <aside id="sidebar" class="sidebar">
 
             <ul class="sidebar-nav" id="sidebar-nav">
-
-                <li class="nav-item ${activeTab == "dashboard" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/admin-dashboard.do"/>">
-                        <i class="bi bi-grid"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
+                <c:if test="${sessionScope.user.roleID != 2}">
+                    <li class="nav-item ${activeTab == "dashboard" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/admin-dashboard.do"/>">
+                            <i class="bi bi-grid"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li> 
+                </c:if>
                 <!-- End Dashboard -->
 
                 <c:if test="${sessionScope.user.roleID == 4}">

@@ -199,14 +199,16 @@ public class UserController extends HttpServlet {
                 response.addCookie(cu);
                 response.addCookie(cp);
                 response.addCookie(cr);
-                UserRepository uf = new UserRepository();
-                UserEntity user = uf.Login(email, password);
+                
+                UserEntity user = userService.Login(email, password);
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
                     if (user.getRoleID() != 1) {
                         response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
-                    } else {
+                    } else if (user.getRoleID() == 2){
+                        response.sendRedirect(request.getContextPath() + "/admin/employee-order.do?op=getAll&AID=" + user.getAID());
+                    } else{
                         response.sendRedirect(request.getContextPath() + "/home/index.do");
                     }
                 } else {
