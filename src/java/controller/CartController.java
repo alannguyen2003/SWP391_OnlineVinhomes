@@ -216,8 +216,7 @@ public class CartController extends HttpServlet {
                 long hoursDifference = millisecondsDifference / (60 * 60 * 1000);
                 String note = request.getParameter("note");
                 if (hoursDifference >= 8) {
-                    System.out.println(deliver.toString());
-                    cart.setDeliveryTime(deliver.toString());
+                    cart.setDeliveryTime(deliveryDate);
                     OrderService oService = new OrderService();
                     oService.addOrder(user, cart, note);
                     String itemNeeded = "";
