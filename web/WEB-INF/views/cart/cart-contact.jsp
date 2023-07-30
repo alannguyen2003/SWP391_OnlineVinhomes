@@ -28,7 +28,8 @@
 --><section class="mt-50 mb-150">
     <div class="container">
         <!--Checkout Forms-->
-        <form action="#" class="checkout-form">
+        <p style="color:red">${message}</p>
+        <form action="<c:url value="/cart/cart-completion.do"/>" class="checkout-form">
             <div class="row row-50 mbn-40">
                 <div class="col-lg-7">
                     <!--Billing Address -->
@@ -53,7 +54,7 @@
                             </div>
                             <div class="col-md-12 col-12 mb-5">
                                 <label>Delivery time*</label>
-                                <input type="date" placeholder="Address line 1">
+                                <input type="datetime-local" name="deliver-time">
                             </div>
                             <div class="col-md-12 col-12 mb-5">
                                 <label>Note</label>
@@ -82,7 +83,7 @@
                             <a href="<c:url value="/cart/cart.do" />" class="btn btn-primary mt-10">Cancel</a>
                         </div>
                         <div class="col-6 mb-40" style="display: flex; justify-content: flex-end">
-                            <a class="btn btn-primary mt-10" data-toggle="modal" data-target="#cartCompletion"/>Place order</a>
+                            <button type="submit" class="btn btn-primary mt-10">Place Order</button>
                         </div>
                     </div>
                 </div>
@@ -91,22 +92,4 @@
     </div>
 </section> 
 <!--Page Section End -->
-
-<div class="modal fade" id="cartCompletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Do you want to order?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Yes" below if you are ready to place your order.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
-                <a class="btn btn-success" href="<c:url value="/cart/cart-completion.do"/>">Yes</a>
-            </div>
-        </div>
-    </div>
-</div>   
+ 
