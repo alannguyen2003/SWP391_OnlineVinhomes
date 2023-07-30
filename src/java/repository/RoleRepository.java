@@ -37,6 +37,25 @@ public class RoleRepository {
         return list;
     }
     
+    public ArrayList<RoleEntity> get2Role() throws SQLException {
+        ArrayList<RoleEntity> list = new ArrayList<>();
+        Connection cn = DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select * from Role where id > 1 and id <4";
+            pst = cn.prepareStatement(query);
+            rs = pst.executeQuery();
+        }
+        while(rs.next()) {
+            RoleEntity roleEntity = new RoleEntity();
+            roleEntity.setId(rs.getInt(1));
+            roleEntity.setName(rs.getString(2));
+            list.add(roleEntity);
+        }
+        return list;
+    }
+    
     public RoleEntity getRoleByRoleId(int bid) throws SQLException {
         Connection cn = DBConfig.getConnection();
         RoleEntity roleEntity = new RoleEntity();

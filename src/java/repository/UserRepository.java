@@ -120,7 +120,7 @@ public class UserRepository {
             String salt = Hasher.createSalt();
             String saltedHashPassword = Hasher.doHashing(userEntity.getPassword(), salt);
             String query = "insert into Account(phone, email, password, name,BID, roleId,status ,salt)\n"
-                    + "values (?, ?, ?, ?, ?, 2, 1,?)";
+                    + "values (?, ?, ?, ?, ?, ?, 1,?)";
             pst = cn.prepareStatement(query);
             pst.setString(1, userEntity.getPhone());
             pst.setString(2, userEntity.getEmail());
@@ -128,7 +128,8 @@ public class UserRepository {
             pst.setNString(4, userEntity.getName());
             pst.setInt(5, userEntity.getBID());
 //            pst.setInt(6, userEntity.getRoleID());
-            pst.setString(6, salt);
+            pst.setInt(6, userEntity.getRoleID());
+            pst.setString(7, salt);
             pst.executeUpdate();
             cn.close();
         }

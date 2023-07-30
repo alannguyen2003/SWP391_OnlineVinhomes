@@ -18,6 +18,10 @@ public class UserService {
     
     UserRepository userRepo = new UserRepository();
     
+    public UserEntity Login(String email, String password) throws SQLException {
+        return userRepo.Login(email, password);
+    }
+    
     public UserEntity checkEmailExist(String email) throws SQLException {
         return userRepo.Check(email);
     }

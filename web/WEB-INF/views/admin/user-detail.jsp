@@ -41,7 +41,7 @@
                         <input name="" type="text" class="form-control" id="name" value="${u.name}" disabled="">
                     </div>
                 </div>
-                    
+
                 <div class="row mb-3">
                     <label for="Gender" class="col-md-4 col-lg-3 col-form-label">Gender</label>
                     <div class="col-md-8 col-lg-9">
@@ -74,10 +74,12 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Block ID</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="BID" type="text" class="form-control" id="Address" value="${u.BID}">
-                    </div>
+                    <label class="col-md-4 col-lg-3 col-form-label" for="bid">BLOCK ID</label>
+                    <select name="bid" class="w-100 form-control">
+                        <c:forEach var="bl" items="${blockList}">
+                            <option value="${bl.BID}">${bl.name}</option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="row mb-3">
@@ -89,12 +91,10 @@
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-<<<<<<< HEAD
+
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUserModal">Save change</button>
                         <input id="updateUser" type="submit" name="op" value="" hidden>
-=======
-                        <button type="submit" id="updateResident" class="btn btn-primary" data-toggle="modal" data-target="#updateUserModal">Save change</button>
->>>>>>> 5686e949bfc7682260745b1741f4a5f07d90681b
+
                     </div>
                 </div>
             </form>

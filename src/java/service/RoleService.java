@@ -20,6 +20,10 @@ public class RoleService {
         return rp.getAllRole();
     }
     
+    public ArrayList<RoleEntity> get2Role() throws Exception {
+        return rp.get2Role();
+    }
+    
     public RoleEntity getRoleByRoleId(int bid) throws SQLException {
         return rp.getRoleByRoleId(bid);
     }
