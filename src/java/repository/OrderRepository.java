@@ -124,7 +124,7 @@ public class OrderRepository {
         List<MyOrderEntity> list = null;
         Connection con = DBConfig.getConnection();
 
-        PreparedStatement stm = con.prepareStatement("select * from Orders where UID = ? order by OID ASC");
+        PreparedStatement stm = con.prepareStatement("select * from Orders where UID = ? order by time desc");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         list = new ArrayList<>();
