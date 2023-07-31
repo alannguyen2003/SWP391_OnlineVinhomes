@@ -204,7 +204,7 @@ public class UserController extends HttpServlet {
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    if (user.getRoleID() != 1) {
+                    if (user.getRoleID() != 1 && user.getRoleID() != 2) {
                         response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                     } else if (user.getRoleID() == 2){
                         response.sendRedirect(request.getContextPath() + "/admin/employee-order.do?op=getAll&AID=" + user.getAID());

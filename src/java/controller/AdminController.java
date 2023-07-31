@@ -89,6 +89,10 @@ public class AdminController extends HttpServlet {
                 switch (action) {
                     case "admin-dashboard":
                         load_Admindashboard(request, response);
+                        if (user.getRoleID() == 2) {
+                            response.sendRedirect(request.getContextPath() + "/admin/employee-order.do?op=getAll&AID=" + user.getAID());
+                            break;
+                        }
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     case "resident-tables":
@@ -300,7 +304,6 @@ public class AdminController extends HttpServlet {
             } else {
                 response.sendRedirect(request.getContextPath() + "/user/login.do");
             }
-
         }
 
     }
