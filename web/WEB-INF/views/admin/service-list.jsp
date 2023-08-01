@@ -66,7 +66,6 @@
                         <th scope="col">Min Price</th>
                         <th scope="col">Max Price</th>
                         <th scope="col">Rated</th>
-                        <th scope="col">Supplier</th>
                         <th scope="col">Category</th>
                         <th scope="col">Operation</th>
 
@@ -81,8 +80,7 @@
                             <td>${listService.lowerPrice}</td>
                             <td>${listService.upperPrice}</td>
                             <td>${listService.rated}</td>
-                            <td>${listService.supplierID}</td>
-                            <td>${listService.categoryID}</td>
+                            <td>${listService.categoryName}</td>
                             <td><a class="btn btn-outline-primary" href="<c:url value="/admin/service-detail.do?serviceID=${listService.serviceID}"/>">View <i class="bi bi-gear"></i></a></td>
                         </tr>
                     </c:forEach>

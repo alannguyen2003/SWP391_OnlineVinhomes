@@ -8,39 +8,42 @@ import entity.OrderDetailEntity;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- *
- * @author acer
- */
-public class OrderHeaderRequest {
+public class AdminOrderListRequest {
     private int id;
-    private int uid;
+    private int RID;
     private String residentName;
+    private int CID;
+    private String coordinatorName;
     private Date date;
     private Date delivery_time;
     private String status;
-    private int eid;
-    private String employeeName;
     private String note;
+    private int BID;
+    private String block;
+    private String room;
     HashMap<OrderDetailEntity, String> od;
     
-    public OrderHeaderRequest() {
+    public AdminOrderListRequest() {
     }
 
-    public OrderHeaderRequest(int id, int uid, String residentName, Date date, Date delivery_time, String status, int eid, String employeeName, String note, HashMap<OrderDetailEntity, String> od) {
+    public AdminOrderListRequest(int id, int RID, String residentName, int CID, String coordinatorName, Date date, Date delivery_time, String status, String note, int BID, String block, String room, HashMap<OrderDetailEntity, String> od) {
         this.id = id;
-        this.uid = uid;
+        this.RID = RID;
         this.residentName = residentName;
+        this.CID = CID;
+        this.coordinatorName = coordinatorName;
         this.date = date;
         this.delivery_time = delivery_time;
         this.status = status;
-        this.eid = eid;
-        this.employeeName = employeeName;
         this.note = note;
+        this.BID = BID;
+        this.block = block;
+        this.room = room;
         this.od = od;
-
     }
-    
+
+
+
     public int getId() {
         return id;
     }
@@ -48,13 +51,13 @@ public class OrderHeaderRequest {
     public void setId(int id) {
         this.id = id;
     }
-    
-    public int getUid(){
-        return uid;
+
+    public int getRID() {
+        return RID;
     }
-    
-    public void setUid(int uid){
-        this.uid = uid;
+
+    public void setRID(int RID) {
+        this.RID = RID;
     }
 
     public String getResidentName() {
@@ -63,6 +66,22 @@ public class OrderHeaderRequest {
 
     public void setResidentName(String residentName) {
         this.residentName = residentName;
+    }
+
+    public int getCID() {
+        return CID;
+    }
+
+    public void setCID(int CID) {
+        this.CID = CID;
+    }
+
+    public String getCoordinatorName() {
+        return coordinatorName;
+    }
+
+    public void setCoordinatorName(String coordinatorName) {
+        this.coordinatorName = coordinatorName;
     }
 
     public Date getDate() {
@@ -80,29 +99,13 @@ public class OrderHeaderRequest {
     public void setDelivery_time(Date delivery_time) {
         this.delivery_time = delivery_time;
     }
-    
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public int getEid() {
-        return eid;
-    }
-
-    public void setEid(int eid) {
-        this.eid = eid;
-    }
-    
-    public String getEmployeeName() {
-        return employeeName;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
     }
 
     public String getNote() {
@@ -113,6 +116,33 @@ public class OrderHeaderRequest {
         this.note = note;
     }
 
+    public int getBID() {
+        return BID;
+    }
+
+    public void setBID(int BID) {
+        this.BID = BID;
+    }
+
+    public String getBlock() {
+        return block;
+    }
+
+    public void setBlock(String block) {
+        this.block = block;
+    }
+     
+    
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    
+    
     public HashMap<OrderDetailEntity, String> getOd() {
         return od;
     }
@@ -129,9 +159,5 @@ public class OrderHeaderRequest {
         }
         return total;
     }
-
-    @Override
-    public String toString() {
-        return "OrderHeaderRequest{" + "id=" + id + ", residentName=" + residentName + ", date=" + date + ", status=" + status + ", employeeName=" + employeeName + ", note=" + note + '}';
-    }
+    
 }

@@ -192,22 +192,6 @@
                         </a>
                     </li><!-- End User Nav -->
                 </c:if>
-                <c:if test="${user.roleID == 3}">
-                    <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
-                        <a class="nav-link1" href="<c:url value="/admin-resource/table-resource.do?op=getAll"/>">
-                            <i class="bi bi-box-fill"></i>
-                            <span>Manage Block Resources</span>
-                        </a>
-                    </li><!-- End Resouces Nav -->
-                </c:if>
-                <c:if test="${user.roleID == 4}">
-                    <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
-                        <a class="nav-link1" href="<c:url value="/resource/resource-list.do"/>">
-                            <i class="bi bi-box-fill"></i>
-                            <span>Manage Resources</span>
-                        </a>
-                    </li>
-                </c:if>
                 <c:if test="${user.roleID == 4}">
                     <li class="nav-item ${activeTab == "resources" ? "active" : ""}">
                         <a class="nav-link1" href="<c:url value="/admin-sales/dashboard.do"/>">
@@ -225,10 +209,10 @@
                     </li>
                 </c:if>
                 <c:if test="${user.roleID == 2}">
-                    <li class="nav-item ${activeTab == "employeeOrder" ? "active" : ""}">
-                        <a class="nav-link1" href="<c:url value="/admin/employee-order.do?op=getAll&AID=${sessionScope.user.AID}"/>">
+                    <li class="nav-item ${activeTab == "coordinatorOrder" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/coordinator-order.do?op=getAll&AID=${sessionScope.user.AID}"/>">
                             <i class="bi bi-clipboard-fill"></i>
-                            <span>Employee Order List</span>
+                            <span>Coordinator Order List</span>
                         </a>
                     </li>
                 </c:if>
@@ -269,7 +253,9 @@
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
                 class="bi bi-arrow-up-short"></i></a>
 
-        <input type="text" hidden id="block" value="${user.BID}">
+                <!--This line will be fixed later-->
+<%--        <input type="text" hidden id="block" value="${user.BID}">--%>
+
         <!--JS SSE-->
         <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/sse/sse_uo1.js"></script>
         <!-- Vendor JS Files -->

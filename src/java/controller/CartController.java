@@ -164,38 +164,6 @@ public class CartController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
 
-//    protected void contact(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        try {
-//            HttpSession session = request.getSession(true);
-//            CartEntity cart = null;
-//            Object o = session.getAttribute("cart");
-//            if (o != null) {
-//                cart = (CartEntity) o;
-//            } else {
-//                cart = new CartEntity();
-//            }
-//            UserEntity user = null;
-//            Object o1 = session.getAttribute("user");
-//            int size = (Integer) session.getAttribute("size");
-//            if (o1 != null && size != 0) {
-//                user = (UserEntity) o1;
-//                OrderFacade of = new OrderFacade();
-//                of.addOrder(user, cart);
-//                session.removeAttribute("cart");
-//                session.setAttribute("size", 0);
-//                request.getRequestDispatcher("/cart/cart.do").forward(request, response);
-//
-//            } else if (o1 != null && size == 0) {
-//                request.setAttribute("noItem", "No product in your cart!");
-//                request.getRequestDispatcher("/cart/cart.do").forward(request, response);
-//            } else {
-//                request.setAttribute("message", "You need to log in to check out!");
-//                request.getRequestDispatcher("/auth/login.do").forward(request, response);
-//            }
-//        } catch (Exception ex) {
-//        }
-//    }
     protected void cartCompletion(HttpServletRequest request, HttpServletResponse response) {
         try {
             HttpSession session = request.getSession();
@@ -223,9 +191,11 @@ public class CartController extends HttpServlet {
                     ServiceService sService = new ServiceService();
                     SupplierService supService = new SupplierService();
                     for (ItemEntity item : cart.getItems()) {
-                        itemNeeded = sService.checkResource(item.getService(), user.getBID());
+                        // Need to fix user.getAID
+                        itemNeeded = sService.checkResource(item.getService(), user.getAID());
                         if (!itemNeeded.isBlank()) {
-                            String email = supService.getSupplierEmail(item.getService().getSupplierID());
+                            // Need to fix getCategoryID()
+                            String email = supService.getSupplierEmail(item.getService().getCategoryID());
                             GmailService gmailer = new GmailService();
                             String body = "Short in Resource";
                             String message = "We are running out of the following resources:\n" + itemNeeded + "Please gather these resources for us. Best regard.";

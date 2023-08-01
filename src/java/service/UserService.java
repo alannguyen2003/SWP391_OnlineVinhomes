@@ -12,6 +12,10 @@ package service;
 import entity.UserEntity;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import payload.request.AdminResidentListRequest;
+import payload.request.AdminUserListRequest;
+import payload.request.ResidentProfileRequest;
 import repository.UserRepository;
 
 public class UserService {
@@ -35,20 +39,12 @@ public class UserService {
         userRepo.createAccount(userEntity);
     }
     
-    public ArrayList<UserEntity> getAllUser() throws Exception{
+    public ArrayList<AdminUserListRequest> getAllUser() throws Exception{
         return userRepo.getAllUser();
     }
     
     public ArrayList<UserEntity> getAllUserByName(String name) throws Exception{
         return userRepo.getAllUserByName(name);
-    }
-    
-    public ArrayList<String> getStatus() throws SQLException{
-        return userRepo.getStatus();
-    }
-    
-    public ArrayList<UserEntity> getEmployee() throws Exception {
-        return userRepo.getEmployee();
     }
     
     public String getUserForChart() throws SQLException {
@@ -70,8 +66,20 @@ public class UserService {
         return true;
     }
     
+    // This method get User Information but often use to get information for Admin or Manager because 
+    // Resident Information and Coordinator Information have different table so they have getResident and get Coordinator instead
     public UserEntity getUser(int aid) throws SQLException {
         return userRepo.getUser(aid);
+    }
+    
+    // This method to get List of all Resident for Admin Pages
+    public ArrayList<AdminResidentListRequest> getAllResident() throws SQLException {
+        return userRepo.getAllResident();
+    }
+    
+    // Get Resident Information to see in the Profile Page
+    public ResidentProfileRequest getResident(int aid) throws SQLException {
+        return userRepo.getResident(aid);
     }
     
     public UserEntity getManagerOfBlock(int blockId) throws SQLException {

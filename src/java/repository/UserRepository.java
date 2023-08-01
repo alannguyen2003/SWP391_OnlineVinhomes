@@ -16,6 +16,9 @@ import java.util.List;
 import javax.xml.transform.Source;
 import entity.UserEntity;
 import entity.ResidentEntity;
+import payload.request.AdminResidentListRequest;
+import payload.request.AdminUserListRequest;
+import payload.request.ResidentProfileRequest;
 
 /**
  *
@@ -50,9 +53,7 @@ public class UserRepository {
                         rs.getString(5),
                         rs.getString(6),
                         rs.getInt(7),
-                        rs.getInt(8),
-                        rs.getString(9),
-                        rs.getInt(10)
+                        rs.getInt(8)
                 );
             }
         } catch (SQLException ex) {
@@ -79,9 +80,8 @@ public class UserRepository {
                         rs.getString(5),
                         rs.getString(6),
                         rs.getInt(7),
-                        rs.getInt(8),
-                        rs.getString(9),
-                        rs.getInt(10));
+                        rs.getInt(8)
+                );
             }
         } catch (SQLException ex) {
             System.err.println("Error at Check User");
@@ -119,15 +119,14 @@ public class UserRepository {
         if (cn != null) {
             String salt = Hasher.createSalt();
             String saltedHashPassword = Hasher.doHashing(userEntity.getPassword(), salt);
-            String query = "insert into Account(phone, email, password, name,BID, roleId,status ,salt)\n"
+            String query = "insert into Account(phone, email, password, name, gender, roleId, status ,salt)\n"
                     + "values (?, ?, ?, ?, ?, ?, 1,?)";
             pst = cn.prepareStatement(query);
             pst.setString(1, userEntity.getPhone());
             pst.setString(2, userEntity.getEmail());
             pst.setString(3, saltedHashPassword);
             pst.setNString(4, userEntity.getName());
-            pst.setInt(5, userEntity.getBID());
-//            pst.setInt(6, userEntity.getRoleID());
+            pst.setString(5, userEntity.getGender());
             pst.setInt(6, userEntity.getRoleID());
             pst.setString(7, salt);
             pst.executeUpdate();
@@ -135,55 +134,27 @@ public class UserRepository {
         }
     }
 
-    public ArrayList<UserEntity> getEmployee() throws Exception {
-        ArrayList<UserEntity> list = new ArrayList<>();
+    public ArrayList<AdminUserListRequest> getAllUser() throws Exception {
+        ArrayList<AdminUserListRequest> list = new ArrayList<>();
         Connection cn = (Connection) DBConfig.getConnection();
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select * from Account where roleId = 2";
+            String query = "select * from Account a \n"
+                        + "JOIN dbo.Role r \n"
+                        + "ON r.ID = a.roleId";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
         }
         while (rs.next()) {
-            UserEntity entity = new UserEntity();
+            AdminUserListRequest entity = new AdminUserListRequest();
             entity.setAID(rs.getInt(1));
             entity.setPhone(rs.getString(2));
             entity.setEmail(rs.getString(3));
-            entity.setPassword(rs.getString(4));
             entity.setName(rs.getString(5));
             entity.setGender(rs.getString(6));
-            entity.setBID(rs.getInt(7));
-            entity.setRoleID(rs.getInt(8));
-            entity.setRoom(rs.getString(9));
-            entity.setStatus(rs.getInt(10));
-            list.add(entity);
-        }
-        return list;
-    }
-
-    public ArrayList<UserEntity> getAllUser() throws Exception {
-        ArrayList<UserEntity> list = new ArrayList<>();
-        Connection cn = (Connection) DBConfig.getConnection();
-        PreparedStatement pst;
-        ResultSet rs = null;
-        if (cn != null) {
-            String query = "select * from Account";
-            pst = cn.prepareStatement(query);
-            rs = pst.executeQuery();
-        }
-        while (rs.next()) {
-            UserEntity entity = new UserEntity();
-            entity.setAID(rs.getInt(1));
-            entity.setPhone(rs.getString(2));
-            entity.setEmail(rs.getString(3));
-            entity.setPassword(rs.getString(4));
-            entity.setName(rs.getString(5));
-            entity.setGender(rs.getString(6));
-            entity.setBID(rs.getInt(7));
-            entity.setRoleID(rs.getInt(8));
-            entity.setRoom(rs.getString(9));
-            entity.setStatus(rs.getInt(10));
+            entity.setStatus(rs.getBoolean(8));
+            entity.setRole(rs.getString(11));
             list.add(entity);
         }
         return list;
@@ -209,29 +180,13 @@ public class UserRepository {
             entity.setPassword(rs.getString(4));
             entity.setName(rs.getString(5));
             entity.setGender(rs.getString(6));
-            entity.setBID(rs.getInt(7));
             entity.setRoleID(rs.getInt(8));
-            entity.setRoom(rs.getString(9));
             entity.setStatus(rs.getInt(10));
             list.add(entity);
         }
         return list;
     }
 
-    public ArrayList<String> getStatus() throws SQLException {
-        ArrayList<String> list = new ArrayList<>();
-        Connection cn = (Connection) DBConfig.getConnection();
-        ResultSet rs = null;
-        if (cn != null) {
-            String query = "SELECT DISTINCT status FROM dbo.Orders";
-            Statement stm = cn.createStatement();
-            rs = stm.executeQuery(query);
-        }
-        while (rs.next()) {
-            list.add(rs.getString(1));
-        }
-        return list;
-    }
 
     public String getTopUserJsArray() throws SQLException {
         String result = "";
@@ -323,12 +278,13 @@ public class UserRepository {
             pst.setString(2, userEntity.getEmail());
             pst.setString(3, saltedHashPassword);
             pst.setNString(4, userEntity.getName());
-            pst.setInt(5, userEntity.getBID());
             pst.setString(6, salt);
             pst.executeUpdate();
         }
     }
 
+    // This method get User Information but often use to get information for Admin or Manager because 
+    // Resident Information and Coordinator Information have different table so they have getResident and get Coordinator instead
     public UserEntity getUser(int aid) throws SQLException {
         UserEntity user = new UserEntity();
 
@@ -343,13 +299,67 @@ public class UserRepository {
             user.setPassword(rs.getString(4));
             user.setName(rs.getString(5));
             user.setGender(rs.getString(6));
-            user.setBID(rs.getInt(7));
-            user.setRoleID(rs.getInt(8));
-            user.setRoom(rs.getString(9));
-            user.setStatus(rs.getInt(10));
+            user.setRoleID(rs.getInt(7));
+            user.setStatus(rs.getInt(8));
         }
         con.close();
         return user;
+    }
+
+    // This method to get List of all Resident for Admin Pages
+    public ArrayList<AdminResidentListRequest> getAllResident() throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("SELECT * FROM \n"
+                + "dbo.Account AS a \n"
+                + "JOIN dbo.Resident AS r \n"
+                + "ON r.ID = a.AID \n"
+                + "JOIN dbo.Role AS rl \n"
+                + "ON rl.ID = a.roleId \n"
+                + "JOIN dbo.BlockVin AS b \n"
+                + "ON b.BID = r.BID");
+        ResultSet rs = pstm.executeQuery();
+        ArrayList<AdminResidentListRequest> list = new ArrayList<>();
+        while (rs.next()) {
+            AdminResidentListRequest res = new AdminResidentListRequest();
+            res.setAID(rs.getInt(1));
+            res.setPhone(rs.getString(2));
+            res.setEmail(rs.getString(3));
+            res.setName(rs.getString(5));
+            res.setGender(rs.getString(6));
+            res.setStatus(rs.getBoolean(8));
+            res.setRoom(rs.getString(12));
+            res.setRole(rs.getString(14));
+            res.setBlock(rs.getString(16));
+            list.add(res);
+        }
+        con.close();
+        return list;
+    }
+
+    // Get Resident Information to see in the Profile Page
+    public ResidentProfileRequest getResident(int aid) throws SQLException {
+        ResidentProfileRequest res = new ResidentProfileRequest();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("SELECT a.AID, a.email, a.phone, a.name, a.gender, b.name, r.room FROM \n"
+                + "dbo.Account AS  a JOIN dbo.Resident AS r\n"
+                + "ON r.ID = a.AID\n"
+                + "JOIN dbo.BlockVin b\n"
+                + "ON b.BID = r.BID\n"
+                + "WHERE a.AID = ?");
+        pstm.setInt(1, aid);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            res.setAID(rs.getInt(1));
+            res.setEmail(rs.getString(2));
+            res.setPhone(rs.getString(3));
+            res.setName(rs.getString(4));
+            res.setGender(rs.getString(5));
+            res.setBlock(rs.getString(6));
+            res.setRoom(rs.getString(7));
+        }
+        con.close();
+        return res;
     }
 
     public UserEntity getManagerOfBlock(int blockId) throws SQLException {

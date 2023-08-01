@@ -9,6 +9,7 @@ import entity.ServiceEntity;
 import java.util.ArrayList;
 import java.sql.*;
 import java.util.List;
+import payload.request.AdminServiceListRequest;
 
 /**
  *
@@ -16,31 +17,35 @@ import java.util.List;
  */
 public class ServiceRepository {
 
-    public ArrayList<ServiceEntity> getAllService() throws Exception {
-        ArrayList<ServiceEntity> list = new ArrayList<>();
+    // This method to get List of all Services for AdminPages
+    public ArrayList<AdminServiceListRequest> getAllServices() throws Exception {
+        ArrayList<AdminServiceListRequest> list = new ArrayList<>();
         Connection cn = (Connection) DBConfig.getConnection();
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select * from Service";
+            String query = "select * from Service \n" +
+                            "s JOIN dbo.Category c\n" +
+                            "ON c.CID = s.category_id";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
         }
         while (rs.next()) {
-            ServiceEntity entity = new ServiceEntity();
+            AdminServiceListRequest entity = new AdminServiceListRequest();
             entity.setServiceID(rs.getInt(1));
             entity.setName(rs.getString(2));
             entity.setDescription(rs.getString(3));
             entity.setLowerPrice(rs.getDouble(4));
             entity.setUpperPrice(rs.getDouble(5));
             entity.setRated(rs.getDouble(6));
-            entity.setSupplierID(rs.getInt(7));
-            entity.setCategoryID(rs.getInt(8));
+            entity.setCategoryID(rs.getInt(7));
+            entity.setCategoryName(rs.getString(9));
+            
             list.add(entity);
         }
         return list;
     }
-
+    
     public ArrayList<ServiceEntity> getServiceByName(String serviceName) throws Exception {
         ArrayList<ServiceEntity> list = new ArrayList<>();
         Connection cn = (Connection) DBConfig.getConnection();
@@ -62,8 +67,7 @@ public class ServiceRepository {
             serviceEntity.setLowerPrice(rs.getDouble(4));
             serviceEntity.setUpperPrice(rs.getDouble(5));
             serviceEntity.setRated(rs.getDouble(6));
-            serviceEntity.setSupplierID(rs.getInt(7));
-            serviceEntity.setCategoryID(rs.getInt(8));
+            serviceEntity.setCategoryID(rs.getInt(7));
 
             list.add(serviceEntity);
 
@@ -91,8 +95,7 @@ public class ServiceRepository {
             entity.setLowerPrice(rs.getDouble(4));
             entity.setUpperPrice(rs.getDouble(5));
             entity.setRated(rs.getDouble(6));
-            entity.setSupplierID(rs.getInt(7));
-            entity.setCategoryID(rs.getInt(8));
+            entity.setCategoryID(rs.getInt(7));
             list.add(entity);
         }
         return list;
@@ -118,8 +121,7 @@ public class ServiceRepository {
             serviceEntity.setLowerPrice(rs.getDouble(4));
             serviceEntity.setUpperPrice(rs.getDouble(5));
             serviceEntity.setRated(rs.getDouble(6));
-            serviceEntity.setSupplierID(rs.getInt(7));
-            serviceEntity.setCategoryID(rs.getInt(8));
+            serviceEntity.setCategoryID(rs.getInt(7));
             list.add(serviceEntity);
         }
         return list;
@@ -145,7 +147,6 @@ public class ServiceRepository {
                 service.setLowerPrice(rs.getDouble("lower_price"));
                 service.setUpperPrice(rs.getDouble("upper_price"));
                 service.setRated(rs.getDouble("rated"));
-                service.setSupplierID(rs.getInt("supplier_id"));
                 service.setCategoryID(rs.getInt("category_id"));
             }
         } finally {
@@ -242,7 +243,6 @@ public class ServiceRepository {
                 service.setLowerPrice(rs.getDouble("lower_price"));
                 service.setUpperPrice(rs.getDouble("upper_price"));
                 service.setRated(rs.getDouble("rated"));
-                service.setSupplierID(rs.getInt("supplier_id"));
                 service.setCategoryID(rs.getInt("category_id"));
                 list.add(service);
             }

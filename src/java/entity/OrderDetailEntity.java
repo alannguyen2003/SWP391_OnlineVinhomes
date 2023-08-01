@@ -7,16 +7,18 @@ public class OrderDetailEntity {
     private int serviceId;
     private int categoryId;
     private int price;
+    private int supplierId;
 
     public OrderDetailEntity() {
     }
 
-    public OrderDetailEntity(int id, int orderHeaderId, int serviceId, int categoryId, int price) {
+    public OrderDetailEntity(int id, int orderHeaderId, int serviceId, int categoryId, int price, int supplierId) {
         this.id = id;
         this.orderHeaderId = orderHeaderId;
         this.serviceId = serviceId;
         this.categoryId = categoryId;
         this.price = price;
+        this.supplierId = supplierId;
     }
 
     public int getId() {
@@ -59,4 +61,13 @@ public class OrderDetailEntity {
         this.price = price;
     }
 
+    public int getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(int supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    
 }

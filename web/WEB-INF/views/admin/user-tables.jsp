@@ -37,7 +37,7 @@
                     <li><a class="dropdown-item" href="<c:url value="/admin/user-tables.do?op=getAll&filterOption=status" />">Status</a></li>
                 </ul>
             </div>
-                
+
             <c:if test="${filterOption == 'gender'}">
                 <div class="form-group pb-2" id="filterGender">
                     <label class="p-1" for="filterGender">Value:</label>
@@ -78,8 +78,6 @@
                         <th scope="col">Gender</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
-                        <th scope="col">Room</th>
-                        <th scope="col">Block</th>
                         <th scope="col">Role</th>
                         <th scope="col">Status</th>
                         <th scope="col">Operation</th>
@@ -93,10 +91,13 @@
                             <td>${r.gender}</td>
                             <td>${r.email}</td>
                             <td>${r.phone}</td>
-                            <td>${r.room}</td>
-                            <td>${r.BID}</td>
-                            <td>${r.roleID}</td>
-                            <td>${r.status}</td>
+                            <td>${r.role}</td>
+                            <c:if test="${r.status == 'true'}">
+                                <td>Available</td>
+                            </c:if>
+                            <c:if test="${r.status == 'false'}">
+                                <td>Unavailable</td>
+                            </c:if>
                             <td>
                                 <a class="btn btn-outline-primary" href="<c:url value="/admin/user-detail.do?AID=${r.AID}"/>">View <i class="bi bi-gear"></i></a>
                             </td>

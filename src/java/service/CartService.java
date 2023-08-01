@@ -7,6 +7,7 @@ package service;
 import entity.ServiceEntity;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import payload.request.AdminServiceListRequest;
 import repository.ServiceRepository;
 
 /**
@@ -20,8 +21,8 @@ public class CartService {
         return serviceRepository.getServiceById(id);
     }
     
-    public ArrayList<ServiceEntity> getAllService() throws Exception {
-        return serviceRepository.getAllService();
+    public ArrayList<AdminServiceListRequest> getAllService() throws Exception {
+        return serviceRepository.getAllServices();
     }
     
     public ArrayList<ServiceEntity> getServiceByCategory(int categoryId) throws Exception {

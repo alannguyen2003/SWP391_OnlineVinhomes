@@ -1,6 +1,6 @@
 <%-- 
-    Document   : employee-order-detail
-    Created on : Jun 19, 2023, 11:30:20 PM
+    Document   : resident-detail
+    Created on : Jun 4, 2023, 6:39:22 PM
     Author     : admin
 --%>
 
@@ -21,12 +21,11 @@
     <div class="card shadow mb-4">
         <div class="card-body mt-4" style="margin-bottom: 2rem">
             <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">
-                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/employee-order-detail.do?OID=${OID}' />" class="${activation == 'employee-order-detail' ? 'active' : ''}"><i class="bi bi-person-fill-add"></i><span>Employee Order</span></a></li>
-                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-price-order.do?OID=${OID}' />" class="${activation == 'add-price-order' ? 'active' : ''}"><i class="bi bi-cash-coin"></i><span>Add Price</span></a></li>
+                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-employee-order.do?OID=${OID}' />" class="${activation == 'add-coordinator-order' ? 'active' : ''}"><i class="bi bi-person-fill-add"></i><span>Add Employee</span></a></li>
             </ul>
 
 
-            <form action="<c:url value="/admin/updateEmployeeOrder.do" />" method="post">
+            <form id="updateOrderForm" action="<c:url value="/admin/updateOrderPending.do" />" method="post">
                 <div class="row mb-3">
                     <label for="OID" class="col-md-4 col-lg-3 col-form-label">Order ID</label>
                     <div class="col-md-8 col-lg-9">
@@ -51,13 +50,6 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <label for="ResidentID" class="col-md-4 col-lg-3 col-form-label">Resident ID</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="employeeId" type="hidden" class="form-control" id="Phone" value="${oh.employeeId}">
-                        <input name="employeeId" type="text" class="form-control" id="Phone" value="${oh.employeeId}" disabled="">
-                    </div>
-                </div>
 
                 <div class="row mb-3">
                     <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
@@ -65,6 +57,18 @@
                         <select name="status" class="w-100 form-control"> 
                             <c:forEach var="status" items="${statusList}">
                                 <option value="${status}" ${status == oh.status ? "selected" : ""}>${status}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="Coordinator" class="col-md-4 col-lg-3 col-form-label">Coordinator</label>
+                    <div class="col-md-8 col-lg-9">
+                        <select name="coorId" class="w-100 form-control">
+                            <option value="">-- Select Employee --</option>
+                            <c:forEach var="coorList" items="${coorList}">
+                                <option name="coorId" value="${coorList.CID}">${coorList.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -80,8 +84,8 @@
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
-                        <input data-toggle="modal" data-target="#updateOrderModal" id="updateOrder" type="submit" name="op" value="update" hidden>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
+                        <input id="updateOrder" type="submit" name="op" value="update" hidden>
                     </div>
                 </div>
             </form>
@@ -93,16 +97,24 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this order information?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this Order information?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Update" below if you are ready to update this order.</div>
+            <div class="modal-body">Select "Update" below if you are ready to update this Order.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-success" href="<c:url value="/admin/employee-order-detail.do"/>">Yes</a>
+                <a id="updateOrderLink" onclick="updateOrder()" class="btn btn-primary">Update</a>
             </div>
         </div>
     </div>
-</div> 
+</div>   
+<script>
+    function updateOrder() {
+        var form = document.getElementById("updateORderForm");
+        var submitOp = document.getElementById("updateOrder");
+        submitOp.value = 'update';
+        submitOp.click();
+    }
+</script> 

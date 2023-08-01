@@ -28,19 +28,6 @@
                 <div class="col-xxl-4 col-md-6">
                     <div class="card info-card sales-card">
 
-<!--                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>-->
-
                         <div class="card-body">
                             <h5 class="card-title">Sales <span>| Total</span></h5>
 
@@ -50,8 +37,6 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6>${count}</h6>
-                                    <!--                                    <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                                                            class="text-muted small pt-2 ps-1">increase</span>-->
 
                                 </div>
                             </div>
@@ -65,18 +50,6 @@
                 <div class="col-xxl-4 col-md-6">
                     <div class="card info-card revenue-card">
 
-<!--                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>-->
 
                         <div class="card-body">
                             <h5 class="card-title">Income <span>| Total</span></h5>
@@ -87,9 +60,6 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6>${income}</h6>
-                                    <!--                                    <span class="text-success small pt-1 fw-bold">8%</span> <span
-                                                                            class="text-muted small pt-2 ps-1">increase</span>-->
-
                                 </div>
                             </div>
                         </div>
@@ -102,19 +72,6 @@
 
                     <div class="card info-card customers-card">
 
-<!--                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>-->
-
                         <div class="card-body">
                             <h5 class="card-title">Customers <span>| Total</span></h5>
 
@@ -124,9 +81,6 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6>${countacc}</h6>
-                                    <!--                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                                                                            class="text-muted small pt-2 ps-1">decrease</span>-->
-
                                 </div>
                             </div>
 
@@ -138,20 +92,6 @@
                 <!-- Reports -->
                 <div class="col-12">
                     <div class="card">
-
-<!--                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>-->
-
                         <div class="card-body">
                             <h5 class="card-title">Reports <span>/Total</span></h5>
 
@@ -221,19 +161,6 @@
                 <div class="col-12">
                     <div class="card recent-sales overflow-auto">
 
-<!--                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>-->
-
                         <div class="card-body">
                             <h5 class="card-title">Recent Sales <span>| Total</span></h5>
 
@@ -265,7 +192,9 @@
                                                 <c:if test="${listSale.status == 'Failed'}">
                                                 <td><span class="badge bg-danger">${listSale.status}</span></td>
                                                 </c:if>
-
+                                                <c:if test="${listSale.status == 'Cancel'}">
+                                                <td><span class="badge" style=" --bs-bg-opacity: 1; background-color: #ff7f50 !important; color: #fff;">${listSale.status}</span></td>
+                                                </c:if>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

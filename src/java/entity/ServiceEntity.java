@@ -14,32 +14,20 @@ public class ServiceEntity {
     private String description;
     private double lowerPrice;
     private double upperPrice;
-    private int supplierID;
     private int categoryID;
     private double rated;
 
     public ServiceEntity() {
     }
 
-//    public ServiceEntity(int serviceID, String name, String description, double lowerPrice, double upperPrice, int supplierID, int categoryID, double rated) {
-//        this.serviceID = serviceID;
-//        this.name = name;
-//        this.description = description;
-//        this.lowerPrice = lowerPrice;
-//        this.upperPrice = upperPrice;
-//        this.supplierID = supplierID;
-//        this.categoryID = categoryID;
-//        this.rated = rated;
-//    }
                                                                         
-    public ServiceEntity(int serviceID, String name, String description, double lowerPrice, double upperPrice, double rated, int supplierID, int categoryID) {
+    public ServiceEntity(int serviceID, String name, String description, double lowerPrice, double upperPrice, double rated, int categoryID) {
         this.serviceID = serviceID;
         this.name = name;
         this.description = description;
         this.lowerPrice = lowerPrice;
         this.upperPrice = upperPrice;
         this.rated = rated;
-        this.supplierID = supplierID;
         this.categoryID = categoryID;
     }
     
@@ -85,14 +73,6 @@ public class ServiceEntity {
         this.upperPrice = upperPrice;
     }
 
-    public int getSupplierID() {
-        return supplierID;
-    }
-
-    public void setSupplierID(int supplierID) {
-        this.supplierID = supplierID;
-    }
-
     public int getCategoryID() {
         return categoryID;
     }
@@ -111,6 +91,6 @@ public class ServiceEntity {
 
     @Override
     public String toString() {
-        return "ServiceEntity{" + "serviceID=" + serviceID + ", name=" + name + ", description=" + description + ", lowerPrice=" + lowerPrice + ", upperPrice=" + upperPrice + ", supplierID=" + supplierID + ", categoryID=" + categoryID + ", rated=" + rated + '}';
+        return "ServiceEntity{" + "serviceID=" + serviceID + ", name=" + name + ", description=" + description + ", lowerPrice=" + lowerPrice + ", upperPrice=" + upperPrice + ", categoryID=" + categoryID + ", rated=" + rated + '}';
     }
 }

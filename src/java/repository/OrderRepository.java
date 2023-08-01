@@ -22,8 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import payload.request.EmployeeOrderRequest;
-import payload.request.OrderHeaderRequest;
+import payload.request.AdminOrderListRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.UserService;
 
@@ -60,6 +59,53 @@ public class OrderRepository {
         return list;
     }
 
+    //  ----------------------------------------
+    //
+    //  General Order Function (Multi-purpose)
+    //
+    //  ----------------------------------------
+    // This method create a new ORder in Database
+    public void addOrder(UserEntity user, CartEntity cart, String note) throws SQLException {
+        LocalDate curDate = java.time.LocalDate.now();
+        String date = curDate.toString();
+        UserService uService = new UserService();
+        Connection con = DBConfig.getConnection();
+        String sql = "insert into Orders values(?,? ,'Pending' ,? , null, ?)";
+        PreparedStatement stm = con.prepareStatement(sql);
+        stm.setString(1, date);
+        stm.setString(2, cart.getDeliveryTime());
+        stm.setInt(3, user.getAID());
+        stm.setString(4, note);
+        stm.executeUpdate();
+        String sql1 = "select top 1 oid from Orders order by oid desc";
+        PreparedStatement stm1 = con.prepareStatement(sql1);
+        ResultSet rs = stm1.executeQuery();
+        while (rs.next()) {
+            int oid = rs.getInt("oid");
+            for (ItemEntity item : cart.getItems()) {
+                String sql2 = "insert into OrderDetail values(?, ?, ?, 0)";
+                PreparedStatement stm2 = con.prepareStatement(sql2);
+                stm2.setInt(1, oid);
+                stm2.setInt(2, item.getService().getServiceID());
+                stm2.setInt(3, item.getService().getCategoryID());
+                stm2.executeUpdate();
+            }
+        }
+        con.close();
+
+    }
+
+    // This method Cancel an Order in Database
+    public void cancelOrder(int oId) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Orders set status = 'Failed' where OID = ?");
+        pstm.setInt(1, oId);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+
+    // Get full List of Orders
     public List<OrderHeaderEntity> selectAll() throws SQLException {
         List<OrderHeaderEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -70,10 +116,12 @@ public class OrderRepository {
         while (rs.next()) {
             OrderHeaderEntity oh = new OrderHeaderEntity();
             oh.setId(rs.getInt("OID"));
-            oh.setDate(rs.getDate("time"));
-            oh.setResidentId(rs.getInt("UID"));
-            oh.setEmployeeId(rs.getInt("EID"));
+            oh.setDate(rs.getTimestamp("time"));
+            oh.setDelivery_time(rs.getTimestamp("delivery_time"));
             oh.setStatus(rs.getString("status"));
+            oh.setResidentId(rs.getInt("RID"));
+            oh.setCoordinatorID(rs.getInt("CID"));
+            oh.setBlockid(rs.getInt("BID"));
             oh.setNote(rs.getString("note"));
             list.add(oh);
         }
@@ -81,6 +129,7 @@ public class OrderRepository {
         return list;
     }
 
+    // Get Order Header by OrderHeader_ID
     public OrderHeaderEntity getOne(int id) throws SQLException {
         OrderHeaderEntity order = new OrderHeaderEntity();
 
@@ -94,127 +143,15 @@ public class OrderRepository {
             order.setDelivery_time(rs.getDate(3));
             order.setStatus(rs.getString(4));
             order.setResidentId(rs.getInt(5));
-            order.setEmployeeId(rs.getInt(6));
-            order.setNote(rs.getString(7));
+            order.setCoordinatorID(rs.getInt(6));
+            order.setBlockid(rs.getInt(7));
+            order.setNote(rs.getString(8));
         }
         con.close();
         return order;
     }
 
-    public OrderHeaderEntity getOrderEmployee(int id) throws SQLException {
-        OrderHeaderEntity order = new OrderHeaderEntity();
-
-        Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("SELECT * FROM Orders WHERE EID = ?");
-        pstm.setInt(1, id);
-        ResultSet rs = pstm.executeQuery();
-        if (rs.next()) {
-            order.setId(rs.getInt(1));
-            order.setDate(rs.getDate(2));
-            order.setStatus(rs.getString(3));
-            order.setResidentId(rs.getInt(4));
-            order.setEmployeeId(rs.getInt(5));
-            order.setNote(rs.getString(6));
-        }
-        con.close();
-        return order;
-    }
-
-    public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
-        List<MyOrderEntity> list = null;
-        Connection con = DBConfig.getConnection();
-
-        PreparedStatement stm = con.prepareStatement("select * from Orders where UID = ? order by OID desc");
-        stm.setInt(1, id);
-        ResultSet rs = stm.executeQuery();
-        list = new ArrayList<>();
-        while (rs.next()) {
-            OrderHeaderEntity oh = new OrderHeaderEntity();
-            oh.setId(rs.getInt("OID"));
-            oh.setDate(rs.getTimestamp("time"));
-            oh.setDelivery_time(rs.getTimestamp("delivery_time"));
-            oh.setResidentId(rs.getInt("UID"));
-            oh.setEmployeeId(rs.getInt("EID"));
-            oh.setStatus(rs.getString("status"));
-            oh.setNote(rs.getString("note"));
-            HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithName(rs.getInt("OID"));
-
-            MyOrderEntity fo = new MyOrderEntity(oh, map);
-            list.add(fo);
-        }
-        con.close();
-        return list;
-    }
-
-    public List<MyOrderEntity> selectEmployeeOrders(int id) throws SQLException {
-        List<MyOrderEntity> list = null;
-        Connection con = DBConfig.getConnection();
-
-        PreparedStatement stm = con.prepareStatement("select * from Orders where EID = ? order by OID ASC");
-        stm.setInt(1, id);
-        ResultSet rs = stm.executeQuery();
-        list = new ArrayList<>();
-        while (rs.next()) {
-            OrderHeaderEntity oh = new OrderHeaderEntity();
-            oh.setId(rs.getInt("OID"));
-            oh.setDate(rs.getDate("time"));
-            oh.setResidentId(rs.getInt("UID"));
-            oh.setEmployeeId(rs.getInt("EID"));
-            oh.setStatus(rs.getString("status"));
-            oh.setNote(rs.getString("note"));
-
-            HashMap<OrderDetailEntity, String> map = this.selectEmployeeOrderlWithName(rs.getInt("OID"));
-
-            MyOrderEntity fo = new MyOrderEntity(oh, map);
-            list.add(fo);
-        }
-        con.close();
-        return list;
-    }
-
-    public List<OrderDetailEntity> selectEmployeeOrderDetail(int id) throws SQLException {
-        List<OrderDetailEntity> list = null;
-        Connection con = DBConfig.getConnection();
-
-        PreparedStatement stm = con.prepareStatement("select * from OrderDetail where orderheader_id = ? ");
-        stm.setInt(1, id);
-        ResultSet rs = stm.executeQuery();
-        list = new ArrayList<>();
-        while (rs.next()) {
-            OrderDetailEntity od = new OrderDetailEntity();
-            od.setId(rs.getInt("id"));
-            od.setOrderHeaderId(rs.getInt("orderHeaderId"));
-            od.setServiceId(rs.getInt("serviceId"));
-            od.setCategoryId(rs.getInt("categoryId"));
-            od.setPrice(rs.getInt("price"));
-            list.add(od);
-        }
-        con.close();
-        return list;
-    }
-
-    public HashMap<OrderDetailEntity, String> selectEmployeeOrderlWithName(int orderHeaderId) throws SQLException {
-        HashMap<OrderDetailEntity, String> list = null;
-        Connection con = DBConfig.getConnection();
-
-        PreparedStatement stm = con.prepareStatement("select od.*, a.[name]  from Orders o, OrderDetail od, account a where  o.OID = od.orderHeader_id and a.AID = o.EID  and od.orderHeader_id = ?");
-        stm.setInt(1, orderHeaderId);
-        ResultSet rs = stm.executeQuery();
-        list = new HashMap<>();
-        while (rs.next()) {
-            OrderDetailEntity od = new OrderDetailEntity();
-            od.setId(rs.getInt("id"));
-            od.setOrderHeaderId(rs.getInt("orderHeader_id"));
-            od.setServiceId(rs.getInt("service_id"));
-            od.setCategoryId(rs.getInt("category_id"));
-            od.setPrice(rs.getInt("price"));
-            String name = rs.getString("name");
-            list.put(od, name);
-        }
-        con.close();
-        return list;
-    }
-
+    // Get Order Detail of one OrderHeader by OrderHeader_ID
     public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
         List<OrderDetailEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -226,14 +163,121 @@ public class OrderRepository {
         while (rs.next()) {
             OrderDetailEntity od = new OrderDetailEntity();
             od.setId(rs.getInt("id"));
-            od.setOrderHeaderId(rs.getInt("orderHeaderId"));
-            od.setServiceId(rs.getInt("serviceId"));
-            od.setCategoryId(rs.getInt("categoryId"));
+            od.setOrderHeaderId(rs.getInt("orderHeader_id"));
+            od.setServiceId(rs.getInt("service_id"));
+            od.setCategoryId(rs.getInt("category_id"));
             od.setPrice(rs.getInt("price"));
             list.add(od);
         }
         con.close();
         return list;
+    }
+    
+    //This Methods get all Status of Orders provide for Update Status Function in Admin
+    public ArrayList<String> getStatus() throws SQLException {
+        ArrayList<String> list = new ArrayList<>();
+        Connection cn = (Connection) DBConfig.getConnection();
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "SELECT DISTINCT status FROM dbo.Orders";
+            Statement stm = cn.createStatement();
+            rs = stm.executeQuery(query);
+        }
+        while (rs.next()) {
+            list.add(rs.getString(1));
+        }
+        return list;
+    }
+
+    
+    //  ----------------------------------------
+    //
+    //  Get Order From 1 Resident Function
+    //
+    //  ----------------------------------------
+    //Select Orders of 1 Customer with their ID
+    public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
+        List<MyOrderEntity> list = null;
+        Connection con = DBConfig.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("select * from Orders where RID = ? order by OID desc");
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        list = new ArrayList<>();
+        while (rs.next()) {
+            OrderHeaderEntity oh = new OrderHeaderEntity();
+            oh.setId(rs.getInt("OID"));
+            oh.setDate(rs.getTimestamp("time"));
+            oh.setDelivery_time(rs.getTimestamp("delivery_time"));
+            oh.setResidentId(rs.getInt("RID"));
+            oh.setCoordinatorID(rs.getInt("CID"));
+            oh.setStatus(rs.getString("status"));
+            oh.setNote(rs.getString("note"));
+
+            //Get all OrderDetail of this Order Header
+            HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithID(rs.getInt("OID"));
+
+            // Map OrderHeader with its OrderDetail
+            MyOrderEntity fo = new MyOrderEntity(oh, map);
+            list.add(fo);
+        }
+        con.close();
+        return list;
+    }
+
+    // This method get A list of Order and its Order_Detail by Hash Map Function
+    public HashMap<OrderDetailEntity, String> selectOrderDetailWithID(int orderHeaderId) throws SQLException {
+        HashMap<OrderDetailEntity, String> list = null;
+        Connection con = DBConfig.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("select o.*, s.[name]\n"
+                + "from orderdetail o, service s\n"
+                + "where o.orderHeader_Id = ? and o.service_Id = s.service_id");
+        stm.setInt(1, orderHeaderId);
+        ResultSet rs = stm.executeQuery();
+        list = new HashMap<>();
+        while (rs.next()) {
+            OrderDetailEntity od = new OrderDetailEntity();
+            od.setId(rs.getInt("id"));
+
+            od.setOrderHeaderId(rs.getInt("orderHeader_id"));
+            od.setServiceId(rs.getInt("service_id"));
+            od.setCategoryId(rs.getInt("category_id"));
+            od.setPrice(rs.getInt("price"));
+            od.setSupplierId(rs.getInt("supplier_id"));
+            String name = rs.getString("name");
+            list.put(od, name);
+        }
+        con.close();
+        return list;
+    }
+
+    //  ----------------------------------------
+    //
+    //  Admin Coordinator Update Information for his/her Order about Status or Price for every Service
+    //
+    //  ----------------------------------------
+    // This method for Admin to update Coordinator or Status of Orders
+    public void updateStatus(int OID, int CID, String status) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Orders set CID = ?, status = ? where OID = ?");
+        pstm.setInt(1, CID);
+        pstm.setString(2, status);
+        pstm.setInt(3, OID);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+
+    // This method is use to update price for each Service in Order Detail in Admin Pages for Coordinator
+    public void updatePrice(int id, double price) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update OrderDetail set price = ? where id = ?");
+        pstm.setDouble(1, price);
+        pstm.setInt(2, id);
+        int count = pstm.executeUpdate();
+
+        con.close();
     }
 
     public List<UpdateOrderServicePriceRequest> selectOrderDetailWithNameService(int OID) throws SQLException {
@@ -260,51 +304,12 @@ public class OrderRepository {
         return list;
     }
 
-    public HashMap<OrderDetailEntity, String> selectOrderDetailWithName(int orderHeaderId) throws SQLException {
-        HashMap<OrderDetailEntity, String> list = null;
-        Connection con = DBConfig.getConnection();
-
-        PreparedStatement stm = con.prepareStatement("select o.*, s.[name]\n"
-                + "from orderdetail o, service s\n"
-                + "where o.orderHeader_Id = ? and o.service_Id = s.service_id");
-        stm.setInt(1, orderHeaderId);
-        ResultSet rs = stm.executeQuery();
-        list = new HashMap<>();
-        while (rs.next()) {
-            OrderDetailEntity od = new OrderDetailEntity();
-            od.setId(rs.getInt("id"));
-
-            od.setOrderHeaderId(rs.getInt("orderHeader_id"));
-            od.setServiceId(rs.getInt("service_id"));
-            od.setCategoryId(rs.getInt("category_id"));
-            od.setPrice(rs.getInt("price"));
-            String name = rs.getString("name");
-            list.put(od, name);
-        }
-        con.close();
-        return list;
-    }
-
-    public void updateStatus(int oId, int eId, String status) throws SQLException {
-        Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update Orders set EID = ?, status = ? where OID = ?");
-        pstm.setInt(1, eId);
-        pstm.setString(2, status);
-        pstm.setInt(3, oId);
-        int count = pstm.executeUpdate();
-
-        con.close();
-    }
-    
-    public void cancelOrder(int oId) throws SQLException {
-        Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update Orders set status = 'Failed' where OID = ?");
-        pstm.setInt(1, oId);
-        int count = pstm.executeUpdate();
-
-        con.close();
-    }
-
+    //  ----------------------------------------
+    //
+    //  Admin Dashboard Function
+    //
+    //  ----------------------------------------
+    // This method is load Recent Order part for Admin DashBoard
     public List<SaleEntity> recentOrder() throws SQLException {
         List<SaleEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -327,6 +332,7 @@ public class OrderRepository {
         return list;
     }
 
+    // This method is load Complete Order part for Admin DashBoard
     public int completeOrder() throws SQLException {
         int count = 0;
         Connection con = DBConfig.getConnection();
@@ -340,6 +346,7 @@ public class OrderRepository {
         return count;
     }
 
+    // This method is load Revenue part for Admin DashBoard
     public int Revenue() throws SQLException {
         int rev = 0;
         Connection con = DBConfig.getConnection();
@@ -354,6 +361,7 @@ public class OrderRepository {
         return rev;
     }
 
+    // This method is load Count Acc part for Admin DashBoard
     public int countAcc() throws SQLException {
         int count = 0;
         Connection con = DBConfig.getConnection();
@@ -367,13 +375,14 @@ public class OrderRepository {
         return count;
     }
 
+    // This method is load Recent Sales part for Admin DashBoard
     public List<SaleEntity> recentSale() throws SQLException {
         List list = null;
         Connection con = DBConfig.getConnection();
 
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select Orders.OID, Account.name, Service.name, OrderDetail.price, Orders.status \n"
-                + "	from Orders left join Account on Orders.UID = Account.AID  \n"
+                + "	from Orders left join Account on Orders.RID = Account.AID  \n"
                 + "	left join OrderDetail on Orders.OID = OrderDetail.orderHeader_Id\n"
                 + "	left join Service on OrderDetail.service_Id = Service.service_id");
         list = new ArrayList<>();
@@ -391,6 +400,7 @@ public class OrderRepository {
         return list;
     }
 
+    // This method is load Cate Traffic part for Admin DashBoard
     public List<SaleEntity> cateTraffic() throws SQLException {
         List list = null;
         Connection con = DBConfig.getConnection();
@@ -412,6 +422,7 @@ public class OrderRepository {
         return list;
     }
 
+    // This method is load Topsell part for Admin DashBoard
     public List<SaleEntity> topsell() throws SQLException {
         List<SaleEntity> list = null;
         Connection con = DBConfig.getConnection();
@@ -435,28 +446,11 @@ public class OrderRepository {
         return list;
     }
 
-    /**
-     *
-     * @param date
-     * @param status
-     * @param UID
-     * @param EID
-     * @param note
-     * @throws SQLException
-     */
-//    public void addOrder(Date date, String status, int UID, int EID, String note) throws SQLException {
-//
-//        Connection con = DBConfig.getConnection();
-//        String sql = "insert into Orders values(?,?,?,?,?)";
-//        PreparedStatement stm = con.prepareStatement(sql);
-//        stm.setDate(1, date);
-//        stm.setString(2, status);
-//        stm.setInt(3, UID);
-//        stm.setInt(4, EID);
-//        stm.setString(5, note);
-//        stm.executeUpdate();
-//        con.close();
-//    }
+    //  ----------------------------------------
+    //
+    //  Admin Revenue Function
+    //
+    //  ----------------------------------------
     public List<Integer> getValidatedMonth() {
         List<Boolean> m = new ArrayList<Boolean>();
         for (int i = 0; i < 12; i++) {
@@ -563,109 +557,103 @@ public class OrderRepository {
         return result;
     }
 
-    public void addOrder(UserEntity user, CartEntity cart, String note) throws SQLException {
-        LocalDate curDate = java.time.LocalDate.now();
-        String date = curDate.toString();
-        UserService uService = new UserService();
+    // Select Order Header of 1 Coordinator
+    public List<AdminOrderListRequest> selectOrdersCoordinator(int id) throws SQLException {
+        List<AdminOrderListRequest> list = null;
         Connection con = DBConfig.getConnection();
-        String sql = "insert into Orders values(?,? ,'Pending' ,? , null, ?)";
-        PreparedStatement stm = con.prepareStatement(sql);
-        stm.setString(1, date);
-        stm.setString(2, cart.getDeliveryTime());
-        stm.setInt(3, user.getAID());
-        stm.setString(4, note);
-        stm.executeUpdate();
-        String sql1 = "select top 1 oid from Orders order by oid desc";
-        PreparedStatement stm1 = con.prepareStatement(sql1);
-        ResultSet rs = stm1.executeQuery();
+
+        PreparedStatement stm = con.prepareStatement("select o.OID, o.RID, a.name, o.CID, c.name, o.time, o.delivery_time, o.status, o.note, r.BID, b.name, r.room \n"
+                + "FROM Orders o\n"
+                + "LEFT join Account a\n"
+                + "ON o.RID = a.AID\n"
+                + "LEFT JOIN Account c\n"
+                + "ON c.AID = o.CID\n"
+                + "LEFT JOIN dbo.Resident r\n"
+                + "ON r.ID = o.RID\n"
+                + "LEFT JOIN dbo.BlockVin b\n"
+                + "ON b.BID = r.BID\n"
+                + "WHERE O.CID = ?\n"
+                + "ORDER by o.OID ASC");
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        list = new ArrayList<>();
         while (rs.next()) {
-            int oid = rs.getInt("oid");
-            for (ItemEntity item : cart.getItems()) {
-                String sql2 = "insert into OrderDetail values(?, ?, ?, 0)";
-                PreparedStatement stm2 = con.prepareStatement(sql2);
-                stm2.setInt(1, oid);
-                stm2.setInt(2, item.getService().getServiceID());
-                stm2.setInt(3, item.getService().getCategoryID());
-                stm2.executeUpdate();
-            }
+            AdminOrderListRequest entity = new AdminOrderListRequest();
+            entity.setId(rs.getInt(1));
+            entity.setRID(rs.getInt(2));
+            entity.setResidentName(rs.getNString(3));
+            entity.setCID(rs.getInt(4));
+            entity.setCoordinatorName(rs.getString(5));
+            entity.setDate(rs.getTimestamp(6));
+            entity.setDelivery_time(rs.getTimestamp(7));
+            entity.setStatus(rs.getString(8));
+            entity.setNote(rs.getString(9));
+            entity.setBID(rs.getInt(10));
+            entity.setBlock(rs.getString(11));
+            entity.setRoom(rs.getString(12));
+            HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithID(rs.getInt("OID"));
+
+            entity.setOd(map);
+
+            list.add(entity);
         }
         con.close();
-
+        return list;
     }
 
-    public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
-        ArrayList<OrderHeaderRequest> list = new ArrayList<>();
+    //This method Get Order List for Admin Pages (Order List Tab in right nav-bar)
+    public ArrayList<AdminOrderListRequest> getAllOrders() throws Exception {
+        ArrayList<AdminOrderListRequest> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select o.OID, a.AID, a.name, o.EID, e.name, o.time, o.delivery_time, o.status, o.note from Orders o\n"
-                    + "left join Account a\n"
-                    + "on o.UID = a.AID\n"
-                    + "LEFT JOIN Account e\n"
-                    + "ON e.AID = o.EID\n"
-                    + "order by o.time DESC";
+            String query = "select o.OID, o.RID, a.name, o.CID, c.name, o.time, o.delivery_time, o.status, o.note, r.BID, b.name, r.room \n"
+                    + "FROM Orders o\n"
+                    + "LEFT join Account a\n"
+                    + "ON o.RID = a.AID\n"
+                    + "LEFT JOIN Account c\n"
+                    + "ON c.AID = o.CID\n"
+                    + "LEFT JOIN dbo.Resident r\n"
+                    + "ON r.ID = o.RID\n"
+                    + "LEFT JOIN dbo.BlockVin b\n"
+                    + "ON b.BID = r.BID\n"
+                    + "ORDER by o.OID ASC";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
         }
         if (rs != null) {
             while (rs.next()) {
-                OrderHeaderRequest entity = new OrderHeaderRequest();
+                AdminOrderListRequest entity = new AdminOrderListRequest();
                 entity.setId(rs.getInt(1));
-                entity.setUid(rs.getInt(2));
+                entity.setRID(rs.getInt(2));
                 entity.setResidentName(rs.getNString(3));
-                entity.setEid(rs.getInt(4));
-                entity.setEmployeeName(rs.getNString(5));
+                entity.setCID(rs.getInt(4));
+                entity.setCoordinatorName(rs.getString(5));
                 entity.setDate(rs.getTimestamp(6));
                 entity.setDelivery_time(rs.getTimestamp(7));
                 entity.setStatus(rs.getString(8));
                 entity.setNote(rs.getString(9));
-                
-                HashMap<OrderDetailEntity, String> map = this.selectEmployeeOrderlWithName(rs.getInt("OID"));
+                entity.setBID(rs.getInt(10));
+                entity.setBlock(rs.getString(11));
+                entity.setRoom(rs.getString(12));
+                HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithID(rs.getInt("OID"));
 
                 entity.setOd(map);
 
                 list.add(entity);
-                
-                System.out.println(entity);
+
             }
         }
         return list;
     }
 
-    public void updatePrice(int id, double price) throws SQLException {
-        Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update OrderDetail set price = ? where id = ?");
-        pstm.setDouble(1, price);
-        pstm.setInt(2, id);
-        int count = pstm.executeUpdate();
-
-        con.close();
-    }
-
-    public ArrayList<EmployeeOrderRequest> getEmployeeListForOrderList() throws Exception {
-        ArrayList<EmployeeOrderRequest> list = new ArrayList<>();
-        Connection cn = DBConfig.getConnection();
-        PreparedStatement pst;
-        ResultSet rs = null;
-        if (cn != null) {
-            String query = "select a.aid, a.name from Orders o \n"
-                    + "left join Account a\n"
-                    + "on o.EID = a.AID";
-            pst = cn.prepareStatement(query);
-            rs = pst.executeQuery();
-        }
-        if (rs != null) {
-            while (rs.next()) {
-                EmployeeOrderRequest entity = new EmployeeOrderRequest();
-                entity.setAid(rs.getInt(1));
-                entity.setName(rs.getString(2));
-                list.add(entity);
-            }
-        }
-        return list;
-    }
-
+    //  ----------------------------------------
+    //
+    //  Admin Dashboard Pending-order Functions
+    //
+    //  ----------------------------------------
+    // This method get all Pending Orders for the Notification Icons in Admin Pages
     public int getPendingOrders(int bId) throws SQLException {
         int result = 0;
         Connection cn = DBConfig.getConnection();
@@ -681,10 +669,8 @@ public class OrderRepository {
         }
         return result;
     }
-    
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        op.getAllOrders();
     }
 }

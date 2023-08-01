@@ -53,19 +53,20 @@
             <div class="card card-raised mb-5">
                 <div style="margin: 0px!important;" class="card-body p-5">
 
-                    <c:if test="${user.room == null && user.roleID == 1}">
-                        <div class="caption text-center">Enter your room number
-                            <form action="<c:url value="/user/updateRoom.do" />">
-                                <input type="hidden" name="AID" value="${res.AID}" />
-                                <input class="form-control" type="text" name="room" placeholder="Room Number"/>
-                                <button class="btn btn-primary mt-10" type="submit">Save</button>
-                            </form>
+                    <c:if test="${user.roleID == 1}">
+                        <div class="form-group" style="margin: 0px">
+                            <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-cash"></i></div>
+                            <label class="label">Your Block</label>
+                            <div class="card-subtitle">${res.block}</div>
+                        </div>
+
+                        <div class="form-group" style="margin: 0px!important">
+                            <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-cash"></i></div>
+                            <label class="label">Your Room</label>
+                            <div class="card-subtitle">${res.room}</div>
                         </div>
                     </c:if>
-                    <c:if test="${user.room != null && user.roleID == 1}">
-                        <div class="card-title">Your Room:</div>
-                        <div class="card-subtitle mb-4">${res.room}</div>
-                    </c:if>
+
                     <c:if test="${user.roleID != 1}">
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-cash"></i></div>
@@ -86,52 +87,48 @@
                         <!-- Form Group (username)-->
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>
-                            <label class="label">Username</label>
-                            <input class="w-100 form-control" name="username" value="${user.name}">
-                        </div>
+                            <label class="label">Email</label>
+                            <input class="w-100 form-control" name="phone" value="${res.email}">
 
+                        </div>
                         <!-- Form Group (address)-->
                         <div class="mb-4 form-group">
                             <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
-                            <label class="label">Gender</label>
-                            <input class="w-100 form-control" name="gender" value="${user.gender}">
+                            <label class="label">Username</label>
+                            <input class="w-100 form-control" name="username" value="${res.name}">
                         </div>
 
                         <!-- Form Row-->
                         <div class="row">
-                            <!-- Form Group (email)-->
-                            <div class="col-md-6">
-                                <div class="form-group mb-4">
-                                    <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
-                                    <label class="label">Block</label>
-                                    <select name="bid" class="w-100 form-control">
-                                        <c:forEach var="bl" items="${blockList}">
-                                            <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
                             <!-- Form Group (phone)-->
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-telephone-fill"></i></div>
                                     <label class="label">Phone</label>
-                                    <input class="w-100 form-control" name="phone" value="${user.phone}">
+                                    <input class="w-100 form-control" name="phone" value="${res.phone}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-4">
+                                    <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-gender-ambiguous"></i></div>
+                                    <label class="label">Gender</label>
+                                    <input class="w-100 form-control" name="gender" value="${res.gender}">
                                 </div>
                             </div>
                         </div>
+
                         <input type="hidden" class="form-control" name="aid" id="id" value="${user.AID}">
                         <input id="avatar" name="avatar" type="file" accept="image/*" style="display: none" />
                         <input type="hidden" name="isAvaChange" value="false">
                         <!-- Save changes button-->
                         <div class="text-end"><button class="btn btn-primary" name="op" value="comfirm" type="submit">Save changes</button></div>
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <script>
     document.querySelector("#avatar").addEventListener("change", (e) => {

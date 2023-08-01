@@ -18,10 +18,6 @@ public class ResidentService {
         return residentRepo.read(aid);
     }
     
-    public ArrayList<UserEntity> getAllResident() throws Exception{
-        return residentRepo.getAllResident();
-    }
-    
     public ArrayList<UserEntity> getAllResidentByName(String residentName) throws Exception{
         return residentRepo.getAllResidentByName(residentName);
     }

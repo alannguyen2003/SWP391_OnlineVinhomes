@@ -16,28 +16,22 @@ public class UserEntity {
     private String password;
     private String name;
     private String gender;
-    private int BID;
     private int roleID;
-    private String room;
     private int status;
 
     public UserEntity() {
     }
 
-    public UserEntity(int AID, String phone, String email, String password, String name, String gender, int BID, int roleID, String room, int status) {
+    public UserEntity(int AID, String phone, String email, String password, String name, String gender, int roleID, int status) {
         this.AID = AID;
         this.phone = phone;
         this.email = email;
         this.password = password;
         this.name = name;
         this.gender = gender;
-        this.BID = BID;
         this.roleID = roleID;
-        this.room = room;
         this.status = status;
     }
-
-    
     
     public String getGender() {
         return gender;
@@ -51,16 +45,6 @@ public class UserEntity {
         return status;
     }
 
-//    public UserEntity(int AID, String phone, String email, String password, String name, int BID, int roleID, String room, String managerId) {
-//        this.AID = AID;
-//        this.phone = phone;
-//        this.email = email;
-//        this.password = password;
-//        this.name = name;
-//        this.BID = BID;
-//        this.roleID = roleID;
-//        this.room = room;
-//    }
     public void setStatus(int status) {
         this.status = status;
     }
@@ -97,28 +81,12 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getRoom() {
-        return room;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public int getBID() {
-        return BID;
-    }
-
-    public void setBID(int BID) {
-        this.BID = BID;
     }
 
     public int getRoleID() {
@@ -131,6 +99,6 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "UserEntity{" + "AID=" + AID + ", phone=" + phone + ", email=" + email + ", password=" + password + ", name=" + name + ", gender=" + gender + ", BID=" + BID + ", roleID=" + roleID + ", room=" + room + ", status=" + status + '}';
+        return "UserEntity{" + "AID=" + AID + ", phone=" + phone + ", email=" + email + ", password=" + password + ", name=" + name + ", gender=" + gender + ", roleID=" + roleID + ", status=" + status + '}';
     }
 }

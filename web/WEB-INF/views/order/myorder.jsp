@@ -82,7 +82,15 @@
                                             <div class="col"><span class="bage bage-warning">${fo.oh.status}</span></div>
                                             </c:if>
                                             <c:if test="${fo.oh.status != 'Pending'}">
-                                            <div class="col"><span class="bage bage-${fo.oh.status == "Completed" ? "success" : "danger"}">${fo.oh.status}</span></div>
+                                            <c:if test="${fo.oh.status == 'Completed'}">
+                                            <div class="col"><span class="bage bage-success">${fo.oh.status}</span></div>
+                                            </c:if>
+                                            <c:if test="${fo.oh.status == 'Failed'}">
+                                            <div class="col"><span class="bage bage-danger">${fo.oh.status}</span></div>
+                                            </c:if>
+                                            <c:if test="${fo.oh.status == 'Cancel'}">
+                                            <div class="col"><span class="bage bage-cancel">${fo.oh.status}</span></div>
+                                            </c:if>
                                             </c:if>
                                             <c:if test="${fo.total != 0}">
                                             <div class="col"><strong><fmt:formatNumber value="${fo.total}" type="currency" /></strong></div>

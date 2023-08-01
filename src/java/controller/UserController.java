@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import service.ResidentService;
 import org.apache.tomcat.jni.SSLContext;
+import payload.request.ResidentProfileRequest;
 import service.GmailService;
 import service.BlockVinService;
 import service.RoleService;
@@ -106,9 +107,9 @@ public class UserController extends HttpServlet {
                 case "profile":
                     try {
                     if (user.getRoleID() == 1) {
-                        user = userService.getUser(user.getAID());
-                        request.setAttribute("res", user);
-                        request.setAttribute("userBlockId", user.getBID());
+                        ResidentProfileRequest res = new ResidentProfileRequest();
+                        res = userService.getResident(user.getAID());
+                        request.setAttribute("res", res);
                         request.setAttribute("blockList", blockList);
                         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     } else {
@@ -153,7 +154,7 @@ public class UserController extends HttpServlet {
             entity.setEmail(email);
             entity.setName(name);
             entity.setPhone(phone);
-            entity.setBID(blockId);
+//            entity.setBID(blockId);
             entity.setPassword(password);
             GmailService gs = new GmailService();
             boolean validateEmail = gs.isValidEmail(email);
@@ -207,7 +208,7 @@ public class UserController extends HttpServlet {
                     if (user.getRoleID() != 1 && user.getRoleID() != 2) {
                         response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                     } else if (user.getRoleID() == 2){
-                        response.sendRedirect(request.getContextPath() + "/admin/employee-order.do?op=getAll&AID=" + user.getAID());
+                        response.sendRedirect(request.getContextPath() + "/admin/coordinator-order.do?op=getAll&AID=" + user.getAID());
                     } else{
                         response.sendRedirect(request.getContextPath() + "/home/index.do");
                     }
@@ -329,7 +330,7 @@ public class UserController extends HttpServlet {
             UserEntity entity;
             entity = userService.getUser(user.getAID());
             request.setAttribute("userRole", roleService.getRoleByRoleId(entity.getRoleID()).getName());
-            request.setAttribute("userBlockId", entity.getBID());
+//            request.setAttribute("userBlockId", entity.getBID());
 
             request.setAttribute("user", entity);
         } else {

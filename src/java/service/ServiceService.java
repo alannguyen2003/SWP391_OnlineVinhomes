@@ -9,6 +9,7 @@ import config.DBConfig;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import payload.request.AdminServiceListRequest;
 import repository.ServiceRepository;
 /**
  *
@@ -17,8 +18,9 @@ import repository.ServiceRepository;
 public class ServiceService {
     private ServiceRepository serviceRepository = new ServiceRepository();
     
-    public ArrayList<ServiceEntity> getAllService() throws Exception {
-        return serviceRepository.getAllService();
+    
+    public ArrayList<AdminServiceListRequest> getServicesListForAdminPage() throws Exception {
+        return serviceRepository.getAllServices();
     }
     
     public ArrayList<ServiceEntity> getServiceByCategory(int categoryId) throws Exception {

@@ -40,10 +40,12 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Resident</th>
-                        <th scope="col">Employee</th>
+                        <th scope="col">Coordinator</th>
                         <th scope="col">Date</th>
                         <th scope="col">Delivery Time</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Block</th>
+                        <th scope="col">Room</th>
                         <th scope="col">Note</th>
                         <th scope="col">Price</th>
                         <th scope="col">Operation</th>
@@ -54,19 +56,26 @@
                         <tr>
                             <th scope="row">${r.id}</a></th>
                             <td>${r.residentName}</td>
-                            <td>${r.employeeName}</td>
+                            <td>${r.coordinatorName}</td>
                             <td>${r.date}</td>
                             <td>${r.delivery_time}</td>
                             <c:if test="${r.status == 'Pending'}">
                                 <td><span class="bage bage-warning">${r.status}</span></td>
                                 </c:if>
-                                <c:if test="${r.status != 'Pending'}">
-                                <td><span class="bage bage-${r.status == "Completed" ? "success" : "danger"}">${r.status}</span></td>
+                                <c:if test="${r.status == 'Completed'}">
+                                <td><span class="bage bage-success">${r.status}</span></td>
                                 </c:if>
+                                <c:if test="${r.status == 'Failed'}">
+                                <td><span class="bage bage-danger">${r.status}</span></td>
+                                </c:if>
+                                <c:if test="${r.status == 'Cancel'}">
+                                <td><span class="bage bage-cancel">${r.status}</span></td>
+                                </c:if>
+                            <td>${r.block}</td>
+                            <td>${r.room}</td>
                             <td>${r.note}</td>
                             <td>${r.total == 0? "" : r.total}</td>
-                            <td>
-                            </td>
+                            <td></td>
                         </tr>
                     </c:forEach>
                 </tbody>

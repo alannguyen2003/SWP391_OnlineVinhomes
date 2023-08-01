@@ -8,11 +8,11 @@ import config.DBConfig;
 import entity.BlockVinEntity;
 import java.util.ArrayList;
 import java.sql.*;
-/**
- *
- * @author admin
- */
+
+
 public class BlockVinRepository {
+    
+    // Get the entire BlockVin
     public ArrayList<BlockVinEntity> getAllBlock() throws SQLException {
         ArrayList<BlockVinEntity> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
@@ -32,6 +32,7 @@ public class BlockVinRepository {
         return list;
     }
     
+    // Get BlockVin by its Block ID
     public BlockVinEntity getBlockVin(int blockId) throws SQLException {
         BlockVinEntity entity = new BlockVinEntity();
         Connection con = DBConfig.getConnection();
@@ -40,7 +41,7 @@ public class BlockVinRepository {
         stm.setInt(1, blockId);
         ResultSet rs = stm.executeQuery();
         if(rs.next()) {
-            entity.setBID(rs.getInt("bid"));
+            entity.setBID(rs.getInt("BID"));
             entity.setName(rs.getString("name"));
         }
         return entity;

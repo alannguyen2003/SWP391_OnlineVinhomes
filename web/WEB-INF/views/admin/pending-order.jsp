@@ -21,44 +21,41 @@
     <div class="row">
         <div class="card shadow mb-4">
             <div class="card-body" style="margin-bottom: 0px;">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Resident</th>
-                                    <th>Employee</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Note</th>
-                                    <th>Operation</th>
-                                </tr>
-                            </thead>
-                            <c:forEach var="o" items="${list}" varStatus="loop">
-                                <c:if test="${o.eid == '' && o.status == 'Pending'}">
-                                    <tbody>
-                                        <tr>
-                                            <td>${o.id}</td>
-                                            <td>${o.residentName}</td>
-                                            <td>${o.employeeName}</td>
-                                            <td>${o.date}</td>
-                                            <c:if test="${o.status == 'Pending'}">
-                                                <td><span class="bage bage-warning">${o.status}</span></td>
-                                                </c:if>
-                                                <c:if test="${o.status != 'Pending'}">
-                                                <td><span class="bage bage-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span></td>
-                                                </c:if>
-                                            <td>${o.note}</td>
-                                            <td><a class="btn btn-outline-primary" href="<c:url value="/admin/add-employee-order.do?OID=${o.id}"/>">View <i class="bi bi-gear"></i></a></td>
-                                        </tr>
-                                    </tbody> 
-                                </c:if>
-                            </c:forEach>
-                        </table>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Resident</th>
+                                <th>Coordinator</th>
+                                <th>Date</th>
+                                <th>Delivery Time</th>
+                                <th>Status</th>
+                                <th>Note</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <c:forEach var="o" items="${list}" varStatus="loop">
+                            <c:if test="${o.CID == 0 && o.status == 'Pending'}">
+                                <tbody>
+                                    <tr>
+                                        <td>${o.id}</td>
+                                        <td>${o.residentName}</td>
+                                        <td>${o.coordinatorName}</td>
+                                        <td>${o.date}</td>
+                                        <td>${o.delivery_time}</td>
+                                        <td><span class="bage bage-warning">${o.status}</span></td>
+                                        <td>${o.note}</td>
+                                        <td><a class="btn btn-outline-primary" href="<c:url value="/admin/add-coordinator-order.do?OID=${o.id}"/>">View <i class="bi bi-gear"></i></a></td>
+                                    </tr>
+                                </tbody> 
+                            </c:if>
+                        </c:forEach>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 </section>
 
 

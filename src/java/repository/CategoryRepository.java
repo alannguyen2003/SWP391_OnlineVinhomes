@@ -13,6 +13,8 @@ import java.util.ArrayList;
  * @author acer
  */
 public class CategoryRepository {
+    
+    // Get List of Full Category
     public ArrayList<CategoryEntity> getAllCategory() throws Exception {
         ArrayList<CategoryEntity> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
@@ -32,6 +34,7 @@ public class CategoryRepository {
         return list;
     }
     
+    // Get List of Top 3 Category
     public ArrayList<CategoryEntity> getTopCategory() throws Exception {
         ArrayList<CategoryEntity> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();

@@ -10,19 +10,21 @@ public class OrderHeaderEntity {
     private Date delivery_time;
     private String status;
     private int residentId;
-    private int employeeId;
+    private int coordinatorID;
+    private int blockId;
     private String note;
 
     public OrderHeaderEntity() {
     }
 
-    public OrderHeaderEntity(int id, Date date, Date delivery_time, String status, int residentId, int employeeId, String note) {
+    public OrderHeaderEntity(int id, Date date, Date delivery_time, String status, int residentId, int coordinatorID, int blockId, String note) {
         this.id = id;
         this.date = date;
         this.delivery_time = delivery_time;
         this.status = status;
         this.residentId = residentId;
-        this.employeeId = employeeId;
+        this.coordinatorID = coordinatorID;
+        this.blockId = blockId;
         this.note = note;
     }
 
@@ -66,14 +68,22 @@ public class OrderHeaderEntity {
         this.residentId = residentId;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public int getCoordinatorID() {
+        return coordinatorID;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setCoordinatorID(int coordinatorID) {
+        this.coordinatorID = coordinatorID;
     }
 
+    public int getBlockid() {
+        return blockId;
+    }
+
+    public void setBlockid(int blockId) {
+        this.blockId = blockId;
+    }
+    
     public String getNote() {
         return note;
     }

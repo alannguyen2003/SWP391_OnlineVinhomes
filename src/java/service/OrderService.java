@@ -11,8 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import payload.request.EmployeeOrderRequest;
-import payload.request.OrderHeaderRequest;
+import payload.request.AdminOrderListRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import repository.OrderRepository;
 
@@ -20,107 +19,152 @@ public class OrderService {
 
     private OrderRepository orderRepository = new OrderRepository();
 
-    public List<RevenueEntity> getRevenue(String datePart, String[] timeSelect) throws SQLException {
-        return orderRepository.getRevenue(datePart, timeSelect);
-    }
-
+    //  ----------------------------------------
+    //
+    //  Get Order Function
+    //
+    //  ----------------------------------------
     public List<OrderHeaderEntity> selectAll() throws SQLException {
         return orderRepository.selectAll();
     }
-    
+
     public OrderHeaderEntity getOne(int id) throws SQLException {
         return orderRepository.getOne(id);
     }
-    
-    public OrderHeaderEntity getOrderEmployee(int id) throws SQLException {
-        return orderRepository.getOrderEmployee(id);
+
+    public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
+        return orderRepository.selectOrderDetail(id);
     }
 
+    public ArrayList<String> getStatus() throws SQLException {
+        return orderRepository.getStatus();
+    }
+
+    //  ----------------------------------------
+    //
+    //  Get Order From 1 Resident Function
+    //
+    //  ----------------------------------------
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         return orderRepository.selectMyOrders(id);
     }
-  
-    public List<OrderDetailEntity> selectOrderDetail(int id) throws SQLException {
-        return orderRepository.selectOrderDetail(id);
+
+    //  ----------------------------------------
+    //
+    //  Get A list of Order and its Order_Detail by Hash Map Function
+    //
+    //  ----------------------------------------
+    public HashMap<OrderDetailEntity, String> selectOrderDetailWithID(int orderHeaderId) throws SQLException {
+        return orderRepository.selectOrderDetailWithID(orderHeaderId);
+    }
+
+    //  ----------------------------------------
+    //
+    //  Get All Order of Coordinator need to manage Function
+    //
+    //  ----------------------------------------
+    public List<AdminOrderListRequest> selectOrdersCoordinator(int id) throws SQLException {
+        return orderRepository.selectOrdersCoordinator(id);
     }
 
     public List<UpdateOrderServicePriceRequest> selectOrderDetailWithNameService(int OID) throws SQLException {
         return orderRepository.selectOrderDetailWithNameService(OID);
     }
-    
-    public HashMap<OrderDetailEntity, String> selectOrderDetailWithName(int orderHeaderId) throws SQLException {
-        return orderRepository.selectOrderDetailWithName(orderHeaderId);
-    }
-    
-    public List<MyOrderEntity> selectEmployeeOrders(int id) throws SQLException {
-        return orderRepository.selectEmployeeOrders(id);
-    }
-    
-    public HashMap<OrderDetailEntity, String> selectEmployeeOrderlWithName(int orderHeaderId) throws SQLException {
-        return orderRepository.selectEmployeeOrderlWithName(orderHeaderId);
-    }
 
-    public void updateStatus(int oId, int eId, String status) throws SQLException {
-        orderRepository.updateStatus(oId, eId, status);
-    }
-    
-    public void cancelOrder(int oId) throws SQLException {
-        orderRepository.cancelOrder(oId);
-    }
-    
-    public void updatePrice(int id, double price) throws SQLException {
-        orderRepository.updatePrice(id, price);
-    }
-    
-    public List<SaleEntity> recentOrder() throws SQLException {
-        return orderRepository.recentOrder();
-    }
-    
-    public int completeOrder() throws SQLException {
-        return orderRepository.completeOrder();
-    }
-    
-    public int Revenue() throws SQLException {
-        return orderRepository.Revenue();
-    }
-    
-    public int countAcc() throws SQLException {
-        return orderRepository.countAcc();
-    }
-    
-    public List<SaleEntity> recentSale() throws SQLException {
-        return orderRepository.recentSale();
-    }
-    
-    public List<SaleEntity> cateTraffic() throws SQLException {
-        return orderRepository.cateTraffic();
-    }
-    
-    public List<SaleEntity> topsell() throws SQLException {
-        return orderRepository.topsell();
-    }
-    
-    public String getTotalMoneyInMonth() {
-        return orderRepository.getJsTotalMoneyArray(orderRepository.getTotalMoneyInMonth());
-    }
-    
-    public String getMonth() {
-        return orderRepository.getJsMonthArray(orderRepository.getValidatedMonth());
-
-    }
-    public void addOrder(UserEntity user, CartEntity cart, String note) throws SQLException {
-        orderRepository.addOrder(user, cart, note);
-    }
-    
+    //  ----------------------------------------
+    //
+    //  Admin Notifications Icon Function
+    //
+    //  ----------------------------------------
     public int getPendingOrders(int blockId) throws SQLException {
         return orderRepository.getPendingOrders(blockId);
     }
-    
-    public ArrayList<OrderHeaderRequest> getAllOrders() throws Exception {
-        ArrayList<OrderHeaderRequest> list = orderRepository.getAllOrders();
-        return list;
+
+    //  ----------------------------------------
+    //
+    //  Admin Dashboard Function
+    //
+    //  ----------------------------------------
+    public List<SaleEntity> recentOrder() throws SQLException {
+        return orderRepository.recentOrder();
     }
-    
+
+    public int completeOrder() throws SQLException {
+        return orderRepository.completeOrder();
+    }
+
+    public int Revenue() throws SQLException {
+        return orderRepository.Revenue();
+    }
+
+    public int countAcc() throws SQLException {
+        return orderRepository.countAcc();
+    }
+
+    public List<SaleEntity> recentSale() throws SQLException {
+        return orderRepository.recentSale();
+    }
+
+    public List<SaleEntity> cateTraffic() throws SQLException {
+        return orderRepository.cateTraffic();
+    }
+
+    public List<SaleEntity> topsell() throws SQLException {
+        return orderRepository.topsell();
+    }
+
+    //  ----------------------------------------
+    //
+    //  Admin Order-List Function
+    //
+    //  ----------------------------------------
+    public ArrayList<AdminOrderListRequest> getAllOrders() throws Exception {
+        return orderRepository.getAllOrders();
+    }
+
+    //  ----------------------------------------
+    //
+    //  Admin Coordinator Update Information for Order Fuction
+    //
+    //  ----------------------------------------
+    public void updateStatus(int OID, int CID, String status) throws SQLException {
+        orderRepository.updateStatus(OID, CID, status);
+    }
+
+    public void updatePrice(int id, double price) throws SQLException {
+        orderRepository.updatePrice(id, price);
+    }
+
+    //  ----------------------------------------
+    //
+    //  Admin Revenue Function
+    //
+    //  ----------------------------------------
+    public String getTotalMoneyInMonth() {
+        return orderRepository.getJsTotalMoneyArray(orderRepository.getTotalMoneyInMonth());
+    }
+
+    public String getMonth() {
+        return orderRepository.getJsMonthArray(orderRepository.getValidatedMonth());
+    }
+
+    public List<RevenueEntity> getRevenue(String datePart, String[] timeSelect) throws SQLException {
+        return orderRepository.getRevenue(datePart, timeSelect);
+    }
+
+    //  ----------------------------------------
+    //
+    //  Resident Interact Order Function
+    //
+    //  ----------------------------------------
+    public void addOrder(UserEntity user, CartEntity cart, String note) throws SQLException {
+        orderRepository.addOrder(user, cart, note);
+    }
+
+    public void cancelOrder(int oId) throws SQLException {
+        orderRepository.cancelOrder(oId);
+    }
+
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();
         orderService.updatePrice(25, 70);

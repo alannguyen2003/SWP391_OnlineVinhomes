@@ -22,7 +22,7 @@
     <div class="card shadow mb-4">
         <div class="card-body mt-4">
             <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">
-                <li class="sub-nav__item" label="Billing"><a href="<c:url value="/admin/employee-order-detail.do?OID=${OID}" />" class="${activation == 'employee-order-detail'} ? 'active' : ''"><i class="bi bi-person-fill-add"></i><span>Employee Order</span></a></li>
+                <li class="sub-nav__item" label="Billing"><a href="<c:url value="/admin/coordinator-order-detail.do?OID=${OID}" />" class="${activation == 'coordinator-order-detail'} ? 'active' : ''"><i class="bi bi-person-fill-add"></i><span>Coordinator Order</span></a></li>
                 <li class="sub-nav__item" label="Billing"><a href="<c:url value="/admin/add-price-order.do?OID=${OID}" />" class="${activation == 'add-price-order'} ? 'active' : ''"><i class="bi bi-cash-coin"></i><span>Add Price</span></a></li>
             </ul>
             <!-- Account details card-->

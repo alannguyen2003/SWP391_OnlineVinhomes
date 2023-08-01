@@ -5,7 +5,7 @@
 package controller;
 
 import entity.BlockVinEntity;
-import entity.EmployeeEntity;
+import entity.CoordinatorEntity;
 import entity.MyOrderEntity;
 import entity.OrderDetailEntity;
 import entity.UserEntity;
@@ -33,10 +33,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import payload.request.OrderHeaderRequest;
+import payload.request.AdminResidentListRequest;
+import payload.request.AdminServiceListRequest;
+import payload.request.AdminUserListRequest;
+import payload.request.AdminOrderListRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
+import service.CoordinatorService;
 import service.RoleService;
 import service.ServiceService;
 import service.SupplierService;
@@ -54,6 +58,8 @@ public class AdminController extends HttpServlet {
     private OrderService os = new OrderService();
 
     private UserService us = new UserService();
+    
+    private CoordinatorService cds = new CoordinatorService();
 
     private ServiceService ss = new ServiceService();
 
@@ -90,7 +96,7 @@ public class AdminController extends HttpServlet {
                     case "admin-dashboard":
                         load_Admindashboard(request, response);
                         if (user.getRoleID() == 2) {
-                            response.sendRedirect(request.getContextPath() + "/admin/employee-order.do?op=getAll&AID=" + user.getAID());
+                            response.sendRedirect(request.getContextPath() + "/admin/coordinator-order.do?op=getAll&AID=" + user.getAID());
                             break;
                         }
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
@@ -108,7 +114,7 @@ public class AdminController extends HttpServlet {
                         int AID = Integer.parseInt(request.getParameter("AID"));
                         UserEntity u = rs.getOne(AID);
                         request.setAttribute("u", u);
-                        request.setAttribute("userBlockId", user.getBID());
+//                        request.setAttribute("userBlockId", user.getBID());
                         request.setAttribute("blockList", blockList);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
@@ -228,45 +234,42 @@ public class AdminController extends HttpServlet {
                         }
                         updatePrice(request, response);
                         break;
-                    case "employee-order":
+                    case "coordinator-order":
                         if (user.getRoleID() == 2) {
-                            loadEmployeeOrderList(request, response);
+                            loadCoordinatorOrderList(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         break;
-                    case "employee-order-detail": {
+                    case "coordinator-order-detail": {
                         OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
-                        List<UserEntity> empList = us.getEmployee();
-                        List<String> statusList = us.getStatus();
+                        List<CoordinatorEntity> coorList = cds.getAvailableCoordinator();
+                        List<String> statusList = os.getStatus();
                         request.setAttribute("oh", oh);
-                        request.setAttribute("empList", empList);
-                        request.setAttribute("blockList", blockList);
+                        request.setAttribute("coorList", coorList);
                         request.setAttribute("statusList", statusList);
-                        request.setAttribute("userBlockId", user.getBID());
                         request.setAttribute("OID", OID);
-                        request.setAttribute("activeTab", "employeeOrder");
-                        request.setAttribute("activation", "employee-order-detail");
+                        request.setAttribute("activeTab", "coordinatorOrder");
+                        request.setAttribute("activation", "coordinator-order-detail");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     }
-                    case "add-employee-order":
+                    case "add-coordinator-order":
                         if (user.getRoleID() != 3) {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
-                        List<UserEntity> empList = us.getEmployee();
-                        List<String> statusList = us.getStatus();
+                        List<CoordinatorEntity> coorList = cds.getAvailableCoordinator();
+                        List<String> statusList = os.getStatus();
                         request.setAttribute("oh", oh);
-                        request.setAttribute("empList", empList);
+                        request.setAttribute("coorList", coorList);
                         request.setAttribute("blockList", blockList);
                         request.setAttribute("statusList", statusList);
-                        request.setAttribute("userBlockId", user.getBID());
                         request.setAttribute("OID", OID);
                         request.setAttribute("activeTab", "pendingOrder");
-                        request.setAttribute("activation", "add-employee-order");
+                        request.setAttribute("activation", "add-coordinator-order");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
 
@@ -278,7 +281,7 @@ public class AdminController extends HttpServlet {
                         List<UpdateOrderServicePriceRequest> list = os.selectOrderDetailWithNameService(OID);
                         request.setAttribute("list", list);
                         request.setAttribute("OID", OID);
-                        request.setAttribute("activeTab", "employeeOrder");
+                        request.setAttribute("activeTab", "coordinatorOrder");
                         request.setAttribute("activation", "add-price-order");
                         request.getRequestDispatcher("WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
@@ -342,7 +345,7 @@ public class AdminController extends HttpServlet {
             if (indexPage != null) {
                 currentPage = Integer.parseInt(indexPage);
             }
-            ArrayList<OrderHeaderRequest> list = new ArrayList<>();
+            ArrayList<AdminOrderListRequest> list = new ArrayList<>();
             int totalItems = 0;
             int totalPages = 0;
             int pageSize = 10;
@@ -371,7 +374,7 @@ public class AdminController extends HttpServlet {
         }
     }
 
-    protected void loadEmployeeOrderList(HttpServletRequest request, HttpServletResponse response)
+    protected void loadCoordinatorOrderList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         try {
             String op = (String) request.getParameter("op");
@@ -381,17 +384,17 @@ public class AdminController extends HttpServlet {
             if (indexPage != null) {
                 currentPage = Integer.parseInt(indexPage);
             }
-            List<MyOrderEntity> empOrderList = new ArrayList<>();
-            int eId = Integer.parseInt(request.getParameter("AID"));
+            List<AdminOrderListRequest> corOrderList = new ArrayList<>();
+            int CID = Integer.parseInt(request.getParameter("AID"));
             int totalItems = 0;
             int totalPages = 0;
             int pageSize = 10;
             switch (op) {
                 case "getAll":
 
-                    empOrderList = os.selectEmployeeOrders(eId);
+                    corOrderList = os.selectOrdersCoordinator(CID);
                     // Calculate the total number of pages
-                    totalItems = empOrderList.size();
+                    totalItems = corOrderList.size();
                     totalPages = (int) Math.ceil((double) totalItems / pageSize);
                     break;
             }
@@ -399,7 +402,7 @@ public class AdminController extends HttpServlet {
 
             request.setAttribute("activeTab", "employeeOrder");
             request.setAttribute("op", op);
-            request.setAttribute("empOrderList", empOrderList);
+            request.setAttribute("corOrderList", corOrderList);
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("currentPage", currentPage);
             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
@@ -409,13 +412,13 @@ public class AdminController extends HttpServlet {
     }
 
     private void updateOrderPending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int orderId = Integer.parseInt(request.getParameter("OID"));
+        int orderID = Integer.parseInt(request.getParameter("OID"));
         String status = request.getParameter("status");
-        int employeeId = Integer.parseInt(request.getParameter("employeeId"));
-        os.updateStatus(orderId, employeeId, status);
+        int coorID = Integer.parseInt(request.getParameter("coorId"));
+        os.updateStatus(orderID, coorID, status);
         String message = "Update successfully";
         request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/add-employee-order.do?OID=" + orderId).forward(request, response);
+        request.getRequestDispatcher("/admin/add-coordinator-order.do?OID=" + orderID).forward(request, response);
 
     }
 
@@ -548,7 +551,7 @@ public class AdminController extends HttpServlet {
             currentPage = Integer.parseInt(indexPage);
         }
 
-        List<UserEntity> list = new ArrayList<>();
+        ArrayList<AdminResidentListRequest> list = new ArrayList<>();
         int totalItems = 0;
         int totalPages = 0;
         int pageSize = 10;
@@ -556,24 +559,24 @@ public class AdminController extends HttpServlet {
 
         switch (op) {
             case "getAll":
-                list = rs.getAllResident();
+                list = us.getAllResident();
                 totalItems = list.size();
                 totalPages = (int) Math.ceil((double) totalItems / pageSize);
                 break;
 
-            case "filterBlock":
-                list = rs.getAllResident();
-                filterValue = Integer.parseInt(request.getParameter("filterValue"));
-                list = filterListResident(list, "block", filterValue, 0);
-                request.setAttribute("filterOption", "block");
-                break;
-
-            case "filterStatus":
-                list = rs.getAllResident();
-                filterValue = Integer.parseInt(request.getParameter("filterValue"));
-                list = filterListResident(list, "status", 0, filterValue);
-                request.setAttribute("filterOption", "status");
-                break;
+//            case "filterBlock":
+//                list = us.getAllResident();
+//                filterValue = Integer.parseInt(request.getParameter("filterValue"));
+////                list = filterListResident(list, "block", filterValue, 0);
+//                request.setAttribute("filterOption", "block");
+//                break;
+//
+//            case "filterStatus":
+//                list = us.getAllResident();
+//                filterValue = Integer.parseInt(request.getParameter("filterValue"));
+////                list = filterListResident(list, "status", 0, filterValue);
+//                request.setAttribute("filterOption", "status");
+//                break;
         }
 
         request.setAttribute("activeTab", "resident");
@@ -587,19 +590,18 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
 
-    private List<UserEntity> filterListResident(List<UserEntity> list, String filterOption, int filterValue1, int filterValue2) {
-        List<UserEntity> filteredList = new ArrayList<>();
+    private List<AdminResidentListRequest> filterListResident(List<AdminResidentListRequest> list, String filterOption, int filterValue1, int filterValue2) {
+        List<AdminResidentListRequest> filteredList = new ArrayList<>();
 
-        if (filterOption.equals("block")) {
-            filteredList = list.stream()
-                    .filter(resident -> resident.getBID() == filterValue1)
-                    .collect(Collectors.toList());
-        } else if (filterOption.equals("status")) {
-            filteredList = list.stream()
-                    .filter(resident -> resident.getStatus() == filterValue2)
-                    .collect(Collectors.toList());
-        }
-
+//        if (filterOption.equals("block")) {
+//            filteredList = list.stream()
+////                    .filter(resident -> resident.getBID() == filterValue1)
+//                    .collect(Collectors.toList());
+//        } else if (filterOption.equals("status")) {
+//            filteredList = list.stream()
+//                    .filter(resident -> resident.getStatus() == filterValue2)
+//                    .collect(Collectors.toList());
+//        }
         return filteredList;
     }
 
@@ -625,27 +627,20 @@ public class AdminController extends HttpServlet {
 
         String indexPage = request.getParameter("page");
         HttpSession session = request.getSession();
-        List<ServiceEntity> list = new ArrayList<>();
+        List<AdminServiceListRequest> list = new ArrayList<>();
         // Lấy tất cả dữ liệu Service ban đầu
         // Xử lý dữ liệu nếu có yêu cầu
         String op = (String) request.getParameter("op");
         int filterValue = 0;
         switch (op) {
             case "getAll":
-                list = ss.getAllService();
+                list = ss.getServicesListForAdminPage();
                 break;
             case "filterCategory":
-                list = ss.getAllService();
+                list = ss.getServicesListForAdminPage();
                 filterValue = Integer.parseInt(request.getParameter("filterValue"));
                 list = filterList(list, "category", filterValue, 0);
                 request.setAttribute("filterOption", "category");
-                break;
-
-            case "filterSupplier":
-                list = ss.getAllService();
-                filterValue = Integer.parseInt(request.getParameter("filterValue"));
-                list = filterList(list, "supplier", 0, filterValue);
-                request.setAttribute("filterOption", "supplier");
                 break;
         }
         // Cắt danh sách dữ liệu theo phân trang
@@ -660,8 +655,8 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
 
-    private List<ServiceEntity> filterList(List<ServiceEntity> list, String filterOption, int filterValue1, int filterValue2) {
-        List<ServiceEntity> filteredList = new ArrayList<>();
+    private List<AdminServiceListRequest> filterList(List<AdminServiceListRequest> list, String filterOption, int filterValue1, int filterValue2) {
+        List<AdminServiceListRequest> filteredList = new ArrayList<>();
 
         // Lọc dữ liệu dựa trên filterOption và dữ liệu lọc
         if (filterOption.equals("category")) {
@@ -670,7 +665,6 @@ public class AdminController extends HttpServlet {
                     .collect(Collectors.toList());
         } else if (filterOption.equals("supplier")) {
             filteredList = list.stream()
-                    .filter(service -> service.getSupplierID() == filterValue2)
                     .collect(Collectors.toList());
         }
         // Trả về danh sách đã lọc
@@ -738,7 +732,7 @@ public class AdminController extends HttpServlet {
         entity.setEmail(email);
         entity.setName(name);
         entity.setPhone(phone);
-        entity.setBID(blockId);
+//        entity.setBID(blockId);
         entity.setPassword(password);
         entity.setRoleID(roleid);
 
@@ -756,7 +750,7 @@ public class AdminController extends HttpServlet {
             currentPage = Integer.parseInt(indexPage);
         }
 
-        List<UserEntity> list = new ArrayList<>();
+        List<AdminUserListRequest> list = new ArrayList<>();
         int totalItems = 0;
         int totalPages = 0;
         int pageSize = 10;
@@ -804,8 +798,8 @@ public class AdminController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
     }
 
-    private List<UserEntity> filterListUser(List<UserEntity> list, String filterOption, String filterValue1, int filterValue2, int filterValue3) {
-        List<UserEntity> filteredList = new ArrayList<>();
+    private List<AdminUserListRequest> filterListUser(List<AdminUserListRequest> list, String filterOption, String filterValue1, int filterValue2, int filterValue3) {
+        List<AdminUserListRequest> filteredList = new ArrayList<>();
 
         if (filterOption.equals("gender")) {
             filteredList = list.stream()
@@ -813,11 +807,11 @@ public class AdminController extends HttpServlet {
                     .collect(Collectors.toList());
         } else if (filterOption.equals("role")) {
             filteredList = list.stream()
-                    .filter(user -> user.getRoleID() == filterValue2)
+//                    .filter(user -> user.getRole()== filterValue2)
                     .collect(Collectors.toList());
         } else if (filterOption.equals("status")) {
             filteredList = list.stream()
-                    .filter(user -> user.getStatus() == filterValue3)
+//                    .filter(user -> user.get() == filterValue3)
                     .collect(Collectors.toList());
         }
 
