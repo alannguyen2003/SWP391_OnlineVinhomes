@@ -42,7 +42,7 @@
                             <c:forEach var="cor" items="${corOrderList}" varStatus="loop">
                                 <tbody>
                                     <tr>
-                                        <th scope="row">${cor.id}</a></th>
+                                        <th scope="row">${loop.count}</a></th>
                                         <td>${cor.residentName}</td>
                                         <td>${cor.coordinatorName}</td>
                                         <td>${cor.date}</td>

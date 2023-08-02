@@ -37,6 +37,7 @@ import payload.request.AdminResidentListRequest;
 import payload.request.AdminServiceListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.AdminOrderListRequest;
+import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
@@ -58,7 +59,7 @@ public class AdminController extends HttpServlet {
     private OrderService os = new OrderService();
 
     private UserService us = new UserService();
-    
+
     private CoordinatorService cds = new CoordinatorService();
 
     private ServiceService ss = new ServiceService();
@@ -211,6 +212,9 @@ public class AdminController extends HttpServlet {
                         }
                         loadOrderList(request, response);
                         break;
+                    case "order-detail":
+                        loadOrderDetailList(request, response);
+                        break;
                     case "pending-order":
                         if (user.getRoleID() != 3) {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
@@ -310,6 +314,18 @@ public class AdminController extends HttpServlet {
             }
         }
 
+    }
+
+    protected void loadOrderDetailList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        try {
+            int id = Integer.parseInt(request.getParameter("orderID"));
+            ArrayList<OrderDetailRequest> list = os.getAllOrderDetailById(id);
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     protected void load_Admindashboard(HttpServletRequest request, HttpServletResponse response)
@@ -808,11 +824,11 @@ public class AdminController extends HttpServlet {
                     .collect(Collectors.toList());
         } else if (filterOption.equals("role")) {
             filteredList = list.stream()
-//                    .filter(user -> user.getRole()== filterValue2)
+                    //                    .filter(user -> user.getRole()== filterValue2)
                     .collect(Collectors.toList());
         } else if (filterOption.equals("status")) {
             filteredList = list.stream()
-//                    .filter(user -> user.get() == filterValue3)
+                    //                    .filter(user -> user.get() == filterValue3)
                     .collect(Collectors.toList());
         }
 

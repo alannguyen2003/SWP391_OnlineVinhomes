@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import payload.request.AdminOrderListRequest;
+import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import repository.OrderRepository;
 
@@ -163,6 +164,10 @@ public class OrderService {
 
     public void cancelOrder(int oId) throws SQLException {
         orderRepository.cancelOrder(oId);
+    }
+    
+    public ArrayList<OrderDetailRequest> getAllOrderDetailById(int id) throws Exception {
+        return orderRepository.getAllOrderDetailById(id);
     }
 
     public static void main(String[] args) throws Exception {

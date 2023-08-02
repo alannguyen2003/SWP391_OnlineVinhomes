@@ -75,7 +75,7 @@
                             <td>${r.room}</td>
                             <td>${r.note}</td>
                             <td>${r.total == 0? "" : r.total}</td>
-                            <td></td>
+                            <td><a class="btn btn-outline-primary" href="<c:url value="/admin/order-detail.do?orderID=${r.id}"/>">View <i class="bi bi-gear"></i></a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
