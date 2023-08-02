@@ -9,6 +9,7 @@ import entity.ServiceEntity;
 import java.util.ArrayList;
 import java.sql.*;
 import java.util.List;
+import payload.request.AdminServiceDetailRequest;
 import payload.request.AdminServiceListRequest;
 
 /**
@@ -24,9 +25,9 @@ public class ServiceRepository {
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
-            String query = "select * from Service \n" +
-                            "s JOIN dbo.Category c\n" +
-                            "ON c.CID = s.category_id";
+            String query = "select * from Service \n"
+                    + "s JOIN dbo.Category c\n"
+                    + "ON c.CID = s.category_id";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
         }
@@ -40,12 +41,12 @@ public class ServiceRepository {
             entity.setRated(rs.getDouble(6));
             entity.setCategoryID(rs.getInt(7));
             entity.setCategoryName(rs.getString(9));
-            
+
             list.add(entity);
         }
         return list;
     }
-    
+
     public ArrayList<ServiceEntity> getServiceByName(String serviceName) throws Exception {
         ArrayList<ServiceEntity> list = new ArrayList<>();
         Connection cn = (Connection) DBConfig.getConnection();
@@ -127,6 +128,7 @@ public class ServiceRepository {
         return list;
     }
 
+    // This Methods get Service by ID Use for Service Detail in Service Controller
     public ServiceEntity getServiceById(int id) throws SQLException {
         String query = "select * from service where service_id = ?";
         ServiceEntity service = new ServiceEntity();
@@ -149,6 +151,51 @@ public class ServiceRepository {
                 service.setRated(rs.getDouble("rated"));
                 service.setCategoryID(rs.getInt("category_id"));
             }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+
+            if (pre != null) {
+                pre.close();
+            }
+
+            if (rs != null) {
+                rs.close();
+            }
+
+        }
+        return service;
+    }
+
+    // This methods get one Service by ID to see Service Detail in Admin Page
+    public AdminServiceDetailRequest getServiceByIdForAdminServiceDetail(int id) throws SQLException {
+        String query = "select * \n"
+                + "FROM service s JOIN dbo.Category c\n"
+                + "ON c.CID = s.category_id\n"
+                + "WHERE service_id = ?";
+        AdminServiceDetailRequest service = new AdminServiceDetailRequest();
+        Connection con = null;
+        PreparedStatement pre = null;
+        ResultSet rs = null;
+        try {
+            con = DBConfig.getConnection();
+            pre = con.prepareStatement(query);
+            // code go la phai nam duoi pre = con.pre
+            pre.setInt(1, id);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                // output tu database
+                service.setServiceID(rs.getInt("service_id"));
+                service.setName(rs.getString(2));
+                service.setDescription(rs.getString("description"));
+                service.setLowerPrice(rs.getDouble("lower_price"));
+                service.setUpperPrice(rs.getDouble("upper_price"));
+                service.setRated(rs.getDouble("rated"));
+                service.setCategoryID(rs.getInt("category_id"));
+                service.setCategoryName(rs.getString(9));
+                System.out.println(service.getCategoryName()); 
+           }
         } finally {
             if (con != null) {
                 con.close();
@@ -247,16 +294,16 @@ public class ServiceRepository {
                 list.add(service);
             }
             conn.close();
-            
+
         } catch (Exception e) {
         }
-        
+
         return list;
     }
 
     public static void main(String[] args) throws Exception {
         ServiceRepository repository = new ServiceRepository();
-        repository.updateService(1, "Carpet Cleaning", "We clean carpets using steam and eco-friendly products.", 50, 100, 4.5, 1, 1);
+        repository.getServiceByIdForAdminServiceDetail(1);
     }
 
 }

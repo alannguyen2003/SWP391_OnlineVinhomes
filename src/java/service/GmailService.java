@@ -59,7 +59,7 @@ public class GmailService {
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, GsonFactory jsonFactory)
             throws IOException {
         // Load client secrets.
-        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\Book\\Semester 5\\SWP391\\Project\\SWP391_OnlineVinhomes\\SWP391_OnlineVinhomes\\client_secret_258604589716-j000sc21m6d6as7a1ksclvi9882358m3.apps.googleusercontent.com.json"));
+        Reader clientSecretReader = new InputStreamReader(new FileInputStream("D:\\SWP391_OnlineVinhomes\\client_secret_258604589716-j000sc21m6d6as7a1ksclvi9882358m3.apps.googleusercontent.com.json"));
         GoogleClientSecrets clientSecrets
                 = GoogleClientSecrets.load(jsonFactory, clientSecretReader);
 
@@ -138,6 +138,23 @@ public class GmailService {
         }
     }
 
+    public boolean isValidPhone(String phone) {
+
+        try {
+
+            Content content = Request.Get(
+                    "https://phonevalidation.abstractapi.com/v1/?api_key=78ae62e80eb14639a30ca197fade9bae&phone=84" + phone.substring(1))
+                    .execute().returnContent();
+            System.out.println(content);
+            if (content.asString().contains("\"valid\":false")) {
+                return false;
+//            System.out.println(content);
+            }
+        } catch (IOException error) {
+            System.out.println(error);
+        }
+        return true;
+    }
     public boolean isValidEmail(String email) {
 
         try {

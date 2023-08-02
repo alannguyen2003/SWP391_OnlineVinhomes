@@ -37,7 +37,7 @@ import payload.request.AdminResidentListRequest;
 import payload.request.AdminServiceListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.AdminOrderListRequest;
-import payload.request.OrderDetailRequest;
+import payload.request.AdminServiceDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
@@ -129,7 +129,7 @@ public class AdminController extends HttpServlet {
                     case "service-detail":
                         if (user.getRoleID() == 4) {
                             int serviceID = Integer.parseInt(request.getParameter("serviceID"));
-                            ServiceEntity se = ss.getServiceById(serviceID);
+                            AdminServiceDetailRequest se = ss.getServiceByIdForAdminServiceDetail(serviceID);
                             request.setAttribute("se", se);
                             request.setAttribute("activeTab", "service");
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
