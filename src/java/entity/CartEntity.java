@@ -15,6 +15,17 @@ import java.util.List;
 public class CartEntity {
     private List<ItemEntity> items;
     private String deliveryTime;
+    private int blockId;
+
+    public int getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(int blockId) {
+        this.blockId = blockId;
+    }
+    
+    
     
     public CartEntity(){
         this.items = new ArrayList<>();
