@@ -260,23 +260,35 @@ public class UserRepository {
         return 0;
     }
 
-    public void addNewResident(UserEntity userEntity) throws Exception {
+    public void addNewResident(UserEntity userEntity, ResidentEntity resident) throws Exception {
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
             String salt = Hasher.createSalt();
             String saltedHashPassword = Hasher.doHashing(userEntity.getPassword(), salt);
-            String query = "insert into Account(phone, email, password, name, BID, roleId, status, salt)\n"
-                    + "values (?, ?, ?, ?, ?, 1, 1, ?)";
+            String query = "insert into Account(phone, email, password, name, roleId, status, salt)\n"
+                    + "values (?, ?, ?, ?, 1, 1, ?)";
             pst = cn.prepareStatement(query);
             pst.setString(1, userEntity.getPhone());
             pst.setString(2, userEntity.getEmail());
             pst.setString(3, saltedHashPassword);
             pst.setNString(4, userEntity.getName());
-            pst.setString(6, salt);
+            pst.setString(5, salt);
             pst.executeUpdate();
+            String query2 = "select top 1 aid from Account order by aid desc";
+            pst = cn.prepareStatement(query2);
+            rs = pst.executeQuery();
+            if(rs.next()) {
+                String query1 = "insert into Resident values(?, ?, ?)";
+                pst = cn.prepareStatement(query1);
+                pst.setInt(1, rs.getInt("aid"));
+                pst.setInt(2, resident.getBlockId());
+                pst.setString(3, resident.getRoom());
+                pst.executeUpdate();
+            }
         }
+        cn.close();
     }
 
     // This method get User Information but often use to get information for Admin or Manager because 

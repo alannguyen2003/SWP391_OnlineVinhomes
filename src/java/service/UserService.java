@@ -9,6 +9,7 @@ package service;
  *
  * @author vsngh
  */
+import entity.ResidentEntity;
 import entity.UserEntity;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -58,11 +59,11 @@ public class UserService {
         return userRepo.getCountResident();
     }
     
-    public boolean addNewResident(UserEntity entity) throws Exception {
+    public boolean addNewResident(UserEntity entity, ResidentEntity resident) throws Exception {
         if (userRepo.Check(entity.getEmail()) != null ) {
             return false;
         }
-        userRepo.addNewResident(entity);
+        userRepo.addNewResident(entity, resident);
         return true;
     }
     
