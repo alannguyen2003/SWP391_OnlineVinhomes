@@ -99,9 +99,15 @@ public class UserService {
         return userRepo.getUserSalt(email);
     }
     
+    public ResidentProfileRequest getAdminResident(int AID) throws SQLException {
+        return userRepo.getAdminResident(AID);
+    }
+    
     public static void main(String[] args) throws Exception {
         UserService service = new UserService();
         System.out.println(service.getCountResident());
     }
+
+    
 }
 

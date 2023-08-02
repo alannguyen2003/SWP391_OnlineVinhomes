@@ -37,6 +37,7 @@ import payload.request.AdminResidentListRequest;
 import payload.request.AdminServiceListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.AdminOrderListRequest;
+import payload.request.ResidentProfileRequest;
 import payload.request.AdminServiceDetailRequest;
 import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
@@ -114,11 +115,18 @@ public class AdminController extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         int AID = Integer.parseInt(request.getParameter("AID"));
-                        UserEntity u = rs.getOne(AID);
+                        ResidentProfileRequest u = us.getAdminResident(AID);
                         request.setAttribute("u", u);
 //                        request.setAttribute("userBlockId", user.getBID());
                         request.setAttribute("blockList", blockList);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "updateResident":
+                        if (user.getRoleID() == 4) {
+                            updateAdminResident(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "service-list":
                         if (user.getRoleID() == 4) {
@@ -132,6 +140,7 @@ public class AdminController extends HttpServlet {
                             int serviceID = Integer.parseInt(request.getParameter("serviceID"));
                             AdminServiceDetailRequest se = ss.getServiceByIdForAdminServiceDetail(serviceID);
                             request.setAttribute("se", se);
+                            request.setAttribute("categoryList", cs.getAllCategory());
                             request.setAttribute("activeTab", "service");
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         } else {
@@ -186,12 +195,6 @@ public class AdminController extends HttpServlet {
                         break;
                     case "serviceCreate":
                         serviceCreate(request, response);
-                        break;
-                    case "updateResident":
-                        if (user.getRoleID() == 2) {
-                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
-                        }
-                        updateResident(request, response);
                         break;
                     case "updateService":
                         if (user.getRoleID() == 4) {
@@ -738,23 +741,23 @@ public class AdminController extends HttpServlet {
         return filteredList;
     }
 
-    private void updateService(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void updateService(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         int service_id = Integer.parseInt(request.getParameter("service_id"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         double lowerPrice = Double.parseDouble(request.getParameter("lowerPrice"));
         double upperPrice = Double.parseDouble(request.getParameter("upperPrice"));
         double rated = Double.parseDouble(request.getParameter("rated"));
-        int supplierId = Integer.parseInt(request.getParameter("supplierID"));
         int categoryId = Integer.parseInt(request.getParameter("categoryID"));
 
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
         String formattedRated = decimalFormat.format(rated);
         rated = Double.parseDouble(formattedRated.replace(',', '.')); // Replace comma with dot for decimal separator
 
-        ss.updateService(service_id, name, description, lowerPrice, upperPrice, rated, supplierId, categoryId);
+        ss.updateService(service_id, name, description, lowerPrice, upperPrice, rated, categoryId);
         String message = "Update successfully";
         request.setAttribute("message", message);
+        request.setAttribute("categoryId", categoryId);
         request.getRequestDispatcher("/admin/service-detail.do?serviceID=" + service_id).forward(request, response);
     }
 
@@ -910,6 +913,15 @@ public class AdminController extends HttpServlet {
         String message = "Update successfully";
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
+    }
+    
+    protected void updateAdminResident(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int status = Integer.parseInt(request.getParameter("status"));
+        int AID = Integer.parseInt(request.getParameter("AID"));
+        us.updateUser(status, AID);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/resident-detail.do?AID=" + AID).forward(request, response);
     }
 
     protected void updateSupplier(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
