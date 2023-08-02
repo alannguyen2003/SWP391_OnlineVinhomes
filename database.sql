@@ -75,6 +75,7 @@ create table Service (
 
 
 create table Feedback (
+	fid INT identity(1,1) PRIMARY KEY NOT NULL,
 	RID INT REFERENCES dbo.Resident (ID),
 	service_id INT REFERENCES dbo.Service (service_id), 
 	rate int default(1),

@@ -21,7 +21,7 @@ public class FeedbackRepository {
     
     public List<FeedbackEntity> getFeedbackOfService(int serviceID) throws SQLException{
         List<FeedbackEntity> result = new ArrayList<>();
-        String query = "select * from Feedback where DID = ?";
+        String query = "select * from Feedback where service_id = ?";
         Connection con = DBConfig.getConnection();
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, serviceID);
@@ -29,8 +29,8 @@ public class FeedbackRepository {
         while(rs.next()){
             FeedbackEntity fb = new FeedbackEntity();
             fb.setFID(rs.getInt("fid"));
-            fb.setDID(rs.getInt("did"));
-            fb.setUID(rs.getInt("uid"));
+            fb.setDID(rs.getInt("service_id"));
+            fb.setUID(rs.getInt("RID"));
             fb.setRated(rs.getDouble("rate"));
             fb.setMessage(rs.getString("message"));
             fb.setName(rs.getString("name"));
@@ -57,14 +57,14 @@ public class FeedbackRepository {
         con.close();
     }
     
-    public void deleteComment(int fid) throws SQLException {
-        String query = "delete from Feedback where fid = ?";
-        Connection con = DBConfig.getConnection();
-        PreparedStatement stm = con.prepareStatement(query);
-        stm.setInt(1, fid);
-        stm.executeUpdate();
-        con.close();
-    }
+//    public void deleteComment(int fid) throws SQLException {
+//        String query = "delete from Feedback where fid = ?";
+//        Connection con = DBConfig.getConnection();
+//        PreparedStatement stm = con.prepareStatement(query);
+//        stm.setInt(1, fid);
+//        stm.executeUpdate();
+//        con.close();
+//    }
     
     public int getTotalComments() throws SQLException {
         int result = 0;
