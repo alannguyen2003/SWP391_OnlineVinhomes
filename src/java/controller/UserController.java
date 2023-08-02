@@ -210,6 +210,9 @@ public class UserController extends HttpServlet {
                     } else if (user.getRoleID() == 2){
                         response.sendRedirect(request.getContextPath() + "/admin/coordinator-order.do?op=getAll&AID=" + user.getAID());
                     } else{
+                        ResidentProfileRequest resident = userService.getResident(user.getAID());
+                        HttpSession session2 = request.getSession();
+                        session2.setAttribute("resident", resident);
                         response.sendRedirect(request.getContextPath() + "/home/index.do");
                     }
                 } else {
