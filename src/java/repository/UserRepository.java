@@ -20,10 +20,6 @@ import payload.request.AdminResidentListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.ResidentProfileRequest;
 
-/**
- *
- * @author vsngh
- */
 public class UserRepository {
 
     Connection connect = null;

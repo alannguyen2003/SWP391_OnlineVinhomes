@@ -130,6 +130,7 @@ public class AdminController extends HttpServlet {
                             int serviceID = Integer.parseInt(request.getParameter("serviceID"));
                             ServiceEntity se = ss.getServiceById(serviceID);
                             request.setAttribute("se", se);
+                            request.setAttribute("activeTab", "service");
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");

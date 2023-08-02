@@ -70,12 +70,13 @@ public class OrderRepository {
         String date = curDate.toString();
         UserService uService = new UserService();
         Connection con = DBConfig.getConnection();
-        String sql = "insert into Orders values(?,? ,'Pending' ,? , null, ?)";
+        String sql = "insert into Orders values(?,? ,'Pending' ,? , null, ?, ?)";
         PreparedStatement stm = con.prepareStatement(sql);
         stm.setString(1, date);
         stm.setString(2, cart.getDeliveryTime());
         stm.setInt(3, user.getAID());
-        stm.setString(4, note);
+        stm.setInt(4, cart.getBlockId());
+        stm.setString(5, note);
         stm.executeUpdate();
         String sql1 = "select top 1 oid from Orders order by oid desc";
         PreparedStatement stm1 = con.prepareStatement(sql1);
@@ -83,7 +84,7 @@ public class OrderRepository {
         while (rs.next()) {
             int oid = rs.getInt("oid");
             for (ItemEntity item : cart.getItems()) {
-                String sql2 = "insert into OrderDetail values(?, ?, ?, 0)";
+                String sql2 = "insert into OrderDetail values(?, ?, ?, 0, null)";
                 PreparedStatement stm2 = con.prepareStatement(sql2);
                 stm2.setInt(1, oid);
                 stm2.setInt(2, item.getService().getServiceID());

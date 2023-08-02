@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import payload.request.ResidentProfileRequest;
+import service.BlockVinService;
 import service.CartService;
 import service.GmailService;
 import service.OrderService;
@@ -169,6 +171,7 @@ public class CartController extends HttpServlet {
             HttpSession session = request.getSession();
             CartEntity cart = (CartEntity) session.getAttribute("cart");
             UserEntity user = (UserEntity) session.getAttribute("user");
+            ResidentProfileRequest resident = (ResidentProfileRequest) session.getAttribute("resident");
             String deliveryDate = (String) request.getParameter("deliver-time");
             System.out.println(deliveryDate);
             if (deliveryDate.length() == 0) {
@@ -176,6 +179,7 @@ public class CartController extends HttpServlet {
                 request.setAttribute("message", "Enter delivery time.");
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
             } else {
+                BlockVinService blockService = new BlockVinService();
                 deliveryDate = deliveryDate.replace("T", " ");
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date deliver = formatter.parse(deliveryDate);
@@ -185,24 +189,11 @@ public class CartController extends HttpServlet {
                 String note = request.getParameter("note");
                 if (hoursDifference >= 8) {
                     cart.setDeliveryTime(deliveryDate);
+                    cart.setBlockId(blockService.getBlockId(resident.getBlock()));
+//                    System.out.println(blockId);
                     OrderService oService = new OrderService();
                     oService.addOrder(user, cart, note);
-                    String itemNeeded = "";
                     ServiceService sService = new ServiceService();
-                    SupplierService supService = new SupplierService();
-                    for (ItemEntity item : cart.getItems()) {
-                        // Need to fix user.getAID
-                        itemNeeded = sService.checkResource(item.getService(), user.getAID());
-                        if (!itemNeeded.isBlank()) {
-                            // Need to fix getCategoryID()
-                            String email = supService.getSupplierEmail(item.getService().getCategoryID());
-                            GmailService gmailer = new GmailService();
-                            String body = "Short in Resource";
-                            String message = "We are running out of the following resources:\n" + itemNeeded + "Please gather these resources for us. Best regard.";
-                            gmailer.sendEmail(body, message, email);
-                        }
-                        itemNeeded = "";
-                    }
                     session.removeAttribute("cart");
                     session.removeAttribute("size");
                     request.setAttribute("orderMessage", "Thank you for your supporting. Our employee will contact you via Phone soon.");
