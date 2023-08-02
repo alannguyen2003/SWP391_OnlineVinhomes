@@ -37,6 +37,7 @@ import payload.request.AdminResidentListRequest;
 import payload.request.AdminServiceListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.AdminOrderListRequest;
+import payload.request.ResidentProfileRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
@@ -112,7 +113,7 @@ public class AdminController extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         int AID = Integer.parseInt(request.getParameter("AID"));
-                        UserEntity u = rs.getOne(AID);
+                        ResidentProfileRequest u = us.getResident(AID);
                         request.setAttribute("u", u);
 //                        request.setAttribute("userBlockId", user.getBID());
                         request.setAttribute("blockList", blockList);
