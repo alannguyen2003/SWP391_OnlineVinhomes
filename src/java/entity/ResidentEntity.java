@@ -10,17 +10,28 @@ package entity;
  */
 public class ResidentEntity {
     
+    private int blockId;
     private String room;    
     private int AID;
 
     public ResidentEntity() {
     }
 
-    public ResidentEntity(String room, int AID) {
+    public ResidentEntity(int blockId, String room, int AID) {
+        this.blockId = blockId;
         this.room = room;
         this.AID = AID;
     }
 
+    public int getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(int blockId) {
+        this.blockId = blockId;
+    }
+
+    
     public String getRoom() {
         return room;
     }

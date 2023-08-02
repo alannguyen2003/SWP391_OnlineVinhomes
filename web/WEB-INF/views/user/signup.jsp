@@ -60,6 +60,12 @@
                                     </select>
                                 </div>
                                 
+                                <div class="form-group mb-3">
+                                    <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
+                                    <label class="label" style="color: #7b7d83;" for="name">NAME</label>
+                                    <input type="text" class="form-control" name="room" placeholder="Room" value="" required>
+                                </div>
+                                
 
                                 <p style="color:red">${message}</p>
                                     

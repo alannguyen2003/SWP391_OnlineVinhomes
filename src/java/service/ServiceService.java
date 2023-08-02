@@ -9,6 +9,7 @@ import config.DBConfig;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import payload.request.AdminServiceDetailRequest;
 import payload.request.AdminServiceListRequest;
 import repository.ServiceRepository;
 /**
@@ -27,8 +28,14 @@ public class ServiceService {
         return serviceRepository.getServiceByCategory(categoryId);
     }
     
+    // This Methods get Service by ID Use for Service Detail in Service Controller
     public ServiceEntity getServiceById(int DID) throws SQLException{
         return serviceRepository.getServiceById(DID);
+    }
+    
+    // This methods get one Service by ID to see Service Detail in Admin Page
+    public AdminServiceDetailRequest getServiceByIdForAdminServiceDetail(int id) throws SQLException {
+        return  serviceRepository.getServiceByIdForAdminServiceDetail(id);
     }
     
     public ArrayList<ServiceEntity> getServiceByName(String serviceName) throws Exception {

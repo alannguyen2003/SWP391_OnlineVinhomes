@@ -9,6 +9,7 @@ import entity.OrderHeaderEntity;
 import entity.RevenueEntity;
 import entity.SaleEntity;
 import entity.UserEntity;
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,10 +24,43 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import payload.request.AdminOrderListRequest;
+import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.UserService;
 
 public class OrderRepository {
+
+    public ArrayList<OrderDetailRequest> getAllOrderDetailById(int id) throws Exception{
+        ArrayList<OrderDetailRequest> list = new ArrayList<>();
+        Connection cn = DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = "select od.id, s.name as service, sp.name as supplier, od.price, o.note from OrderDetail od\n"
+                    + "left join Orders o\n"
+                    + "on o.OID = od.orderHeader_id\n"
+                    + "inner join Service s\n"
+                    + "on od.service_id = s.service_id\n"
+                    + "left join Supplier sp\n"
+                    + "on od.supplier_id = sp.SID\n"
+                    + "where o.OID = ?";
+            pst = cn.prepareStatement(query);
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+        }
+        if (rs != null) {
+            while (rs.next()) {
+                OrderDetailRequest orderDetailRequest = new OrderDetailRequest();
+                orderDetailRequest.setId(rs.getInt(1));
+                orderDetailRequest.setService(rs.getString(2));
+                orderDetailRequest.setSupplier(rs.getString(3));
+                orderDetailRequest.setPrice(rs.getInt(4));
+                orderDetailRequest.setNote(rs.getString(5));
+                list.add(orderDetailRequest);
+            }
+        }
+        return list;
+    }
 
     public List<RevenueEntity> getRevenue(String datePart, String[] timeSelect) throws SQLException {
         List<RevenueEntity> list = null;
@@ -173,7 +207,7 @@ public class OrderRepository {
         con.close();
         return list;
     }
-    
+
     //This Methods get all Status of Orders provide for Update Status Function in Admin
     public ArrayList<String> getStatus() throws SQLException {
         ArrayList<String> list = new ArrayList<>();
@@ -190,7 +224,6 @@ public class OrderRepository {
         return list;
     }
 
-    
     //  ----------------------------------------
     //
     //  Get Order From 1 Resident Function
@@ -673,5 +706,8 @@ public class OrderRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
+        for (OrderDetailRequest odr : op.getAllOrderDetailById(1)) {
+            System.out.println(odr);
+        }
     }
 }
