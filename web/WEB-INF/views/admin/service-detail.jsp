@@ -70,9 +70,9 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="cateforyId" class="col-md-4 col-lg-3 col-form-label">Category ID</label>
+                    <label for="cateforyId" class="col-md-4 col-lg-3 col-form-label">Category Name</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="categoryID" type="number" class="form-control" id="categoryId" value="${se.categoryID}">
+                        <input name="categoryID" type="text" class="form-control" id="categoryId" value="${se.categoryName}">
                     </div>
                 </div>
                 <div class="row mb-3">
