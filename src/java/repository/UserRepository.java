@@ -193,7 +193,7 @@ public class UserRepository {
                      join 
                      OrderDetail as od on o.OID = od.orderHeader_Id 
                      join 
-                     Account as a on o.UID = a.AID
+                     Account as a on o.RID = a.AID
                      group by a.AID, a.name
                      order by totalMoney desc""";
 
@@ -224,7 +224,7 @@ public class UserRepository {
                      join 
                      OrderDetail as od on o.OID = od.orderHeader_Id 
                      join 
-                     Account as a on o.UID = a.AID
+                     Account as a on o.RID = a.AID
                      group by a.AID, a.name
                      order by totalMoney desc""";
         PreparedStatement stm = con.prepareStatement(SQL);
