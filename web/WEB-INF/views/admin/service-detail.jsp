@@ -70,11 +70,12 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="cateforyId" class="col-md-4 col-lg-3 col-form-label">Category Name</label>
+                    <label for="categoryName" class="col-md-4 col-lg-3 col-form-label">Category Name</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="categoryID" type="text" class="form-control" id="categoryId" value="${se.categoryName}">
+                        <input name="categoryName" type="text" class="form-control" id="categoryName" value="${se.categoryName}">
                     </div>
                 </div>
+                <input name="categoryID" type="number" class="form-control" id="categoryId" value="${se.categoryID}" hidden>
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
