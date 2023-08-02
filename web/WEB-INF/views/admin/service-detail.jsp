@@ -69,14 +69,6 @@
                     </div>
                 </div>
 
-
-                <div class="row mb-3">
-                    <label for="supplierId" class="col-md-4 col-lg-3 col-form-label">Supplier ID</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="supplierID" type="number" class="form-control" id="supplierID" value="${se.supplierID}">
-                    </div>
-                </div>
-
                 <div class="row mb-3">
                     <label for="cateforyId" class="col-md-4 col-lg-3 col-form-label">Category ID</label>
                     <div class="col-md-8 col-lg-9">
