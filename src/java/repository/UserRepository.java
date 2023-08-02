@@ -357,6 +357,32 @@ public class UserRepository {
         con.close();
         return res;
     }
+    
+    public ResidentProfileRequest getAdminResident(int aid) throws SQLException {
+        ResidentProfileRequest res = new ResidentProfileRequest();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("SELECT a.AID, a.email, a.phone, a.name, a.gender, b.name, r.room, a.status FROM \n"
+                + "dbo.Account AS  a JOIN dbo.Resident AS r\n"
+                + "ON r.ID = a.AID\n"
+                + "JOIN dbo.BlockVin b\n"
+                + "ON b.BID = r.BID\n"
+                + "WHERE a.AID = ?");
+        pstm.setInt(1, aid);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            res.setAID(rs.getInt(1));
+            res.setEmail(rs.getString(2));
+            res.setPhone(rs.getString(3));
+            res.setName(rs.getString(4));
+            res.setGender(rs.getString(5));
+            res.setBlock(rs.getString(6));
+            res.setRoom(rs.getString(7));
+            res.setStatus(rs.getInt(8));
+        }
+        con.close();
+        return res;
+    }
 
     public UserEntity getManagerOfBlock(int blockId) throws SQLException {
         UserEntity user = new UserEntity();

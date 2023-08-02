@@ -10,6 +10,7 @@ public class ResidentProfileRequest {
     private String gender;
     private String block;
     private String room;
+    private int status;
 
     public ResidentProfileRequest() {
     }
@@ -22,6 +23,17 @@ public class ResidentProfileRequest {
         this.gender = gender;
         this.block = block;
         this.room = room;
+    }
+
+    public ResidentProfileRequest(int AID, String phone, String email, String name, String gender, String block, String room, int status) {
+        this.AID = AID;
+        this.phone = phone;
+        this.email = email;
+        this.name = name;
+        this.gender = gender;
+        this.block = block;
+        this.room = room;
+        this.status = status;
     }
 
     public int getAID() {
@@ -78,6 +90,14 @@ public class ResidentProfileRequest {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
     
     
