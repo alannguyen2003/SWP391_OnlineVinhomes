@@ -37,6 +37,7 @@ import payload.request.AdminResidentListRequest;
 import payload.request.AdminServiceListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.AdminOrderListRequest;
+import payload.request.AdminServiceDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
@@ -128,7 +129,7 @@ public class AdminController extends HttpServlet {
                     case "service-detail":
                         if (user.getRoleID() == 4) {
                             int serviceID = Integer.parseInt(request.getParameter("serviceID"));
-                            ServiceEntity se = ss.getServiceById(serviceID);
+                            AdminServiceDetailRequest se = ss.getServiceByIdForAdminServiceDetail(serviceID);
                             request.setAttribute("se", se);
                             request.setAttribute("activeTab", "service");
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
@@ -821,9 +822,9 @@ public class AdminController extends HttpServlet {
 
     private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String aid = request.getParameter("AID");
-        List<BlockVinEntity> blockList = bs.getAllBlock();
+//        List<BlockVinEntity> blockList = bs.getAllBlock();
         UserEntity user = us.getUser(Integer.parseInt(aid));
-        request.setAttribute("blockList", blockList);
+//        request.setAttribute("blockList", blockList);
         request.setAttribute("u", user);
 
     }
@@ -838,11 +839,9 @@ public class AdminController extends HttpServlet {
     }
 
     protected void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        String room = request.getParameter("room");
-        int BID = Integer.parseInt(request.getParameter("BID"));
         int status = Integer.parseInt(request.getParameter("status"));
         int AID = Integer.parseInt(request.getParameter("AID"));
-        rs.updateResident(room, BID, status, AID);
+        us.updateUser(status, AID);
         String message = "Update successfully";
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
