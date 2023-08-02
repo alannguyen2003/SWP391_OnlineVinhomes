@@ -38,6 +38,7 @@ import payload.request.AdminServiceListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.AdminOrderListRequest;
 import payload.request.AdminServiceDetailRequest;
+import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
@@ -202,6 +203,13 @@ public class AdminController extends HttpServlet {
                     case "admin-supplier":
                         if (user.getRoleID() == 4) {
                             loadSupplierList(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
+                        break;
+                    case "coordinator-list":
+                        if (user.getRoleID() == 4) {
+                            loadCoordinatorList(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
@@ -552,6 +560,48 @@ public class AdminController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    /*
+    -------------------------------------------------------------------------------------------------------------------------------
+    
+        COORDINATOR TABLE FUNCTION
+    
+    -------------------------------------------------------------------------------------------------------------------------------
+     */
+        protected void loadCoordinatorList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        try {
+            String op = (String) request.getParameter("op");
+            String indexPage = request.getParameter("page");
+            HttpSession session = request.getSession();
+            int currentPage = 1;
+            if (indexPage != null) {
+                currentPage = Integer.parseInt(indexPage);
+            }
+            ArrayList<CoordinatorEntity> list = new ArrayList<>();
+            int totalItems = 0;
+            int totalPages = 0;
+            int pageSize = 10;
+            switch (op) {
+                case "getall":
+                    list = cds.getAllCoordinator();
+                    // Calculate the total number of pages
+                    totalItems = list.size();
+                    totalPages = (int) Math.ceil((double) totalItems / pageSize);
+                    break;
+            }
+
+            request.setAttribute("activeTab", "coordinator");
+            request.setAttribute("op", op);
+            request.setAttribute("list", list);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", currentPage);
+            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     /*
     -------------------------------------------------------------------------------------------------------------------------------
     

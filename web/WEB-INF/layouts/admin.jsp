@@ -174,6 +174,14 @@
                         </a>
                     </li><!-- End Suppiler Nav -->
                 </c:if>
+
+                <li class="nav-item ${activeTab == "coordinator" ? "active" : ""}">
+                    <a class="nav-link1" href="<c:url value="/admin/coordinator-list.do?op=getall" />">
+                        <i class="bi bi-kanban-fill"></i>
+                        <span>Manage Coordinator</span>
+                    </a>
+                </li><!-- End Coordinator Nav -->
+
                 <c:if test="${sessionScope.user.roleID != 2}">
                     <li class="nav-item ${activeTab == "resident" ? "active" : ""}">
                         <a class="nav-link1" href="<c:url value="/admin/resident-tables.do?op=getAll" />">
@@ -253,8 +261,8 @@
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
                 class="bi bi-arrow-up-short"></i></a>
 
-                <!--This line will be fixed later-->
-<%--        <input type="text" hidden id="block" value="${user.BID}">--%>
+        <!--This line will be fixed later-->
+        <%--        <input type="text" hidden id="block" value="${user.BID}">--%>
 
         <!--JS SSE-->
         <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/sse/sse_uo1.js"></script>
