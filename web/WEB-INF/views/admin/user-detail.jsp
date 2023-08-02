@@ -37,55 +37,51 @@
                 <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="" type="hidden" class="form-control" id="name" value="${u.name}">
-                        <input name="" type="text" class="form-control" id="name" value="${u.name}" disabled="">
+                        <input name="fullName" type="hidden" class="form-control" id="name" value="${u.name}">
+                        <input name="fullName" type="text" class="form-control" id="name" value="${u.name}" disabled="">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="Gender" class="col-md-4 col-lg-3 col-form-label">Gender</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="" type="hidden" class="form-control" id="gender" value="${u.gender}">
-                        <input name="" type="text" class="form-control" id="gender" value="${u.gender}" disabled="">
+                        <input name="gender" type="hidden" class="form-control" id="gender" value="${u.gender}">
+                        <input name="gender" type="text" class="form-control" id="gender" value="${u.gender}" disabled="">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="" type="hidden" class="form-control" id="Email" value="${u.email}">
-                        <input name="" type="email" class="form-control" id="Email" value="${u.email}" disabled="">
+                        <input name="email" type="hidden" class="form-control" id="Email" value="${u.email}">
+                        <input name="email" type="email" class="form-control" id="Email" value="${u.email}" disabled="">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="" type="hidden" class="form-control" id="Phone" value="${u.phone}">
-                        <input name="" type="text" class="form-control" id="Phone" value="${u.phone}" disabled="">
+                        <input name="phone" type="hidden" class="form-control" id="Phone" value="${u.phone}">
+                        <input name="phone" type="text" class="form-control" id="Phone" value="${u.phone}" disabled="">
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Room</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="room" type="text" class="form-control" id="Address" value="${u.room}">
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-md-4 col-lg-3 col-form-label" for="bid">BLOCK ID</label>
-                    <select name="bid" class="w-100 form-control">
-                        <c:forEach var="bl" items="${blockList}">
-                            <option value="${bl.BID}">${bl.name}</option>
-                        </c:forEach>
-                    </select>
-                </div>
+                <!--                <div class="row mb-3">
+                                    <label class="col-md-4 col-lg-3 col-form-label" for="bid">BLOCK ID</label>
+                                    <select name="bid" class="w-100 form-control">
+                <c:forEach var="bl" items="${blockList}">
+                    <option value="${bl.BID}">${bl.name}</option>
+                </c:forEach>
+            </select>
+        </div>-->
 
                 <div class="row mb-3">
                     <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="status" type="text" class="form-control" id="Address" value="${u.status}">
+                        <select name="status" class="form-select" id="Status">
+                            <option value="1" ${u.status == 1 ? 'selected' : ''}>Available</option>
+                            <option value="0" ${u.status == 0 ? 'selected' : ''}>Unavailable</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row mb-3">

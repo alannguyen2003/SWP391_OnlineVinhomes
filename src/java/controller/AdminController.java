@@ -820,9 +820,9 @@ public class AdminController extends HttpServlet {
 
     private void user_detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         String aid = request.getParameter("AID");
-        List<BlockVinEntity> blockList = bs.getAllBlock();
+//        List<BlockVinEntity> blockList = bs.getAllBlock();
         UserEntity user = us.getUser(Integer.parseInt(aid));
-        request.setAttribute("blockList", blockList);
+//        request.setAttribute("blockList", blockList);
         request.setAttribute("u", user);
 
     }
@@ -837,11 +837,9 @@ public class AdminController extends HttpServlet {
     }
 
     protected void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        String room = request.getParameter("room");
-        int BID = Integer.parseInt(request.getParameter("BID"));
         int status = Integer.parseInt(request.getParameter("status"));
         int AID = Integer.parseInt(request.getParameter("AID"));
-        rs.updateResident(room, BID, status, AID);
+        us.updateUser(status, AID);
         String message = "Update successfully";
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
