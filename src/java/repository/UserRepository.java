@@ -20,10 +20,6 @@ import payload.request.AdminResidentListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.ResidentProfileRequest;
 
-/**
- *
- * @author vsngh
- */
 public class UserRepository {
 
     Connection connect = null;
@@ -383,6 +379,16 @@ public class UserRepository {
         pstm.setInt(3, bid);
         pstm.setString(4, phone);
         pstm.setInt(5, aid);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+    
+    public void updateUser(int status, int aid) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Account set status = ? where AID = ?");
+        pstm.setInt(1, status);
+        pstm.setInt(2, aid);
         int count = pstm.executeUpdate();
 
         con.close();

@@ -90,6 +90,10 @@ public class UserService {
         userRepo.updateProfile(username, gender, bid, phone, aid);
     }
     
+    public void updateUser(int status, int aid) throws SQLException{
+        userRepo.updateUser(status, aid);
+    }
+    
     public String getUserSalt(String email) throws SQLException {
         return userRepo.getUserSalt(email);
     }
