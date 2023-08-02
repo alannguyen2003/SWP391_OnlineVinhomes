@@ -213,18 +213,17 @@ public class ServiceRepository {
         return service;
     }
 
-    public void updateService(int service_id, String name, String description, double lowerPrice, double upperPrice, double rated, int supplierId, int categoryId) throws SQLException {
+    public void updateService(int service_id, String name, String description, double lowerPrice, double upperPrice, double rated, int categoryId) throws SQLException {
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("update Service set name = ?, description = ?, lower_price = ?, upper_price = ?"
-                + ", rated = ?, supplier_id = ?, category_id = ? where service_id = ?");
+                + ", rated = ?, category_id = ? where service_id = ?");
         pstm.setString(1, name);
         pstm.setString(2, description);
         pstm.setDouble(3, lowerPrice);
         pstm.setDouble(4, upperPrice);
         pstm.setDouble(5, rated);
-        pstm.setInt(6, supplierId);
-        pstm.setInt(7, categoryId);
-        pstm.setInt(8, service_id);
+        pstm.setInt(6, categoryId);
+        pstm.setInt(7, service_id);
         int count = pstm.executeUpdate();
 
         con.close();

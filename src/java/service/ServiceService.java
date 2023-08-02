@@ -46,8 +46,8 @@ public class ServiceService {
         return serviceRepository.getServiceByDescription(serviceDescription);
     }
     
-    public void updateService(int service_id, String name, String description, double lowerPrice, double upperPrice, double rated, int supplierId, int categoryId) throws SQLException{
-        serviceRepository.updateService(service_id, name, description, lowerPrice, upperPrice, rated, supplierId, categoryId);
+    public void updateService(int service_id, String name, String description, double lowerPrice, double upperPrice, double rated, int categoryId) throws SQLException{
+        serviceRepository.updateService(service_id, name, description, lowerPrice, upperPrice, rated, categoryId);
     }
     
     public void addService(String name, String description, double lowerPrice, double upperPrice, double rated, int supplierID, int categoryID) throws SQLException{

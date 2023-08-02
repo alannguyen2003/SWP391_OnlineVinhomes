@@ -59,7 +59,7 @@ public class AdminController extends HttpServlet {
     private OrderService os = new OrderService();
 
     private UserService us = new UserService();
-    
+
     private CoordinatorService cds = new CoordinatorService();
 
     private ServiceService ss = new ServiceService();
@@ -131,6 +131,7 @@ public class AdminController extends HttpServlet {
                             int serviceID = Integer.parseInt(request.getParameter("serviceID"));
                             AdminServiceDetailRequest se = ss.getServiceByIdForAdminServiceDetail(serviceID);
                             request.setAttribute("se", se);
+                            request.setAttribute("categoryList", cs.getAllCategory());
                             request.setAttribute("activeTab", "service");
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         } else {
@@ -673,23 +674,23 @@ public class AdminController extends HttpServlet {
         return filteredList;
     }
 
-    private void updateService(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void updateService(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         int service_id = Integer.parseInt(request.getParameter("service_id"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         double lowerPrice = Double.parseDouble(request.getParameter("lowerPrice"));
         double upperPrice = Double.parseDouble(request.getParameter("upperPrice"));
         double rated = Double.parseDouble(request.getParameter("rated"));
-        int supplierId = Integer.parseInt(request.getParameter("supplierID"));
         int categoryId = Integer.parseInt(request.getParameter("categoryID"));
 
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
         String formattedRated = decimalFormat.format(rated);
         rated = Double.parseDouble(formattedRated.replace(',', '.')); // Replace comma with dot for decimal separator
 
-        ss.updateService(service_id, name, description, lowerPrice, upperPrice, rated, supplierId, categoryId);
+        ss.updateService(service_id, name, description, lowerPrice, upperPrice, rated, categoryId);
         String message = "Update successfully";
         request.setAttribute("message", message);
+        request.setAttribute("categoryId", categoryId);
         request.getRequestDispatcher("/admin/service-detail.do?serviceID=" + service_id).forward(request, response);
     }
 
@@ -809,11 +810,11 @@ public class AdminController extends HttpServlet {
                     .collect(Collectors.toList());
         } else if (filterOption.equals("role")) {
             filteredList = list.stream()
-//                    .filter(user -> user.getRole()== filterValue2)
+                    //                    .filter(user -> user.getRole()== filterValue2)
                     .collect(Collectors.toList());
         } else if (filterOption.equals("status")) {
             filteredList = list.stream()
-//                    .filter(user -> user.get() == filterValue3)
+                    //                    .filter(user -> user.get() == filterValue3)
                     .collect(Collectors.toList());
         }
 
