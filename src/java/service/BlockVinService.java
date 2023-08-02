@@ -20,6 +20,9 @@ public class BlockVinService {
     public ArrayList<BlockVinEntity> getAllBlock() throws SQLException {
         return bp.getAllBlock();
     }
+    public int getBlockId(String blockName) throws SQLException {
+        return bp.getBlockId(blockName);
+    }
     public BlockVinEntity getBlock(int blockId ) throws SQLException {
         return bp.getBlockVin(blockId);
     }

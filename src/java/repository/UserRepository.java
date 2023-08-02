@@ -383,6 +383,16 @@ public class UserRepository {
 
         con.close();
     }
+    
+    public void updateUser(int status, int aid) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Account set status = ? where AID = ?");
+        pstm.setInt(1, status);
+        pstm.setInt(2, aid);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
 
     public String getUserSalt(String email) throws SQLException {
         String salt = "";
