@@ -37,7 +37,9 @@ import payload.request.AdminResidentListRequest;
 import payload.request.AdminServiceListRequest;
 import payload.request.AdminUserListRequest;
 import payload.request.AdminOrderListRequest;
+import payload.request.ResidentProfileRequest;
 import payload.request.AdminServiceDetailRequest;
+import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.BlockVinService;
 import service.CategoryService;
@@ -113,11 +115,18 @@ public class AdminController extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         int AID = Integer.parseInt(request.getParameter("AID"));
-                        UserEntity u = rs.getOne(AID);
+                        ResidentProfileRequest u = us.getAdminResident(AID);
                         request.setAttribute("u", u);
 //                        request.setAttribute("userBlockId", user.getBID());
                         request.setAttribute("blockList", blockList);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "updateResident":
+                        if (user.getRoleID() == 4) {
+                            updateAdminResident(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
                         break;
                     case "service-list":
                         if (user.getRoleID() == 4) {
@@ -187,12 +196,6 @@ public class AdminController extends HttpServlet {
                     case "serviceCreate":
                         serviceCreate(request, response);
                         break;
-                    case "updateResident":
-                        if (user.getRoleID() == 2) {
-                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
-                        }
-                        updateResident(request, response);
-                        break;
                     case "updateService":
                         if (user.getRoleID() == 4) {
                             updateService(request, response);
@@ -212,6 +215,9 @@ public class AdminController extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         loadOrderList(request, response);
+                        break;
+                    case "order-detail":
+                        loadOrderDetailList(request, response);
                         break;
                     case "pending-order":
                         if (user.getRoleID() != 3) {
@@ -312,6 +318,18 @@ public class AdminController extends HttpServlet {
             }
         }
 
+    }
+
+    protected void loadOrderDetailList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        try {
+            int id = Integer.parseInt(request.getParameter("orderID"));
+            ArrayList<OrderDetailRequest> list = os.getAllOrderDetailById(id);
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     protected void load_Admindashboard(HttpServletRequest request, HttpServletResponse response)
@@ -846,6 +864,15 @@ public class AdminController extends HttpServlet {
         String message = "Update successfully";
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
+    }
+    
+    protected void updateAdminResident(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int status = Integer.parseInt(request.getParameter("status"));
+        int AID = Integer.parseInt(request.getParameter("AID"));
+        us.updateUser(status, AID);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/resident-detail.do?AID=" + AID).forward(request, response);
     }
 
     protected void updateSupplier(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

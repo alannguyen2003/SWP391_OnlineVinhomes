@@ -58,25 +58,25 @@
                 <div class="row mb-3">
                     <label for="Room" class="col-md-4 col-lg-3 col-form-label">Room</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="room" type="text" class="form-control" id="Address" value="${u.room}">
+                        <input name="room" type="text" class="form-control" id="Address" value="${u.room}" disabled="">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label for="BID" class="col-md-4 col-lg-3 col-form-label">Block</label>
+                    <label for="block" class="col-md-4 col-lg-3 col-form-label">Block</label>
                     <div class="col-md-8 col-lg-9">
-                        <select name="BID" class="w-100 form-control">
-                            <c:forEach var="bl" items="${blockList}">
-                                <option value="${bl.BID}" ${bl.BID == userBlockId ? "selected" : ""}>${bl.name}</option>
-                            </c:forEach>
-                        </select>
+                        <input name="room" type="text" class="form-control" id="block" value="${u.block}" disabled="">
                     </div>
                 </div>
+                    
 
                 <div class="row mb-3">
                     <label for="Room" class="col-md-4 col-lg-3 col-form-label">Status</label>
                     <div class="col-md-8 col-lg-9">
-                        <input name="status" type="number" max="1" min="0" class="form-control" id="Status" value="${u.status}">
+                        <select name="status" class="form-select" id="Status">
+                            <option value="1" ${u.status == 1 ? 'selected' : ''}>Available</option>
+                            <option value="0" ${u.status == 0 ? 'selected' : ''}>Unavailable</option>
+                        </select>
                     </div>
                 </div>
 
@@ -102,14 +102,17 @@
             <div class="modal-body">Select "Update" below if you are ready to update this information.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-success" onclick="submitUpdateForm()">Update</button>
+                <button class="btn btn-success" onclick="updateResident()">Update</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function submitUpdateForm() {
-        document.getElementById("updateResidentForm").submit();
+    function updateResident() {
+        var form = document.getElementById("updateResidentForm");
+        var submitOp = document.getElementById("updateResident");
+        submitOp.value = 'update';
+        submitOp.click();
     }
 </script>

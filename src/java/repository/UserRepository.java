@@ -193,7 +193,7 @@ public class UserRepository {
                      join 
                      OrderDetail as od on o.OID = od.orderHeader_Id 
                      join 
-                     Account as a on o.UID = a.AID
+                     Account as a on o.RID = a.AID
                      group by a.AID, a.name
                      order by totalMoney desc""";
 
@@ -224,7 +224,7 @@ public class UserRepository {
                      join 
                      OrderDetail as od on o.OID = od.orderHeader_Id 
                      join 
-                     Account as a on o.UID = a.AID
+                     Account as a on o.RID = a.AID
                      group by a.AID, a.name
                      order by totalMoney desc""";
         PreparedStatement stm = con.prepareStatement(SQL);
@@ -260,23 +260,35 @@ public class UserRepository {
         return 0;
     }
 
-    public void addNewResident(UserEntity userEntity) throws Exception {
+    public void addNewResident(UserEntity userEntity, ResidentEntity resident) throws Exception {
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
         ResultSet rs = null;
         if (cn != null) {
             String salt = Hasher.createSalt();
             String saltedHashPassword = Hasher.doHashing(userEntity.getPassword(), salt);
-            String query = "insert into Account(phone, email, password, name, BID, roleId, status, salt)\n"
-                    + "values (?, ?, ?, ?, ?, 1, 1, ?)";
+            String query = "insert into Account(phone, email, password, name, roleId, status, salt)\n"
+                    + "values (?, ?, ?, ?, 1, 1, ?)";
             pst = cn.prepareStatement(query);
             pst.setString(1, userEntity.getPhone());
             pst.setString(2, userEntity.getEmail());
             pst.setString(3, saltedHashPassword);
             pst.setNString(4, userEntity.getName());
-            pst.setString(6, salt);
+            pst.setString(5, salt);
             pst.executeUpdate();
+            String query2 = "select top 1 aid from Account order by aid desc";
+            pst = cn.prepareStatement(query2);
+            rs = pst.executeQuery();
+            if(rs.next()) {
+                String query1 = "insert into Resident values(?, ?, ?)";
+                pst = cn.prepareStatement(query1);
+                pst.setInt(1, rs.getInt("aid"));
+                pst.setInt(2, resident.getBlockId());
+                pst.setString(3, resident.getRoom());
+                pst.executeUpdate();
+            }
         }
+        cn.close();
     }
 
     // This method get User Information but often use to get information for Admin or Manager because 
@@ -353,6 +365,32 @@ public class UserRepository {
             res.setGender(rs.getString(5));
             res.setBlock(rs.getString(6));
             res.setRoom(rs.getString(7));
+        }
+        con.close();
+        return res;
+    }
+    
+    public ResidentProfileRequest getAdminResident(int aid) throws SQLException {
+        ResidentProfileRequest res = new ResidentProfileRequest();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("SELECT a.AID, a.email, a.phone, a.name, a.gender, b.name, r.room, a.status FROM \n"
+                + "dbo.Account AS  a JOIN dbo.Resident AS r\n"
+                + "ON r.ID = a.AID\n"
+                + "JOIN dbo.BlockVin b\n"
+                + "ON b.BID = r.BID\n"
+                + "WHERE a.AID = ?");
+        pstm.setInt(1, aid);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            res.setAID(rs.getInt(1));
+            res.setEmail(rs.getString(2));
+            res.setPhone(rs.getString(3));
+            res.setName(rs.getString(4));
+            res.setGender(rs.getString(5));
+            res.setBlock(rs.getString(6));
+            res.setRoom(rs.getString(7));
+            res.setStatus(rs.getInt(8));
         }
         con.close();
         return res;

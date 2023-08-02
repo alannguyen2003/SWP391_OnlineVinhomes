@@ -2,6 +2,7 @@ package controller;
 
 import Utils.Hasher;
 import entity.BlockVinEntity;
+import entity.ResidentEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -150,16 +151,26 @@ public class UserController extends HttpServlet {
             String name = request.getParameter("name");
             String phone = request.getParameter("phone");
             int blockId = Integer.parseInt(request.getParameter("bid"));
+            String room = request.getParameter("room");
             UserEntity entity = new UserEntity();
             entity.setEmail(email);
             entity.setName(name);
             entity.setPhone(phone);
-//            entity.setBID(blockId);
             entity.setPassword(password);
+            ResidentEntity resident = new ResidentEntity();
+            resident.setBlockId(blockId);
+            resident.setRoom(room);
             GmailService gs = new GmailService();
+            boolean validatePhone = gs.isValidPhone(phone);
             boolean validateEmail = gs.isValidEmail(email);
-            boolean check = userService.addNewResident(entity);
-            if (validateEmail) {
+            boolean check = userService.addNewResident(entity, resident);
+            if (!validateEmail) {
+                request.setAttribute("message", "Invalid email.");
+                request.getRequestDispatcher("/user/signup.do").forward(request, response);
+            } else if(!validatePhone) {
+                request.setAttribute("message", "Invalid phone.");
+                request.getRequestDispatcher("/user/signup.do").forward(request, response);
+            } else {
                 if (check) {
                     request.setAttribute("message", "Please login again.");
                     request.getRequestDispatcher("/user/login.do").forward(request, response);
@@ -167,10 +178,6 @@ public class UserController extends HttpServlet {
                     request.setAttribute("message", "Email exist, please try again.");
                     request.getRequestDispatcher("/user/signup.do").forward(request, response);
                 }
-
-            } else {
-                request.setAttribute("message", "Invalid email.");
-                request.getRequestDispatcher("/user/signup.do").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
