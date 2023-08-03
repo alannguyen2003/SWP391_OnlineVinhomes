@@ -70,7 +70,7 @@
                                             <input name="price_${od.id}" type="number" class="form-control" id="price" value="${od.price}" placeholder="Input price here">
                                         </td>
                                         <td>
-                                            <select name="supplier_${od.id}" class="form-control"> 
+                                            <select name="supplier_${od.id}" class="form-control">
                                                 <c:forEach var="supplier" items="${listSupplier}">
                                                     <option value="${supplier.id}" ${supplier.name == od.supplier? 'selected' : ''}>${supplier.name}</option>
                                                 </c:forEach>
