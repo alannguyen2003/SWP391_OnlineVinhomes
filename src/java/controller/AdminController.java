@@ -460,11 +460,22 @@ public class AdminController extends HttpServlet {
 
     }
 
-    private void updateEmployeeOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void updateEmployeeOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         int orderId = Integer.parseInt(request.getParameter("OID"));
         String status = request.getParameter("status");
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
         os.updateStatus(orderId, employeeId, status);
+        List<AdminOrderListRequest> listOrderCoordinator = os.selectOrdersCoordinator(employeeId);
+        boolean pending = false;
+        for (AdminOrderListRequest adminOrderListRequest : listOrderCoordinator) {
+            if (adminOrderListRequest.getStatus().equals("Pending")) {
+                pending = true;
+                break;
+            }
+        }
+        if (pending == false) {
+            cds.updateEnableCoordinattor(true, employeeId);
+        }
         String message = "Update successfully";
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
