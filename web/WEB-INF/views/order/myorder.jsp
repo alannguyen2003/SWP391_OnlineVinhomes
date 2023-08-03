@@ -66,6 +66,7 @@
                                 <div class="col"><strong>ID</strong></div>
                                 <div class="col"><strong>Date</strong></div>
                                 <div class="col"><strong>Delivery Time</strong></div>
+                                <div class="col"><strong>Coordinator</strong></div>
                                 <div class="col"><strong>Status</strong></div>
                                 <div class="col"><strong>Price</strong></div>
                             </div>
@@ -78,6 +79,7 @@
                                         <div class="col">${loop.count}</div>
                                         <div class="col"><fmt:formatDate value="${fo.oh.date}" pattern="dd/MM/yyyy HH:mm:ss" /></div>
                                         <div class="col"><fmt:formatDate value="${fo.oh.delivery_time}" pattern="dd/MM/yyyy HH:mm:ss" /></div>
+                                        <div class="col">${fo.coordinator}</div>
                                         <c:if test="${fo.oh.status == 'Pending'}">
                                             <div class="col"><span class="bage bage-warning">${fo.oh.status}</span></div>
                                             </c:if>
@@ -97,7 +99,7 @@
                                                 </c:if>
                                                 <c:if test="${fo.total == 0}">
                                             <div class="col"><strong>N/A</strong></div>
-                                                </c:if>
+                                        </c:if>
                                         <div class="toggle-button" data-toggle="collapse1" data-target="#demo-${fo.oh.id}"><i class="fa fa-chevron-down"></i></div>
                                     </div>
                                 </div>

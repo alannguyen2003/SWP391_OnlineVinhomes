@@ -71,6 +71,7 @@
                                         </td>
                                         <td>
                                             <select name="supplier_${od.id}" class="form-control"> 
+                                                <option value="">-- Select Coordinator --</option>
                                                 <c:forEach var="supplier" items="${listSupplier}">
                                                     <option value="${supplier.id}" ${supplier.name == od.supplier? 'selected' : ''}>${supplier.name}</option>
                                                 </c:forEach>

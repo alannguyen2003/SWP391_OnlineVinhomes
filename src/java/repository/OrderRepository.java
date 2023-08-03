@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import payload.request.AdminOrderListRequest;
+import payload.request.MyOrderRequest;
 import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.UserService;
@@ -260,6 +261,40 @@ public class OrderRepository {
         return list;
     }
 
+    public List<MyOrderRequest> selectMyOrdersRequest(int id) throws SQLException {
+        List<MyOrderRequest> list = null;
+        Connection con = DBConfig.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("  select o.OID, o.time, o.delivery_time, o.RID, o.CID, o.note, o.status, ac.name from Orders o\n"
+                + "  left join Coordinator co \n"
+                + "  on o.CID = co.ID\n"
+                + "  left join Account ac\n"
+                + "  on ac.AID = co.ID\n"
+                + "  where RID = ? order by OID desc");
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        list = new ArrayList<>();
+        while (rs.next()) {
+            OrderHeaderEntity oh = new OrderHeaderEntity();
+            oh.setId(rs.getInt("OID"));
+            oh.setDate(rs.getTimestamp("time"));
+            oh.setDelivery_time(rs.getTimestamp("delivery_time"));
+            oh.setResidentId(rs.getInt("RID"));
+            oh.setCoordinatorID(rs.getInt("CID"));
+            oh.setStatus(rs.getString("status"));
+            oh.setNote(rs.getString("note"));
+
+            //Get all OrderDetail of this Order Header
+            HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithID(rs.getInt("OID"));
+            String coordinator = rs.getString("name");
+            // Map OrderHeader with its OrderDetail
+            MyOrderRequest fo = new MyOrderRequest(oh, map, coordinator);
+            list.add(fo);
+        }
+        con.close();
+        return list;
+    }
+
     // This method get A list of Order and its Order_Detail by Hash Map Function
     public HashMap<OrderDetailEntity, String> selectOrderDetailWithID(int orderHeaderId) throws SQLException {
         HashMap<OrderDetailEntity, String> list = null;
@@ -323,7 +358,7 @@ public class OrderRepository {
                 + "FROM OrderDetail o \n"
                 + "INNER JOIN dbo.Service s\n"
                 + "ON s.service_id = o.service_id\n"
-                + "inner join Supplier sp\n"
+                + "left join Supplier sp\n"
                 + "on sp.SID = o.supplier_id\n"
                 + "WHERE orderheader_id = ?");
         stm.setInt(1, OID);
@@ -656,7 +691,7 @@ public class OrderRepository {
                     + "ON r.ID = o.RID\n"
                     + "LEFT JOIN dbo.BlockVin b\n"
                     + "ON b.BID = r.BID\n"
-                    + "ORDER by o.OID ASC";
+                    + "ORDER by o.OID DESC";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
         }
@@ -720,7 +755,7 @@ public class OrderRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        for (OrderDetailRequest odr : op.getAllOrderDetailById(1)) {
+        for (MyOrderRequest odr : op.selectMyOrdersRequest(17)) {
             System.out.println(odr);
         }
     }

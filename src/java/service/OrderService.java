@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import payload.request.AdminOrderListRequest;
+import payload.request.MyOrderRequest;
 import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import repository.OrderRepository;
@@ -48,6 +49,10 @@ public class OrderService {
     //  ----------------------------------------
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         return orderRepository.selectMyOrders(id);
+    }
+    
+    public List<MyOrderRequest> selectMyOrdersRequest(int id) throws SQLException {
+        return orderRepository.selectMyOrdersRequest(id);
     }
 
     //  ----------------------------------------
