@@ -19,6 +19,19 @@ import java.util.Random;
  */
 public class CoordinatorRepository {
 
+    //This method add new Coordinator in Database
+    public void addCoordinator(int CID) throws Exception {
+        Connection cn = (Connection) DBConfig.getConnection();
+        PreparedStatement pst;
+        ResultSet rs = null;
+        if (cn != null) {
+            String query = ("INSERT INTO dbo.Coordinator(ID, enabled) VALUES (?, 1)");
+            pst = cn.prepareStatement(query);
+            pst.setInt(1, CID);
+            int count = pst.executeUpdate();
+        }
+    }
+
     // This method to get All Coordinator which is available for assign to Order
     public ArrayList<CoordinatorEntity> getAvailableCoordinator() throws Exception {
         ArrayList<CoordinatorEntity> list = new ArrayList<>();

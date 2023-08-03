@@ -857,7 +857,7 @@ public class AdminController extends HttpServlet {
     
     -------------------------------------------------------------------------------------------------------------------------------
      */
-    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    protected void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, Exception {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -874,6 +874,8 @@ public class AdminController extends HttpServlet {
         entity.setGender(gender);
 
         us.createAccount(entity);
+        cds.addCoordinator(us.checkEmailExist(email).getAID());
+        
         request.setAttribute("message", "Account has been added!");
         request.getRequestDispatcher("/admin/user-create.do").forward(request, response);
     }

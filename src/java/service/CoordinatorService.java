@@ -8,6 +8,10 @@ public class CoordinatorService {
 
     CoordinatorRepository coorRepo = new CoordinatorRepository();
 
+    public void addCoordinator(int CID) throws Exception {
+        coorRepo.addCoordinator(CID);
+    }
+
     public ArrayList<CoordinatorEntity> getAvailableCoordinator() throws Exception {
         return coorRepo.getAvailableCoordinator();
     }
