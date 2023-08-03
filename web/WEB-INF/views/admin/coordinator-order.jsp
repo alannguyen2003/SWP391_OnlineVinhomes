@@ -19,59 +19,55 @@
 
 <section class="section">
     <div class="row">
-        <div class="card shadow mb-4">
-            <div class="card shadow mb-4">
-                <div class="card-body" style="margin-top: 20px">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Resident</th>
-                                    <th scope="col">Coordinator</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Delivery Time</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Block</th>
-                                    <th scope="col">Room</th>
-                                    <th scope="col">Note</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Operation</th>
-                                </tr>
-                            </thead>
-                            <c:forEach var="cor" items="${corOrderList}" varStatus="loop">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">${loop.count}</a></th>
-                                        <td>${cor.residentName}</td>
-                                        <td>${cor.coordinatorName}</td>
-                                        <td>${cor.date}</td>
-                                        <td>${cor.delivery_time}</td>
-                                        <c:if test="${cor.status == 'Pending'}">
-                                            <td><span class="bage bage-warning">${cor.status}</span></td>
-                                            </c:if>
-                                            <c:if test="${cor.status == 'Completed'}">
-                                            <td><span class="bage bage-success">${cor.status}</span></td>
-                                            </c:if>
-                                            <c:if test="${cor.status == 'Failed'}">
-                                            <td><span class="bage bage-danger">${cor.status}</span></td>
-                                            </c:if>
-                                            <c:if test="${cor.status == 'Cancel'}">
-                                            <td><span class="bage bage-cancel">${cor.status}</span></td>
-                                            </c:if>
-                                        <td>${cor.block}</td>
-                                        <td>${cor.room}</td>
-                                        <td>${cor.note}</td>
-                                        <td>${cor.total == 0? "" : cor.total}</td>
-                                        <td>
-                                            <a class="btn btn-outline-primary" href="<c:url value="/admin/coordinator-order-detail.do?OID=${cor.id}"/>">View <i class="bi bi-gear"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </c:forEach>
-                        </table>
-                    </div>
-                </div>
+        <div class="card shadow" style="padding-top: 15px">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Resident</th>
+                            <th scope="col">Coordinator</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Delivery Time</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Block</th>
+                            <th scope="col">Room</th>
+                            <th scope="col">Note</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Operation</th>
+                        </tr>
+                    </thead>
+                    <c:forEach var="cor" items="${corOrderList}" varStatus="loop">
+                        <tbody>
+                            <tr>
+                                <th scope="row">${loop.count}</a></th>
+                                <td>${cor.residentName}</td>
+                                <td>${cor.coordinatorName}</td>
+                                <td>${cor.date}</td>
+                                <td>${cor.delivery_time}</td>
+                                <c:if test="${cor.status == 'Pending'}">
+                                    <td><span class="bage bage-warning">${cor.status}</span></td>
+                                    </c:if>
+                                    <c:if test="${cor.status == 'Completed'}">
+                                    <td><span class="bage bage-success">${cor.status}</span></td>
+                                    </c:if>
+                                    <c:if test="${cor.status == 'Failed'}">
+                                    <td><span class="bage bage-danger">${cor.status}</span></td>
+                                    </c:if>
+                                    <c:if test="${cor.status == 'Cancel'}">
+                                    <td><span class="bage bage-cancel">${cor.status}</span></td>
+                                    </c:if>
+                                <td>${cor.block}</td>
+                                <td>${cor.room}</td>
+                                <td>${cor.note}</td>
+                                <td>${cor.total == 0? "" : cor.total}</td>
+                                <td>
+                                    <a class="btn btn-outline-primary" href="<c:url value="/admin/coordinator-order-detail.do?OID=${cor.id}"/>">View <i class="bi bi-gear"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </c:forEach>
+                </table>
             </div>
         </div>
     </div>
