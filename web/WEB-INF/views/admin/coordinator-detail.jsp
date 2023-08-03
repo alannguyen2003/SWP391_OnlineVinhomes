@@ -79,7 +79,7 @@
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateCoordinatorModal">Save change</button>
-                        <input id="updateUser" type="submit" name="op" value="" hidden>
+                        <input id="updateCoordinator" type="submit" name="op" value="" hidden>
                     </div>
                 </div>
             </form>

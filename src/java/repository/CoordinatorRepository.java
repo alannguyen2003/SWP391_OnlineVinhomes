@@ -6,17 +6,12 @@ package repository;
 
 import config.DBConfig;
 import entity.CoordinatorEntity;
-import entity.UserEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
-import org.checkerframework.checker.units.qual.A;
 
 /**
  *

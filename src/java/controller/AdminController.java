@@ -222,12 +222,8 @@ public class AdminController extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         break;
-                    case "update-coordinator":
-                        if (user.getRoleID() == 4) {
-                            loadCoordinatorDetail(request, response);
-                        } else {
-                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
-                        }
+                    case "updateCoordinator":
+                        updateCoordinator(request, response);
                         break;
                     case "order-list":
                         if (user.getRoleID() == 2) {
