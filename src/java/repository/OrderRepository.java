@@ -337,7 +337,6 @@ public class OrderRepository {
             osr.setPrice(rs.getInt(7));
             list.add(osr);
         }
-        System.out.println(list);
         return list;
     }
 
