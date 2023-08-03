@@ -608,7 +608,7 @@ public class OrderRepository {
                 + "LEFT JOIN dbo.BlockVin b\n"
                 + "ON b.BID = r.BID\n"
                 + "WHERE O.CID = ?\n"
-                + "ORDER by o.OID DESC");
+                + "ORDER by o.time DESC");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         list = new ArrayList<>();
