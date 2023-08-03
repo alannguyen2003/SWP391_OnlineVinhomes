@@ -63,6 +63,7 @@
                                 <label class="label" style="color: #7b7d83;" for="role">ROLE</label>
                                 <br/>
                                 <select name="role" class="w-100 form-control">
+                                    <option value="">-- Select Role --</option>
                                     <c:forEach var="rol" items="${roleID}">
                                         <option value="${rol.id}">${rol.name}</option>
                                     </c:forEach>
