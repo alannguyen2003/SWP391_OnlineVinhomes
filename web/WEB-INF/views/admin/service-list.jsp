@@ -22,7 +22,7 @@
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
         <div class="card-body">
-            <h5 class="card-title">Service Table</h5>
+            <h5 class="card-title">Service Tables</h5>
 
             <div class="filter">
                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-funnel-fill"></i></a>

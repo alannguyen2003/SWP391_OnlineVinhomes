@@ -218,7 +218,7 @@
                 <div class="search-popup__overlay search-toggler"></div>
 
                 <div class="search-popup__content">
-                    <form method="post" action="<c:url value="/service/list.do"/>">
+                    <form method="" action="<c:url value="/service/list.do"/>">
                         <label for="search" class="sr-only">search here</label>
                         <input type="text" name="txt" placeholder="Search Here..." />
                         <button type="submit" name="action" value="txt" aria-label="search submit" class="thm-btn">

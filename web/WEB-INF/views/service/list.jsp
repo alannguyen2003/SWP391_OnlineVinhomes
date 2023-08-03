@@ -34,7 +34,7 @@
                     <div class="services-two__single">
                         <div class="services-two__img-box">
                             <div class="services-two__img">
-                                <img src="${pageContext.request.contextPath}/assets/images/services/services-2-1.jpg" alt="">
+                                <img src="${pageContext.request.contextPath}/assets/images/services/services-${cid}-${o.serviceID}.jpg" alt="" style="width: 370px; height: 267px;">
                             </div>
                             <div class="services-two__icon">
                                 <span class="icon-plumbing"></span>

@@ -109,7 +109,7 @@
         
 
         <div class="card-body">
-            <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+            <h5 class="card-title">Supplier Tables</h5>
 
             <table class="table table-borderless datatable">
                 <thead>
