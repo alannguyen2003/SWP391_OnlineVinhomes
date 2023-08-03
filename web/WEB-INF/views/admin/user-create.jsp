@@ -25,25 +25,25 @@
                     <form action="<c:url value="/admin/create.do" />" class="signin-form" method="post">
                         <div class="p-4">
                             <div class="form-group mb-3">
-                                <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>
+                                <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="email">EMAIL</label>
                                 <input type="email" class="form-control" name="email" placeholder="Email" value="" required>
                             </div>
 
                             <div class="form-group mb-3">
-                                <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-key-fill"></i></div>
+                                <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-key-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="password">PASSWORD</label>
                                 <input type="password" class="form-control" name="password" placeholder="Password" value="" required>
                             </div>
 
                             <div class="form-group mb-3">
-                                <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
+                                <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="name">NAME</label>
                                 <input type="text" class="form-control" name="name" placeholder="Name" value="" required>
                             </div>
 
                             <div class="form-group mb-3">
-                                <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
+                                <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="role">GENDER</label>
                                 <br/>
                                 <select name="gender" class="form-select" id="Gender">
@@ -53,13 +53,13 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-telephone-fill"></i></div>
+                                <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-telephone-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="phone">PHONE</label>
                                 <input type="number" minlength="10" class="form-control" name="phone" placeholder="Phone" value="" required>
                             </div>
 
                             <div class="form-group mb-3">
-                                <div class="form-group-icon" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
+                                <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="role">ROLE</label>
                                 <br/>
                                 <select name="role" class="w-100 form-control">
