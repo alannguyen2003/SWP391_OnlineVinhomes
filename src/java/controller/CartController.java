@@ -194,7 +194,9 @@ public class CartController extends HttpServlet {
 //                    System.out.println(blockId);
                     OrderService oService = new OrderService();
                     CoordinatorService cService = new CoordinatorService();
-                    oService.addOrder(user, cart, note, cService.autoAssignCoordinator());
+                    int coordinatorId = cService.autoAssignCoordinator();
+                    cService.updateEnableCoordinattor(false, coordinatorId);
+                    oService.addOrder(user, cart, note, coordinatorId);
                     session.removeAttribute("cart");
                     session.removeAttribute("size");
                     request.setAttribute("orderMessage", "Thank you for your supporting. Our employee will contact you via Phone soon.");
