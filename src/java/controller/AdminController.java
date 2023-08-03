@@ -478,7 +478,7 @@ public class AdminController extends HttpServlet {
         }
         String message = "Update successfully";
         request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
+        request.getRequestDispatcher("/admin/coordinator-order-detail.do?OID=" + orderId).forward(request, response);
 
     }
 
