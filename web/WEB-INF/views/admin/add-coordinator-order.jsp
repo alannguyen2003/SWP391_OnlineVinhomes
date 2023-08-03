@@ -66,7 +66,7 @@
                     <label for="Coordinator" class="col-md-4 col-lg-3 col-form-label">Coordinator</label>
                     <div class="col-md-8 col-lg-9">
                         <select name="coorId" class="w-100 form-control">
-                            <option value="">-- Select Employee --</option>
+                            <option value="">-- Select Coordinator --</option>
                             <c:forEach var="coorList" items="${coorList}">
                                 <option name="coorId" value="${coorList.CID}">${coorList.name}</option>
                             </c:forEach>
