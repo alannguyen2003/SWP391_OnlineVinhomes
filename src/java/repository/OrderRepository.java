@@ -30,7 +30,7 @@ import service.UserService;
 
 public class OrderRepository {
 
-    public ArrayList<OrderDetailRequest> getAllOrderDetailById(int id) throws Exception{
+    public ArrayList<OrderDetailRequest> getAllOrderDetailById(int id) throws Exception {
         ArrayList<OrderDetailRequest> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
@@ -319,9 +319,12 @@ public class OrderRepository {
 
         Connection con = DBConfig.getConnection();
 
-        PreparedStatement stm = con.prepareStatement(" select o.id, o.service_id, s.name, s.lower_price, s.upper_price \n"
-                + "FROM OrderDetail o INNER JOIN dbo.Service s\n"
-                + "ON s.service_id = o.service_id \n"
+        PreparedStatement stm = con.prepareStatement(" select o.id, o.service_id, s.name, s.lower_price, s.upper_price, sp.name, o.price\n"
+                + "FROM OrderDetail o \n"
+                + "INNER JOIN dbo.Service s\n"
+                + "ON s.service_id = o.service_id\n"
+                + "inner join Supplier sp\n"
+                + "on sp.SID = o.supplier_id\n"
                 + "WHERE orderheader_id = ?");
         stm.setInt(1, OID);
         ResultSet rs = stm.executeQuery();
@@ -332,7 +335,8 @@ public class OrderRepository {
             osr.setName(rs.getString(3));
             osr.setMinPrice(rs.getInt(4));
             osr.setMaxPrice(rs.getInt(5));
-
+            osr.setSupplier(rs.getString(6));
+            osr.setPrice(rs.getInt(7));
             list.add(osr);
         }
         return list;
@@ -703,7 +707,7 @@ public class OrderRepository {
         }
         return result;
     }
-    
+
     // This method is use to update price for each Service in Order Detail in Admin Pages for Coordinator
     public void updateSupplier(int id, int supplierId) throws SQLException {
         Connection con = DBConfig.getConnection();
