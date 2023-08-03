@@ -218,7 +218,7 @@ insert into Supplier(name, email, phone, address) values
 INSERT INTO dbo.Orders(time, delivery_time, status, RID, CID, BID, note)
 VALUES
     ('2023-07-31 08:00:00', '2023-08-01 15:00:00', 'Pending', 17, 9, 1, 'Order pending'),
-	('2023-01-29 08:00:00', '2023-01-29 15:00:00', 'Completed', 17, NULL, 1, 'Order pending'),
+	('2023-01-29 08:00:00', '2023-01-29 15:00:00', 'Completed', 17, 16, 1, 'Order pending'),
     ('2023-07-31 09:30:00', '2023-08-01 16:30:00', 'Pending', 18, 10, 1, 'Waiting for confirmation'),
     ('2023-01-29 10:15:00', '2023-01-29 17:15:00', 'Completed', 19, 11, 1, 'Order processing'),
     ('2023-07-31 11:45:00', '2023-08-01 18:45:00', 'Pending', 17, 12, 1, NULL),
