@@ -20,14 +20,19 @@ import java.util.List;
 import service.OrderService;
 import java.util.Date;
 import payload.request.MyOrderRequest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import payload.request.AdminOrderListRequest;
+import service.CoordinatorService;
 
 @WebServlet(name = "OrdersController", urlPatterns = {"/order"})
 public class OrdersController extends HttpServlet {
 
     private OrderService orderService = new OrderService();
+    private CoordinatorService coordinatorService = new CoordinatorService();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
@@ -57,14 +62,25 @@ public class OrdersController extends HttpServlet {
                     Date now = new Date();
 
                     // Tính khoảng thời gian giữa hai thời điểm theo giờ
-                    long millisecondsDifference = date.getTime() - now.getTime() ;
+                    long millisecondsDifference = date.getTime() - now.getTime();
                     long hoursDifference = millisecondsDifference / (60 * 60 * 1000);
                     if (hoursDifference >= 6 && oh.getStatus().equals("Pending")) {
                         orderService.cancelOrder(oid);
-                        response.sendRedirect(request.getContextPath()+ "/order/myorder.do?aid=" + request.getParameter("aid"));
+                        List<AdminOrderListRequest> listOrderCoordinator = orderService.selectOrdersCoordinator(oh.getCoordinatorID());
+                        boolean pending = false;
+                        for (AdminOrderListRequest adminOrderListRequest : listOrderCoordinator) {
+                            if (adminOrderListRequest.getStatus().equals("Pending")) {
+                                pending = true;
+                                break;
+                            }
+                        }
+                        if (pending == false) {
+                            coordinatorService.updateEnableCoordinattor(true, oh.getCoordinatorID());
+                        }
+                        response.sendRedirect(request.getContextPath() + "/order/myorder.do?aid=" + request.getParameter("aid"));
                     } else {
                         request.setAttribute("message", "The Difference hour must be larger than or equal 6 hours and Status must be Pending");
-                        response.sendRedirect(request.getContextPath()+ "/order/myorder.do?aid=" + request.getParameter("aid"));
+                        response.sendRedirect(request.getContextPath() + "/order/myorder.do?aid=" + request.getParameter("aid"));
                     }
                     break;
                 default:
@@ -85,7 +101,11 @@ public class OrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(OrdersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -99,7 +119,11 @@ public class OrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(OrdersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

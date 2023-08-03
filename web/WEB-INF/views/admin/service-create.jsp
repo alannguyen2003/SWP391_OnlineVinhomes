@@ -63,6 +63,7 @@
                             <div class="col-sm-10">
                                 <select class="form-select" aria-label="Default select example" name="categoryID" id="filterCategoryValue">
                                     <!-- Các option của combobox category -->
+                                    <option value="">-- Select Category --</option>
                                     <c:forEach var="cl" items="${categoryList}">
                                         <option value="${cl.id}">${cl.name}</option>
                                     </c:forEach>

@@ -354,12 +354,10 @@ public class OrderRepository {
 
         Connection con = DBConfig.getConnection();
 
-        PreparedStatement stm = con.prepareStatement(" select o.id, o.service_id, s.name, s.lower_price, s.upper_price, sp.name, o.price\n"
-                + "FROM OrderDetail o \n"
-                + "INNER JOIN dbo.Service s\n"
+        PreparedStatement stm = con.prepareStatement("SELECT o.id, o.service_id, s.name, s.lower_price, s.upper_price, sp.name, o.price FROM dbo.OrderDetail o INNER  JOIN dbo.Service s\n"
                 + "ON s.service_id = o.service_id\n"
-                + "left join Supplier sp\n"
-                + "on sp.SID = o.supplier_id\n"
+                + "LEFT JOIN dbo.Supplier sp\n"
+                + "ON sp.SID = o.supplier_id\n"
                 + "WHERE orderheader_id = ?");
         stm.setInt(1, OID);
         ResultSet rs = stm.executeQuery();
