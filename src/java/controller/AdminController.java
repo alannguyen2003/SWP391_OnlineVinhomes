@@ -793,9 +793,8 @@ public class AdminController extends HttpServlet {
                 double lowerPrice = Double.parseDouble(request.getParameter("lowerPrice"));
                 double upperPrice = Double.parseDouble(request.getParameter("upperPrice"));
                 double rated = Double.parseDouble(request.getParameter("rated"));
-                int supplierID = Integer.parseInt(request.getParameter("supplierID"));
                 int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-                ss.addService(serviceName, description, lowerPrice, upperPrice, rated, supplierID, categoryID);
+                ss.addService(serviceName, description, lowerPrice, upperPrice, rated, categoryID);
                 response.sendRedirect(request.getContextPath() + "/admin/service-list.do?op=getAll");
                 break;
             case "cancel":

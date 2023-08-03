@@ -50,8 +50,8 @@ public class ServiceService {
         serviceRepository.updateService(service_id, name, description, lowerPrice, upperPrice, rated, categoryId);
     }
     
-    public void addService(String name, String description, double lowerPrice, double upperPrice, double rated, int supplierID, int categoryID) throws SQLException{
-        serviceRepository.addService(name, description, lowerPrice, upperPrice, rated, supplierID, categoryID);
+    public void addService(String name, String description, double lowerPrice, double upperPrice, double rated, int categoryID) throws SQLException{
+        serviceRepository.addService(name, description, lowerPrice, upperPrice, rated, categoryID);
     }
     
     public String checkResource(ServiceEntity service, int blockId) throws SQLException {

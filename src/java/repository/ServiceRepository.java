@@ -194,8 +194,8 @@ public class ServiceRepository {
                 service.setRated(rs.getDouble("rated"));
                 service.setCategoryID(rs.getInt("category_id"));
                 service.setCategoryName(rs.getString(9));
-                System.out.println(service.getCategoryName()); 
-           }
+                System.out.println(service.getCategoryName());
+            }
         } finally {
             if (con != null) {
                 con.close();
@@ -229,17 +229,16 @@ public class ServiceRepository {
         con.close();
     }
 
-    public void addService(String name, String description, double lowerPrice, double upperPrice, double rated, int supplierID, int categoryID) throws SQLException {
+    public void addService(String name, String description, double lowerPrice, double upperPrice, double rated, int categoryID) throws SQLException {
         Connection con = DBConfig.getConnection();
-        String query = "insert into Service values(?,?,?,?,?,?,?)";
+        String query = "insert into Service values(?,?,?,?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, name);
         stm.setString(2, description);
         stm.setDouble(3, lowerPrice);
         stm.setDouble(4, upperPrice);
         stm.setDouble(5, rated);
-        stm.setInt(6, supplierID);
-        stm.setInt(7, categoryID);
+        stm.setInt(6, categoryID);
         stm.executeUpdate();
         con.close();
     }

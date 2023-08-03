@@ -47,17 +47,17 @@
                                 <input type="number" step="0.5" class="form-control" name="upperPrice" value = "" >
                             </div>
                         </div>
-                        <div class="row mb-3">
+<!--                        <div class="row mb-3">
                             <label for="inputNumber" class="col-sm-2 col-form-label">Supplier ID</label>
                             <div class="col-sm-10">
                                 <select class="form-select" aria-label="Default select example" name="supplierID" id="filterSupplierValue">
-                                    <!-- Các option của combobox supplier -->
+                                     Các option của combobox supplier 
                                     <c:forEach var="sl" items="${supplierList}">
                                         <option value="${sl.id}" ${sl.id == filterValue ? "selected" : ""}>${sl.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="row mb-3">
                             <label for="inputNumber" class="col-sm-2 col-form-label">Category ID</label>
                             <div class="col-sm-10">
