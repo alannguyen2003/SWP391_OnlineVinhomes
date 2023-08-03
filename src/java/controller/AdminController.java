@@ -285,8 +285,10 @@ public class AdminController extends HttpServlet {
                         }
                         OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
+                        UserEntity us = os.getNameFromOrder(OID);
                         List<CoordinatorEntity> coorList = cds.getAvailableCoordinator();
                         List<String> statusList = os.getStatus();
+                        request.setAttribute("us", us);
                         request.setAttribute("oh", oh);
                         request.setAttribute("coorList", coorList);
                         request.setAttribute("blockList", blockList);
@@ -449,14 +451,34 @@ public class AdminController extends HttpServlet {
         }
     }
 
-    private void updateOrderPending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int orderID = Integer.parseInt(request.getParameter("OID"));
-        String status = request.getParameter("status");
-        int coorID = Integer.parseInt(request.getParameter("coorId"));
-        os.updateStatus(orderID, coorID, status);
-        String message = "Update successfully";
-        request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/add-coordinator-order.do?OID=" + orderID).forward(request, response);
+    private void updateOrderPending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
+        String op = request.getParameter("op");
+        switch (op) {
+            case "update": {
+                int orderID = Integer.parseInt(request.getParameter("OID"));
+                String status = request.getParameter("status");
+                int coorID = Integer.parseInt(request.getParameter("coorId"));
+                String note = request.getParameter("note");
+                os.updateStatus(orderID, coorID, status, note);
+                String message = "Update successfully";
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("/admin/add-coordinator-order.do?OID=" + orderID).forward(request, response);
+                break;
+            }
+            case "change": {
+                int orderID = Integer.parseInt(request.getParameter("OID"));
+                String status = request.getParameter("status");
+                String note = request.getParameter("note");
+                CoordinatorService cService = new CoordinatorService();
+                int coordinatorId = cService.autoAssignCoordinator();
+                cService.updateEnableCoordinattor(false, coordinatorId);
+                os.updateStatus(orderID, coordinatorId, status, note);
+                String message = "Update successfully";
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("/admin/add-coordinator-order.do?OID=" + orderID).forward(request, response);
+                break;
+            }
+        }
 
     }
 
@@ -464,7 +486,8 @@ public class AdminController extends HttpServlet {
         int orderId = Integer.parseInt(request.getParameter("OID"));
         String status = request.getParameter("status");
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
-        os.updateStatus(orderId, employeeId, status);
+        String note = request.getParameter("note");
+        os.updateStatus(orderId, employeeId, status, note);
         String message = "Update successfully";
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
@@ -476,7 +499,7 @@ public class AdminController extends HttpServlet {
 
         // Retrieve the list of order details with name and service information
         List<UpdateOrderServicePriceRequest> orderDetails = os.selectOrderDetailWithNameService(orderId);
-        
+
         // Loop through each order detail to get the updated price and update it in the database
         for (UpdateOrderServicePriceRequest od : orderDetails) {
             int id = od.getId();

@@ -91,4 +91,10 @@ public class OrderHeaderEntity {
     public void setNote(String note) {
         this.note = note;
     }
+
+    @Override
+    public String toString() {
+        return "OrderHeaderEntity{" + "id=" + id + ", date=" + date + ", delivery_time=" + delivery_time + ", status=" + status + ", residentId=" + residentId + ", coordinatorID=" + coordinatorID + ", blockId=" + blockId + ", note=" + note + '}';
+    }
+    
 }

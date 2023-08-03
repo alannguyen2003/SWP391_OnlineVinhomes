@@ -128,8 +128,8 @@ public class OrderService {
     //  Admin Coordinator Update Information for Order Fuction
     //
     //  ----------------------------------------
-    public void updateStatus(int OID, int CID, String status) throws SQLException {
-        orderRepository.updateStatus(OID, CID, status);
+    public void updateStatus(int OID, int CID, String status, String note) throws SQLException {
+        orderRepository.updateStatus(OID, CID, status, note);
     }
 
     public void updatePrice(int id, double price) throws SQLException {
@@ -174,7 +174,9 @@ public class OrderService {
         return orderRepository.getAllOrderDetailById(id);
     }
     
-    
+    public UserEntity getNameFromOrder(int OID) throws SQLException{
+        return orderRepository.getNameFromOrder(OID);
+    }
 
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();

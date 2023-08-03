@@ -293,12 +293,13 @@ public class OrderRepository {
     //
     //  ----------------------------------------
     // This method for Admin to update Coordinator or Status of Orders
-    public void updateStatus(int OID, int CID, String status) throws SQLException {
+    public void updateStatus(int OID, int CID, String status, String note) throws SQLException {
         Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update Orders set CID = ?, status = ? where OID = ?");
+        PreparedStatement pstm = con.prepareStatement("update Orders set CID = ?, status = ?, note = ? where OID = ?");
         pstm.setInt(1, CID);
         pstm.setString(2, status);
-        pstm.setInt(3, OID);
+        pstm.setString(3, note);
+        pstm.setInt(4, OID);
         int count = pstm.executeUpdate();
 
         con.close();
@@ -717,10 +718,29 @@ public class OrderRepository {
         con.close();
     }
 
+    public UserEntity getNameFromOrder(int OID) throws SQLException {
+        UserEntity user = new UserEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("select name, AID, phone, email, password, gender, roleID from Account a join Coordinator c on a.AID = c.ID join Orders o on c.ID = o.CID where o.OID = ?");
+        pstm.setInt(1, OID);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            user.setName(rs.getString(1));
+            user.setAID(rs.getInt(2));
+            user.setPhone(rs.getString(3));
+            user.setEmail(rs.getString(4));
+            user.setPassword(rs.getString(5));
+            user.setGender(rs.getString(6));
+            user.setRoleID(rs.getInt(7));
+        }
+        con.close();
+        return user;
+    }
+
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        for (OrderDetailRequest odr : op.getAllOrderDetailById(1)) {
-            System.out.println(odr);
-        }
+        OrderHeaderEntity oh = op.getOne(18);
+        System.out.println(oh);
     }
 }
