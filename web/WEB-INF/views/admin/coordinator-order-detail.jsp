@@ -26,7 +26,7 @@
             </ul>
 
 
-            <form action="<c:url value="/admin/updateEmployeeOrder.do" />" method="post">
+            <form id="updateOrderForm" action="<c:url value="/admin/updateEmployeeOrder.do" />" method="post">
                 <div class="row mb-3">
                     <label for="OID" class="col-md-4 col-lg-3 col-form-label">Order ID</label>
                     <div class="col-md-8 col-lg-9">
@@ -80,8 +80,8 @@
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
-                        <input data-toggle="modal" data-target="#updateOrderModal" id="updateOrder" type="submit" name="op" value="update" hidden>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
+                        <input id="updateOrder" type="submit" name="op" value="" hidden>
                     </div>
                 </div>
             </form>
@@ -101,8 +101,17 @@
             <div class="modal-body">Select "Update" below if you are ready to update this order.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-success" href="<c:url value="/admin/coordinator-order-detail.do"/>">Yes</a>
+                <a class="btn btn-primary" id="updateOrderLink" onclick="updateOrder()">Yes</a>
             </div>
         </div>
     </div>
 </div> 
+
+<script>
+    function updateOrder() {
+        var form = document.getElementById("updateOrderForm");
+        var submitOp = document.getElementById("updateOrder");
+        submitOp.value = 'update';
+        submitOp.click();
+    }
+</script>
