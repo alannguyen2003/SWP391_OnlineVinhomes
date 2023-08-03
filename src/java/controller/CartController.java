@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import payload.request.ResidentProfileRequest;
 import service.BlockVinService;
 import service.CartService;
+import service.CoordinatorService;
 import service.GmailService;
 import service.OrderService;
 import service.ServiceService;
@@ -192,8 +193,8 @@ public class CartController extends HttpServlet {
                     cart.setBlockId(blockService.getBlockId(resident.getBlock()));
 //                    System.out.println(blockId);
                     OrderService oService = new OrderService();
-                    oService.addOrder(user, cart, note);
-                    ServiceService sService = new ServiceService();
+                    CoordinatorService cService = new CoordinatorService();
+                    oService.addOrder(user, cart, note, cService.autoAssignCoordinator());
                     session.removeAttribute("cart");
                     session.removeAttribute("size");
                     request.setAttribute("orderMessage", "Thank you for your supporting. Our employee will contact you via Phone soon.");
