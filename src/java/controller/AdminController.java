@@ -440,7 +440,7 @@ public class AdminController extends HttpServlet {
             }
             // Cắt danh sách dữ liệu theo phân trang            
 
-            request.setAttribute("activeTab", "employeeOrder");
+            request.setAttribute("activeTab", "coordinatorOrder");
             request.setAttribute("op", op);
             request.setAttribute("corOrderList", corOrderList);
             request.setAttribute("totalPages", totalPages);
@@ -482,15 +482,26 @@ public class AdminController extends HttpServlet {
 
     }
 
-    private void updateEmployeeOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void updateEmployeeOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         int orderId = Integer.parseInt(request.getParameter("OID"));
         String status = request.getParameter("status");
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
         String note = request.getParameter("note");
         os.updateStatus(orderId, employeeId, status, note);
+        List<AdminOrderListRequest> listOrderCoordinator = os.selectOrdersCoordinator(employeeId);
+        boolean pending = false;
+        for (AdminOrderListRequest adminOrderListRequest : listOrderCoordinator) {
+            if (adminOrderListRequest.getStatus().equals("Pending")) {
+                pending = true;
+                break;
+            }
+        }
+        if (pending == false) {
+            cds.updateEnableCoordinattor(true, employeeId);
+        }
         String message = "Update successfully";
         request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
+        request.getRequestDispatcher("/admin/coordinator-order-detail.do?OID=" + orderId).forward(request, response);
 
     }
 
