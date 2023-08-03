@@ -233,8 +233,7 @@ VALUES
     ('2023-04-02 10:00:00', '2023-04-02 17:00:00', 'Completed', 19, 9, 1, 'Customer satisfied with the product'),
     ('2023-01-30 11:15:00', '2023-01-30 18:15:00', 'Completed', 20, 11, 1, 'Positive feedback received'),
     ('2023-04-02 14:45:00', '2023-04-02 21:45:00', 'Completed', 21, 12, 1, 'Great service provided'),
-    ('2023-01-30 17:30:00', '2023-01-31 00:30:00', 'Completed', 17, 13, 1, 'Order completed successfully');
-	   	 
+    ('2023-01-30 17:30:00', '2023-01-31 00:30:00', 'Completed', 17, 13, 1, 'Order completed successfully'); 
 
 
 INSERT INTO OrderDetail (orderHeader_id, service_id, category_id, price, supplier_id) 

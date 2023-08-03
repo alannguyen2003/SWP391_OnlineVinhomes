@@ -36,7 +36,7 @@
                             </tr>
                         </thead>
                         <c:forEach var="o" items="${list}" varStatus="loop">
-                            <c:if test="${o.CID == 0 && o.status == 'Pending'}">
+                            <c:if test="${o.status == 'Pending'}">
                                 <tbody>
                                     <tr>
                                         <td>${o.id}</td>

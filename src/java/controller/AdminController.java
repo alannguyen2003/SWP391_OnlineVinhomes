@@ -209,14 +209,14 @@ public class AdminController extends HttpServlet {
                         }
                         break;
                     case "coordinator-list":
-                        if (user.getRoleID() == 4) {
+                        if (user.getRoleID() != 2) {
                             loadCoordinatorList(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         break;
                     case "coordinator-detail":
-                        if (user.getRoleID() == 4) {
+                        if (user.getRoleID() != 2) {
                             loadCoordinatorDetail(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
@@ -303,6 +303,8 @@ public class AdminController extends HttpServlet {
                         }
                         OID = Integer.parseInt(request.getParameter("OID"));
                         List<UpdateOrderServicePriceRequest> list = os.selectOrderDetailWithNameService(OID);
+                        ArrayList<SupplierEntity> supplierList = supplierService.getAllSupplier();
+                        request.setAttribute("listSupplier", supplierList);
                         request.setAttribute("list", list);
                         request.setAttribute("OID", OID);
                         request.setAttribute("activeTab", "coordinatorOrder");
@@ -474,17 +476,26 @@ public class AdminController extends HttpServlet {
 
         // Retrieve the list of order details with name and service information
         List<UpdateOrderServicePriceRequest> orderDetails = os.selectOrderDetailWithNameService(orderId);
-
+        
         // Loop through each order detail to get the updated price and update it in the database
         for (UpdateOrderServicePriceRequest od : orderDetails) {
             int id = od.getId();
-            double price = Double.parseDouble(request.getParameter("price_" + id));
+            double price;
+            int supplierId;
+            try {
+                price = Double.parseDouble(request.getParameter("price_" + id));
+                supplierId = Integer.parseInt(request.getParameter("supplier_" + id));
+            } catch (NumberFormatException ex) {
+                price = 0;
+                supplierId = 1;
+            }
+            os.updateSupplier(id, supplierId);
             os.updatePrice(id, price);
         }
 
         String message = "Update successfully";
         request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/employee-order-detail.do?OID=" + orderId).forward(request, response);
+        request.getRequestDispatcher("/admin/coordinator-order-detail.do?OID=" + orderId).forward(request, response);
     }
 
 //  ----------------------------------------

@@ -30,7 +30,7 @@ import service.UserService;
 
 public class OrderRepository {
 
-    public ArrayList<OrderDetailRequest> getAllOrderDetailById(int id) throws Exception{
+    public ArrayList<OrderDetailRequest> getAllOrderDetailById(int id) throws Exception {
         ArrayList<OrderDetailRequest> list = new ArrayList<>();
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
@@ -311,7 +311,6 @@ public class OrderRepository {
         pstm.setDouble(1, price);
         pstm.setInt(2, id);
         int count = pstm.executeUpdate();
-
         con.close();
     }
 
@@ -320,9 +319,10 @@ public class OrderRepository {
 
         Connection con = DBConfig.getConnection();
 
-        PreparedStatement stm = con.prepareStatement(" select o.id, o.service_id, s.name, s.lower_price, s.upper_price \n"
-                + "FROM OrderDetail o INNER JOIN dbo.Service s\n"
-                + "ON s.service_id = o.service_id \n"
+        PreparedStatement stm = con.prepareStatement("SELECT o.id, o.service_id, s.name, s.lower_price, s.upper_price, sp.name, o.price FROM dbo.OrderDetail o INNER  JOIN dbo.Service s\n"
+                + "ON s.service_id = o.service_id\n"
+                + "LEFT JOIN dbo.Supplier sp\n"
+                + "ON sp.SID = o.supplier_id\n"
                 + "WHERE orderheader_id = ?");
         stm.setInt(1, OID);
         ResultSet rs = stm.executeQuery();
@@ -333,9 +333,11 @@ public class OrderRepository {
             osr.setName(rs.getString(3));
             osr.setMinPrice(rs.getInt(4));
             osr.setMaxPrice(rs.getInt(5));
-
+            osr.setSupplier(rs.getString(6));
+            osr.setPrice(rs.getInt(7));
             list.add(osr);
         }
+        System.out.println(list);
         return list;
     }
 
@@ -608,7 +610,7 @@ public class OrderRepository {
                 + "LEFT JOIN dbo.BlockVin b\n"
                 + "ON b.BID = r.BID\n"
                 + "WHERE O.CID = ?\n"
-                + "ORDER by o.OID ASC");
+                + "ORDER by o.time DESC");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         list = new ArrayList<>();
@@ -703,6 +705,16 @@ public class OrderRepository {
             result++;
         }
         return result;
+    }
+
+    // This method is use to update price for each Service in Order Detail in Admin Pages for Coordinator
+    public void updateSupplier(int id, int supplierId) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update OrderDetail set supplier_id = ? where id = ?");
+        pstm.setDouble(1, supplierId);
+        pstm.setInt(2, id);
+        int count = pstm.executeUpdate();
+        con.close();
     }
 
     public static void main(String[] args) throws SQLException, Exception {

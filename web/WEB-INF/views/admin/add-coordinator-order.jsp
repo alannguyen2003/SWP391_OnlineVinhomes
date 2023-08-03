@@ -21,7 +21,7 @@
     <div class="card shadow mb-4">
         <div class="card-body mt-4" style="margin-bottom: 2rem">
             <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">
-                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-employee-order.do?OID=${OID}' />" class="${activation == 'add-coordinator-order' ? 'active' : ''}"><i class="bi bi-person-fill-add"></i><span>Add Employee</span></a></li>
+                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-employee-order.do?OID=${OID}' />" class="${activation == 'add-coordinator-order' ? 'active' : ''}"><i class="bi bi-person-fill-add"></i><span>Add Coordinator</span></a></li>
             </ul>
 
 
@@ -66,7 +66,7 @@
                     <label for="Coordinator" class="col-md-4 col-lg-3 col-form-label">Coordinator</label>
                     <div class="col-md-8 col-lg-9">
                         <select name="coorId" class="w-100 form-control">
-                            <option value="">-- Select Employee --</option>
+                            <option value="">-- Select Coordinator --</option>
                             <c:forEach var="coorList" items="${coorList}">
                                 <option name="coorId" value="${coorList.CID}">${coorList.name}</option>
                             </c:forEach>
