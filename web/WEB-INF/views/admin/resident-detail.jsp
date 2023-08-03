@@ -25,7 +25,7 @@
             </div>
             <!-- Account details card-->
 
-            <form id="updateResidentForm" action="<c:url value="/admin/updateResident.do" />" method="post">
+            <form id="updateResidentForm" action="<c:url value="/admin/updateResident.do" />" method="">
                 <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">ID</label>
                     <div class="col-md-8 col-lg-9">
@@ -83,7 +83,8 @@
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary" id="updateResident" data-toggle="modal" data-target="#updateResidentModal">Save change</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateResidentModal">Save change</button>
+                        <input id="updateResident" type="submit" name="op" value="" hidden>
                     </div>
                 </div>
             </form>
@@ -102,7 +103,7 @@
             <div class="modal-body">Select "Update" below if you are ready to update this information.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-success" onclick="updateResident()">Update</button>
+                <button class="btn btn-primary" onclick="updateResident()">Update</button>
             </div>
         </div>
     </div>

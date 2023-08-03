@@ -133,7 +133,7 @@ public class OrderRepository {
     // This method Cancel an Order in Database
     public void cancelOrder(int oId) throws SQLException {
         Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update Orders set status = 'Failed' where OID = ?");
+        PreparedStatement pstm = con.prepareStatement("update Orders set status = 'Cancel' where OID = ?");
         pstm.setInt(1, oId);
         int count = pstm.executeUpdate();
 

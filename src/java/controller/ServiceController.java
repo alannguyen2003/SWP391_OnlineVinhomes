@@ -4,7 +4,6 @@
  */
 package controller;
 
-
 import entity.CategoryEntity;
 
 import repository.ServiceRepository;
@@ -46,6 +45,7 @@ public class ServiceController extends HttpServlet {
 
     private CategoryService categoryService = new CategoryService();
     private ServiceService serviceService = new ServiceService();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -60,8 +60,8 @@ public class ServiceController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-        try{
-            switch(action){
+        try {
+            switch (action) {
                 case "service":
                     ArrayList<CategoryEntity> categoryList = categoryService.getAllCategory();
                     request.setAttribute("list", categoryList);
@@ -84,7 +84,7 @@ public class ServiceController extends HttpServlet {
                     searchByName(request, response);
                     break;
             }
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
             request.setAttribute("message", ex.getMessage());
             request.setAttribute("controller", "error");
@@ -133,18 +133,16 @@ public class ServiceController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    
-    
+
     private void addFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
         ServiceEntity service = (ServiceEntity) session.getAttribute("service");
         int serviceID = Integer.parseInt(request.getParameter("serviceID"));
-        if(user == null){
+        if (user == null) {
             request.setAttribute("message", "Log in to comment");
             request.getRequestDispatcher("/service/service-detail.do?id=" + serviceID).forward(request, response);
-        }else{
+        } else {
             int UID = Integer.parseInt(request.getParameter("UID"));
             String message = request.getParameter("message");
             String name = request.getParameter("name");
@@ -156,8 +154,6 @@ public class ServiceController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/service/service-detail.do?id=" + serviceID);
         }
     }
-    
-    
 
     private void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
         int serviceID = Integer.parseInt(request.getParameter("id"));
@@ -169,24 +165,20 @@ public class ServiceController extends HttpServlet {
         ServiceEntity service = ss.getServiceById(serviceID);
         List<FeedbackEntity> listFeedback = fs.getFeedbackOfService(serviceID);
         request.setAttribute("noFeedbacks", listFeedback.size());
-        request.setAttribute("feedbacks", listFeedback);     
+        request.setAttribute("feedbacks", listFeedback);
         request.setAttribute("service", service);
         request.setAttribute("cid", request.getParameter("cid"));
         request.setAttribute("cate", cate);
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
-    
+
     private void searchByName(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
-        String txtSearch = request.getParameter("txt"); 
+        String txtSearch = request.getParameter("txt");
         ServiceService service = new ServiceService();
         ArrayList<ServiceEntity> listS = service.searchByName(txtSearch);
-        
         request.setAttribute("listS", listS);
         request.setAttribute("txtSearch", txtSearch);
-        
-        
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
     }
-    
 
 }
