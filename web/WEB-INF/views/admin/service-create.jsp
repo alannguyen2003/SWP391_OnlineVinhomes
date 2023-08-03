@@ -15,7 +15,7 @@
     </ol>
 </nav>
 </div><!-- End Page Title -->
-<section class="section">
+<div class="col-xl-6">
     <div class="row">
         <div class="col">
             <div class="card">
@@ -26,42 +26,42 @@
                         <div class="row mb-3">
                             <label for="inputText" class="col-sm-2 col-form-label">Service Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="name" value="">
+                                <input type="text" style="border-radius: 20px" class="form-control" name="name" value="">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="inputText" class="col-sm-2 col-form-label" >Description</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="description" value = "" >
+                                <input type="text" style="border-radius: 20px" class="form-control" name="description" value = "" >
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="inputText" class="col-sm-2 col-form-label" >Lower Price</label>
                             <div class="col-sm-10">
-                                <input type="number" step="0.5" class="form-control" name="lowerPrice" value = "" >
+                                <input type="number" style="border-radius: 20px" step="0.5" class="form-control" name="lowerPrice" value = "" >
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="inputText" class="col-sm-2 col-form-label">Upper Price</label>
                             <div class="col-sm-10">
-                                <input type="number" step="0.5" class="form-control" name="upperPrice" value = "" >
+                                <input type="number" style="border-radius: 20px" step="0.5" class="form-control" name="upperPrice" value = "" >
                             </div>
                         </div>
-<!--                        <div class="row mb-3">
-                            <label for="inputNumber" class="col-sm-2 col-form-label">Supplier ID</label>
-                            <div class="col-sm-10">
-                                <select class="form-select" aria-label="Default select example" name="supplierID" id="filterSupplierValue">
-                                     Các option của combobox supplier 
-                                    <c:forEach var="sl" items="${supplierList}">
-                                        <option value="${sl.id}" ${sl.id == filterValue ? "selected" : ""}>${sl.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="row mb-3">
+                                                    <label for="inputNumber" class="col-sm-2 col-form-label">Supplier ID</label>
+                                                    <div class="col-sm-10">
+                                                        <select class="form-select" aria-label="Default select example" name="supplierID" id="filterSupplierValue">
+                                                             Các option của combobox supplier 
+                        <c:forEach var="sl" items="${supplierList}">
+                            <option value="${sl.id}" ${sl.id == filterValue ? "selected" : ""}>${sl.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>-->
                         <div class="row mb-3">
                             <label for="inputNumber" class="col-sm-2 col-form-label">Category ID</label>
                             <div class="col-sm-10">
-                                <select class="form-select" aria-label="Default select example" name="categoryID" id="filterCategoryValue">
+                                <select class="form-select" style="border-radius: 20px" aria-label="Default select example" name="categoryID" id="filterCategoryValue">
                                     <!-- Các option của combobox category -->
                                     <option value="">-- Select Category --</option>
                                     <c:forEach var="cl" items="${categoryList}">
@@ -77,13 +77,10 @@
                                 <button name="op" value="cancel" type="submit" class="btn btn-primary">Cancel</button>
                             </div>
                         </div>
-
                     </form><!-- End General Form Elements -->
-
                 </div>
             </div>
-
         </div>
-
     </div>
-</section>
+</div>
+

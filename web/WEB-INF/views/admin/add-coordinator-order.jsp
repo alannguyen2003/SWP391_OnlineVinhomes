@@ -21,7 +21,7 @@
     <div class="card shadow mb-4">
         <div class="card-body mt-4" style="margin-bottom: 2rem">
             <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">
-                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-employee-order.do?OID=${OID}' />" class="${activation == 'add-coordinator-order' ? 'active' : ''}"><i class="bi bi-person-fill-add"></i><span>Add Coordinator</span></a></li>
+                <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-employee-order.do?OID=${OID}' />" class="${activation == 'add-coordinator-order' ? 'active' : ''}"><i class="bi bi-person-fill-add"></i><span>Manage Pending Order</span></a></li>
             </ul>
 
 

@@ -15,7 +15,8 @@
     </ol>
 </nav>
 </div><!-- End Page Title -->
-<section class="section">
+
+<div class="col-xl-6">
     <div class="row">
         <div class="col">
             <div class="card">
@@ -27,26 +28,26 @@
                             <div class="form-group mb-3">
                                 <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-envelope-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="email">EMAIL</label>
-                                <input type="email" class="form-control" name="email" placeholder="Email" value="" required>
+                                <input type="email" style="border-radius: 20px" class="form-control" name="email" placeholder="Email" value="" required>
                             </div>
 
                             <div class="form-group mb-3">
                                 <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-key-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="password">PASSWORD</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password" value="" required>
+                                <input type="password" style="border-radius: 20px" class="form-control" name="password" placeholder="Password" value="" required>
                             </div>
 
                             <div class="form-group mb-3">
                                 <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-person-vcard-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="name">NAME</label>
-                                <input type="text" class="form-control" name="name" placeholder="Name" value="" required>
+                                <input type="text" style="border-radius: 20px" class="form-control" name="name" placeholder="Name" value="" required>
                             </div>
 
                             <div class="form-group mb-3">
                                 <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="role">GENDER</label>
                                 <br/>
-                                <select name="gender" class="form-select" id="Gender">
+                                <select name="gender" style="border-radius: 20px" class="form-select" id="Gender">
                                     <option value="Male" >Male</option>
                                     <option value="Female">Female</option>
                                 </select>
@@ -55,14 +56,14 @@
                             <div class="form-group mb-3">
                                 <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-telephone-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="phone">PHONE</label>
-                                <input type="number" minlength="10" class="form-control" name="phone" placeholder="Phone" value="" required>
+                                <input type="number" style="border-radius: 20px" minlength="10" class="form-control" name="phone" placeholder="Phone" value="" required>
                             </div>
 
                             <div class="form-group mb-3">
                                 <div class="form-group-icon mb-3" style="background-color: #1239ac;"><i class="bi bi-building-fill"></i></div>
                                 <label class="label" style="color: #7b7d83;" for="role">ROLE</label>
                                 <br/>
-                                <select name="role" class="w-100 form-control">
+                                <select name="role" style="border-radius: 20px" class="w-100 form-control">
                                     <option value="">-- Select Role --</option>
                                     <c:forEach var="rol" items="${roleID}">
                                         <option value="${rol.id}">${rol.name}</option>
@@ -85,4 +86,5 @@
         </div>
 
     </div>
-</section>
+</div>
+
