@@ -19,9 +19,9 @@
 
 <div class="col-xl-8">
     <div class="card shadow mb-4">
-        <div class="card-body mt-4">
-            <div class="card-header py-3 mb-3">
-                <h6 class="m-0 font-weight-bold text-primary">Service Detail</h6>
+        <div class="card-body">
+            <div class="pagetitle">
+                <h2 class="ml-3 mt-3 mb-4">Service Detail</h2>
             </div>
             <!-- Services details card-->
 
