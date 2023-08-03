@@ -18,7 +18,7 @@
 </div>
 
 
-<div class="col-xl-8">
+<div class="col-xl-12">
     <div class="card shadow mb-4">
         <div class="card-body mt-4">
             <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">
@@ -40,6 +40,7 @@
                                     <th>Name</th>
                                     <th>Min Price - Max Price</th>
                                     <th>Input Price</th>
+                                    <th>Supplier</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,7 +67,14 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <input name="price_${od.id}" type="number" class="form-control" id="price" placeholder="Input price here">
+                                            <input name="price_${od.id}" type="number" class="form-control" id="price" value="${od.price}" placeholder="Input price here">
+                                        </td>
+                                        <td>
+                                            <select name="supplier_${od.id}" class="form-control"> 
+                                                <c:forEach var="supplier" items="${listSupplier}">
+                                                    <option value="${supplier.id}" ${supplier.name == od.supplier? 'selected' : ''}>${supplier.name}</option>
+                                                </c:forEach>
+                                            </select>
                                         </td>
                                     </tr>
                                 </c:forEach>

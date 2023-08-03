@@ -175,12 +175,15 @@
                     </li><!-- End Suppiler Nav -->
                 </c:if>
 
-                <li class="nav-item ${activeTab == "coordinator" ? "active" : ""}">
-                    <a class="nav-link1" href="<c:url value="/admin/coordinator-list.do?op=getall" />">
-                        <i class="bi bi-kanban-fill"></i>
-                        <span>Manage Coordinator</span>
-                    </a>
-                </li><!-- End Coordinator Nav -->
+                <c:if test="${sessionScope.user.roleID != 2}">
+                    <li class="nav-item ${activeTab == "coordinator" ? "active" : ""}">
+                        <a class="nav-link1" href="<c:url value="/admin/coordinator-list.do?op=getall" />">
+                            <i class="bi bi-kanban-fill"></i>
+                            <span>Manage Coordinator</span>
+                        </a>
+                    </li><!-- End Coordinator Nav -->
+                </c:if>
+
 
                 <c:if test="${sessionScope.user.roleID != 2}">
                     <li class="nav-item ${activeTab == "resident" ? "active" : ""}">

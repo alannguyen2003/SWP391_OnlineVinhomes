@@ -112,7 +112,7 @@ public class SupplierRepository {
     
     public static void main(String[] args) throws Exception {
         SupplierRepository repository = new SupplierRepository();
-        repository.updateSupplier("HCM", 1, "Test", "1234567891", "test@gmail.com");
+        System.out.println(repository.getAllSupplier());
     }
 
 }

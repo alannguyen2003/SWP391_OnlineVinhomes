@@ -135,6 +135,10 @@ public class OrderService {
     public void updatePrice(int id, double price) throws SQLException {
         orderRepository.updatePrice(id, price);
     }
+    
+    public void updateSupplier(int id, int supplierId) throws SQLException {
+        orderRepository.updateSupplier(id, supplierId);
+    }
 
     //  ----------------------------------------
     //
@@ -169,6 +173,8 @@ public class OrderService {
     public ArrayList<OrderDetailRequest> getAllOrderDetailById(int id) throws Exception {
         return orderRepository.getAllOrderDetailById(id);
     }
+    
+    
 
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();

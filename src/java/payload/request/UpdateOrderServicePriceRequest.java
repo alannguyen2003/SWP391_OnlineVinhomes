@@ -14,16 +14,20 @@ public class UpdateOrderServicePriceRequest {
     private String name;
     private int minPrice;
     private int maxPrice;
+    private int price;
+    private String supplier;
 
     public UpdateOrderServicePriceRequest() {
     }
 
-    public UpdateOrderServicePriceRequest(int id, int serviceID, String name, int minPrice, int maxPrice) {
+    public UpdateOrderServicePriceRequest(int id, int serviceID, String name, int minPrice, int maxPrice, int price, String supplier) {
         this.id = id;
         this.serviceID = serviceID;
         this.name = name;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
+        this.price = price;
+        this.supplier = supplier;
     }
 
     public int getId() {
@@ -66,8 +70,24 @@ public class UpdateOrderServicePriceRequest {
         this.maxPrice = maxPrice;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
     @Override
     public String toString() {
-        return "UpdateOrderServicePriceRequest{" + "id=" + id + ", serviceID=" + serviceID + ", name=" + name + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + '}';
+        return "UpdateOrderServicePriceRequest{" + "id=" + id + ", serviceID=" + serviceID + ", name=" + name + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", price=" + price + ", supplier=" + supplier + '}';
     }
 }
