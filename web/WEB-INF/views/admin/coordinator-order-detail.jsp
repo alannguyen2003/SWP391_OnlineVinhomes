@@ -17,7 +17,7 @@
     </nav>
 </div>
 
-<div class="col-xl-8">
+<div class="col-xl-12">
     <div class="card shadow mb-4">
         <div class="card-body mt-4" style="margin-bottom: 2rem">
             <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">

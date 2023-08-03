@@ -311,7 +311,6 @@ public class OrderRepository {
         pstm.setDouble(1, price);
         pstm.setInt(2, id);
         int count = pstm.executeUpdate();
-
         con.close();
     }
 
@@ -703,6 +702,16 @@ public class OrderRepository {
             result++;
         }
         return result;
+    }
+    
+    // This method is use to update price for each Service in Order Detail in Admin Pages for Coordinator
+    public void updateSupplier(int id, int supplierId) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update OrderDetail set supplier_id = ? where id = ?");
+        pstm.setDouble(1, supplierId);
+        pstm.setInt(2, id);
+        int count = pstm.executeUpdate();
+        con.close();
     }
 
     public static void main(String[] args) throws SQLException, Exception {
