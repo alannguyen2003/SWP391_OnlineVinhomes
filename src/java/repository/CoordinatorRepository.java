@@ -116,7 +116,8 @@ public class CoordinatorRepository {
         }
 
     }
-   public int autoAssignCoordinator() throws Exception {
+
+    public int autoAssignCoordinator() throws Exception {
         int CID = 0;
         Connection cn = (Connection) DBConfig.getConnection();
         PreparedStatement pst;
@@ -125,6 +126,8 @@ public class CoordinatorRepository {
             LocalDate now = LocalDate.now();
             LocalDate firstDayOfMonth = now.withDayOfMonth(1);
             int minOrderNumber = 0;
+            int maxOrderNumber = 0;
+            int minPendingOrderNumber = 0;
             //This query is use to get the Min Number Of Order in Month
             String query = ("SELECT MIN(n.OrderNumber) AS MinOrderNumber\n"
                     + "FROM (SELECT o.CID, COUNT(o.OID) AS OrderNumber\n"
@@ -140,6 +143,23 @@ public class CoordinatorRepository {
             rs = pst.executeQuery();
             if (rs.next()) {
                 minOrderNumber = rs.getInt(1);
+            }
+
+            //This query is use to get the Max Number Of Order in Month
+            query = ("SELECT MAX(n.OrderNumber) AS MinOrderNumber\n"
+                    + "FROM (SELECT o.CID, COUNT(o.OID) AS OrderNumber\n"
+                    + "		FROM dbo.Coordinator c JOIN Orders o\n"
+                    + "		ON o.CID = c.ID\n"
+                    + "		WHERE CONVERT(DATE, o.delivery_time) BETWEEN ? AND ?\n"
+                    + "		GROUP BY o.CID) AS n");
+
+            pst = cn.prepareStatement(query);
+            pst.setString(1, firstDayOfMonth.toString());
+            pst.setString(2, now.toString());
+
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                maxOrderNumber = rs.getInt(1);
             }
 
             //This part is use to get the Best Coordinator to assign to Order
@@ -224,19 +244,88 @@ public class CoordinatorRepository {
                     pst.setInt(3, minOrderNumber);
                     rs = pst.executeQuery();
 
-                    ArrayList<Integer> list = new ArrayList<Integer>();
-                    list.add(rs.getInt(1));
-                    while (rs.next()) {
+                    //If has Available
+                    if (rs.next()) {
+                        ArrayList<Integer> list = new ArrayList<Integer>();
                         list.add(rs.getInt(1));
-                    }
+                        while (rs.next()) {
+                            list.add(rs.getInt(1));
+                        }
 
-                    //Check if have 1 Coordinator suitable
-                    if (list.size() == 1) {
-                        CID = list.get(0);
+                        //Check if have 1 Coordinator suitable
+                        if (list.size() == 1) {
+                            CID = list.get(0);
+                        } else {
+                            // Randomly choose anyone who Available
+                            Random random = new Random();
+                            CID = list.get(random.nextInt(0, list.size()));
+                        }
                     } else {
-                        // Randomly choose anyone who Available
-                        Random random = new Random();
-                        CID = list.get(random.nextInt(0, list.size()));
+                        // If no one is Available
+                        // This method get MinimumPendingOrderNumber of all disable Coordinator
+                        query = ("SELECT MIN(pon.PendingOrderNumber) AS MinimumPendingOrderNumber\n"
+                                + "FROM (SELECT ca.ID, COUNT(od.OID) AS PendingOrderNumber FROM dbo.Coordinator ca\n"
+                                + "                        LEFT JOIN (SELECT o.CID, COUNT(o.OID) OrderNumber\n"
+                                + "                        			FROM dbo.Coordinator c LEFT JOIN dbo.Orders o\n"
+                                + "                       				ON o.CID = c.ID\n"
+                                + "                        			WHERE CONVERT(DATE, o.delivery_time) BETWEEN ? AND ?\n"
+                                + "                        			GROUP BY o.CID) AS d\n"
+                                + "                        ON d.CID = ca.ID\n"
+                                + "						JOIN dbo.Orders od\n"
+                                + "						ON od.CID = ca.ID\n"
+                                + "                        WHERE d.OrderNumber = 2\n"
+                                + "						AND od.status = 'Pending'\n"
+                                + "						GROUP BY ca.ID) AS pon");
+                        pst = cn.prepareStatement(query);
+                        pst.setString(1, firstDayOfMonth.toString());
+                        pst.setString(2, now.toString());
+                        rs = pst.executeQuery();
+
+                        if (rs.next()) {
+                            minPendingOrderNumber = rs.getInt(1);
+                        }
+
+                        // This method get List of Coordinator has minimumPendingOrder of all disable Coordinator
+                        query = "SELECT pon.ID\n"
+                                + "FROM (SELECT ca.ID, COUNT(od.OID) AS PendingOrderNumber FROM dbo.Coordinator ca\n"
+                                + "                        LEFT JOIN (SELECT o.CID, COUNT(o.OID) OrderNumber\n"
+                                + "                        			FROM dbo.Coordinator c LEFT JOIN dbo.Orders o\n"
+                                + "                       				ON o.CID = c.ID\n"
+                                + "                        			WHERE CONVERT(DATE, o.delivery_time) BETWEEN ? AND ?\n"
+                                + "                        			GROUP BY o.CID) AS d\n"
+                                + "                        ON d.CID = ca.ID\n"
+                                + "						JOIN dbo.Orders od\n"
+                                + "						ON od.CID = ca.ID\n"
+                                + "                        WHERE d.OrderNumber = 2\n"
+                                + "						AND od.status = 'Pending'\n"
+                                + "						GROUP BY ca.ID) AS pon\n"
+                                + "JOIN dbo.Orders odc\n"
+                                + "ON odc.CID = pon.ID\n"
+                                + "WHERE pon.PendingOrderNumber = ?\n"
+                                + "AND odc.status = 'Pending'";
+                        pst = cn.prepareStatement(query);
+                        pst.setString(1, firstDayOfMonth.toString());
+                        pst.setString(2, now.toString());
+                        pst.setInt(3, minPendingOrderNumber);
+                        rs = pst.executeQuery();
+
+                        if (rs.next()) {
+                            ArrayList<Integer> list = new ArrayList<Integer>();
+                            list.add(rs.getInt(1));
+                            while (rs.next()) {
+                                list.add(rs.getInt(1));
+                            }
+
+                            //Check if have 1 Coordinator suitable
+                            if (list.size() == 1) {
+                                CID = list.get(0);
+                            } else {
+                                // Randomly choose anyone who Available
+                                Random random = new Random();
+                                CID = list.get(random.nextInt(0, list.size()));
+                            }
+
+                        }
                     }
 
                 }
@@ -259,19 +348,88 @@ public class CoordinatorRepository {
                 pst.setInt(3, minOrderNumber);
                 rs = pst.executeQuery();
 
-                ArrayList<Integer> list = new ArrayList<Integer>();
-                list.add(rs.getInt(1));
-                while (rs.next()) {
+                //If has Available
+                if (rs.next()) {
+                    ArrayList<Integer> list = new ArrayList<Integer>();
                     list.add(rs.getInt(1));
-                }
+                    while (rs.next()) {
+                        list.add(rs.getInt(1));
+                    }
 
-                //Check if have 1 Coordinator suitable
-                if (list.size() == 1) {
-                    CID = list.get(0);
+                    //Check if have 1 Coordinator suitable
+                    if (list.size() == 1) {
+                        CID = list.get(0);
+                    } else {
+                        // Randomly choose anyone who Available
+                        Random random = new Random();
+                        CID = list.get(random.nextInt(0, list.size()));
+                    }
                 } else {
-                    // Randomly choose anyone who Available
-                    Random random = new Random();
-                    CID = list.get(random.nextInt(0, list.size()));
+                    // If no one is Available
+                    // This method get MinimumPendingOrderNumber of all disable Coordinator
+                    query = ("SELECT MIN(pon.PendingOrderNumber) AS MinimumPendingOrderNumber\n"
+                            + "FROM (SELECT ca.ID, COUNT(od.OID) AS PendingOrderNumber FROM dbo.Coordinator ca\n"
+                            + "                        LEFT JOIN (SELECT o.CID, COUNT(o.OID) OrderNumber\n"
+                            + "                        			FROM dbo.Coordinator c LEFT JOIN dbo.Orders o\n"
+                            + "                       				ON o.CID = c.ID\n"
+                            + "                        			WHERE CONVERT(DATE, o.delivery_time) BETWEEN ? AND ?\n"
+                            + "                        			GROUP BY o.CID) AS d\n"
+                            + "                        ON d.CID = ca.ID\n"
+                            + "						JOIN dbo.Orders od\n"
+                            + "						ON od.CID = ca.ID\n"
+                            + "                        WHERE d.OrderNumber = 2\n"
+                            + "						AND od.status = 'Pending'\n"
+                            + "						GROUP BY ca.ID) AS pon");
+                    pst = cn.prepareStatement(query);
+                    pst.setString(1, firstDayOfMonth.toString());
+                    pst.setString(2, now.toString());
+                    rs = pst.executeQuery();
+
+                    if (rs.next()) {
+                        minPendingOrderNumber = rs.getInt(1);
+                    }
+
+                    // This method get List of Coordinator has minimumPendingOrder of all disable Coordinator
+                    query = "SELECT pon.ID\n"
+                            + "FROM (SELECT ca.ID, COUNT(od.OID) AS PendingOrderNumber FROM dbo.Coordinator ca\n"
+                            + "                        LEFT JOIN (SELECT o.CID, COUNT(o.OID) OrderNumber\n"
+                            + "                        			FROM dbo.Coordinator c LEFT JOIN dbo.Orders o\n"
+                            + "                       				ON o.CID = c.ID\n"
+                            + "                        			WHERE CONVERT(DATE, o.delivery_time) BETWEEN ? AND ?\n"
+                            + "                        			GROUP BY o.CID) AS d\n"
+                            + "                        ON d.CID = ca.ID\n"
+                            + "						JOIN dbo.Orders od\n"
+                            + "						ON od.CID = ca.ID\n"
+                            + "                        WHERE d.OrderNumber = 2\n"
+                            + "						AND od.status = 'Pending'\n"
+                            + "						GROUP BY ca.ID) AS pon\n"
+                            + "JOIN dbo.Orders odc\n"
+                            + "ON odc.CID = pon.ID\n"
+                            + "WHERE pon.PendingOrderNumber = ?\n"
+                            + "AND odc.status = 'Pending'";
+                    pst = cn.prepareStatement(query);
+                    pst.setString(1, firstDayOfMonth.toString());
+                    pst.setString(2, now.toString());
+                    pst.setInt(3, minPendingOrderNumber);
+                    rs = pst.executeQuery();
+
+                    if (rs.next()) {
+                        ArrayList<Integer> list = new ArrayList<Integer>();
+                        list.add(rs.getInt(1));
+                        while (rs.next()) {
+                            list.add(rs.getInt(1));
+                        }
+
+                        //Check if have 1 Coordinator suitable
+                        if (list.size() == 1) {
+                            CID = list.get(0);
+                        } else {
+                            // Randomly choose anyone who Available
+                            Random random = new Random();
+                            CID = list.get(random.nextInt(0, list.size()));
+                        }
+
+                    }
                 }
 
             }
@@ -279,8 +437,11 @@ public class CoordinatorRepository {
         return CID;
     }
 
-
     public static void main(String[] args) throws Exception {
         CoordinatorRepository cdr = new CoordinatorRepository();
+        for (int i = 0; i < 10; i++) {
+           System.out.println(cdr.autoAssignCoordinator()); 
+        }
+        
     }
 }
