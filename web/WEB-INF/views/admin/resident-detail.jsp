@@ -47,6 +47,13 @@
                         <input name="email" type="email" class="form-control" id="Email" value="${u.email}" disabled="">
                     </div>
                 </div>
+                    
+                <div class="row mb-3">
+                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                    <div class="col-md-8 col-lg-9">
+                        <input name="email" type="gender" class="form-control" id="Gender" value="${u.gender}" disabled="">
+                    </div>
+                </div>
 
                 <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
@@ -71,7 +78,7 @@
                     
 
                 <div class="row mb-3">
-                    <label for="Room" class="col-md-4 col-lg-3 col-form-label">Status</label>
+                    <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
                     <div class="col-md-8 col-lg-9">
                         <select name="status" class="form-select" id="Status">
                             <option value="1" ${u.status == 1 ? 'selected' : ''}>Available</option>

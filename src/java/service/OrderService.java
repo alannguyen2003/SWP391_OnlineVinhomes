@@ -158,8 +158,8 @@ public class OrderService {
     //  Resident Interact Order Function
     //
     //  ----------------------------------------
-    public void addOrder(UserEntity user, CartEntity cart, String note) throws SQLException {
-        orderRepository.addOrder(user, cart, note);
+    public void addOrder(UserEntity user, CartEntity cart, String note, int coordinatorId) throws SQLException {
+        orderRepository.addOrder(user, cart, note, coordinatorId);
     }
 
     public void cancelOrder(int oId) throws SQLException {

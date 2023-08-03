@@ -99,18 +99,19 @@ public class OrderRepository {
     //
     //  ----------------------------------------
     // This method create a new ORder in Database
-    public void addOrder(UserEntity user, CartEntity cart, String note) throws SQLException {
+    public void addOrder(UserEntity user, CartEntity cart, String note, int coordinatorId) throws SQLException {
         LocalDate curDate = java.time.LocalDate.now();
         String date = curDate.toString();
         UserService uService = new UserService();
         Connection con = DBConfig.getConnection();
-        String sql = "insert into Orders values(?,? ,'Pending' ,? , null, ?, ?)";
+        String sql = "insert into Orders values(?,? ,'Pending' ,? , ?, ?, ?)";
         PreparedStatement stm = con.prepareStatement(sql);
         stm.setString(1, date);
         stm.setString(2, cart.getDeliveryTime());
         stm.setInt(3, user.getAID());
-        stm.setInt(4, cart.getBlockId());
-        stm.setString(5, note);
+        stm.setInt(4, coordinatorId);
+        stm.setInt(5, cart.getBlockId());
+        stm.setString(6, note);
         stm.executeUpdate();
         String sql1 = "select top 1 oid from Orders order by oid desc";
         PreparedStatement stm1 = con.prepareStatement(sql1);

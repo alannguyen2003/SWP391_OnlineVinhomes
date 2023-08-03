@@ -819,15 +819,15 @@ public class AdminController extends HttpServlet {
         String password = request.getParameter("password");
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
-        int blockId = Integer.parseInt(request.getParameter("bid"));
+        String gender = request.getParameter("gender");
         int roleid = Integer.parseInt(request.getParameter("role"));
         UserEntity entity = new UserEntity();
         entity.setEmail(email);
         entity.setName(name);
         entity.setPhone(phone);
-//        entity.setBID(blockId);
         entity.setPassword(password);
         entity.setRoleID(roleid);
+        entity.setGender(gender);
 
         us.createAccount(entity);
         request.setAttribute("message", "Account has been added!");
