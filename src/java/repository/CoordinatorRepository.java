@@ -122,7 +122,7 @@ public class CoordinatorRepository {
 
     }
 
-    public int autoAssignCoordinator(int OID) throws Exception {
+    public int autoAssignCoordinator() throws Exception {
         int CID = 0;
         Connection cn = (Connection) DBConfig.getConnection();
         PreparedStatement pst;
@@ -287,6 +287,5 @@ public class CoordinatorRepository {
 
     public static void main(String[] args) throws Exception {
         CoordinatorRepository cdr = new CoordinatorRepository();
-        cdr.autoAssignCoordinator(11);
     }
 }

@@ -24,7 +24,7 @@ public class CoordinatorService {
         coorRepo.updateEnableCoordinattor(enable, id);
     }
 
-    public int autoAssignCoordinator(int OID) throws Exception {
-        return coorRepo.autoAssignCoordinator(OID);
+    public int autoAssignCoordinator() throws Exception {
+        return coorRepo.autoAssignCoordinator();
     }
 }
