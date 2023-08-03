@@ -3,10 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
  */
 
-var sseSource = 'http://localhost:8080/vsos/sse1?bId=';
-var blockId = '' + document.getElementById("block").value;
+var sseSource = 'http://localhost:8080/vsos/sse1';
 
-const eventSource = new EventSource(sseSource + blockId);
+const eventSource = new EventSource(sseSource);
 
 eventSource.onmessage = function (event) {
     const eventData = event.data;

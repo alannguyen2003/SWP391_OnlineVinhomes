@@ -82,8 +82,8 @@ public class OrderService {
     //  Admin Notifications Icon Function
     //
     //  ----------------------------------------
-    public int getPendingOrders(int blockId) throws SQLException {
-        return orderRepository.getPendingOrders(blockId);
+    public int getPendingOrders() throws SQLException {
+        return orderRepository.getPendingOrders();
     }
 
     //  ----------------------------------------
@@ -182,10 +182,14 @@ public class OrderService {
     public UserEntity getNameFromOrder(int OID) throws SQLException{
         return orderRepository.getNameFromOrder(OID);
     }
+    
+    public void checkOrder() throws SQLException {
+        orderRepository.checkOrder();
+    }
 
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();
         orderService.updatePrice(25, 70);
-        System.out.println(orderService.getPendingOrders(1));
+        System.out.println(orderService.getPendingOrders());
     }
 }

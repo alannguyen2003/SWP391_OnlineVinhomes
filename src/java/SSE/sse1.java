@@ -33,8 +33,8 @@ public class sse1 extends HttpServlet {
 //            ex.printStackTrace();
 //        }
             OrderService oService = new OrderService();
-            String blockId = (String) request.getParameter("bId");
-            int numberOfPeningOrders = oService.getPendingOrders(Integer.parseInt(blockId));
+            int numberOfPeningOrders = oService.getPendingOrders();
+            oService.checkOrder();
             String statement1 = "" + numberOfPeningOrders;
 //            String statement2 = ""+blockId;
             // content type must be set to text/event-stream
