@@ -23,10 +23,9 @@
         <!-- Left side columns -->
         <div class="col-lg-8">
             <div class="row">
-
                 <!-- Sales Card -->
                 <div class="col-xxl-4 col-md-6">
-                    <div class="card info-card sales-card">
+                    <div class="card info-card sales-card" style="padding-bottom: 0px;">
 
                         <div class="card-body">
                             <h5 class="card-title">Sales <span>| Total</span></h5>
@@ -48,7 +47,7 @@
 
                 <!-- Revenue Card -->
                 <div class="col-xxl-4 col-md-6">
-                    <div class="card info-card revenue-card">
+                    <div class="card info-card revenue-card" style="padding-bottom: 0px;">
 
 
                         <div class="card-body">
@@ -70,7 +69,7 @@
                 <!-- Customers Card -->
                 <div class="col-xxl-4 col-xl-12">
 
-                    <div class="card info-card customers-card">
+                    <div class="card info-card customers-card" style="padding-bottom: 0px;">
 
                         <div class="card-body">
                             <h5 class="card-title">Customers <span>| Total</span></h5>
