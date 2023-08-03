@@ -82,8 +82,8 @@ public class OrderService {
     //  Admin Notifications Icon Function
     //
     //  ----------------------------------------
-    public int getPendingOrders(int blockId) throws SQLException {
-        return orderRepository.getPendingOrders(blockId);
+    public int getPendingOrders() throws SQLException {
+        return orderRepository.getPendingOrders();
     }
 
     //  ----------------------------------------
@@ -181,6 +181,10 @@ public class OrderService {
     
     public UserEntity getNameFromOrder(int OID) throws SQLException{
         return orderRepository.getNameFromOrder(OID);
+    }
+    
+    public void checkOrder() throws SQLException {
+        orderRepository.checkOrder();
     }
 
     public static void main(String[] args) throws Exception {

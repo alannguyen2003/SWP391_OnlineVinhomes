@@ -727,7 +727,7 @@ public class OrderRepository {
     //
     //  ----------------------------------------
     // This method get all Pending Orders for the Notification Icons in Admin Pages
-    public int getPendingOrders(int bId) throws SQLException {
+    public int getPendingOrders() throws SQLException {
         int result = 0;
         Connection cn = DBConfig.getConnection();
         PreparedStatement pst;
@@ -771,6 +771,24 @@ public class OrderRepository {
         }
         con.close();
         return user;
+    }
+    
+    public void deleteOrder(int oId) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update Orders set status = 'Failed' where OID = ?");
+        pstm.setInt(1, oId);
+        int count = pstm.executeUpdate();
+        con.close();
+    }
+    
+    public void checkOrder() throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("select OID from Orders where delivery_time < GETDATE() and status = 'Pending'");
+        ResultSet rs = pstm.executeQuery();
+        while(rs.next()) {
+            deleteOrder(rs.getInt("oid"));
+        }
+        con.close();
     }
 
     public static void main(String[] args) throws SQLException, Exception {
