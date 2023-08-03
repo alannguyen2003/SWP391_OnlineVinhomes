@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.List;
 import service.OrderService;
 import java.util.Date;
+import payload.request.MyOrderRequest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import payload.request.AdminOrderListRequest;
@@ -41,7 +42,7 @@ public class OrdersController extends HttpServlet {
                 case "myorder":
                     //Processing code here
                     int uId = Integer.parseInt(request.getParameter("aid"));
-                    List<MyOrderEntity> myOrderList = orderService.selectMyOrders(uId);
+                    List<MyOrderRequest> myOrderList = orderService.selectMyOrdersRequest(uId);
                     request.setAttribute("myOrderlist", myOrderList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     break;

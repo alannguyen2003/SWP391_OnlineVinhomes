@@ -50,6 +50,13 @@
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <label for="Coordinator" class="col-md-4 col-lg-3 col-form-label">Coordinator</label>
+                    <div class="col-md-8 col-lg-9">
+                        <input name="coorId" type="hidden" class="form-control" value="${oh.coordinatorID}">
+                        <input name="coorId" type="text" class="form-control" value="${us.name}" disabled="">
+                    </div>
+                </div>
 
                 <div class="row mb-3">
                     <label for="Status" class="col-md-4 col-lg-3 col-form-label">Status</label>
@@ -62,17 +69,6 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <label for="Coordinator" class="col-md-4 col-lg-3 col-form-label">Coordinator</label>
-                    <div class="col-md-8 col-lg-9">
-                        <select name="coorId" class="w-100 form-control">
-                            <option value="">-- Select Coordinator --</option>
-                            <c:forEach var="coorList" items="${coorList}">
-                                <option name="coorId" value="${coorList.CID}">${coorList.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
 
                 <div class="row mb-3">
                     <label for="Note" class="col-md-4 col-lg-3 col-form-label">Note</label>
@@ -84,7 +80,10 @@
                 <div class="row mb-3">
                     <div class="col-md-6" style="color: green;">${message}</div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save change</button>
+
+                        <button type="button" class="btn btn-primary" style="margin-right: 10px" data-toggle="modal" data-target="#updateOrderModal1">Change Coordinator</button>
+                        <input id="updateOrder" type="submit" name="op" value="change" hidden>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrderModal">Save Status</button>
                         <input id="updateOrder" type="submit" name="op" value="update" hidden>
                     </div>
                 </div>
@@ -110,11 +109,38 @@
         </div>
     </div>
 </div>   
+<div class="modal fade" id="updateOrderModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Do you want to update this Order information?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Update" below if you are ready to change this Coordinator.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a id="updateOrderLink" onclick="updateOrder1()" class="btn btn-primary">Update</a>
+            </div>
+        </div>
+    </div>
+</div>   
 <script>
     function updateOrder() {
         var form = document.getElementById("updateORderForm");
         var submitOp = document.getElementById("updateOrder");
         submitOp.value = 'update';
+        submitOp.click();
+    }
+</script> 
+
+<script>
+    function updateOrder1() {
+        var form = document.getElementById("updateORderForm");
+        var submitOp = document.getElementById("updateOrder");
+        submitOp.value = 'change';
         submitOp.click();
     }
 </script> 

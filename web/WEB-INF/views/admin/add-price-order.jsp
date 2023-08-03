@@ -35,26 +35,20 @@
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>Detail ID</th>
-                                    <th>Service ID</th>
+                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Min Price - Max Price</th>
-                                    <th>Input Price</th>
+                                    <th>Expected costs</th>
+                                    <th>Price</th>
                                     <th>Supplier</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- Nội dung OrderDetail -->
-                                <c:forEach var="od" items="${list}">
+                                <c:forEach var="od" items="${list}" varStatus="loop">
                                     <tr>
                                         <td class="cart__product__item">
-                                            <input name="id" type="hidden" class="form-control cart__product__item__title" id="AID" value="${od.id}" size="3">
-                                            <input name="id" type="text" class="form-control cart__product__item__title" id="AID" value="${od.id}" size="3" disabled>
-                                        </td>
-                                        <td class="cart__product__item">
-                                            <div class="cart__product__item__title">
-                                                <h6>${od.serviceID}</h6>
-                                            </div>
+                                            <input name="id" type="hidden" class="form-control cart__product__item__title" id="AID" value="${loop.count}" size="3">
+                                            <input name="id" type="text" class="form-control cart__product__item__title" id="AID" value="${loop.count}" size="3" disabled>
                                         </td>
                                         <td>
                                             <div class="cart__product__item__title">
@@ -70,7 +64,8 @@
                                             <input name="price_${od.id}" type="number" class="form-control" id="price" value="${od.price}" placeholder="Input price here">
                                         </td>
                                         <td>
-                                            <select name="supplier_${od.id}" class="form-control">
+                                            <select name="supplier_${od.id}" class="form-control"> 
+                                                <option value="">-- Select Coordinator --</option>
                                                 <c:forEach var="supplier" items="${listSupplier}">
                                                     <option value="${supplier.id}" ${supplier.name == od.supplier? 'selected' : ''}>${supplier.name}</option>
                                                 </c:forEach>

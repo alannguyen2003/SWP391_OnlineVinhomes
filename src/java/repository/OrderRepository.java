@@ -1,3 +1,4 @@
+
 package repository;
 
 import config.DBConfig;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import payload.request.AdminOrderListRequest;
+import payload.request.MyOrderRequest;
 import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import service.UserService;
@@ -260,6 +262,40 @@ public class OrderRepository {
         return list;
     }
 
+    public List<MyOrderRequest> selectMyOrdersRequest(int id) throws SQLException {
+        List<MyOrderRequest> list = null;
+        Connection con = DBConfig.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("  select o.OID, o.time, o.delivery_time, o.RID, o.CID, o.note, o.status, ac.name from Orders o\n"
+                + "  left join Coordinator co \n"
+                + "  on o.CID = co.ID\n"
+                + "  left join Account ac\n"
+                + "  on ac.AID = co.ID\n"
+                + "  where RID = ? order by OID desc");
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        list = new ArrayList<>();
+        while (rs.next()) {
+            OrderHeaderEntity oh = new OrderHeaderEntity();
+            oh.setId(rs.getInt("OID"));
+            oh.setDate(rs.getTimestamp("time"));
+            oh.setDelivery_time(rs.getTimestamp("delivery_time"));
+            oh.setResidentId(rs.getInt("RID"));
+            oh.setCoordinatorID(rs.getInt("CID"));
+            oh.setStatus(rs.getString("status"));
+            oh.setNote(rs.getString("note"));
+
+            //Get all OrderDetail of this Order Header
+            HashMap<OrderDetailEntity, String> map = this.selectOrderDetailWithID(rs.getInt("OID"));
+            String coordinator = rs.getString("name");
+            // Map OrderHeader with its OrderDetail
+            MyOrderRequest fo = new MyOrderRequest(oh, map, coordinator);
+            list.add(fo);
+        }
+        con.close();
+        return list;
+    }
+
     // This method get A list of Order and its Order_Detail by Hash Map Function
     public HashMap<OrderDetailEntity, String> selectOrderDetailWithID(int orderHeaderId) throws SQLException {
         HashMap<OrderDetailEntity, String> list = null;
@@ -293,12 +329,13 @@ public class OrderRepository {
     //
     //  ----------------------------------------
     // This method for Admin to update Coordinator or Status of Orders
-    public void updateStatus(int OID, int CID, String status) throws SQLException {
+    public void updateStatus(int OID, int CID, String status, String note) throws SQLException {
         Connection con = DBConfig.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update Orders set CID = ?, status = ? where OID = ?");
+        PreparedStatement pstm = con.prepareStatement("update Orders set CID = ?, status = ?, note = ? where OID = ?");
         pstm.setInt(1, CID);
         pstm.setString(2, status);
-        pstm.setInt(3, OID);
+        pstm.setString(3, note);
+        pstm.setInt(4, OID);
         int count = pstm.executeUpdate();
 
         con.close();
@@ -654,7 +691,7 @@ public class OrderRepository {
                     + "ON r.ID = o.RID\n"
                     + "LEFT JOIN dbo.BlockVin b\n"
                     + "ON b.BID = r.BID\n"
-                    + "ORDER by o.OID ASC";
+                    + "ORDER by o.OID DESC";
             pst = cn.prepareStatement(query);
             rs = pst.executeQuery();
         }
@@ -715,10 +752,30 @@ public class OrderRepository {
         int count = pstm.executeUpdate();
         con.close();
     }
+    
+    public UserEntity getNameFromOrder(int OID) throws SQLException {
+        UserEntity user = new UserEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("select name, AID, phone, email, password, gender, roleID from Account a join Coordinator c on a.AID = c.ID join Orders o on c.ID = o.CID where o.OID = ?");
+        pstm.setInt(1, OID);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            user.setName(rs.getString(1));
+            user.setAID(rs.getInt(2));
+            user.setPhone(rs.getString(3));
+            user.setEmail(rs.getString(4));
+            user.setPassword(rs.getString(5));
+            user.setGender(rs.getString(6));
+            user.setRoleID(rs.getInt(7));
+        }
+        con.close();
+        return user;
+    }
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        for (OrderDetailRequest odr : op.getAllOrderDetailById(1)) {
+        for (MyOrderRequest odr : op.selectMyOrdersRequest(17)) {
             System.out.println(odr);
         }
     }

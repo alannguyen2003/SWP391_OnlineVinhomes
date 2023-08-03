@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import payload.request.AdminOrderListRequest;
+import payload.request.MyOrderRequest;
 import payload.request.OrderDetailRequest;
 import payload.request.UpdateOrderServicePriceRequest;
 import repository.OrderRepository;
@@ -48,6 +49,10 @@ public class OrderService {
     //  ----------------------------------------
     public List<MyOrderEntity> selectMyOrders(int id) throws SQLException {
         return orderRepository.selectMyOrders(id);
+    }
+    
+    public List<MyOrderRequest> selectMyOrdersRequest(int id) throws SQLException {
+        return orderRepository.selectMyOrdersRequest(id);
     }
 
     //  ----------------------------------------
@@ -128,8 +133,8 @@ public class OrderService {
     //  Admin Coordinator Update Information for Order Fuction
     //
     //  ----------------------------------------
-    public void updateStatus(int OID, int CID, String status) throws SQLException {
-        orderRepository.updateStatus(OID, CID, status);
+    public void updateStatus(int OID, int CID, String status, String note) throws SQLException {
+        orderRepository.updateStatus(OID, CID, status, note);
     }
 
     public void updatePrice(int id, double price) throws SQLException {
@@ -174,7 +179,9 @@ public class OrderService {
         return orderRepository.getAllOrderDetailById(id);
     }
     
-    
+    public UserEntity getNameFromOrder(int OID) throws SQLException{
+        return orderRepository.getNameFromOrder(OID);
+    }
 
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();
