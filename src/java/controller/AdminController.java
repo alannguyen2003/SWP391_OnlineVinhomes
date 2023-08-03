@@ -148,9 +148,7 @@ public class AdminController extends HttpServlet {
                         }
                         break;
                     case "user-tables":
-
                         userTables(request, response);
-
                         if (user.getRoleID() == 4) {
                             userTables(request, response);
                         } else {
@@ -213,6 +211,20 @@ public class AdminController extends HttpServlet {
                     case "coordinator-list":
                         if (user.getRoleID() == 4) {
                             loadCoordinatorList(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
+                        break;
+                    case "coordinator-detail":
+                        if (user.getRoleID() == 4) {
+                            loadCoordinatorDetail(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
+                        break;
+                    case "update-coordinator":
+                        if (user.getRoleID() == 4) {
+                            loadCoordinatorDetail(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
@@ -570,7 +582,7 @@ public class AdminController extends HttpServlet {
     
     -------------------------------------------------------------------------------------------------------------------------------
      */
-        protected void loadCoordinatorList(HttpServletRequest request, HttpServletResponse response)
+    protected void loadCoordinatorList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         try {
             String op = (String) request.getParameter("op");
@@ -603,8 +615,23 @@ public class AdminController extends HttpServlet {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
+    private void loadCoordinatorDetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
+        String cid = request.getParameter("CID");
+        CoordinatorEntity coordinator = cds.getCoordinatorByID(Integer.parseInt(cid));
+        request.setAttribute("coor", coordinator);
+        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+    }
+
+    protected void updateCoordinator(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, Exception {
+        boolean enable = Boolean.parseBoolean(request.getParameter("enable"));
+        int CID = Integer.parseInt(request.getParameter("CID"));
+        cds.updateEnableCoordinattor(enable, CID);
+        String message = "Update successfully";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/coordinator-detail.do?CID=" + CID).forward(request, response);
+    }
+
     /*
     -------------------------------------------------------------------------------------------------------------------------------
     
@@ -914,7 +941,7 @@ public class AdminController extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/user-detail.do?AID=" + AID).forward(request, response);
     }
-    
+
     protected void updateAdminResident(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int status = Integer.parseInt(request.getParameter("status"));
         int AID = Integer.parseInt(request.getParameter("AID"));
@@ -935,4 +962,5 @@ public class AdminController extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("/admin/supplier-detail.do?SID=" + SID).forward(request, response);
     }
+
 }

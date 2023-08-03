@@ -11,8 +11,20 @@ public class CoordinatorService {
     public ArrayList<CoordinatorEntity> getAvailableCoordinator() throws Exception {
         return coorRepo.getAvailableCoordinator();
     }
-    
+
     public ArrayList<CoordinatorEntity> getAllCoordinator() throws Exception {
         return coorRepo.getAllCoordinator();
+    }
+
+    public CoordinatorEntity getCoordinatorByID(int CID) throws Exception {
+        return coorRepo.getCoordinatorByID(CID);
+    }
+
+    public void updateEnableCoordinattor(boolean enable, int id) throws Exception {
+        coorRepo.updateEnableCoordinattor(enable, id);
+    }
+
+    public int autoAssignCoordinator(int OID) throws Exception {
+        return coorRepo.autoAssignCoordinator(OID);
     }
 }

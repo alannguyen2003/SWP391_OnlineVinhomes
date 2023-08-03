@@ -32,7 +32,6 @@ create table Account (
 	gender nvarchar(20) default('Male'),
 	roleId INT references Role(ID),
 	status bit
-	
 )
 
 CREATE TABLE Resident (
@@ -148,6 +147,9 @@ insert into Account(email, phone, password, name, roleId, status) values
 ('davidmiller@gmail.com', '0923456789', '123456', N'David Miller', 2, 1),
 ('emilydavis@gmail.com', '0934567890', '123456', N'Emily Davis', 2, 1),
 ('michaelwilson@gmail.com', '0945678901', '123456', N'Michael Wilson', 2, 1),
+('maryjane@gmail.com', '0912345678', '654321', N'Mary Jane', 2, 1),
+('peterparker@gmail.com', '0987654321', '987654', N'Peter Parker', 2, 1),
+('janedoe@gmail.com', '0977123456', '456123', N'Jane Doe', 2, 1),
 ('thu1@gmail.com', '0987654321', '123456',N'Nguyễn Thị Thu', 1, 1),
 ('tung@gmail.com', '0912345678', '123456', N'Trần Thanh Tùng', 1, 1),
 ('tuan@gmail.com','0934567890', '123456',N'Vũ Anh Tuấn', 1, 1),
@@ -156,19 +158,22 @@ insert into Account(email, phone, password, name, roleId, status) values
 GO
 
 INSERT INTO dbo.Resident(ID, BID, room) VALUES
-(14, 1, 'MA03B0156'),
-(15, 1, 'MA03B0156'),
-(16, 1, 'MA03B0156'),
 (17, 1, 'MA03B0156'),
-(18, 1, 'MA03B0156')
+(18, 1, 'MA03B0156'),
+(19, 1, 'MA03B0156'),
+(20, 1, 'MA03B0156'),
+(21, 1, 'MA03B0156')
 GO
 
-INSERT INTO dbo.Coordinator(ID) VALUES
-(9),
-(10),
-(11),
-(12),
-(13)
+INSERT INTO dbo.Coordinator(ID, enabled) VALUES
+(9, 0),
+(10, 0),
+(11, 1),
+(12, 0),
+(13, 1),
+(14, 1),
+(15, 1),
+(16, 1)
 GO
 
 insert into Service(name, lower_price, upper_price, description, category_id) values 
@@ -212,23 +217,23 @@ insert into Supplier(name, email, phone, address) values
 
 INSERT INTO dbo.Orders(time, delivery_time, status, RID, CID, BID, note)
 VALUES
-    ('2023-07-31 08:00:00', '2023-08-01 15:00:00', 'Pending', 14, 9, 1, 'Order pending'),
-	('2023-01-29 08:00:00', '2023-01-29 15:00:00', 'Pending', 14, NULL, 1, 'Order pending'),
-    ('2023-04-01 09:30:00', '2023-04-01 16:30:00', 'Pending', 15, 10, 1, 'Waiting for confirmation'),
-    ('2023-01-29 10:15:00', '2023-01-29 17:15:00', 'Pending', 16, 11, 1, 'Order processing'),
-    ('2023-04-01 11:45:00', '2023-04-01 18:45:00', 'Pending', 17, 12, 1, NULL),
-    ('2023-01-29 12:30:00', '2023-01-29 19:30:00', 'Pending', 18, 13, 1, NULL),
-	('2023-04-01 16:30:00', '2023-04-02 23:30:00', 'Cancel', 14, 9, 1, 'Wrong Delivery time choosing'),
-	('2023-04-01 17:30:00', '2023-04-02 23:30:00', 'Cancel', 14, 9, 1, 'Wrong Service choosing'),
-	('2023-04-01 18:30:00', '2023-04-02 23:30:00', 'Cancel', 14, 10, 1, 'No need anymore'),
-    ('2023-01-29 15:45:00', '2023-01-29 22:45:00', 'Failed', 15, 12, 1, 'Delivery failed'),
+    ('2023-07-31 08:00:00', '2023-08-01 15:00:00', 'Pending', 17, 9, 1, 'Order pending'),
+	('2023-01-29 08:00:00', '2023-01-29 15:00:00', 'Completed', 17, NULL, 1, 'Order pending'),
+    ('2023-07-31 09:30:00', '2023-08-01 16:30:00', 'Pending', 18, 10, 1, 'Waiting for confirmation'),
+    ('2023-01-29 10:15:00', '2023-01-29 17:15:00', 'Completed', 19, 11, 1, 'Order processing'),
+    ('2023-07-31 11:45:00', '2023-08-01 18:45:00', 'Pending', 17, 12, 1, NULL),
+    ('2023-01-29 12:30:00', '2023-01-29 19:30:00', 'Completed', 18, 13, 1, NULL),
+	('2023-04-01 16:30:00', '2023-04-02 23:30:00', 'Cancel', 17, 9, 1, 'Wrong Delivery time choosing'),
+	('2023-04-01 17:30:00', '2023-04-02 23:30:00', 'Cancel', 17, 9, 1, 'Wrong Service choosing'),
+	('2023-04-01 18:30:00', '2023-04-02 23:30:00', 'Cancel', 21, 10, 1, 'No need anymore'),
+    ('2023-01-29 15:45:00', '2023-01-29 22:45:00', 'Failed', 18, 12, 1, 'Delivery failed'),
     ('2023-01-29 17:00:00', '2023-01-30 00:00:00', 'Failed', 17, 11, 1, NULL),
-    ('2023-04-01 18:15:00', '2023-04-01 01:15:00', 'Failed', 14, 13, 1, 'Item out of stock'),
-    ('2023-01-29 19:30:00', '2023-01-30 02:30:00', 'Completed', 15, 9, 1, 'Order delivered on time'),
-    ('2023-04-02 10:00:00', '2023-04-02 17:00:00', 'Completed', 16, 9, 1, 'Customer satisfied with the product'),
-    ('2023-01-30 11:15:00', '2023-01-30 18:15:00', 'Completed', 17, 11, 1, 'Positive feedback received'),
-    ('2023-04-02 14:45:00', '2023-04-02 21:45:00', 'Completed', 18, 12, 1, 'Great service provided'),
-    ('2023-01-30 17:30:00', '2023-01-31 00:30:00', 'Completed', 14, 13, 1, 'Order completed successfully');
+    ('2023-04-01 18:15:00', '2023-04-01 01:15:00', 'Failed', 17, 13, 1, 'Item out of stock'),
+    ('2023-01-29 19:30:00', '2023-01-30 02:30:00', 'Completed', 18, 9, 1, 'Order delivered on time'),
+    ('2023-04-02 10:00:00', '2023-04-02 17:00:00', 'Completed', 19, 9, 1, 'Customer satisfied with the product'),
+    ('2023-01-30 11:15:00', '2023-01-30 18:15:00', 'Completed', 20, 11, 1, 'Positive feedback received'),
+    ('2023-04-02 14:45:00', '2023-04-02 21:45:00', 'Completed', 21, 12, 1, 'Great service provided'),
+    ('2023-01-30 17:30:00', '2023-01-31 00:30:00', 'Completed', 17, 13, 1, 'Order completed successfully');
 	   	 
 
 
