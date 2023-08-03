@@ -439,9 +439,5 @@ public class CoordinatorRepository {
 
     public static void main(String[] args) throws Exception {
         CoordinatorRepository cdr = new CoordinatorRepository();
-        for (int i = 0; i < 10; i++) {
-           System.out.println(cdr.autoAssignCoordinator()); 
-        }
-        
     }
 }

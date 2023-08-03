@@ -82,18 +82,21 @@
                                             <div class="col"><span class="bage bage-warning">${fo.oh.status}</span></div>
                                             </c:if>
                                             <c:if test="${fo.oh.status != 'Pending'}">
-                                            <c:if test="${fo.oh.status == 'Completed'}">
-                                            <div class="col"><span class="bage bage-success">${fo.oh.status}</span></div>
-                                            </c:if>
-                                            <c:if test="${fo.oh.status == 'Failed'}">
-                                            <div class="col"><span class="bage bage-danger">${fo.oh.status}</span></div>
-                                            </c:if>
-                                            <c:if test="${fo.oh.status == 'Cancel'}">
-                                            <div class="col"><span class="bage bage-cancel">${fo.oh.status}</span></div>
-                                            </c:if>
+                                                <c:if test="${fo.oh.status == 'Completed'}">
+                                                <div class="col"><span class="bage bage-success">${fo.oh.status}</span></div>
+                                                </c:if>
+                                                <c:if test="${fo.oh.status == 'Failed'}">
+                                                <div class="col"><span class="bage bage-danger">${fo.oh.status}</span></div>
+                                                </c:if>
+                                                <c:if test="${fo.oh.status == 'Cancel'}">
+                                                <div class="col"><span class="bage bage-cancel">${fo.oh.status}</span></div>
+                                                </c:if>
                                             </c:if>
                                             <c:if test="${fo.total != 0}">
                                             <div class="col"><strong><fmt:formatNumber value="${fo.total}" type="currency" /></strong></div>
+                                                </c:if>
+                                                <c:if test="${fo.total == 0}">
+                                            <div class="col"><strong>N/A</strong></div>
                                                 </c:if>
                                         <div class="toggle-button" data-toggle="collapse1" data-target="#demo-${fo.oh.id}"><i class="fa fa-chevron-down"></i></div>
                                     </div>
@@ -123,15 +126,21 @@
                                                     <c:if test="${od.key.price != 0}">
                                                         <td style="padding-left: 25rem" class="cart__price"><fmt:formatNumber value="${od.key.price}" type="currency" /></td>
                                                     </c:if>
+                                                    <c:if test="${od.key.price == 0}">
+                                                        <td style="padding-left: 25rem"><strong>N/A</strong></td>
+                                                    </c:if>
 
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
                                     </table>
-                                    <div style="text-align: right; margin: 10px 10px;">
-                                        <a class="btn btn-outline-primary" style="font-weight: bold; background-color: #dc3545; color: #fff; border-color: #fff; border-radius: .5rem;" href="<c:url value="/order/cancel-order.do?oid=${fo.oh.id}&aid=${user.AID}"/>"> Cancel <i class="bi bi-x-square"></i></a>
-                                    </div>
-                                     <p style="color:red">${message}</p>
+                                    <c:if test="${fo.oh.status == 'Pending'}">
+                                        <div style="text-align: right; margin: 10px 10px;">
+                                            <a class="btn btn-outline-primary" style="font-weight: bold; background-color: #dc3545; color: #fff; border-color: #fff; border-radius: .5rem;" href="<c:url value="/order/cancel-order.do?oid=${fo.oh.id}&aid=${user.AID}"/>"> Cancel <i class="bi bi-x-square"></i></a>
+                                        </div>
+                                    </c:if>
+
+                                    <p style="color:red">${message}</p>
                                     <div class="card-footer">Note: ${fo.oh.note} </div>
                                 </div>
                                 <!-- OrderDetails Information Table -->
