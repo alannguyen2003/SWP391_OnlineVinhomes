@@ -23,7 +23,7 @@
             <ul class="sub-nav" style="margin-bottom: 2rem;" activeindex="2">
                 <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/coordinator-order-detail.do?OID=${OID}' />" class="${activation == 'coordinator-order-detail' ? 'active' : ''}"><i class="bi bi-person-fill-add"></i><span>Coordinator Order</span></a></li>
                 <li class="sub-nav__item" label="Billing"><a href="<c:url value='/admin/add-price-order.do?OID=${OID}' />" class="${activation == 'add-price-order' ? 'active' : ''}"><i class="bi bi-cash-coin"></i><span>Add Price</span></a></li>
-                <li class="sub-nav__item" label="Billing"><a href="<c:url value="/admin/add-service-order.do?OID=${OID}" />" class="${activation == 'add-price-order'} ? 'active' : ''"><i class="bi bi-cash-coin"></i><span>Add Service    </span></a></li>
+                <li class="sub-nav__item" label="Billing"><a href="<c:url value="/admin/add-service-order.do?OID=${OID}" />" class="${activation == 'add-price-order'} ? 'active' : ''"><i class="bi bi-patch-plus"></i><span>Add Service    </span></a></li>
             </ul>
 
 
