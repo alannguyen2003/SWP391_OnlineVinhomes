@@ -773,6 +773,26 @@ public class OrderRepository {
         return user;
     }
     
+    public UserEntity getResidentNameFromOrder(int OID) throws SQLException {
+        UserEntity user = new UserEntity();
+
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("select name, AID, phone, email, password, gender, roleID from Account a join Resident r on a.AID = r.ID join Orders o on r.ID = o.RID where o.OID = ?");
+        pstm.setInt(1, OID);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            user.setName(rs.getString(1));
+            user.setAID(rs.getInt(2));
+            user.setPhone(rs.getString(3));
+            user.setEmail(rs.getString(4));
+            user.setPassword(rs.getString(5));
+            user.setGender(rs.getString(6));
+            user.setRoleID(rs.getInt(7));
+        }
+        con.close();
+        return user;
+    }
+    
     public void deleteOrder(int oId) throws SQLException {
         Connection con = DBConfig.getConnection();
         PreparedStatement pstm = con.prepareStatement("update Orders set status = 'Failed' where OID = ?");
@@ -793,8 +813,7 @@ public class OrderRepository {
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();
-        for (MyOrderRequest odr : op.selectMyOrdersRequest(17)) {
-            System.out.println(odr);
-        }
+        UserEntity us = op.getResidentNameFromOrder(14);
+        System.out.println(us);
     }
 }
