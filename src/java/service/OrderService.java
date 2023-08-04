@@ -183,6 +183,10 @@ public class OrderService {
         return orderRepository.getNameFromOrder(OID);
     }
     
+    public UserEntity getResidentNameFromOrder(int OID) throws SQLException{
+        return orderRepository.getResidentNameFromOrder(OID);
+    }
+    
     public void checkOrder() throws SQLException {
         orderRepository.checkOrder();
     }

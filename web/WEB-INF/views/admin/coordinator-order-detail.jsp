@@ -44,18 +44,18 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="ResidentID" class="col-md-4 col-lg-3 col-form-label">Resident ID</label>
+                    <label for="ResidentID" class="col-md-4 col-lg-3 col-form-label">Resident</label>
                     <div class="col-md-8 col-lg-9">
                         <input name="residentId" type="hidden" class="form-control" id="Phone" value="${oh.residentId}">
-                        <input name="residentId" type="text" class="form-control" id="Phone" value="${oh.residentId}" disabled="">
+                        <input name="residentId" type="text" class="form-control" id="Phone" value="${rs.name}" disabled="">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label for="ResidentID" class="col-md-4 col-lg-3 col-form-label">Resident ID</label>
+                    <label for="ResidentID" class="col-md-4 col-lg-3 col-form-label">Coordinator</label>
                     <div class="col-md-8 col-lg-9">
                         <input name="employeeId" type="hidden" class="form-control" id="Phone" value="${oh.coordinatorID}">
-                        <input name="employeeId" type="text" class="form-control" id="Phone" value="${oh.coordinatorID}" disabled="">
+                        <input name="employeeId" type="text" class="form-control" id="Phone" value="${cr.name}" disabled="">
                     </div>
                 </div>
 
