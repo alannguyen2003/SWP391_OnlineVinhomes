@@ -23,7 +23,7 @@
     <div class="card recent-sales overflow-auto">
         <div class="card-body">
             <h5 class="card-title">Order Details Tables</h5>
-            <table id="myTable" class="table table-borderless datatable">
+            <table id="myTable" class="table table-border datatable">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>

@@ -268,8 +268,8 @@ public class AdminController extends HttpServlet {
                     case "coordinator-order-detail": {
                         OID = Integer.parseInt(request.getParameter("OID"));
                         OrderHeaderEntity oh = os.getOne(OID);
-                        UserEntity resident = os.getNameFromOrder(OID);
-                        UserEntity coordinator = os.getResidentNameFromOrder(OID);
+                        UserEntity resident = os.getResidentNameFromOrder(OID);
+                        UserEntity coordinator = os.getNameFromOrder(OID);
                         List<CoordinatorEntity> coorList = cds.getAvailableCoordinator();
                         List<String> statusList = os.getStatus();
                         request.setAttribute("oh", oh);
