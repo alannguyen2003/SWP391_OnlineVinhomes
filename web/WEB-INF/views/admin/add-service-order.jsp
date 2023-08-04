@@ -26,7 +26,7 @@
                 <input type="hidden" name="OID" value="${OID}">
                 <div id="${OID}">
                     <hr/>
-                    <select name="sId" class="form-control"> 
+                    <select name="sId" class="form-control mb-3"> 
                         <option value="">-- Select Service --</option>
                         <c:forEach var="service" items="${serviceList}">
                             <option value="${service.serviceID}">${service.name}</option>
