@@ -328,6 +328,23 @@ public class AdminController extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
                         }
                         break;
+                    case "add-service-order":
+                        if (user.getRoleID() == 4) {
+                            response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.do");
+                        }
+                        OID = Integer.parseInt(request.getParameter("OID"));
+                        List<UpdateOrderServicePriceRequest> list1 = os.selectOrderDetailWithNameService(OID);
+                        List<AdminServiceListRequest> serviceList = ss.getServicesListForAdminPage();
+                        request.setAttribute("serviceList", serviceList);
+                        request.setAttribute("list", list1);
+                        request.setAttribute("OID", OID);
+                        request.setAttribute("activeTab", "coordinatorOrder");
+                        request.setAttribute("activation", "add-price-order");
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "add-service-order-handler":
+                        addServiceOrderHandler(request, response);
+                        break;
 
                 }
             } catch (Exception ex) {
@@ -341,6 +358,18 @@ public class AdminController extends HttpServlet {
             }
         }
 
+    }
+
+    protected void addServiceOrderHandler(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String oId = request.getParameter("OID");
+        String sId = request.getParameter("sId");
+        ServiceEntity entity = ss.getServiceById(Integer.parseInt(sId));
+        os.addServiceToOrder(Integer.parseInt(oId), Integer.parseInt(sId), entity.getCategoryID());
+//        request.setAttribute("message", "Added successfully");
+//        request.setAttribute("OID", oId);
+//        request.setAttribute("action", "add-price-order");
+//        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/admin/add-price-order.do?OID=" + oId);
     }
 
     protected void loadOrderDetailList(HttpServletRequest request, HttpServletResponse response)
@@ -879,7 +908,7 @@ public class AdminController extends HttpServlet {
 
         us.createAccount(entity);
         cds.addCoordinator(us.checkEmailExist(email).getAID());
-        
+
         request.setAttribute("message", "Account has been added!");
         request.getRequestDispatcher("/admin/user-create.do").forward(request, response);
     }

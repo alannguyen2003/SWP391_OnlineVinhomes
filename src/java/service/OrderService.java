@@ -190,6 +190,10 @@ public class OrderService {
     public void checkOrder() throws SQLException {
         orderRepository.checkOrder();
     }
+    
+    public void addServiceToOrder(int oId, int sId, int cateId) throws SQLException{
+        orderRepository.addServiceToOrder(oId, sId, cateId);
+    }
 
     public static void main(String[] args) throws Exception {
         OrderService orderService = new OrderService();

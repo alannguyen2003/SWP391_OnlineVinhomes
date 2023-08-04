@@ -810,6 +810,18 @@ public class OrderRepository {
         }
         con.close();
     }
+    
+    public void addServiceToOrder(int oId, int sId, int cateId) throws SQLException {
+        Connection con = DBConfig.getConnection();
+        PreparedStatement pstm = con.prepareStatement("INSERT INTO OrderDetail (orderHeader_id, service_id, category_id) \n" +
+"VALUES\n" +
+"(?, ?, ?)");
+        pstm.setInt(1, oId);
+        pstm.setInt(2, sId);
+        pstm.setInt(3, cateId);
+        int count = pstm.executeUpdate();
+        con.close();
+    }
 
     public static void main(String[] args) throws SQLException, Exception {
         OrderRepository op = new OrderRepository();

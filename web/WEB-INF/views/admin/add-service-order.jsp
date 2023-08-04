@@ -1,9 +1,3 @@
-<%-- 
-    Document   : resident-detail
-    Created on : Jun 4, 2023, 6:39:22 PM
-    Author     : admin
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <div class="pagetitle">
@@ -28,55 +22,16 @@
             </ul>
             <!-- Account details card-->
 
-            <form id="updateOrderForm" action="<c:url value="/admin/updatePrice.do" />" method="post">
+            <form id="updateOrderForm" action="<c:url value="/admin/add-service-order-handler.do" />" method="post">
                 <input type="hidden" name="OID" value="${OID}">
                 <div id="${OID}">
-                    <hr />
-                    <div class="custom-table">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Expected costs</th>
-                                    <th>Price</th>
-                                    <th>Supplier</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Nội dung OrderDetail -->
-                                <c:forEach var="od" items="${list}" varStatus="loop">
-                                    <tr>
-                                        <td class="cart__product__item">
-                                            <input name="id" type="hidden" class="form-control cart__product__item__title" id="AID" value="${loop.count}" size="3">
-                                            <input name="id" type="text" class="form-control cart__product__item__title" id="AID" value="${loop.count}" size="3" disabled>
-                                        </td>
-                                        <td>
-                                            <div class="cart__product__item__title">
-                                                <h6>${od.name}</h6>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="cart__product__item__title">
-                                                <h6>${od.minPrice} - ${od.maxPrice}</h6>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <input name="price_${od.id}" type="number" class="form-control" id="price" value="${od.price}" placeholder="Input price here">
-                                        </td>
-                                        <td>
-                                            <select name="supplier_${od.id}" class="form-control"> 
-                                                <option value="">-- Select Coordinator --</option>
-                                                <c:forEach var="supplier" items="${listSupplier}">
-                                                    <option value="${supplier.id}" ${supplier.name == od.supplier? 'selected' : ''}>${supplier.name}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
+                    <hr/>
+                    <select name="sId" class="form-control"> 
+                        <option value="">-- Select Service --</option>
+                        <c:forEach var="service" items="${serviceList}">
+                            <option value="${service.serviceID}">${service.name}</option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="row mb-3">
@@ -86,7 +41,7 @@
                         <input id="updateOrder" type="submit" hidden>
                     </div>
                 </div>
-                    
+
             </form>
 
         </div>
@@ -148,6 +103,7 @@
         text-align: center;
     }
 </style>
+
 
 
 
